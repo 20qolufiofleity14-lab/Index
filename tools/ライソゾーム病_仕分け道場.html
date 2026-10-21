@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ライソゾーム病 仕分け道場</title>
+<meta name="mini-category" content="learn">
+<meta name="mini-desc" content="指定難病31疾患を蓄積物による8分類へドラッグで仕分け">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Old+Mincho:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: one-column phone app. Sticky tab bar; drill = card on top, 8 bins in 2 cols, bottom sheet for answers. */
+:root{
+  --bg:#eef2f4; --surface:#ffffff; --surface2:#f6f8f9; --fg:#18222b; --muted:#5b6872; --line:#d6dde2;
+  --accent:#1f4e8c; --ok:#1d7a4a; --ng:#b3362f;
+  --c-sph:#5b4a96; --c-lip:#c9781c; --c-mps:#6b4499; --c-ptm:#3f7a3a; --c-gp:#2a8288; --c-mem:#a84257; --c-gsd:#3f8a5a; --c-ncl:#3a5d98;
+  --tint:12%;
+  --f-disp:"Zen Old Mincho","Hiragino Mincho ProN",serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11171c; --surface:#1a2229; --surface2:#151c22; --fg:#e6ecf0; --muted:#97a4ae; --line:#2c3842;
+  --accent:#8db4ec; --ok:#5fcf8f; --ng:#ff8a80;
+  --c-sph:#a596e6; --c-lip:#f0a650; --c-mps:#b48ce0; --c-ptm:#86c47c; --c-gp:#62c3c9; --c-mem:#e8879b; --c-gsd:#7fd09c; --c-ncl:#86a8e6;
+  --tint:18%; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11171c; --surface:#1a2229; --surface2:#151c22; --fg:#e6ecf0; --muted:#97a4ae; --line:#2c3842;
+  --accent:#8db4ec; --ok:#5fcf8f; --ng:#ff8a80;
+  --c-sph:#a596e6; --c-lip:#f0a650; --c-mps:#b48ce0; --c-ptm:#86c47c; --c-gp:#62c3c9; --c-mem:#e8879b; --c-gsd:#7fd09c; --c-ncl:#86a8e6;
+  --tint:18%; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.hd{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 0}
+h1{font-family:var(--f-disp);font-weight:900;font-size:1.25rem;margin:0;letter-spacing:.04em;text-wrap:balance}
+h1 small{font-family:var(--f-body);font-weight:500;font-size:.72rem;color:var(--muted);margin-left:.5em;letter-spacing:0}
+nav{display:flex;gap:4px;margin-top:6px}
+nav button{flex:1;appearance:none;border:0;background:none;font:inherit;font-weight:700;color:var(--muted);padding:8px 4px 10px;border-bottom:3px solid transparent;cursor:pointer}
+nav button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+button:focus-visible,.bin:focus-visible,.dcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* drill */
+.bar{display:flex;align-items:center;gap:10px;margin:14px 0 10px;font-size:.82rem;color:var(--muted)}
+.prog{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.stage{display:flex;justify-content:center;min-height:132px;align-items:center}
+.card{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;background:var(--surface);border:1.5px solid var(--fg);border-radius:6px;padding:14px 18px 12px;width:min(100%,340px);text-align:center;box-shadow:0 4px 0 var(--fg);position:relative;transition:transform .15s}
+.card.drag{cursor:grabbing;transition:none;z-index:50;box-shadow:0 14px 28px rgb(0 0 0/.25);pointer-events:none}
+.card.back{transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.card .no{position:absolute;top:8px;left:10px;font-size:1.1rem;color:var(--muted)}
+.card .nm{font-weight:900;font-size:1.3rem;line-height:1.35;text-wrap:balance}
+.card .sb{font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.45}
+.card .hint{font-size:.7rem;color:var(--muted);margin-top:8px;letter-spacing:.05em}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.bin{--c:var(--muted);appearance:none;font:inherit;text-align:left;color:var(--fg);background:color-mix(in srgb,var(--c) var(--tint),var(--surface));border:1.5px solid color-mix(in srgb,var(--c) 45%,transparent);border-left:6px solid var(--c);border-radius:6px;padding:10px 10px;min-height:62px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;transition:transform .12s,background .12s}
+.bin b{font-weight:700;font-size:.92rem;line-height:1.3}
+.bin span{font-size:.7rem;color:var(--muted);font-family:var(--f-mono)}
+.bin.hover{transform:scale(1.04);background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+.bin.good{animation:pop .5s}.bin.bad{animation:shake .4s}
+@keyframes pop{40%{transform:scale(1.07);box-shadow:0 0 0 4px var(--ok)}}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;justify-content:center}
+.btn{appearance:none;font:inherit;font-weight:700;font-size:.85rem;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:8px 14px;border-radius:999px;cursor:pointer}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.end{text-align:center;padding:24px 0}
+.end .big{font-family:var(--f-disp);font-size:3rem;font-weight:900}
+.misslist{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:12px 0}
+.chip{font-size:.78rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+
+/* sheet */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:3px solid var(--sc,var(--accent));box-shadow:0 -10px 30px rgb(0 0 0/.18);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px calc(14px + env(safe-area-inset-bottom,0px));max-height:62vh;overflow:auto;transform:translateY(105%);transition:transform .25s}
+.sheet.on{transform:none}
+.sheet .in{max-width:720px;margin:0 auto}
+.verdict{font-weight:900;font-size:1.05rem}
+.verdict.ok{color:var(--ok)}.verdict.ng{color:var(--ng)}
+.catline{font-size:.85rem;margin:2px 0 8px}
+.catline em{font-style:normal;font-weight:700;color:var(--sc)}
+
+/* info block (shared) */
+.info{display:grid;grid-template-columns:4.2em 1fr;gap:3px 10px;font-size:.86rem;margin:0}
+.info dt{color:var(--muted);font-size:.76rem;padding-top:2px}
+.info dd{margin:0;min-width:0}
+.key{font-weight:700;margin:4px 0 8px;font-size:.92rem}
+
+/* cards tab */
+.filters{display:flex;gap:6px;overflow-x:auto;padding:14px 0 10px;scrollbar-width:none}
+.filters button{flex:none;appearance:none;font:inherit;font-size:.78rem;font-weight:700;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:5px 12px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--surface);border-color:var(--fg)}
+.catintro{border-left:6px solid var(--c);padding:6px 12px;margin:18px 0 8px;background:color-mix(in srgb,var(--c) var(--tint),var(--surface));border-radius:0 6px 6px 0}
+.catintro h2{margin:0;font-size:1rem}
+.catintro p{margin:2px 0 0;font-size:.8rem;color:var(--muted)}
+.dlist{display:grid;gap:8px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.dcard summary{list-style:none;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.dcard summary::-webkit-details-marker{display:none}
+.dcard summary .no{color:var(--c);font-size:1.05rem;flex:none;width:1.2em}
+.dcard summary .t{font-weight:700;flex:1;min-width:0}
+.dcard summary .t small{display:block;font-weight:400;font-size:.75rem;color:var(--muted)}
+.dcard summary .chev{color:var(--muted);transition:transform .2s;flex:none}
+.dcard[open] summary .chev{transform:rotate(90deg)}
+.dcard .body{padding:8px 0 2px 2em}
+.mark{font-size:.65rem;font-weight:700;border:1px solid var(--muted);color:var(--muted);border-radius:3px;padding:0 4px;margin-left:6px;vertical-align:2px}
+
+/* list tab */
+.poster{margin-top:14px;display:grid;gap:6px}
+.prow{display:grid;grid-template-columns:7.5em 1fr;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.prow .h{background:var(--c);color:var(--surface);font-weight:700;font-size:.82rem;padding:10px 8px;display:flex;align-items:center;line-height:1.35}
+.prow .items{background:color-mix(in srgb,var(--c) var(--tint),var(--surface));padding:8px 10px;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.84rem;min-width:0}
+.prow .items div{min-width:0}
+.prow .items .s{font-size:.74rem;color:var(--muted);display:block;padding-left:1.4em}
+.prow .items .nn{color:var(--c);margin-right:2px}
+.note{font-size:.75rem;color:var(--muted);margin-top:10px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:.82rem;margin-top:12px;justify-content:flex-end}
+.blurred .items .t{filter:blur(5px);transition:filter .2s;cursor:pointer}
+.blurred .items .t.show{filter:none}
+nav button{font-size:.86rem}
+/* board */
+#board{padding-bottom:70px}
+.bopts{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--muted);margin-bottom:8px}
+.bopts label{display:flex;gap:6px;align-items:center}
+.btn.sm{padding:4px 12px;font-size:.78rem}
+.board.poster{margin-top:0}
+.board .prow{grid-template-columns:5.8em 1fr;transition:box-shadow .12s}
+.board .prow .h{font-size:.74rem;padding:8px 6px}
+.board .prow .items{gap:5px;padding:7px 8px;align-content:flex-start;min-height:2.6em}
+.board .prow.hover{box-shadow:0 0 0 3px var(--c)}
+.board.picking .prow{cursor:pointer;box-shadow:0 0 0 1.5px var(--c)}
+.board .prow.bad{animation:shake .4s;box-shadow:0 0 0 3px var(--ng)}
+.slot{font:inherit;font-size:.76rem;line-height:1.35;border-radius:4px;padding:3px 7px}
+.slot.empty{display:inline-block;width:5.5em;height:1.75em;border:1.5px dashed color-mix(in srgb,var(--c) 55%,transparent)}
+.slot.filled{appearance:none;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:var(--surface);color:var(--fg);text-align:left;cursor:pointer}
+.slot.filled .nn{color:var(--c);margin-right:2px}
+.slot.just{animation:pop .6s}
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:35;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgb(0 0 0/.12);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px calc(10px + env(safe-area-inset-bottom,0px))}
+.tin{max-width:720px;margin:0 auto}
+.tl{font-size:.74rem;color:var(--muted);margin-bottom:6px}
+.chips{display:grid;grid-auto-flow:column;grid-template-rows:auto auto;justify-content:start;gap:6px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
+.dchip{touch-action:pan-x;user-select:none;-webkit-user-select:none;appearance:none;font:inherit;font-weight:700;font-size:.84rem;white-space:nowrap;background:var(--surface2);color:var(--fg);border:1.5px solid var(--fg);border-radius:6px;padding:7px 11px;cursor:grab;box-shadow:0 2px 0 var(--fg)}
+.dchip.sel{background:var(--accent);color:var(--surface);border-color:var(--accent);box-shadow:none}
+.dchip.lift{opacity:.3}
+.dchip.ghost{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-140%) rotate(-3deg);box-shadow:0 10px 24px rgb(0 0 0/.3);background:var(--surface);color:var(--fg)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:45;background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.82rem;line-height:1.45;width:max-content;max-width:calc(100% - 32px);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}.toast.ng{background:var(--ng);color:var(--surface)}
+.toast small{opacity:.85}
+@media (max-width:380px){.board .prow{grid-template-columns:5.2em 1fr}.prow{grid-template-columns:1fr}.bin b{font-size:.84rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header><div class="hd">
+  <h1>ライソゾーム病 仕分け道場<small>蓄積物による8分類</small></h1>
+  <nav role="tablist">
+    <button role="tab" id="t-board" aria-selected="true" data-tab="board">表に仕分け</button>
+    <button role="tab" id="t-drill" aria-selected="false" data-tab="drill">1枚ずつ</button>
+    <button role="tab" id="t-cards" aria-selected="false" data-tab="cards">疾患カード</button>
+    <button role="tab" id="t-list" aria-selected="false" data-tab="list">一覧表</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <section id="board"></section>
+  <section id="drill" hidden></section>
+  <section id="cards" hidden></section>
+  <section id="list" hidden></section>
+</main>
+
+<div class="sheet" id="sheet" role="dialog" aria-live="polite"><div class="in" id="sheetIn"></div></div>
+<div class="tray" id="tray"></div>
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<script>
+const CATS=[
+ {id:'sph',name:'スフィンゴリピドーシス',c:'--c-sph',d:'セラミド骨格をもつスフィンゴ脂質の分解酵素欠損。神経症状が目立つものが多い。'},
+ {id:'lip',name:'脂質蓄積症',c:'--c-lip',d:'コレステロールエステル・中性脂肪を分解する酸性リパーゼの欠損。'},
+ {id:'mps',name:'ムコ多糖症',c:'--c-mps',d:'グリコサミノグリカン（ヘパラン・デルマタン・ケラタン硫酸）の分解酵素欠損。尿中ムコ多糖↑。'},
+ {id:'ptm',name:'翻訳後修飾異常',c:'--c-ptm',d:'酵素そのものではなく、酵素を「仕上げる」修飾（M6P付加・FGEによる活性化）の異常で複数酵素がまとめて働かない。'},
+ {id:'gp',name:'糖たんぱく症',c:'--c-gp',d:'糖たんぱく質の糖鎖を切る酵素（グリコシダーゼ）の欠損。オリゴ糖が蓄積。'},
+ {id:'mem',name:'内在性膜たんぱく質障害',c:'--c-mem',d:'酵素ではなく、ライソゾーム膜の輸送体・膜たんぱくの異常。'},
+ {id:'gsd',name:'糖原病',c:'--c-gsd',d:'ライソゾーム内のグリコーゲン分解酵素の欠損。糖原病II型。'},
+ {id:'ncl',name:'神経セロイドリポフスチノーシス',c:'--c-ncl',d:'自家蛍光をもつリポ色素が神経に蓄積。視力低下・てんかん・退行。'}
+];
+// n: 指定難病の番号（ポスターの丸数字）。null = 区分には入るが番号なし
+const D=[
+ {n:30,cat:'sph',nm:'ファブリー病',key:'四肢末端痛＋被角血管腫＋低汗症、のちに腎・心・脳',enz:'α-ガラクトシダーゼA（GLA）',inh:'X連鎖（女性も発症しうる）',sx:'小児期からの四肢末端痛・低汗症、角膜渦状混濁、蛋白尿→腎不全、肥大型心筋症、脳梗塞',tx:'ERT（アガルシダーゼ α/β）、シャペロン療法（ミガーラスタット）'},
+ {n:9,cat:'sph',nm:'ファーバー病',key:'関節腫脹・拘縮＋皮下結節＋嗄声の三徴',enz:'酸性セラミダーゼ（ASAH1）',inh:'常染色体劣性',sx:'乳児期発症の有痛性関節腫脹・拘縮、皮下結節、喉頭病変による嗄声',tx:'対症療法、HSCTの報告あり'},
+ {n:1,cat:'sph',nm:'ゴーシェ病',key:'肝脾腫＋血球減少＋骨病変。2・3型は神経型',enz:'グルコセレブロシダーゼ（GBA1）',inh:'常染色体劣性',sx:'1型：肝脾腫・汎血球減少・骨痛/骨折。2型：乳児急性神経型。3型：亜急性神経型（眼球運動失行など）。骨髄にゴーシェ細胞',tx:'ERT（イミグルセラーゼ、ベラグルセラーゼ α）、基質合成抑制（エリグルスタット）'},
+ {n:4,cat:'sph',nm:'GM1ガングリオシドーシス',key:'チェリーレッドスポット＋粗な顔貌＋骨異形成',enz:'β-ガラクトシダーゼ（GLB1）',inh:'常染色体劣性',sx:'乳児型：退行、筋緊張低下、肝脾腫、チェリーレッドスポット、多発性異骨症。若年・成人型はジストニアなど',tx:'対症療法'},
+ {n:5,cat:'sph',nm:'GM2ガングリオシドーシス',sub:'テイ-サックス病／サンドホフ病／GM2活性化蛋白質欠損症',key:'チェリーレッドスポット＋音への過剰な驚愕＋退行',enz:'ヘキソサミニダーゼA（HEXA）／A・B両方（HEXB）／GM2活性化蛋白（GM2A）',inh:'常染色体劣性',sx:'乳児期の驚愕反応亢進、退行、大頭症、チェリーレッドスポット。サンドホフ病は肝脾腫を伴うことあり',tx:'対症療法'},
+ {n:6,cat:'sph',nm:'クラッベ病',key:'易刺激性＋痙縮＋退行。グロボイド細胞',enz:'ガラクトセレブロシダーゼ（GALC）',inh:'常染色体劣性',sx:'乳児型：易刺激性、哺乳不良、痙縮、退行、末梢神経障害（髄液蛋白↑）。白質変性',tx:'発症前のHSCT'},
+ {n:7,cat:'sph',nm:'異染性白質ジストロフィー',key:'歩行障害から始まる退行。尿中スルファチド↑',enz:'アリルスルファターゼA（ARSA）',inh:'常染色体劣性',sx:'後期乳児型：歩行獲得後の失調・痙性、退行、末梢神経障害。MRIで脱髄',tx:'発症前〜早期のHSCT、遺伝子治療（海外で承認）'},
+ {n:2,cat:'sph',nm:'ASMD',sub:'ニーマン・ピック病A型・B型',key:'肝脾腫＋間質性肺疾患。A型は神経型',enz:'酸性スフィンゴミエリナーゼ（SMPD1）',inh:'常染色体劣性',sx:'A型：乳児期の肝脾腫・退行・チェリーレッドスポット。B型（慢性内臓型）：肝脾腫、間質性肺疾患、脂質異常',tx:'ERT（オリプダーゼ アルファ）※中枢症状には無効'},
+ {n:26,cat:'lip',nm:'酸性リパーゼ欠損症',sub:'ウォルマン病／コレステロールエステル蓄積症',key:'肝腫大＋脂質異常。乳児型は副腎石灰化',enz:'ライソゾーム酸性リパーゼ（LIPA）',inh:'常染色体劣性',sx:'ウォルマン病：乳児の嘔吐・下痢・肝脾腫・副腎石灰化・成長障害。CESD：肝腫大・肝線維化・LDL↑',tx:'ERT（セベリパーゼ アルファ）'},
+ {n:10,cat:'mps',nm:'ムコ多糖症I型',sub:'ハーラー／ハーラー・シャイエ／シャイエ',key:'角膜混濁あり。重症型は知的障害',enz:'α-L-イズロニダーゼ（IDUA）',inh:'常染色体劣性',sx:'粗な顔貌、角膜混濁、肝脾腫、関節拘縮、多発性異骨症、心弁膜症、ヘルニア',tx:'ERT（ラロニダーゼ）、HSCT（重症型で早期に）'},
+ {n:11,cat:'mps',nm:'ムコ多糖症II型',sub:'ハンター症候群',key:'唯一のX連鎖MPS。角膜混濁なし',enz:'イズロン酸-2-スルファターゼ（IDS）',inh:'X連鎖劣性',sx:'粗な顔貌、肝脾腫、関節拘縮、背部の敷石状皮疹、中耳炎・難聴、重症型は知的障害。日本のMPSで最多',tx:'ERT（イデュルスルファーゼ、パビナフスプ アルファ〔BBB通過型〕）、HSCT'},
+ {n:12,cat:'mps',nm:'ムコ多糖症III型',sub:'サンフィリッポ症候群 A・B・C・D型',key:'身体症状は軽く、多動・行動異常・退行が主',enz:'A：SGSH／B：NAGLU／C：HGSNAT／D：GNS（ヘパラン硫酸の分解）',inh:'常染色体劣性',sx:'幼児期の言語遅滞、多動・睡眠障害、のちに退行。身体所見は軽微',tx:'対症療法（治療法開発中）'},
+ {n:13,cat:'mps',nm:'ムコ多糖症IV型',sub:'モルキオ症候群 A・B型',key:'知能正常、高度の骨格異形成と環軸椎不安定',enz:'A：GALNS／B：β-ガラクトシダーゼ（GLB1）（ケラタン硫酸の分解）',inh:'常染色体劣性',sx:'著明な低身長、鳩胸、外反膝、関節弛緩、歯牙エナメル低形成、環軸椎亜脱臼',tx:'A型：ERT（エロスルファーゼ アルファ）'},
+ {n:14,cat:'mps',nm:'ムコ多糖症VI型',sub:'マロトー・ラミー症候群',key:'知能正常のハーラー様',enz:'アリルスルファターゼB（ARSB）',inh:'常染色体劣性',sx:'粗な顔貌、角膜混濁、関節拘縮、骨変形、心弁膜症。知能は保たれる',tx:'ERT（ガルスルファーゼ）、HSCT'},
+ {n:15,cat:'mps',nm:'ムコ多糖症VII型',sub:'スライ症候群',key:'胎児水腫で見つかることがある',enz:'β-グルクロニダーゼ（GUSB）',inh:'常染色体劣性',sx:'非免疫性胎児水腫、粗な顔貌、肝脾腫、骨変形、知的障害（幅広い）',tx:'ERT（ベストロニダーゼ アルファ）'},
+ {n:16,cat:'mps',nm:'ムコ多糖症IX型',sub:'ヒアルロニダーゼ欠損症',key:'関節周囲の軟部腫瘤。きわめて稀',enz:'ヒアルロニダーゼ（HYAL1）',inh:'常染色体劣性',sx:'関節周囲の軟部腫瘤、軽度の低身長',tx:'対症療法'},
+ {n:8,cat:'ptm',nm:'マルチプルスルファターゼ欠損症',key:'MLD＋MPS＋魚鱗癬が混ざった像',enz:'FGE（SUMF1）：全スルファターゼを活性化する修飾酵素',inh:'常染色体劣性',sx:'退行・白質変性（MLD様）、粗な顔貌・骨変形（MPS様）、魚鱗癬',tx:'対症療法'},
+ {n:19,cat:'ptm',nm:'ムコリピドーシスII型・III型',sub:'II型：I-cell病／III型：偽性ハーラー・ポリジストロフィー（III型α/β、およびバリアント=γ）',key:'酵素をライソゾームへ届けるM6P標識の欠如→血中に酵素が漏れる',enz:'GlcNAc-1-ホスホトランスフェラーゼ（GNPTAB／III型γはGNPTG）',inh:'常染色体劣性',sx:'II型：生下時からの骨変形、歯肉肥厚、粗な顔貌、重度発達遅滞。III型：関節拘縮主体の軽症型。血漿中ライソゾーム酵素↑、尿中ムコ多糖は増えない',tx:'対症療法'},
+ {n:20,cat:'gp',nm:'α-マンノシドーシス',key:'難聴＋知的障害＋易感染',enz:'α-マンノシダーゼ（MAN2B1）',inh:'常染色体劣性',sx:'感音性難聴、知的障害、粗な顔貌、骨変形、免疫不全による反復感染',tx:'ERT（ベルマナーゼ アルファ）、HSCT'},
+ {n:21,cat:'gp',nm:'β-マンノシドーシス',key:'知的障害＋難聴＋被角血管腫',enz:'β-マンノシダーゼ（MANBA）',inh:'常染色体劣性',sx:'知的障害、言語遅滞、難聴、被角血管腫。重症度に幅',tx:'対症療法'},
+ {n:22,cat:'gp',nm:'フコシドーシス',key:'退行＋被角血管腫＋汗中Cl↑',enz:'α-L-フコシダーゼ（FUCA1）',inh:'常染色体劣性',sx:'精神運動退行、粗な顔貌、被角血管腫、骨変形、汗のNa/Cl高値',tx:'早期HSCTの報告あり'},
+ {n:23,cat:'gp',nm:'アスパルチルグルコサミン尿症',key:'フィンランドに多い緩徐進行の知的障害',enz:'アスパルチルグルコサミニダーゼ（AGA）',inh:'常染色体劣性',sx:'緩徐進行の知的障害、粗な顔貌、反復感染',tx:'対症療法'},
+ {n:24,cat:'gp',nm:'シンドラー病／神崎病',key:'同じ酵素で、乳児神経型（シンドラー）と成人被角血管腫型（神崎）',enz:'α-N-アセチルガラクトサミニダーゼ（NAGA）',inh:'常染色体劣性',sx:'シンドラー病：乳児期の退行。神崎病：成人の被角血管腫、軽い末梢神経障害（日本から報告）',tx:'対症療法'},
+ {n:17,cat:'gp',nm:'シアリドーシス',sub:'1型／2型',key:'1型はチェリーレッドスポット＋ミオクローヌス',enz:'ノイラミニダーゼ1（NEU1）',inh:'常染色体劣性',sx:'1型：思春期以降の視力低下・チェリーレッドスポット・ミオクローヌス、知能は保たれる。2型：粗な顔貌、骨異形成、知的障害',tx:'対症療法'},
+ {n:18,cat:'gp',nm:'ガラクトシアリドーシス',key:'保護蛋白の欠損でβ-galとNEU1が二次的に落ちる',enz:'保護蛋白／カテプシンA（CTSA）',inh:'常染色体劣性',sx:'若年・成人型（日本人に多い）：ミオクローヌス、小脳失調、被角血管腫、チェリーレッドスポット、知的障害',tx:'対症療法'},
+ {n:31,cat:'mem',nm:'シスチン症',key:'腎性ファンコニ症候群＋角膜シスチン結晶',enz:'シスチノシン（CTNS）：シスチンの排出輸送体',inh:'常染色体劣性',sx:'腎型：乳児期の多尿・脱水・くる病（ファンコニ）、成長障害、10歳前後で腎不全。羞明',tx:'システアミン内服・点眼、腎移植'},
+ {n:27,cat:'mem',nm:'ダノン病',key:'肥大型心筋症＋ミオパチー＋知的障害（男性で重症）',enz:'LAMP2（ライソゾーム膜たんぱく）',inh:'X連鎖',sx:'肥大型心筋症（WPW合併も）、骨格筋症状、CK↑、知的障害、網膜症',tx:'心不全・不整脈管理、心移植'},
+ {n:28,cat:'mem',nm:'遊離シアル酸蓄積症',sub:'サラ病／乳児型',key:'尿中遊離シアル酸↑',enz:'シアリン（SLC17A5）：シアル酸の排出輸送体',inh:'常染色体劣性',sx:'サラ病：筋緊張低下、失調、緩徐進行の知的障害（フィンランドに多い）。乳児型：胎児水腫、肝脾腫、重症',tx:'対症療法'},
+ {n:3,cat:'mem',nm:'ニーマン・ピック病C型',key:'垂直性核上性注視麻痺＋カタプレキシー＋失調。新生児胆汁うっ滞も',enz:'NPC1／NPC2：コレステロールの搬出に関わる膜・可溶性たんぱく',inh:'常染色体劣性',sx:'新生児期：胆汁うっ滞・肝脾腫。小児期：学業不振、垂直性核上性注視麻痺、ジェラスティックカタプレキシー、小脳失調、構音障害',tx:'ミグルスタット'},
+ {n:null,cat:'mem',nm:'ムコリピドーシスIV型',key:'名前は「ムコリピドーシス」だが膜チャネルの異常',enz:'ムコリピン1（MCOLN1）：陽イオンチャネル',inh:'常染色体劣性',sx:'角膜混濁、精神運動遅滞、網膜変性、胃無酸症（高ガストリン血症）。アシュケナージ系に多い',tx:'対症療法'},
+ {n:null,cat:'mem',nm:'動作性ミオクローヌス-腎不全症候群',key:'進行性ミオクローヌスてんかん＋腎不全',enz:'LIMP-2（SCARB2）：GBAをライソゾームへ運ぶ膜たんぱく',inh:'常染色体劣性',sx:'動作時ミオクローヌス、てんかん、失調、蛋白尿→腎不全',tx:'抗てんかん薬、腎代替療法'},
+ {n:25,cat:'gsd',nm:'ポンペ病',sub:'糖原病II型',key:'乳児型は心肥大＋フロッピー。遅発型は近位筋力低下と呼吸不全',enz:'酸性α-グルコシダーゼ（GAA）',inh:'常染色体劣性',sx:'乳児型：著明な筋緊張低下、肥大型心筋症、巨舌。遅発型：近位筋力低下、呼吸筋障害。CK↑',tx:'ERT（アルグルコシダーゼ アルファ、アバルグルコシダーゼ アルファ）'},
+ {n:29,cat:'ncl',nm:'セロイドリポフスチノーシス',sub:'CLN1〜8型、CLN10〜14型',key:'視力低下＋てんかん＋退行（バッテン病）',enz:'型ごとに異なる（CLN1：PPT1、CLN2：TPP1、CLN3：膜たんぱく など）',inh:'主に常染色体劣性',sx:'乳児〜若年発症のてんかん、ミオクローヌス、視力低下（網膜変性）、精神運動退行',tx:'CLN2：ERT（セルリポナーゼ アルファ、脳室内投与）。他は対症療法'}
+];
+const CI=Object.fromEntries(CATS.map(c=>[c.id,c]));
+const circ=n=>n==null?'・':n<=20?String.fromCharCode(0x245F+n):String.fromCharCode(0x3250+n-20);
+const cv=c=>`var(${CI[c].c})`;
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+function infoHTML(d){return `<p class="key">${esc(d.key)}</p><dl class="info">
+<dt>原因</dt><dd>${esc(d.enz)}</dd><dt>遺伝</dt><dd>${esc(d.inh)}</dd><dt>症状</dt><dd>${esc(d.sx)}</dd><dt>治療</dt><dd>${esc(d.tx)}</dd></dl>`}
+
+/* ---------- tabs ---------- */
+const tabs=[...document.querySelectorAll('nav button')];
+function showTab(id){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===id));['board','drill','cards','list'].forEach(s=>document.getElementById(s).hidden=s!==id);closeSheet();window.scrollTo(0,0);store.set('lsd-tab2',id);if(id==='cards')renderCards();if(id==='list')renderList();renderTray()}
+tabs.forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+
+/* ---------- drill ---------- */
+const drill=document.getElementById('drill');
+let queue=[],cur=null,total=0,firstOK=0,missed=new Set(),tried=new Set(),locked=false;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(list){queue=shuffle(list.slice());total=queue.length;firstOK=0;missed=new Set();tried=new Set();next()}
+function next(){closeSheet();locked=false;cur=queue.shift();if(!cur)return renderEnd();renderDrill()}
+function renderDrill(){
+  const done=total-queue.length-1;
+  drill.innerHTML=`<div class="bar"><span class="num">${done}/${total}</span><div class="prog"><i style="width:${done/total*100}%"></i></div><span class="num">◎${firstOK}</span></div>
+  <div class="stage"><div class="card" id="card" tabindex="0"><span class="no">${circ(cur.n)}</span><div class="nm">${esc(cur.nm)}</div>${cur.sub?`<div class="sb">${esc(cur.sub)}</div>`:''}<div class="hint">↓ 分類の箱へドラッグ（箱をタップでもOK）</div></div></div>
+  <div class="bins">${CATS.map(c=>`<button class="bin" data-cat="${c.id}" style="--c:var(${c.c})"><b>${c.name}</b><span>${D.filter(d=>d.cat===c.id).length}疾患</span></button>`).join('')}</div>
+  <div class="tools"><button class="btn" id="restart">最初から</button></div>`;
+  drill.querySelectorAll('.bin').forEach(b=>b.onclick=()=>answer(b.dataset.cat,b));
+  drill.querySelector('#restart').onclick=()=>start(D);
+  dragify(drill.querySelector('#card'));
+}
+function dragify(card){
+  let sx,sy,dragging=false,over=null,id=null;
+  card.addEventListener('pointerdown',e=>{if(locked)return;id=e.pointerId;sx=e.clientX;sy=e.clientY;card.setPointerCapture(id);card.classList.remove('back')});
+  card.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+    if(!dragging&&Math.hypot(dx,dy)>6){dragging=true;card.classList.add('drag')}
+    if(!dragging)return;card.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/40}deg) scale(.9)`;
+    const el=document.elementFromPoint(e.clientX,e.clientY);const b=el&&el.closest('.bin');
+    if(b!==over){over&&over.classList.remove('hover');over=b;over&&over.classList.add('hover')}
+    const vh=innerHeight;if(e.clientY>vh-60)scrollBy(0,12);else if(e.clientY<90)scrollBy(0,-12)});
+  const end=e=>{if(e.pointerId!==id)return;id=null;
+    if(dragging){card.classList.remove('drag');if(over){over.classList.remove('hover');card.style.visibility='hidden';answer(over.dataset.cat,over)}else{card.classList.add('back');card.style.transform=''}}
+    dragging=false;over=null};
+  card.addEventListener('pointerup',end);card.addEventListener('pointercancel',end);
+}
+function answer(cat,bin){
+  if(locked||!cur)return;locked=true;
+  const ok=cat===cur.cat;
+  if(ok){if(!tried.has(cur.nm))firstOK++}else{missed.add(cur.nm);queue.push(cur)}
+  tried.add(cur.nm);
+  bin.classList.add(ok?'good':'bad');
+  if(!ok){const right=drill.querySelector(`.bin[data-cat="${cur.cat}"]`);right&&right.classList.add('good')}
+  const card=drill.querySelector('#card');if(card&&ok){card.style.visibility='hidden'}else if(card){card.style.visibility='';card.classList.add('back');card.style.transform=''}
+  const prog=store.get('lsd-prog',{});prog[cur.nm]=(prog[cur.nm]||0)+(ok?1:-1);store.set('lsd-prog',prog);
+  openSheet(`<div class="verdict ${ok?'ok':'ng'}">${ok?'正解':'ちがう…'}　${circ(cur.n)} ${esc(cur.nm)}</div>
+  <div class="catline">分類：<em>${CI[cur.cat].name}</em>${ok?'':`（あなたの答え：${CI[cat].name}）`}</div>
+  ${infoHTML(cur)}<div class="tools"><button class="btn pri" id="nx">次へ</button></div>`,cv(cur.cat));
+  document.getElementById('nx').onclick=next;
+}
+function renderEnd(){
+  const m=[...missed];
+  drill.innerHTML=`<div class="end"><div>一発正解</div><div class="big num">${firstOK}<span style="font-size:1.2rem;color:var(--muted)"> / ${total}</span></div>
+  ${m.length?`<p>間違えた疾患</p><div class="misslist">${m.map(n=>`<span class="chip">${esc(n)}</span>`).join('')}</div>`:'<p>全問一発正解。</p>'}
+  <div class="tools">${m.length?'<button class="btn pri" id="rm">間違いだけもう一回</button>':''}<button class="btn" id="ra">全部もう一回</button></div></div>`;
+  const rm=document.getElementById('rm');rm&&(rm.onclick=()=>start(D.filter(d=>missed.has(d.nm))));
+  document.getElementById('ra').onclick=()=>start(D);
+}
+const sheet=document.getElementById('sheet'),sheetIn=document.getElementById('sheetIn');
+function openSheet(h,c){sheetIn.innerHTML=h;sheet.style.setProperty('--sc',c);sheet.classList.add('on');sheet.scrollTop=0}
+function closeSheet(){sheet.classList.remove('on')}
+
+/* ---------- cards ---------- */
+const cards=document.getElementById('cards');let filt='all';
+function renderCards(){
+  const prog=store.get('lsd-prog',{});
+  cards.innerHTML=`<div class="filters"><button aria-pressed="${filt==='all'}" data-f="all">すべて</button>${CATS.map(c=>`<button aria-pressed="${filt===c.id}" data-f="${c.id}">${c.name}</button>`).join('')}</div>`+
+  CATS.filter(c=>filt==='all'||filt===c.id).map(c=>`<div class="catintro" style="--c:var(${c.c})"><h2>${c.name}</h2><p>${c.d}</p></div>
+   <div class="dlist">${D.filter(d=>d.cat===c.id).map(d=>`<details class="dcard" style="--c:var(${c.c})"><summary><span class="no">${circ(d.n)}</span><span class="t">${esc(d.nm)}${d.n==null?'<span class="mark">番号なし</span>':''}${d.sub?`<small>${esc(d.sub)}</small>`:''}</span><span class="chev">›</span></summary><div class="body">${infoHTML(d)}</div></details>`).join('')}</div>`).join('');
+  cards.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{filt=b.dataset.f;renderCards()});
+}
+
+/* ---------- list ---------- */
+const list=document.getElementById('list');let hide=false;
+function renderList(){
+  list.innerHTML=`<div class="toggle"><label for="hideT">病名を隠して想起練習</label><input type="checkbox" id="hideT" ${hide?'checked':''}></div>
+  <div class="poster ${hide?'blurred':''}">${CATS.map(c=>`<div class="prow" style="--c:var(${c.c})"><div class="h">${c.name}</div><div class="items">${D.filter(d=>d.cat===c.id).map(d=>`<div><span class="nn">${circ(d.n)}</span><span class="t">${esc(d.nm)}${d.sub?`<span class="s">${esc(d.sub)}</span>`:''}</span></div>`).join('')}</div></div>`).join('')}</div>
+  <p class="note">丸数字は指定難病の番号（31疾患）。「・」は区分に含まれるが番号なし。出典：日本ライソゾーム病患者家族会協議会「ライソゾーム病一覧」（La Cognata V, et al. Cells 2020 を基に作成）。</p>`;
+  document.getElementById('hideT').onchange=e=>{hide=e.target.checked;renderList()};
+  list.querySelectorAll('.blurred .t').forEach(t=>t.onclick=()=>t.classList.toggle('show'));
+}
+
+/* ---------- board: drop onto the full table ---------- */
+const board=document.getElementById('board'),tray=document.getElementById('tray'),toastEl=document.getElementById('toast');
+const DN=Object.fromEntries(D.map(d=>[d.nm,d]));
+let placed=new Set(store.get('lsd-placed',[]).filter(n=>DN[n])),misses=store.get('lsd-miss',0),showSlots=store.get('lsd-slots',true),sel=null,justDragged=false;
+let trayOrder=shuffle(D.map(d=>d.nm));
+function saveB(){store.set('lsd-placed',[...placed]);store.set('lsd-miss',misses)}
+function renderBoard(just){
+  const n=placed.size,T=D.length;
+  board.innerHTML=`<div class="bar"><span class="num">${n}/${T}</span><div class="prog"><i style="width:${n/T*100}%"></i></div><span class="num">ミス ${misses}</span></div>
+  <div class="bopts"><label for="slotT"><input type="checkbox" id="slotT" ${showSlots?'checked':''}>空き枠を表示</label><button class="btn sm" id="breset">リセット</button></div>
+  <div class="poster board${sel?' picking':''}">${CATS.map(c=>`<div class="prow drop" data-cat="${c.id}" style="--c:var(${c.c})"><div class="h">${c.name}</div><div class="items">${D.filter(d=>d.cat===c.id).map(d=>placed.has(d.nm)?`<button class="slot filled${d.nm===just?' just':''}" data-nm="${esc(d.nm)}"><span class="nn">${circ(d.n)}</span>${esc(d.nm)}</button>`:(showSlots?'<span class="slot empty"></span>':'')).join('')}</div></div>`).join('')}</div>
+  ${n===T?`<div class="end"><div>全部埋まった</div><div class="big num">ミス ${misses}</div><div class="tools"><button class="btn pri" id="bagain">もう一回</button></div></div>`:''}`;
+  board.querySelector('#slotT').onchange=e=>{showSlots=e.target.checked;store.set('lsd-slots',showSlots);renderBoard()};
+  const reset=()=>{placed.clear();misses=0;sel=null;trayOrder=shuffle(D.map(d=>d.nm));saveB();renderBoard();window.scrollTo(0,0)};
+  board.querySelector('#breset').onclick=reset;
+  const ag=board.querySelector('#bagain');ag&&(ag.onclick=reset);
+  board.querySelectorAll('.prow').forEach(r=>r.onclick=()=>{if(sel)place(sel,r.dataset.cat,r)});
+  board.querySelectorAll('.slot.filled').forEach(s=>s.onclick=e=>{if(sel)return;e.stopPropagation();const d=DN[s.dataset.nm];
+    openSheet(`<div class="verdict" style="color:${cv(d.cat)}">${circ(d.n)} ${esc(d.nm)}</div>${d.sub?`<div class="catline">${esc(d.sub)}</div>`:''}<div class="catline">分類：<em>${CI[d.cat].name}</em></div>${infoHTML(d)}<div class="tools"><button class="btn" id="cls">閉じる</button></div>`,cv(d.cat));
+    document.getElementById('cls').onclick=closeSheet});
+  renderTray();
+}
+function renderTray(){
+  const rest=trayOrder.filter(n=>!placed.has(n));
+  tray.hidden=board.hidden||!rest.length;
+  if(tray.hidden)return;
+  tray.innerHTML=`<div class="tin"><div class="tl">残り ${rest.length}　${sel?'→ 入れる行をタップ':'上の表へドラッグ（タップ→行タップでもOK）'}</div><div class="chips">${rest.map(n=>`<button class="dchip${sel===n?' sel':''}" data-nm="${esc(n)}">${esc(n)}</button>`).join('')}</div></div>`;
+  tray.querySelectorAll('.dchip').forEach(dragChip);
+}
+function autoscroll(y){const top=document.querySelector('header').getBoundingClientRect().bottom,bot=tray.getBoundingClientRect().top;
+  if(y<top+50)scrollBy(0,-14);else if(y>bot-50&&y<bot)scrollBy(0,14)}
+function dragChip(el){
+  let id=null,sx,sy,ghost=null,over=null;
+  el.addEventListener('pointerdown',e=>{id=e.pointerId;sx=e.clientX;sy=e.clientY;try{el.setPointerCapture(id)}catch(_){}});
+  el.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;
+    if(!ghost){if(Math.hypot(e.clientX-sx,e.clientY-sy)<8)return;
+      ghost=el.cloneNode(true);ghost.className='dchip ghost';document.body.appendChild(ghost);el.classList.add('lift')}
+    ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';
+    const t=document.elementFromPoint(e.clientX,e.clientY),r=t&&t.closest('.drop');
+    if(r!==over){over&&over.classList.remove('hover');over=r;over&&over.classList.add('hover')}
+    autoscroll(e.clientY)});
+  const end=e=>{if(e.pointerId!==id)return;id=null;
+    if(ghost){ghost.remove();ghost=null;el.classList.remove('lift');justDragged=true;setTimeout(()=>justDragged=false,50);
+      if(over){over.classList.remove('hover');place(el.dataset.nm,over.dataset.cat,over)}over=null}};
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+  el.addEventListener('click',()=>{if(justDragged)return;sel=sel===el.dataset.nm?null:el.dataset.nm;
+    board.querySelector('.poster').classList.toggle('picking',!!sel);renderTray()});
+}
+let toastT;
+function toast(h,kind){toastEl.innerHTML=h;toastEl.className='toast on '+(kind||'');
+  const tb=tray.hidden?0:innerHeight-tray.getBoundingClientRect().top;toastEl.style.bottom=(tb+12)+'px';
+  clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),kind==='ng'?1800:2600)}
+function place(nm,cat){
+  const d=DN[nm];sel=null;
+  if(d.cat===cat){placed.add(nm);saveB();renderBoard(nm);toast(`<b>${circ(d.n)} ${esc(nm)}</b> → ${CI[cat].name}<br><small>${esc(d.key)}</small>`)}
+  else{misses++;saveB();renderBoard();const r=board.querySelector(`.prow[data-cat="${cat}"]`);r&&r.classList.add('bad');
+    toast(`× ${esc(nm)} は「${CI[cat].name}」じゃない`,'ng')}
+}
+
+start(D);renderCards();renderList();renderBoard();
+const t0=store.get('lsd-tab2','board');if(t0!=='board')showTab(t0);
+</script>
+
+</body>
+</html>

@@ -146,6 +146,19 @@ const kb=n=>n>1048576?(n/1048576).toFixed(1)+'MB':Math.round(n/1024)+'KB';
 let tools=[],cat=ls.get('mini.tab','clinical'),q='';
 const main=document.getElementById('main');
 async function load(){tools=await getAll();render()}
+/* ---------- shared shelf (tools/list.json in the repo) ---------- */
+async function syncShelf(){
+  let list;try{const r=await fetch('tools/list.json',{cache:'no-store'});if(!r.ok)return;list=await r.json()}catch(e){return}
+  const hidden=ls.get('mini.hidden',[]);let changed=0;tools=await getAll();
+  for(const e of list){if(hidden.includes(e.file))continue;
+    const t=tools.find(x=>x.shelf===e.file);
+    if(t&&t.v===e.v)continue;
+    let html;try{const r=await fetch('tools/'+encodeURIComponent(e.file),{cache:'no-store'});if(!r.ok)continue;html=await r.text()}catch(_){continue}
+    if(t){await put({...t,html,size:html.length,v:e.v})}
+    else{await put({id:uid(),shelf:e.file,v:e.v,title:e.title,cat:e.cat||'other',desc:e.desc||'',html,size:html.length,added:Date.now(),opened:0,pinned:false,ord:-Date.now()})}
+    changed++}
+  if(changed){await load();toast(changed+'個 棚から届きました')}
+}
 function render(){
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.cat===cat));
   const ql=q.trim().toLowerCase();
@@ -202,7 +215,7 @@ addEventListener('dragenter',e=>{if(e.dataTransfer&&[...e.dataTransfer.types].in
 addEventListener('dragleave',()=>{if(--dragDepth<=0){dragDepth=0;dz.classList.remove('on')}});
 addEventListener('dragover',e=>{if(dz.classList.contains('on'))e.preventDefault()});
 addEventListener('drop',async e=>{if(!dz.classList.contains('on'))return;e.preventDefault();dragDepth=0;dz.classList.remove('on');await importFiles(e.dataTransfer.files)});
-function footnote(){const n=tools.length,sz=tools.reduce((a,t)=>a+(t.size||0),0);return `<p class="note">${n}個・合計 ${kb(sz)}。データはこの端末のブラウザの中だけに保存されます。機種変更の前や、たまに「バックアップ」を押して書き出しておいてください。</p>`}
+function footnote(){const n=tools.length,sz=tools.reduce((a,t)=>a+(t.size||0),0);return `<p class="note">${n}個・合計 ${kb(sz)}。共通の棚にあるものは全端末に自動で届きます。「＋ 追加」したものと進捗の記録はこの端末だけなので、機種変更の前やたまに「バックアップ」で書き出しておいてください。</p>`}
 
 /* ---------- add / replace ---------- */
 const addFile=document.getElementById('addFile'),replFile=document.getElementById('replFile'),restoreFile=document.getElementById('restoreFile');
@@ -237,7 +250,7 @@ function openSheet(h,c){sheetIn.innerHTML=h;sheet.style.setProperty('--c',c||'va
 function closeSheet(){sheet.classList.remove('on');scrim.classList.remove('on')}
 scrim.onclick=closeSheet;
 function menu(id){const t=tools.find(x=>x.id===id);if(!t)return;
-  openSheet(`<h2>${esc(t.title)}</h2><div class="sub">${kb(t.size||0)}・追加 ${new Date(t.added).toLocaleDateString('ja-JP')}</div>
+  openSheet(`<h2>${esc(t.title)}</h2><div class="sub">${kb(t.size||0)}・追加 ${new Date(t.added).toLocaleDateString('ja-JP')}${t.shelf?'・共通の棚から（更新は自動で届きます）':'・この端末だけ'}</div>
   <div class="fld"><label>表示名</label><input id="eTitle" value="${esc(t.title)}"></div>
   <div class="fld"><label>ひとこと（検索にも使われます）</label><input id="eDesc" value="${esc(t.desc||'')}" placeholder="例：年齢別IGF-1基準値の早見"></div>
   <div class="fld"><label>分類</label><div class="seg" id="seg">${['clinical','learn'].map(k=>`<button data-k="${k}" aria-pressed="${t.cat===k}" style="--c:${CATS[k].c}">${k==='clinical'?'臨床で使う':'覚える'}</button>`).join('')}</div></div>
@@ -247,7 +260,7 @@ function menu(id){const t=tools.find(x=>x.id===id);if(!t)return;
   sheetIn.querySelector('#ePin').onclick=async()=>{t.pinned=!t.pinned;await put(t);closeSheet();load()};
   sheetIn.querySelector('#eRepl').onclick=()=>{replTarget=id;replFile.click()};
   sheetIn.querySelector('#eDel').onclick=()=>{openSheet(`<h2>「${esc(t.title)}」を削除しますか？</h2><p style="font-size:.85rem;color:var(--muted)">このミニコンテンツは置き場から消えます。ミニの中で保存していた記録は残るので、同じものをまた追加すれば続きから使えます。</p><div class="acts"><button class="btn danger fill" id="yes">削除する</button><button class="btn" id="no">やめる</button></div>`,'var(--ng)');
-    sheetIn.querySelector('#yes').onclick=async()=>{await del(id);closeSheet();load();toast('削除しました')};sheetIn.querySelector('#no').onclick=closeSheet};
+    sheetIn.querySelector('#yes').onclick=async()=>{if(t.shelf){const h=ls.get('mini.hidden',[]);if(!h.includes(t.shelf))h.push(t.shelf);ls.set('mini.hidden',h)}await del(id);closeSheet();load();toast('削除しました')};sheetIn.querySelector('#no').onclick=closeSheet};
 }
 
 /* ---------- backup / restore ---------- */
@@ -269,7 +282,8 @@ restoreFile.onchange=async()=>{const f=restoreFile.files[0];restoreFile.value=''
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;ls.set('mini.tab',cat);render()});
 document.getElementById('q').oninput=e=>{q=e.target.value;render()};
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
-load();
+load().then(syncShelf);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&viewer.hidden)syncShelf()});
 </script>
 </body>
 </html>
