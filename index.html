@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#17313f">
+<title>ミニ置き場</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: phone-first list app. Sticky header with category tabs + search; pinned row of big buttons; card list; full-screen viewer with a slim top bar. */
+:root{
+  --bg:#eef1f3; --surface:#fff; --surface2:#f5f7f8; --fg:#17313f; --muted:#607380; --line:#d4dce1;
+  --accent:#17313f; --clin:#c0531f; --learn:#2f6f9f; --other:#7a8a95; --ng:#b3362f; --ok:#1d7a4a;
+  --tint:11%;
+  --f:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media(prefers-color-scheme:dark){:root{--bg:#10171c;--surface:#1a2329;--surface2:#141c21;--fg:#e4ebf0;--muted:#93a3ae;--line:#2b3942;--accent:#cfe0ea;--clin:#f2905f;--learn:#7fb7e6;--other:#8d9ca6;--ng:#ff8a80;--ok:#5fcf8f;--tint:18%;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f);font-size:15px;line-height:1.55}
+body{padding-top:env(safe-area-inset-top,0px);-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.hd{max-width:720px;margin:0 auto;padding-block:10px 0}
+.row1{display:flex;align-items:center;gap:8px}
+h1{font-size:1.15rem;font-weight:900;margin:0;letter-spacing:.04em;flex:1}
+.ic{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:700}
+.ic.pri{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.search{display:flex;align-items:center;gap:6px;margin-top:8px;background:var(--surface2);border:1.5px solid var(--line);border-radius:8px;padding:0 10px}
+.search input{flex:1;min-width:0;border:0;background:none;padding:7px 0;outline:none;color:var(--fg)}
+.search input::placeholder{color:var(--muted)}
+.tabs{display:flex;margin-top:6px}
+.tabs button{flex:1;appearance:none;border:0;background:none;font-weight:700;color:var(--muted);padding:8px 2px 9px;border-bottom:3px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--c,var(--accent));border-bottom-color:var(--c,var(--accent))}
+main{max-width:720px;margin:0 auto;padding-block:12px 80px}
+.sec{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:14px 0 6px}
+.pins{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.pin{appearance:none;text-align:left;border:1.5px solid color-mix(in srgb,var(--c) 50%,transparent);border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) var(--tint),var(--surface));border-radius:8px;padding:12px 12px;min-height:64px;font-weight:700;line-height:1.3;display:flex;align-items:center}
+.list{display:grid;gap:6px}
+.card{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 8px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:8px;padding:9px 10px 9px 12px}
+.card .t{appearance:none;border:0;background:none;text-align:left;padding:0;min-width:0}
+.card .t b{display:block;font-size:.95rem;line-height:1.3}
+.card .t small{display:block;color:var(--muted);font-size:.74rem;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .m{appearance:none;border:1px solid var(--line);background:var(--surface2);border-radius:999px;width:32px;height:32px;font-weight:900;color:var(--muted)}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 50%,transparent);border-radius:4px;padding:0 5px;margin-right:6px;vertical-align:1px}
+.empty{text-align:center;color:var(--muted);padding:40px 12px;line-height:1.8}
+.empty b{color:var(--fg)}
+.note{font-size:.74rem;color:var(--muted);margin-top:18px;line-height:1.6}
+/* sheet */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:3px solid var(--c,var(--accent));box-shadow:0 -10px 30px rgb(0 0 0/.2);padding-block:14px calc(16px + env(safe-area-inset-bottom,0px));max-height:80vh;overflow:auto;transform:translateY(105%);transition:transform .22s}
+.sheet.on{transform:none}
+.sheet .in{max-width:720px;margin:0 auto}
+.sheet h2{font-size:1.05rem;margin:0 0 2px}
+.sheet .sub{font-size:.78rem;color:var(--muted);margin-bottom:10px;font-family:var(--mono)}
+.fld{margin:10px 0}
+.fld label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:3px}
+.fld input{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface2);color:var(--fg)}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;appearance:none;border:1.5px solid var(--line);background:var(--surface2);border-radius:8px;padding:8px;font-weight:700;color:var(--muted)}
+.seg button[aria-pressed="true"]{color:var(--surface);background:var(--c);border-color:var(--c)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:.85rem}
+.btn.pri{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.btn.danger{color:var(--ng);border-color:var(--ng)}
+.btn.danger.fill{background:var(--ng);color:#fff}
+.scrim{position:fixed;inset:0;z-index:39;background:rgb(0 0 0/.35);opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+/* viewer */
+#viewer{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+#viewer[hidden]{display:none}
+.vbar{display:flex;align-items:center;gap:8px;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px);height:calc(40px + env(safe-area-inset-top,0px));flex:none}
+.vbar b{flex:1;min-width:0;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vbar .ic{padding:3px 10px}
+#frame{flex:1;border:0;width:100%;background:var(--surface)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.82rem;width:max-content;max-width:calc(100% - 32px);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-offset:2px}
+/* drag: files onto the page, cards to reorder / onto a tab to move */
+.card{grid-template-columns:auto 1fr auto}
+.grip{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;color:var(--muted);font-size:1.1rem;padding:4px 2px;line-height:1;align-self:center}
+.pin{position:relative;padding-right:30px}
+.pin .grip{position:absolute;right:4px;top:50%;transform:translateY(-50%)}
+.dragging{opacity:.35}
+.ghost{position:fixed;z-index:70;pointer-events:none;transform:translate(-20px,-50%) rotate(-2deg);box-shadow:0 12px 28px rgb(0 0 0/.3);width:min(320px,80vw)}
+.ph{border:2px dashed var(--muted);border-radius:8px;min-height:44px;background:transparent}
+.tabs button.over{background:color-mix(in srgb,var(--c,var(--accent)) 18%,transparent);border-radius:8px 8px 0 0}
+.sec.over{color:var(--fg)}
+#dropzone{position:fixed;inset:0;z-index:80;background:color-mix(in srgb,var(--learn) 20%,var(--bg));border:4px dashed var(--learn);display:none;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:var(--learn)}
+#dropzone.on{display:flex}
+.hint{font-size:.74rem;color:var(--muted);margin:4px 0 0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="hd gut">
+  <div class="row1"><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button><button class="ic pri" id="addBtn">＋ 追加</button></div>
+  <input type="file" id="addFile" accept=".html,.htm,text/html" multiple hidden>
+  <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+  <input type="file" id="replFile" accept=".html,.htm,text/html" hidden>
+  <div class="search">🔍<input id="q" placeholder="検索（IGF、低血糖、ドリル…）" autocomplete="off"></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" data-cat="clinical" style="--c:var(--clin)">臨床で使う</button>
+    <button role="tab" data-cat="learn" style="--c:var(--learn)">覚える</button>
+    <button role="tab" data-cat="all">すべて</button>
+  </div>
+</div></header>
+<main class="gut" id="main"></main>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet gut" id="sheet"><div class="in" id="sheetIn"></div></div>
+<div id="viewer" hidden><div class="vbar gut"><button class="ic" id="back">‹ 戻る</button><b id="vtitle"></b><button class="ic" id="reload">↻</button></div><iframe id="frame" title="ミニコンテンツ"></iframe></div>
+<div class="toast" id="toast"></div>
+<div id="dropzone">ここに置いて追加</div>
+
+<script>
+/* ---------- storage (IndexedDB) ---------- */
+const DBN='mini-stock',ST='tools';
+function idb(){return new Promise((ok,ng)=>{const r=indexedDB.open(DBN,1);r.onupgradeneeded=()=>r.result.createObjectStore(ST,{keyPath:'id'});r.onsuccess=()=>ok(r.result);r.onerror=()=>ng(r.error)})}
+async function tx(mode,fn){const db=await idb();return new Promise((ok,ng)=>{const t=db.transaction(ST,mode),s=t.objectStore(ST);const req=fn(s);t.oncomplete=()=>ok(req&&req.result);t.onerror=()=>ng(t.error)})}
+const getAll=()=>tx('readonly',s=>s.getAll());
+const put=o=>tx('readwrite',s=>s.put(o));
+const del=id=>tx('readwrite',s=>s.delete(id));
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- categorize ---------- */
+const CATS={clinical:{n:'臨床',c:'var(--clin)'},learn:{n:'学習',c:'var(--learn)'},other:{n:'未分類',c:'var(--other)'}};
+const KW_C=/あんちょこ|計算|早見|テンプレ|サマリ|基準|判定|曲線|リファレンス|ツール|換算|併診|記録|チェック/;
+const KW_L=/ドリル|巻物|仕分け|クイズ|暗記|道場|問題|アカデミー|修行|カード|練習/;
+function parseHTML(html,fname){
+  const meta=(n)=>{const m=html.match(new RegExp('<meta\\s+name=["\']'+n+'["\']\\s+content=["\']([^"\']*)["\']','i'))||html.match(new RegExp('<meta\\s+content=["\']([^"\']*)["\']\\s+name=["\']'+n+'["\']','i'));return m?m[1].trim():''};
+  const tm=html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+  const title=(tm?tm[1].replace(/\s+/g,' ').trim():'')||fname.replace(/\.html?$/i,'');
+  let cat=meta('mini-category');
+  if(!/^(clinical|learn)$/.test(cat))cat=KW_C.test(title)?'clinical':KW_L.test(title)?'learn':'other';
+  return {title,cat,desc:meta('mini-desc')};
+}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const kb=n=>n>1048576?(n/1048576).toFixed(1)+'MB':Math.round(n/1024)+'KB';
+
+/* ---------- state & render ---------- */
+let tools=[],cat=ls.get('mini.tab','clinical'),q='';
+const main=document.getElementById('main');
+async function load(){tools=await getAll();render()}
+function render(){
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.cat===cat));
+  const ql=q.trim().toLowerCase();
+  let list=tools.filter(t=>(cat==='all'||t.cat===cat||(cat==='learn'&&t.cat==='other'))&&(!ql||(t.title+' '+(t.desc||'')).toLowerCase().includes(ql)));
+  const byOrd=(a,b)=>(a.ord??1e15)-(b.ord??1e15)||(b.opened||b.added||0)-(a.opened||a.added||0);
+  const pins=list.filter(t=>t.pinned).sort(byOrd);
+  const rest=list.filter(t=>!t.pinned).sort(byOrd);
+  if(!tools.length){main.innerHTML=`<div class="empty"><b>まだ何もありません</b><br>右上の「＋ 追加」から、作ったHTMLファイルを選んでください。<br>複数まとめて選べます。</div>${footnote()}`;return}
+  main.innerHTML=`<div class="sec${pins.length?'':' dim'}" data-zone="pin">ピン留め${pins.length?'':'（ここにカードを置くとピン留め）'}</div><div class="pins" data-zone="pin">${pins.map(t=>`<button class="pin item" data-id="${t.id}" data-open="${t.id}" style="--c:${CATS[t.cat].c}">${esc(t.title)}<span class="grip" data-grip="${t.id}">≡</span></button>`).join('')}</div>`+
+   `<div class="sec" data-zone="list">${pins.length?'そのほか':'一覧'}（${rest.length}）</div>`+
+   (rest.length?`<div class="list" data-zone="list">${rest.map(t=>`<div class="card item" data-id="${t.id}" style="--c:${CATS[t.cat].c}"><span class="grip" data-grip="${t.id}">≡</span><button class="t" data-open="${t.id}"><b>${esc(t.title)}</b><small><span class="badge">${CATS[t.cat].n}</span>${esc(t.desc||'')||(t.opened?'最後に開いた日 '+new Date(t.opened).toLocaleDateString('ja-JP'):'まだ開いていない')}</small></button><button class="m" data-menu="${t.id}" aria-label="メニュー">⋯</button></div>`).join('')}</div>`:`<div class="list empty" data-zone="list">該当なし</div>`)+
+   `<p class="hint">≡ をつかんで並び替え。上のタブに落とすと分類を移動。PCならHTMLファイルをこの画面に落として追加できます。</p>`+footnote();
+  main.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>open(b.dataset.open));
+  main.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>menu(b.dataset.menu));
+  main.querySelectorAll('[data-grip]').forEach(g=>dragItem(g));
+}
+
+/* ---------- drag to reorder / move ---------- */
+function dragItem(grip){
+  const id=grip.dataset.grip;let pid=null,sx,sy,ghost=null,ph=null,item=null,overTab=null,overZone=null;
+  grip.addEventListener('pointerdown',e=>{pid=e.pointerId;sx=e.clientX;sy=e.clientY;e.preventDefault();e.stopPropagation();try{grip.setPointerCapture(pid)}catch(_){}});
+  grip.addEventListener('pointermove',e=>{if(e.pointerId!==pid)return;
+    if(!ghost){if(Math.hypot(e.clientX-sx,e.clientY-sy)<6)return;
+      item=main.querySelector(`.item[data-id="${id}"]`);ghost=item.cloneNode(true);ghost.classList.add('ghost');ghost.classList.remove('pin');ghost.classList.add('card');document.body.appendChild(ghost);
+      ph=document.createElement('div');ph.className='ph';item.classList.add('dragging');}
+    ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';
+    const el=document.elementFromPoint(e.clientX,e.clientY);
+    const tab=el&&el.closest('.tabs button');
+    if(tab!==overTab){overTab&&overTab.classList.remove('over');overTab=tab&&tab.dataset.cat!=='all'?tab:null;overTab&&overTab.classList.add('over')}
+    if(overTab){ph.remove();return}
+    const zone=el&&el.closest('[data-zone]');
+    if(zone){overZone=zone.dataset.zone;const tgt=el.closest('.item');
+      const cont=main.querySelector(`.pins[data-zone="${overZone}"],.list[data-zone="${overZone}"]`);
+      if(tgt&&tgt!==item){const r=tgt.getBoundingClientRect();const before=overZone==='pin'?e.clientX<r.left+r.width/2:e.clientY<r.top+r.height/2;tgt.parentNode.insertBefore(ph,before?tgt:tgt.nextSibling)}
+      else if(cont&&!cont.contains(ph)&&!tgt)cont.appendChild(ph);}
+    if(e.clientY<110)scrollBy(0,-10);else if(e.clientY>innerHeight-40)scrollBy(0,10)});
+  const end=async e=>{if(e.pointerId!==pid)return;pid=null;if(!ghost)return;
+    ghost.remove();ghost=null;item.classList.remove('dragging');
+    const t=tools.find(x=>x.id===id);
+    if(overTab){const c=overTab.dataset.cat;overTab.classList.remove('over');ph.remove();if(t.cat!==c){t.cat=c;await put(t);toast(`「${t.title}」を${c==='clinical'?'臨床で使う':'覚える'}へ移動`)}load();return}
+    if(ph.parentNode){ph.parentNode.insertBefore(item,ph);ph.remove();
+      const nowPinned=overZone==='pin';if(t.pinned!==nowPinned){t.pinned=nowPinned}
+      const ids=[...main.querySelectorAll('.item')].map(x=>x.dataset.id);let i=0;
+      for(const x of ids){const o=tools.find(y=>y.id===x);if(o){o.ord=i++;await put(o)}}
+      await put(t);}
+    load()};
+  grip.addEventListener('pointerup',end);grip.addEventListener('pointercancel',end);
+  grip.addEventListener('click',e=>{e.stopPropagation();e.preventDefault()});
+}
+
+/* ---------- drop files from the desktop ---------- */
+const dz=document.getElementById('dropzone');let dragDepth=0;
+addEventListener('dragenter',e=>{if(e.dataTransfer&&[...e.dataTransfer.types].includes('Files')){dragDepth++;dz.classList.add('on')}});
+addEventListener('dragleave',()=>{if(--dragDepth<=0){dragDepth=0;dz.classList.remove('on')}});
+addEventListener('dragover',e=>{if(dz.classList.contains('on'))e.preventDefault()});
+addEventListener('drop',async e=>{if(!dz.classList.contains('on'))return;e.preventDefault();dragDepth=0;dz.classList.remove('on');await importFiles(e.dataTransfer.files)});
+function footnote(){const n=tools.length,sz=tools.reduce((a,t)=>a+(t.size||0),0);return `<p class="note">${n}個・合計 ${kb(sz)}。データはこの端末のブラウザの中だけに保存されます。機種変更の前や、たまに「バックアップ」を押して書き出しておいてください。</p>`}
+
+/* ---------- add / replace ---------- */
+const addFile=document.getElementById('addFile'),replFile=document.getElementById('replFile'),restoreFile=document.getElementById('restoreFile');
+document.getElementById('addBtn').onclick=()=>addFile.click();
+async function importFiles(files){let n=0;for(const f of files){if(!/\.html?$/i.test(f.name)&&f.type!=='text/html'){toast(f.name+' はHTMLではありません');continue}
+  const html=await f.text();if(!/<(html|body|title|div|script)/i.test(html)){toast(f.name+' はHTMLではないようです');continue}
+  const p=parseHTML(html,f.name);const dup=tools.find(t=>t.title===p.title);
+  await put({id:dup?dup.id:uid(),...p,html,size:html.length,added:dup?dup.added:Date.now(),opened:dup?dup.opened:0,pinned:dup?dup.pinned:false,ord:dup?dup.ord:-Date.now(),desc:p.desc||(dup?dup.desc:'')});n++}
+  await load();if(n)toast(n+'個 追加しました')}
+addFile.onchange=async()=>{await importFiles(addFile.files);addFile.value=''};
+let replTarget=null;
+replFile.onchange=async()=>{const f=replFile.files[0];if(!f||!replTarget)return;const html=await f.text();const t=tools.find(x=>x.id===replTarget);const p=parseHTML(html,f.name);
+  await put({...t,html,size:html.length,title:t.title||p.title});replFile.value='';replTarget=null;closeSheet();await load();toast('中身を差し替えました（記録はそのまま）')};
+
+/* ---------- open ---------- */
+const viewer=document.getElementById('viewer'),frame=document.getElementById('frame'),vtitle=document.getElementById('vtitle');
+let openId=null;
+async function open(id){const t=tools.find(x=>x.id===id);if(!t)return;openId=id;
+  t.opened=Date.now();await put(t);
+  const log=ls.get('mini.log',{});const d=today();log[d]=log[d]||[];if(!log[d].includes(t.title))log[d].push(t.title);ls.set('mini.log',log);
+  vtitle.textContent=t.title;frame.srcdoc=t.html;viewer.hidden=false;document.body.style.overflow='hidden';
+  history.pushState({open:id},'','#open');
+}
+function closeViewer(){if(viewer.hidden)return;viewer.hidden=true;frame.srcdoc='';document.body.style.overflow='';openId=null;load()}
+document.getElementById('back').onclick=()=>{if(history.state&&history.state.open)history.back();else closeViewer()};
+document.getElementById('reload').onclick=()=>{const t=tools.find(x=>x.id===openId);if(t)frame.srcdoc=t.html};
+window.addEventListener('popstate',()=>closeViewer());
+
+/* ---------- menu sheet ---------- */
+const sheet=document.getElementById('sheet'),sheetIn=document.getElementById('sheetIn'),scrim=document.getElementById('scrim');
+function openSheet(h,c){sheetIn.innerHTML=h;sheet.style.setProperty('--c',c||'var(--accent)');sheet.classList.add('on');scrim.classList.add('on')}
+function closeSheet(){sheet.classList.remove('on');scrim.classList.remove('on')}
+scrim.onclick=closeSheet;
+function menu(id){const t=tools.find(x=>x.id===id);if(!t)return;
+  openSheet(`<h2>${esc(t.title)}</h2><div class="sub">${kb(t.size||0)}・追加 ${new Date(t.added).toLocaleDateString('ja-JP')}</div>
+  <div class="fld"><label>表示名</label><input id="eTitle" value="${esc(t.title)}"></div>
+  <div class="fld"><label>ひとこと（検索にも使われます）</label><input id="eDesc" value="${esc(t.desc||'')}" placeholder="例：年齢別IGF-1基準値の早見"></div>
+  <div class="fld"><label>分類</label><div class="seg" id="seg">${['clinical','learn'].map(k=>`<button data-k="${k}" aria-pressed="${t.cat===k}" style="--c:${CATS[k].c}">${k==='clinical'?'臨床で使う':'覚える'}</button>`).join('')}</div></div>
+  <div class="acts"><button class="btn pri" id="eSave">保存</button><button class="btn" id="ePin">${t.pinned?'ピンを外す':'ピン留め'}</button><button class="btn" id="eRepl">新しい版に差し替え</button><button class="btn danger" id="eDel">削除</button></div>`,CATS[t.cat].c);
+  let c=t.cat;sheetIn.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{c=b.dataset.k;sheetIn.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.k===c));sheet.style.setProperty('--c',CATS[c].c)});
+  sheetIn.querySelector('#eSave').onclick=async()=>{t.title=sheetIn.querySelector('#eTitle').value.trim()||t.title;t.desc=sheetIn.querySelector('#eDesc').value.trim();t.cat=c;await put(t);closeSheet();load();toast('保存しました')};
+  sheetIn.querySelector('#ePin').onclick=async()=>{t.pinned=!t.pinned;await put(t);closeSheet();load()};
+  sheetIn.querySelector('#eRepl').onclick=()=>{replTarget=id;replFile.click()};
+  sheetIn.querySelector('#eDel').onclick=()=>{openSheet(`<h2>「${esc(t.title)}」を削除しますか？</h2><p style="font-size:.85rem;color:var(--muted)">このミニコンテンツは置き場から消えます。ミニの中で保存していた記録は残るので、同じものをまた追加すれば続きから使えます。</p><div class="acts"><button class="btn danger fill" id="yes">削除する</button><button class="btn" id="no">やめる</button></div>`,'var(--ng)');
+    sheetIn.querySelector('#yes').onclick=async()=>{await del(id);closeSheet();load();toast('削除しました')};sheetIn.querySelector('#no').onclick=closeSheet};
+}
+
+/* ---------- backup / restore ---------- */
+document.getElementById('bkBtn').onclick=()=>{
+  openSheet(`<h2>バックアップ</h2><p style="font-size:.85rem;color:var(--muted)">置き場の中身（${tools.length}個）と、各ミニの進捗記録をまとめて1つのファイルに書き出します。復元すると、同じ名前のものは上書きされます。</p>
+  <div class="acts"><button class="btn pri" id="exp">書き出す</button><button class="btn" id="imp">ファイルから復元</button></div>`);
+  sheetIn.querySelector('#exp').onclick=()=>{const store={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);store[k]=localStorage.getItem(k)}}catch(e){}
+    const blob=new Blob([JSON.stringify({app:'mini-stock',v:1,at:new Date().toISOString(),tools,localStorage:store})],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mini-backup-'+today()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);closeSheet();toast('書き出しました（「ファイル」に保存されます）')};
+  sheetIn.querySelector('#imp').onclick=()=>restoreFile.click();
+};
+restoreFile.onchange=async()=>{const f=restoreFile.files[0];restoreFile.value='';if(!f)return;let j;try{j=JSON.parse(await f.text())}catch(e){toast('読めないファイルです');return}
+  if(j.app!=='mini-stock'||!Array.isArray(j.tools)){toast('バックアップファイルではありません');return}
+  for(const t of j.tools){const dup=tools.find(x=>x.title===t.title);await put({...t,id:dup?dup.id:t.id})}
+  if(j.localStorage){try{for(const k in j.localStorage)localStorage.setItem(k,j.localStorage[k])}catch(e){}}
+  closeSheet();await load();toast(j.tools.length+'個 復元しました')};
+
+/* ---------- tabs / search / toast ---------- */
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;ls.set('mini.tab',cat);render()});
+document.getElementById('q').oninput=e=>{q=e.target.value;render()};
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+load();
+</script>
+</body>
+</html>
