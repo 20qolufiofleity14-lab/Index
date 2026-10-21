@@ -21,6 +21,13 @@
   "v": "18306ad02e"
  },
  {
+  "file": "OTC欠損症.html",
+  "title": "OTC欠損症",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "318e922c76"
+ },
+ {
   "file": "TRH負荷試験.html",
   "title": "TRH負荷試験 判定チャート",
   "cat": "clinical",
@@ -40,6 +47,13 @@
   "cat": "clinical",
   "desc": "採血タイミングを補正して週平均IGF-I SDSを推定。年齢別基準値表つき",
   "v": "1a9c5fb81e"
+ },
+ {
+  "file": "フェニルケトン尿症_PKU.html",
+  "title": "フェニルケトン尿症（PKU）",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "128ad8cdfc"
  },
  {
   "file": "ライソゾーム病_仕分け道場.html",
@@ -110,6 +124,13 @@
   "cat": "clinical",
   "desc": "診療クイックリファレンス",
   "v": "347e8cefbf"
+ },
+ {
+  "file": "甲状腺腫.html",
+  "title": "甲状腺腫",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "34cb54756a"
  },
  {
   "file": "男性CPP_治療管理.html",

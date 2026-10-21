@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>甲状腺腫 診療クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診療クイックリファレンス">
+<meta name="mini-title" content="甲状腺腫">
+
+<style>
+:root {
+  --bg:#eef2f7;--card:#ffffff;--border:#dde3ec;
+  --text:#1a202c;--text-muted:#64748b;
+  --primary:#1e3a5f;--primary-mid:#254d80;--primary-light:#3468a8;
+  --red:#b91c1c;--red-soft:#dc2626;--red-bg:#fef2f2;--red-border:#fca5a5;
+  --amber:#92400e;--amber-soft:#b45309;--amber-bg:#fffbeb;--amber-border:#fcd34d;
+  --blue:#1d4ed8;--blue-soft:#2563eb;--blue-bg:#eff6ff;--blue-border:#93c5fd;
+  --green:#166534;--green-soft:#16a34a;--green-bg:#f0fdf4;--green-border:#86efac;
+  --purple:#5b21b6;--purple-bg:#f5f3ff;--purple-border:#c4b5fd;
+  --shadow:0 1px 4px rgba(0,0,0,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:12.5px;line-height:1.55;}
+.header{background:linear-gradient(135deg,#1e3a5f 0%,#2d5a9e 60%,#1e4e9e 100%);color:white;padding:14px 20px 12px;display:flex;align-items:flex-end;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,0.2);}
+.header-left h1{font-size:17px;font-weight:800;letter-spacing:0.3px;}
+.header-left .sub{font-size:10.5px;opacity:0.75;margin-top:2px;}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.header-tag{font-size:9.5px;background:rgba(255,255,255,0.18);padding:2px 9px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);white-space:nowrap;}
+.tab-nav{background:var(--primary-mid);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid rgba(255,255,255,0.1);}
+.tab-nav::-webkit-scrollbar{display:none;}
+.tab-btn{padding:9px 14px;color:rgba(255,255,255,0.62);background:none;border:none;cursor:pointer;white-space:nowrap;font-size:11.5px;font-family:inherit;border-bottom:3px solid transparent;transition:all 0.18s;font-weight:500;flex-shrink:0;}
+.tab-btn:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.08);}
+.tab-btn.active{color:white;border-bottom-color:#5ef07a;background:rgba(255,255,255,0.12);font-weight:700;}
+.tab-content{display:none;padding:14px 16px 24px;max-width:1280px;margin:0 auto;}
+.tab-content.active{display:block;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;}
+.grid-half{display:grid;grid-template-columns:1.4fr 1fr;gap:11px;}
+.mb-3{margin-bottom:11px;}
+@media(max-width:780px){.grid-2,.grid-3,.grid-half{grid-template-columns:1fr;}}
+.card{background:var(--card);border-radius:7px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);}
+.card-hd{padding:7px 11px;font-weight:700;font-size:11.5px;display:flex;align-items:center;gap:5px;letter-spacing:0.2px;}
+.card-hd.red{background:var(--red-bg);color:var(--red);border-bottom:1px solid var(--red-border);}
+.card-hd.amber{background:var(--amber-bg);color:var(--amber);border-bottom:1px solid var(--amber-border);}
+.card-hd.blue{background:var(--blue-bg);color:var(--blue);border-bottom:1px solid var(--blue-border);}
+.card-hd.green{background:var(--green-bg);color:var(--green);border-bottom:1px solid var(--green-border);}
+.card-hd.purple{background:var(--purple-bg);color:var(--purple);border-bottom:1px solid var(--purple-border);}
+.card-hd.dark{background:var(--primary);color:white;}
+.card-hd.navy{background:var(--primary-mid);color:white;}
+.card-body{padding:9px 11px;}
+.hl{padding:5px 9px;border-radius:4px;margin:3px 0;border-left:3px solid;}
+.hl-red{background:var(--red-bg);border-color:var(--red-soft);color:#7f1d1d;}
+.hl-amber{background:var(--amber-bg);border-color:var(--amber-soft);color:#78350f;}
+.hl-blue{background:var(--blue-bg);border-color:var(--blue-soft);color:#1e3a8a;}
+.hl-green{background:var(--green-bg);border-color:var(--green-soft);color:#14532d;}
+.hl-purple{background:var(--purple-bg);border-color:var(--purple);color:#3b0764;}
+.badge{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9.5px;font-weight:700;vertical-align:middle;line-height:1.4;}
+.b-red{background:var(--red-soft);color:white;}
+.b-amber{background:var(--amber-soft);color:white;}
+.b-blue{background:var(--blue-soft);color:white;}
+.b-green{background:var(--green-soft);color:white;}
+.b-purple{background:var(--purple);color:white;}
+.b-gray{background:#64748b;color:white;}
+.b-pink{background:#be185d;color:white;}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;}
+.tbl th{background:var(--primary);color:white;padding:5px 7px;text-align:center;font-weight:600;font-size:10.5px;}
+.tbl td{padding:4px 7px;border:1px solid #dde3ec;text-align:center;vertical-align:middle;}
+.tbl tr:nth-child(even) td{background:#f8fafc;}
+.tbl tr:hover td{background:var(--blue-bg);}
+.td-lbl{text-align:left !important;font-weight:600;background:#f1f5f9 !important;color:#334155;}
+.td-prepub{background:var(--green-bg) !important;color:#14532d;}
+.td-pub{background:var(--red-bg) !important;color:#7f1d1d;font-weight:600;}
+.td-key{background:#fff7ed !important;color:#7c2d12;font-weight:700;}
+.td-amber{background:var(--amber-bg) !important;color:#78350f;}
+.td-purple{background:var(--purple-bg) !important;color:#3b0764;}
+.td-blue{background:var(--blue-bg) !important;color:#1e3a8a;}
+.monitor-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.monitor-cell{padding:8px 9px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:11.5px;}
+.monitor-cell:nth-child(4n){border-right:none;}
+.monitor-cell.hd{background:var(--primary);color:white;font-weight:700;font-size:11px;text-align:center;}
+.monitor-cell.grp{background:#f1f5f9;font-weight:700;font-size:11px;color:var(--primary);}
+.cl{list-style:none;padding:0;}
+.cl li{padding:4px 0 4px 15px;border-bottom:1px solid #f1f5f9;position:relative;font-size:12px;}
+.cl li:last-child{border-bottom:none;}
+.cl li::before{content:'▸';position:absolute;left:0;color:var(--primary-light);font-size:9px;top:6px;}
+.mh{background:#f8fafc;border-radius:4px;padding:4px 8px;margin:4px 0;font-size:11.5px;border-left:2px solid #94a3b8;}
+.small{font-size:10.5px;color:var(--text-muted);}
+.small-note{font-size:10.5px;color:var(--text-muted);margin-top:4px;padding-top:4px;border-top:1px dashed #cbd5e1;}
+.mt{margin-top:8px;}
+
+/* 七条分類 visual */
+.shichijo-row{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap;}
+.shichijo-box{flex:1;min-width:90px;border-radius:6px;padding:8px 7px;text-align:center;border:1.5px solid;}
+.sj-0{background:#f1f5f9;border-color:#94a3b8;color:#475569;}
+.sj-Ia{background:#f0fdf4;border-color:var(--green-border);color:var(--green);}
+.sj-Ib{background:#eff6ff;border-color:var(--blue-border);color:var(--blue);}
+.sj-II{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
+.sj-III{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.sj-grade{font-size:17px;font-weight:900;margin-bottom:3px;}
+.sj-title{font-size:11px;font-weight:700;margin-bottom:3px;}
+.sj-desc{font-size:10px;line-height:1.4;}
+.sj-icon{font-size:20px;margin:3px 0;}
+
+/* Bethesda */
+.beth-row{display:flex;gap:4px;margin:6px 0;flex-wrap:wrap;}
+.beth-box{flex:1;min-width:60px;border-radius:5px;padding:6px 5px;text-align:center;border:1.5px solid;}
+.b1{background:#f1f5f9;border-color:#94a3b8;color:#475569;}
+.b2{background:#f0fdf4;border-color:var(--green-border);color:var(--green);}
+.b3{background:#eff6ff;border-color:var(--blue-border);color:var(--blue);}
+.b4{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
+.b5{background:#fff7ed;border-color:#fdba74;color:#9a3412;}
+.b6{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.beth-box .bn{font-size:14px;font-weight:900;}
+.beth-box .bt{font-size:9.5px;margin-top:2px;line-height:1.3;}
+.beth-box .br{font-size:10px;font-weight:700;margin-top:3px;}
+
+/* TIRADS */
+.tirads-wrap{display:flex;gap:4px;margin:6px 0;}
+.tirads-seg{flex:1;padding:5px 4px;border-radius:4px;text-align:center;font-size:10.5px;line-height:1.35;border:1px solid;}
+
+.footer{background:var(--primary);color:rgba(255,255,255,0.5);text-align:center;padding:8px;font-size:9.5px;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🦋 甲状腺腫 診療クイックリファレンス</h1>
+    <div class="sub">Goiter / Thyroid Enlargement ── 触診・超音波・機能評価から鑑別まで</div>
+  </div>
+  <div class="header-right">
+    <span class="header-tag">日本甲状腺学会 2023</span>
+    <span class="header-tag">ACR TIRADS / Bethesda System 2023</span>
+    <span class="header-tag">日本小児内分泌学会 甲状腺疾患ガイドライン</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">① 概要・分類</button>
+  <button class="tab-btn" onclick="switchTab(1)">② 七条分類・診察所見</button>
+  <button class="tab-btn" onclick="switchTab(2)">③ 鑑別診断</button>
+  <button class="tab-btn" onclick="switchTab(3)">④ 検査・画像</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤ 主要疾患の特徴</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥ 小児特有・紹介基準</button>
+</div>
+
+
+<!-- ════════ TAB 1: 概要・分類 ════════ -->
+<div class="tab-content active" id="tab0">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">📖</span> 定義・基本</div>
+      <div class="card-body">
+        <div class="mh">甲状腺腫（goiter）の定義</div>
+        <ul class="cl">
+          <li><strong>成人：</strong>甲状腺重量 > 30 g（超音波容積 > 18–20 mL）</li>
+          <li><strong>小児：</strong>甲状腺容積 > 体表面積（m²）× 10 mL<br><span class="small">年齢・体格による正常範囲あり → 超音波で容積評価が標準</span></li>
+          <li>触診による七条分類が臨床の基本（②タブ参照）</li>
+        </ul>
+        <div class="mh mt">形態による分類</div>
+        <table class="tbl">
+          <thead><tr><th>形態</th><th>特徴</th><th>主な疾患</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">びまん性甲状腺腫<br>（diffuse goiter）</td><td>両葉均一に腫大</td><td style="text-align:left;">橋本病・バセドウ病<br>単純性甲状腺腫・ヨード欠乏</td></tr>
+            <tr><td class="td-lbl">結節性甲状腺腫<br>（nodular goiter）</td><td>単発または多発結節</td><td style="text-align:left;">腺腫・甲状腺癌<br>多結節性甲状腺腫・嚢胞</td></tr>
+          </tbody>
+        </table>
+        <div class="mh mt">甲状腺機能による分類</div>
+        <div style="display:flex;gap:5px;margin:5px 0;">
+          <div style="flex:1;background:var(--red-bg);border:1.5px solid var(--red-border);border-radius:5px;padding:6px 7px;text-align:center;">
+            <div style="font-weight:700;color:var(--red);font-size:11px;">機能亢進性</div>
+            <div style="font-size:10.5px;margin-top:3px;color:#7f1d1d;">TSH↓<br>FT4↑ or FT3↑<br>バセドウ・毒性腺腫</div>
+          </div>
+          <div style="flex:1;background:#f0fdf4;border:1.5px solid var(--green-border);border-radius:5px;padding:6px 7px;text-align:center;">
+            <div style="font-weight:700;color:var(--green);font-size:11px;">正常機能性</div>
+            <div style="font-size:10.5px;margin-top:3px;color:#14532d;">TSH 正常<br>FT4 正常<br>橋本・単純性</div>
+          </div>
+          <div style="flex:1;background:var(--blue-bg);border:1.5px solid var(--blue-border);border-radius:5px;padding:6px 7px;text-align:center;">
+            <div style="font-weight:700;color:var(--blue);font-size:11px;">機能低下性</div>
+            <div style="font-size:10.5px;margin-top:3px;color:#1e3a8a;">TSH↑<br>FT4↓<br>橋本・ヨード欠乏</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">🗂️</span> 病因分類（主要疾患）</div>
+        <div class="card-body">
+          <div class="mh">びまん性甲状腺腫</div>
+          <ul class="cl">
+            <li><span class="badge b-blue">橋本病</span> 自己免疫性甲状腺炎（最多）</li>
+            <li><span class="badge b-red">バセドウ病</span> 自己免疫性機能亢進症</li>
+            <li><span class="badge b-green">単純性甲状腺腫</span> 原因不明・機能正常</li>
+            <li><span class="badge b-gray">亜急性甲状腺炎</span> ウイルス性・有痛性</li>
+            <li><span class="badge b-gray">ヨード欠乏性</span> 国内では稀</li>
+            <li><span class="badge b-purple">薬剤性</span> 抗甲状腺薬・リチウム・アミオダロン</li>
+            <li><span class="badge b-amber">先天性甲状腺機能低下症</span> 合成障害型（小児）</li>
+          </ul>
+          <div class="mh mt">結節性甲状腺腫</div>
+          <ul class="cl">
+            <li><span class="badge b-green">腺腫様甲状腺腫</span> 最多・良性</li>
+            <li><span class="badge b-green">甲状腺嚢胞</span> 良性</li>
+            <li><span class="badge b-amber">濾胞腺腫</span> 良性〜悪性ボーダー</li>
+            <li><span class="badge b-red">甲状腺癌</span> 乳頭癌・濾胞癌・髄様癌・未分化癌</li>
+            <li><span class="badge b-blue">多結節性甲状腺腫</span> びまん性腫大＋多発結節</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">⚠️</span> 症状から疑うべき疾患</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>症状</th><th>疑う疾患</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">動悸・体重減少・発汗</td><td style="text-align:left;">バセドウ病・機能亢進性</td></tr>
+              <tr><td class="td-lbl">浮腫・倦怠感・便秘</td><td style="text-align:left;">橋本病（機能低下期）</td></tr>
+              <tr><td class="td-lbl">頸部痛・発熱</td><td style="text-align:left;">亜急性甲状腺炎</td></tr>
+              <tr><td class="td-lbl">嗄声・嚥下困難</td><td style="text-align:left;">甲状腺癌（浸潤・圧迫）</td></tr>
+              <tr><td class="td-lbl">急速増大・石様硬結</td><td class="td-pub">悪性腫瘍を疑う</td></tr>
+              <tr><td class="td-lbl">血縁者の甲状腺癌</td><td class="td-pub">乳頭癌・髄様癌（MEN2）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHO vs Shichijo overview -->
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">📊</span> 甲状腺腫の主要分類システム比較</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th>分類システム</th><th>グレード数</th><th>主な使用場面</th><th>特徴</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl"><strong>七条分類</strong>（日本）</td><td class="td-key">5段階（0・Ia・Ib・II・III）</td><td>外来診察・スクリーニング</td><td style="text-align:left;">触診＋視診。臨床で最も汎用性高い</td></tr>
+          <tr><td class="td-lbl">WHO分類（2001）</td><td>3段階（0・1・2）</td><td>疫学調査・ヨード欠乏評価</td><td style="text-align:left;">シンプルだが粗い</td></tr>
+          <tr><td class="td-lbl">超音波容積評価</td><td>定量的（mL）</td><td>精密評価・経時比較</td><td style="text-align:left;">最も客観的。外来フォローの基準</td></tr>
+          <tr><td class="td-lbl">ACR TIRADS</td><td>TR1–TR5</td><td>結節性病変の悪性リスク評価</td><td style="text-align:left;">FNA適応判断に使用</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 2: 七条分類・診察所見 ════════ -->
+<div class="tab-content" id="tab1">
+
+  <div class="card mb-3">
+    <div class="card-hd dark"><span class="icon">✋</span> 七条分類（日本甲状腺学会 触診・視診によるグレード分類）</div>
+    <div class="card-body">
+      <div class="shichijo-row">
+        <div class="shichijo-box sj-0">
+          <div class="sj-grade">0</div>
+          <div class="sj-icon">—</div>
+          <div class="sj-title">甲状腺腫なし</div>
+          <div class="sj-desc">触診・視診どちらでも<br>甲状腺腫を確認できない</div>
+        </div>
+        <div class="shichijo-box sj-Ia">
+          <div class="sj-grade">Ia</div>
+          <div class="sj-icon">👆</div>
+          <div class="sj-title">触診のみ可</div>
+          <div class="sj-desc">触診では確認できるが<br>通常体位・後屈位とも<br>視診では確認不能</div>
+        </div>
+        <div class="shichijo-box sj-Ib">
+          <div class="sj-grade">Ib</div>
+          <div class="sj-icon">👁️</div>
+          <div class="sj-title">後屈位で視診可</div>
+          <div class="sj-desc">触診可能<br>頸部後屈位でのみ<br>視診で確認できる</div>
+        </div>
+        <div class="shichijo-box sj-II">
+          <div class="sj-grade">II</div>
+          <div class="sj-icon">👀</div>
+          <div class="sj-title">通常体位で視診可</div>
+          <div class="sj-desc">正常頸位で視診でも<br>確認可能<br>著しい腫大ではない</div>
+        </div>
+        <div class="shichijo-box sj-III">
+          <div class="sj-grade">III</div>
+          <div class="sj-icon">‼️</div>
+          <div class="sj-title">遠方から明らか</div>
+          <div class="sj-desc">著しい腫大<br>遠くから見ても<br>すぐわかるレベル</div>
+        </div>
+      </div>
+      <div class="grid-2 mt">
+        <div>
+          <div class="mh">WHO分類との対応（参考）</div>
+          <table class="tbl">
+            <thead><tr><th>七条分類</th><th>WHO分類（2001）</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">0度</td><td class="td-prepub">Grade 0（正常）</td></tr>
+              <tr><td class="td-lbl">Ia・Ib度</td><td class="td-key">Grade 1（触診可）</td></tr>
+              <tr><td class="td-lbl">II・III度</td><td class="td-pub">Grade 2（視診可）</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="mh">診察時の注意点</div>
+          <ul class="cl">
+            <li>患者を座らせ、頸部をやや前傾させてから触診開始</li>
+            <li>後屈させながら唾液を飲んでもらう → 甲状腺が動く</li>
+            <li>両葉の硬さ・均一性・圧痛・結節の有無を確認</li>
+            <li><strong>血管雑音（bruit）の聴診</strong> → 陽性ならバセドウ病を強く示唆</li>
+          </ul>
+        </div>
+      </div>
+      <div class="small-note">七条分類は触診評価の標準化のためのツール。超音波で容積を定量評価することと組み合わせて使用する。</div>
+    </div>
+  </div>
+
+  <!-- Physical exam findings by disease -->
+  <div class="card mb-3">
+    <div class="card-hd navy"><span class="icon">🔎</span> 触診所見から疾患を絞る</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th>触診所見</th><th>性状</th><th>圧痛</th><th>結節</th><th>疑う疾患</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl">びまん性・軟〜弾性</td><td>均一・なめらか</td><td>なし</td><td>なし</td><td style="text-align:left;">バセドウ病・単純性甲状腺腫</td></tr>
+          <tr><td class="td-lbl">びまん性・硬め</td><td>ゴム様・分葉状</td><td>なし〜軽度</td><td>なし〜小結節</td><td style="text-align:left;"><strong>橋本病</strong>（典型的）</td></tr>
+          <tr><td class="td-lbl">びまん性・圧痛あり</td><td>硬め・不均一</td><td class="td-pub"><strong>強い</strong></td><td>なし</td><td style="text-align:left;"><strong>亜急性甲状腺炎</strong></td></tr>
+          <tr><td class="td-lbl">孤立性結節</td><td>弾性〜硬</td><td>なし</td><td>単発</td><td style="text-align:left;">腺腫・嚢胞・癌（要FNA）</td></tr>
+          <tr><td class="td-lbl">石様硬・固定</td><td>硬い・周囲との癒着</td><td>なし〜あり</td><td>あり</td><td class="td-pub"><strong>甲状腺癌 強く疑う</strong></td></tr>
+          <tr><td class="td-lbl">多発結節</td><td>不均一</td><td>なし</td><td>多発</td><td style="text-align:left;">多結節性甲状腺腫・橋本病</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Associated signs -->
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">👁️</span> 甲状腺腫に伴う全身所見（疾患特異的サイン）</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">バセドウ病特有</div>
+          <ul class="cl">
+            <li><strong>眼球突出（exophthalmos）</strong><br><span class="small">バセドウ眼症 → 眼球後脂肪組織増殖</span></li>
+            <li>眼瞼後退（Graefe徴候）</li>
+            <li>甲状腺血管雑音（bruit）<span class="badge b-red">特異的</span></li>
+            <li>前脛骨粘液水腫（稀）</li>
+            <li>手指振戦・頻脈・体重減少</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">橋本病</div>
+          <ul class="cl">
+            <li>甲状腺腫は硬め・ゴム様・分葉状</li>
+            <li>機能低下症状：倦怠感・浮腫・便秘・寒がり</li>
+            <li>若い女性に多い（女:男 = 5–10:1）</li>
+            <li>橋本脳症（稀）：精神症状・意識障害</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">甲状腺癌（危険なサイン）</div>
+          <ul class="cl">
+            <li><span class="badge b-red">嗄声</span>（反回神経麻痺）</li>
+            <li><span class="badge b-red">嚥下困難</span></li>
+            <li><span class="badge b-red">頸部リンパ節腫脹</span></li>
+            <li>結節の急速増大</li>
+            <li>石様硬・周囲固定</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 3: 鑑別診断 ════════ -->
+<div class="tab-content" id="tab2">
+
+  <!-- Diffuse goiter differential -->
+  <div class="card mb-3">
+    <div class="card-hd dark"><span class="icon">🔄</span> びまん性甲状腺腫の鑑別</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead>
+          <tr><th>疾患</th><th>機能</th><th>TSH</th><th>FT4</th><th>TPO抗体</th><th>TRAb</th><th>特徴的所見</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">バセドウ病</span></td>
+            <td class="td-pub">亢進</td>
+            <td class="td-pub">↓↓</td>
+            <td class="td-pub">↑↑</td>
+            <td>陽性（50%）</td>
+            <td class="td-pub"><strong>陽性 ←特異的</strong></td>
+            <td style="text-align:left;">動悸・体重減少・眼球突出・bruit</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-blue">橋本病（低下期）</span></td>
+            <td class="td-blue">低下〜正常</td>
+            <td class="td-pub">↑（低下期）</td>
+            <td class="td-pub">↓（低下期）</td>
+            <td class="td-pub"><strong>高値 ←特異的</strong></td>
+            <td>通常陰性</td>
+            <td style="text-align:left;">硬め・ゴム様・倦怠感</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-blue">橋本病（正常機能）</span></td>
+            <td class="td-prepub">正常</td>
+            <td class="td-prepub">正常</td>
+            <td class="td-prepub">正常</td>
+            <td class="td-pub"><strong>高値</strong></td>
+            <td>陰性</td>
+            <td style="text-align:left;">抗体陽性のみで経過観察</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-amber">無痛性甲状腺炎</span></td>
+            <td>亢進→正常</td>
+            <td class="td-pub">↓（亢進期）</td>
+            <td class="td-pub">↑（亢進期）</td>
+            <td>中等度陽性</td>
+            <td>陰性 ← バセドウとの鑑別</td>
+            <td style="text-align:left;">経過で自然回復・産後に多い</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-amber">亜急性甲状腺炎</span></td>
+            <td>亢進→正常</td>
+            <td class="td-pub">↓（亢進期）</td>
+            <td class="td-pub">↑（亢進期）</td>
+            <td>低〜正常</td>
+            <td>陰性</td>
+            <td style="text-align:left;"><strong>有痛性・CRP↑↑・ESR↑↑</strong></td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-green">単純性甲状腺腫</span></td>
+            <td class="td-prepub">正常</td>
+            <td class="td-prepub">正常</td>
+            <td class="td-prepub">正常</td>
+            <td>陰性</td>
+            <td>陰性</td>
+            <td style="text-align:left;">思春期・妊娠期の生理的腫大も</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-purple">薬剤性</span></td>
+            <td>低下〜正常</td>
+            <td class="td-pub">↑（多い）</td>
+            <td>さまざま</td>
+            <td>陰性</td>
+            <td>陰性</td>
+            <td style="text-align:left;">リチウム・アミオダロン・抗甲状腺薬</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="hl hl-amber mt">
+        <strong>バセドウ病 vs 無痛性甲状腺炎の鑑別が臨床上最重要</strong><br>
+        TRAb陽性 → バセドウ確定（抗甲状腺薬適応）<br>
+        TRAb陰性 + 自然回復 → 無痛性甲状腺炎（経過観察のみ）<br>
+        <span class="small">シンチグラフィ（RI摂取率）でも鑑別可：バセドウ↑↑ vs 無痛性甲状腺炎↓↓</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nodular goiter differential -->
+  <div class="card mb-3">
+    <div class="card-hd red"><span class="icon">🔵</span> 結節性甲状腺腫の鑑別 — 良性 vs 悪性</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead>
+          <tr><th>疾患</th><th>頻度</th><th>超音波所見</th><th>機能</th><th>FNA（Bethesda）</th><th>悪性リスク</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-lbl"><span class="badge b-green">腺腫様甲状腺腫</span></td>
+            <td class="td-prepub">最多</td>
+            <td>等〜高エコー・境界明瞭</td>
+            <td>正常</td>
+            <td>Bethesda II</td>
+            <td class="td-prepub">低い</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-green">甲状腺嚢胞</span></td>
+            <td class="td-prepub">多い</td>
+            <td>無エコー・後方増強</td>
+            <td>正常</td>
+            <td>Bethesda I〜II</td>
+            <td class="td-prepub">極めて低い</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-amber">濾胞腺腫 / 濾胞性腫瘍</span></td>
+            <td class="td-key">中程度</td>
+            <td>等エコー・被膜明瞭</td>
+            <td>正常〜亢進</td>
+            <td>Bethesda IV</td>
+            <td class="td-amber">25–40%</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-amber">自律性機能性結節</span></td>
+            <td>比較的稀</td>
+            <td>境界明瞭</td>
+            <td class="td-pub">亢進（hot）</td>
+            <td>—</td>
+            <td class="td-prepub">低い（hot nodule）</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">乳頭癌</span></td>
+            <td class="td-pub">悪性の85%</td>
+            <td class="td-pub">低エコー・微細石灰化・不整辺縁</td>
+            <td>正常</td>
+            <td>Bethesda V〜VI</td>
+            <td class="td-pub">高い</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">濾胞癌</span></td>
+            <td class="td-pub">悪性の10%</td>
+            <td>等〜低エコー（腺腫と類似）</td>
+            <td>正常</td>
+            <td>Bethesda IV（術前診断困難）</td>
+            <td class="td-pub">高い（術後診断）</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">髄様癌（MTC）</span></td>
+            <td class="td-pub">悪性の5%</td>
+            <td>低エコー・粗大石灰化</td>
+            <td>正常</td>
+            <td>Bethesda V〜VI</td>
+            <td class="td-pub">高い</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">未分化癌</span></td>
+            <td class="td-pub">稀・高齢者</td>
+            <td>大型・不均一・浸潤</td>
+            <td>正常</td>
+            <td>Bethesda VI</td>
+            <td class="td-pub">100%（予後最悪）</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="small-note">乳頭癌は小児では最多（悪性の90%以上）。濾胞癌はFNAでは良悪の判別困難 → 血管浸潤・被膜浸潤の組織診断が必要。</div>
+    </div>
+  </div>
+
+  <!-- Functional differential flowchart-like -->
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">🔄</span> TSH から始まる鑑別フロー</div>
+    <div class="card-body">
+      <div class="hl hl-blue">
+        <strong>Step 1：まずTSH測定（最も感度が高い甲状腺機能スクリーニング）</strong>
+      </div>
+      <div class="grid-3 mt">
+        <div>
+          <div class="hl hl-red"><strong>TSH ↓（低値）</strong><br>甲状腺機能亢進疑い</div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>FT4・FT3 → ↑確認</li>
+            <li>TRAb → 陽性 → バセドウ確定</li>
+            <li>TRAb → 陰性 → 無痛性甲状腺炎・亜急性甲状腺炎・機能性結節</li>
+            <li>シンチ：バセドウ↑↑ vs 甲状腺炎↓↓</li>
+          </ul>
+        </div>
+        <div>
+          <div class="hl hl-green"><strong>TSH 正常</strong><br>正常機能性甲状腺腫</div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>TPO抗体・Tg抗体 → 陽性 → 橋本病</li>
+            <li>抗体陰性・びまん性 → 単純性甲状腺腫</li>
+            <li>結節あり → エコー ＋ ACR-TIRADS判定 → FNA検討</li>
+          </ul>
+        </div>
+        <div>
+          <div class="hl hl-blue"><strong>TSH ↑（高値）</strong><br>甲状腺機能低下疑い</div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>FT4 → ↓ → 甲状腺機能低下症</li>
+            <li>TPO抗体 → 陽性 → 橋本病</li>
+            <li>TSH高値・FT4正常 → 潜在性甲状腺機能低下症</li>
+            <li>薬剤歴確認（リチウム・アミオダロン等）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 4: 検査・画像 ════════ -->
+<div class="tab-content" id="tab3">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">🧪</span> 検査ワークアップ</div>
+      <div class="card-body">
+        <div class="mh">基本セット（甲状腺腫初診時）</div>
+        <ul class="cl">
+          <li><span class="badge b-red">TSH</span>（最初の一手 ← 感度最高）</li>
+          <li><span class="badge b-blue">FT4・FT3</span>（TSH異常時に追加）</li>
+          <li><span class="badge b-blue">抗TPO抗体（anti-TPO）</span>橋本病・バセドウ</li>
+          <li><span class="badge b-blue">抗サイログロブリン抗体（anti-Tg）</span>橋本病</li>
+          <li><span class="badge b-red">TRAb（TSH受容体抗体）</span>バセドウ確定診断</li>
+          <li><span class="badge b-green">サイログロブリン（Tg）</span>癌フォロー・術後</li>
+        </ul>
+        <div class="mh mt">追加検査（状況別）</div>
+        <ul class="cl">
+          <li><span class="badge b-amber">カルシトニン</span> 結節あり・家族歴 → 髄様癌除外</li>
+          <li><span class="badge b-amber">CEA</span> 髄様癌の腫瘍マーカー</li>
+          <li><span class="badge b-amber">CRP・ESR・血算</span> 亜急性甲状腺炎（CRP↑↑）</li>
+          <li><span class="badge b-purple">RET遺伝子</span> 髄様癌 → MEN2スクリーニング</li>
+        </ul>
+        <div class="small-note">TSAbはバセドウの活動性評価に有用（TRAbより機能的）。甲状腺癌術後のTg測定は再発モニタリングの標準。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">🖥️</span> 超音波（US）— 甲状腺腫評価の中核</div>
+      <div class="card-body">
+        <div class="mh">必ず確認する項目</div>
+        <ul class="cl">
+          <li><strong>甲状腺容積</strong>（長径×横径×前後径×π/6）</li>
+          <li><strong>エコー輝度・均一性</strong><br><span class="small">低エコー：橋本病・悪性疑い　高エコー：腺腫様</span></li>
+          <li><strong>結節の有無・個数・サイズ</strong></li>
+          <li><strong>血流（Doppler）</strong><br><span class="small">バセドウ：全体に血流↑↑（inferno pattern）</span></li>
+          <li><strong>頸部リンパ節</strong></li>
+        </ul>
+        <div class="mh mt">悪性を示唆するUS所見（結節）</div>
+        <ul class="cl">
+          <li>低エコー（周囲組織より暗い）</li>
+          <li>微細石灰化（psammoma body）<span class="badge b-red">特異的</span></li>
+          <li>不整辺縁・境界不明瞭</li>
+          <li>縦横比 > 1（taller than wide）</li>
+          <li>血流：結節内血流↑</li>
+          <li>辺縁不整・被膜外浸潤</li>
+        </ul>
+        <div class="mh mt">良性を示唆するUS所見</div>
+        <ul class="cl">
+          <li>スポンジ様（多発小嚢胞）<span class="badge b-green">ほぼ良性</span></li>
+          <li>純粋嚢胞（pure cyst）</li>
+          <li>等〜高エコー・境界明瞭・整</li>
+          <li>周辺性石灰化（eggshell）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACR TIRADS -->
+  <div class="card mb-3">
+    <div class="card-hd navy"><span class="icon">📐</span> ACR TIRADS — 甲状腺結節の超音波リスク分類とFNA基準</div>
+    <div class="card-body">
+      <div style="margin-bottom:8px;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">スコアリング（各特徴に点数を加算）</div>
+        <table class="tbl">
+          <thead><tr><th>特徴</th><th>所見</th><th>点数</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl" rowspan="4">エコー輝度</td><td>無エコー（嚢胞）</td><td class="td-prepub">0</td></tr>
+            <tr><td>高〜等エコー</td><td>1</td></tr>
+            <tr><td>低エコー</td><td class="td-amber">2</td></tr>
+            <tr><td>非常に低エコー</td><td class="td-pub">3</td></tr>
+            <tr><td class="td-lbl" rowspan="3">形状</td><td>幅 > 高さ（wider than tall）</td><td class="td-prepub">0</td></tr>
+            <tr><td>—</td><td>—</td></tr>
+            <tr><td>高さ > 幅（taller than wide）</td><td class="td-pub">3</td></tr>
+            <tr><td class="td-lbl" rowspan="3">辺縁</td><td>整・境界明瞭</td><td class="td-prepub">0</td></tr>
+            <tr><td>不整・小葉状</td><td class="td-amber">2</td></tr>
+            <tr><td>甲状腺外浸潤</td><td class="td-pub">3</td></tr>
+            <tr><td class="td-lbl" rowspan="4">石灰化</td><td>なし</td><td class="td-prepub">0</td></tr>
+            <tr><td>マクロ石灰化</td><td class="td-amber">1</td></tr>
+            <tr><td>周辺性（eggshell）</td><td class="td-amber">2</td></tr>
+            <tr><td>微細石灰化（micro）</td><td class="td-pub">3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tirads-wrap">
+        <div class="tirads-seg" style="background:#f1f5f9;border-color:#94a3b8;color:#475569;">
+          <strong>TR1</strong><br>0点<br>良性<br>FNA不要
+        </div>
+        <div class="tirads-seg" style="background:#f0fdf4;border-color:var(--green-border);color:var(--green);">
+          <strong>TR2</strong><br>2点<br>非疑い<br>FNA不要
+        </div>
+        <div class="tirads-seg" style="background:#eff6ff;border-color:var(--blue-border);color:var(--blue);">
+          <strong>TR3</strong><br>3点<br>軽度疑い<br>≥2.5cm でFNA
+        </div>
+        <div class="tirads-seg" style="background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);">
+          <strong>TR4</strong><br>4–6点<br>中等度疑い<br>≥1.5cm でFNA
+        </div>
+        <div class="tirads-seg" style="background:var(--red-bg);border-color:var(--red-border);color:var(--red);">
+          <strong>TR5</strong><br>≥7点<br>高度疑い<br>≥1cm でFNA
+        </div>
+      </div>
+      <div class="small-note">FNA = 穿刺吸引細胞診 ／ 小児ではサイズ閾値を下げて積極的にFNAを行う施設も多い（悪性率が高いため）</div>
+    </div>
+  </div>
+
+  <!-- Bethesda -->
+  <div class="card mb-3">
+    <div class="card-hd dark"><span class="icon">🔬</span> Bethesda分類（穿刺細胞診の報告システム）</div>
+    <div class="card-body">
+      <div class="beth-row">
+        <div class="beth-box b1"><div class="bn">I</div><div class="bt">検体不適<br>（Non-diagnostic）</div><div class="br">悪性 5–10%</div></div>
+        <div class="beth-box b2"><div class="bn">II</div><div class="bt">良性<br>（Benign）</div><div class="br">悪性 0–3%</div></div>
+        <div class="beth-box b3"><div class="bn">III</div><div class="bt">意義不明の<br>異型（AUS）</div><div class="br">悪性 10–30%</div></div>
+        <div class="beth-box b4"><div class="bn">IV</div><div class="bt">濾胞性腫瘍<br>疑い</div><div class="br">悪性 25–40%</div></div>
+        <div class="beth-box b5"><div class="bn">V</div><div class="bt">悪性疑い<br>（Suspicious）</div><div class="br">悪性 50–75%</div></div>
+        <div class="beth-box b6"><div class="bn">VI</div><div class="bt">悪性<br>（Malignant）</div><div class="br">悪性 97–99%</div></div>
+      </div>
+      <table class="tbl" style="margin-top:8px;">
+        <thead><tr><th>Bethesda</th><th>推奨される対応</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl">I</td><td style="text-align:left;">FNA再検（6–12週後）</td></tr>
+          <tr><td class="td-lbl">II</td><td class="td-prepub" style="text-align:left;">経過観察（US 1–2年毎）</td></tr>
+          <tr><td class="td-lbl">III</td><td style="text-align:left;">FNA再検 or 分子マーカー検査</td></tr>
+          <tr><td class="td-lbl">IV</td><td class="td-amber" style="text-align:left;">片葉切除（術中迅速 → 全摘判断）</td></tr>
+          <tr><td class="td-lbl">V</td><td class="td-pub" style="text-align:left;">ほぼ全摘 ± 頸部リンパ節郭清</td></tr>
+          <tr><td class="td-lbl">VI</td><td class="td-pub" style="text-align:left;">手術（全摘）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Other imaging -->
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">📷</span> その他の画像検査</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">シンチグラフィ（RI）</div>
+          <ul class="cl">
+            <li>バセドウ vs 無痛性甲状腺炎の鑑別<br><span class="small">バセドウ：RI摂取率↑↑<br>無痛性：RI摂取率↓↓</span></li>
+            <li>Hot nodule（機能性結節）の評価</li>
+            <li>Cold nodule → 悪性リスクあり → FNA</li>
+            <li>小児では放射線被曝を考慮</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">CT / MRI</div>
+          <ul class="cl">
+            <li>胸骨後甲状腺腫（substernal goiter）の評価</li>
+            <li>気管・食道圧迫の程度</li>
+            <li>甲状腺癌の浸潤範囲・リンパ節転移</li>
+            <li><span class="small">CT造影剤（ヨード）は甲状腺機能に影響 → 機能亢進患者では注意</span></li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">PET-CT</div>
+          <ul class="cl">
+            <li>甲状腺癌の遠隔転移評価</li>
+            <li>RI非摂取の分化癌（術後再発）</li>
+            <li>未分化癌の範囲評価</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 5: 主要疾患の特徴 ════════ -->
+<div class="tab-content" id="tab4">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🌡️</span> バセドウ病（Graves病）</div>
+      <div class="card-body">
+        <div class="mh">病態</div>
+        <ul class="cl">
+          <li>TSH受容体に対する刺激型自己抗体（TRAb/TSAb）→ 甲状腺を持続的に刺激 → 機能亢進＋腫大</li>
+        </ul>
+        <div class="mh mt">診断のポイント</div>
+        <ul class="cl">
+          <li>三徴：甲状腺腫＋眼球突出＋頻脈（全部揃わなくても）</li>
+          <li>TRAb陽性 → 確定診断</li>
+          <li>血管雑音（bruit）→ びまん性腫大 ＋ bruit は本疾患にほぼ特異的</li>
+        </ul>
+        <div class="mh mt">治療（概要）</div>
+        <ul class="cl">
+          <li>抗甲状腺薬（MMI / PTU）← まず内科的治療</li>
+          <li>放射性ヨード（RAI）治療 — 小児では適応慎重</li>
+          <li>手術（甲状腺全摘 / 亜全摘）</li>
+          <li>βブロッカー（症状緩和）</li>
+        </ul>
+        <div class="hl hl-amber mt">
+          <strong>小児バセドウ：薬物治療で長期寛解を目指す</strong><br>
+          MMIを2–4年継続 → 約30–40%で寛解。再発率が成人より高い
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">🧊</span> 橋本病（慢性甲状腺炎）</div>
+      <div class="card-body">
+        <div class="mh">病態</div>
+        <ul class="cl">
+          <li>甲状腺に対する自己免疫性炎症（TPO抗体・Tg抗体）→ リンパ球浸潤 → 甲状腺組織破壊</li>
+          <li>機能はさまざま：正常機能 → 潜在性低下 → 顕性低下まで段階がある</li>
+        </ul>
+        <div class="mh mt">診断</div>
+        <ul class="cl">
+          <li>抗TPO抗体 and/or 抗Tg抗体 陽性 ← 診断の核心</li>
+          <li>エコー：低エコー・不均一・索状パターン</li>
+          <li>小児：機能低下があれば補充療法を開始</li>
+        </ul>
+        <div class="mh mt">経過</div>
+        <ul class="cl">
+          <li>多くは緩徐進行 → 甲状腺機能低下症に移行</li>
+          <li>一部で橋本脳症（稀）：精神症状・痙攣</li>
+          <li>癌合併リスク：わずかに↑（MALTリンパ腫も）</li>
+        </ul>
+        <div class="small-note">機能正常の橋本病 → 治療不要。抗体価の経時的変化より機能（TSH）を追う方が重要。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd amber"><span class="icon">🔥</span> 亜急性甲状腺炎</div>
+      <div class="card-body">
+        <div class="mh">病態・特徴</div>
+        <ul class="cl">
+          <li>ウイルス感染後の肉芽腫性炎症 → 有痛性の甲状腺腫大</li>
+          <li><strong>甲状腺痛＋発熱＋CRP↑↑</strong> → ほぼ本疾患で確定的</li>
+          <li>経過：亢進期（甲状腺ホルモン漏出）→ 正常 → 一時的低下 → 回復（自然治癒）</li>
+        </ul>
+        <div class="mh mt">治療</div>
+        <ul class="cl">
+          <li>NSAIDs（軽症）→ PSL（中〜重症）</li>
+          <li>βブロッカー（亢進症状が強い場合）</li>
+          <li>抗甲状腺薬は不要（漏出なので）</li>
+        </ul>
+        <div class="hl hl-green mt">
+          通常6–12週で自然回復 → 永続的機能低下は5–10%のみ
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd red"><span class="icon">⚠️</span> 甲状腺癌（小児での注意点含む）</div>
+      <div class="card-body">
+        <div class="mh">組織型（頻度順）</div>
+        <table class="tbl">
+          <thead><tr><th>組織型</th><th>頻度</th><th>予後</th><th>マーカー</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">乳頭癌（PTC）</td><td class="td-prepub">85%（小児90%）</td><td class="td-prepub">良好</td><td>Tg</td></tr>
+            <tr><td class="td-lbl">濾胞癌（FTC）</td><td>10%</td><td class="td-amber">中等度</td><td>Tg</td></tr>
+            <tr><td class="td-lbl">髄様癌（MTC）</td><td class="td-amber">5%</td><td class="td-amber">中等度</td><td class="td-pub">カルシトニン↑</td></tr>
+            <tr><td class="td-lbl">未分化癌（ATC）</td><td class="td-pub">&lt;1%（高齢）</td><td class="td-pub">最悪</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <div class="hl hl-red mt">
+          <strong>髄様癌はMEN2（RET変異）との関連を必ず確認</strong><br>
+          家族歴あり or 若年発症 → RET遺伝子検査・褐色細胞腫スクリーニング
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd green"><span class="icon">📊</span> 甲状腺機能亢進症の鑑別まとめ（バセドウ vs 甲状腺炎）</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <table class="tbl">
+          <thead><tr><th>検査</th><th>バセドウ病</th><th>無痛性甲状腺炎</th><th>亜急性甲状腺炎</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">TRAb</td><td class="td-pub"><strong>陽性</strong></td><td class="td-prepub">陰性</td><td class="td-prepub">陰性</td></tr>
+            <tr><td class="td-lbl">抗TPO抗体</td><td>陽性（50%）</td><td class="td-amber">中等度↑</td><td class="td-prepub">低</td></tr>
+            <tr><td class="td-lbl">CRP</td><td class="td-prepub">正常</td><td class="td-prepub">正常〜軽度</td><td class="td-pub"><strong>著明↑</strong></td></tr>
+            <tr><td class="td-lbl">圧痛</td><td class="td-prepub">なし</td><td class="td-prepub">なし</td><td class="td-pub"><strong>あり</strong></td></tr>
+            <tr><td class="td-lbl">RI摂取率</td><td class="td-pub">↑↑</td><td class="td-prepub">↓↓</td><td class="td-prepub">↓↓</td></tr>
+            <tr><td class="td-lbl">経過</td><td>持続</td><td>自然回復</td><td>自然回復</td></tr>
+          </tbody>
+        </table>
+        <div>
+          <div class="mh">治療方針の分岐点</div>
+          <div class="hl hl-red mt">バセドウ → 抗甲状腺薬（MMI）開始<br>長期治療が必要</div>
+          <div class="hl hl-green mt">無痛性甲状腺炎 → 経過観察のみ<br>βブロッカー（症状緩和）</div>
+          <div class="hl hl-amber mt">亜急性甲状腺炎 → PSL（炎症抑制）<br>抗甲状腺薬は不要</div>
+          <div class="small-note mt">TRAbが陽性かどうかが治療方針の最重要分岐点</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 6: 小児特有・紹介基準 ════════ -->
+<div class="tab-content" id="tab5">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">👶</span> 小児の甲状腺腫：成人と異なる点</div>
+      <div class="card-body">
+        <div class="mh">疾患頻度（小児特有）</div>
+        <table class="tbl">
+          <thead><tr><th>疾患</th><th>小児での特徴</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">橋本病</td><td class="td-prepub" style="text-align:left;">最多（特に思春期女児）。多くは無症状</td></tr>
+            <tr><td class="td-lbl">バセドウ病</td><td class="td-pub" style="text-align:left;">2番目。再発率高く薬物治療を長期継続</td></tr>
+            <tr><td class="td-lbl">甲状腺結節</td><td class="td-pub" style="text-align:left;"><strong>悪性率20–26%（成人の5%より著明に高い）</strong></td></tr>
+            <tr><td class="td-lbl">甲状腺癌</td><td class="td-amber" style="text-align:left;">乳頭癌が90%以上。リンパ節転移多いが予後良好</td></tr>
+            <tr><td class="td-lbl">先天性甲状腺機能低下症（合成障害型）</td><td class="td-purple" style="text-align:left;">出生時から甲状腺腫。稀。甲状腺ペルオキシダーゼ変異等</td></tr>
+          </tbody>
+        </table>
+        <div class="hl hl-red mt">
+          <strong>小児の甲状腺結節は成人より積極的にFNAを行う</strong><br>
+          悪性率が高いため TIRADS のサイズ閾値を下げて検討する施設が多い
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd amber"><span class="icon">⚠️</span> 悪性を示唆するレッドフラグ</div>
+      <div class="card-body">
+        <div class="mh">以下があれば積極的に専門医紹介・FNA</div>
+        <ul class="cl">
+          <li><span class="badge b-red">嗄声・嚥下困難・呼吸困難</span>（神経・気管・食道浸潤）</li>
+          <li><span class="badge b-red">頸部リンパ節腫脹</span>（特に硬い・固定）</li>
+          <li><span class="badge b-red">急速増大</span>（週単位）</li>
+          <li><span class="badge b-red">石様硬・周囲組織への固定</span></li>
+          <li><span class="badge b-amber">放射線照射歴</span>（頸部への被曝）</li>
+          <li><span class="badge b-amber">甲状腺癌の家族歴</span>（乳頭癌・MTC）</li>
+          <li><span class="badge b-amber">MEN2の家族歴</span> → RET変異・カルシトニン測定</li>
+          <li><span class="badge b-amber">単発結節 ≥ 1–1.5 cm + TIRADS TR4–5</span></li>
+        </ul>
+        <div class="small-note">小児の甲状腺癌（乳頭癌）は転移があっても予後良好。早期手術が推奨される。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd navy"><span class="icon">📋</span> 外来フォローの目安</div>
+      <div class="card-body">
+        <div class="monitor-grid" style="margin-bottom:0;">
+          <div class="monitor-cell hd">疾患・状況</div>
+          <div class="monitor-cell hd">受診間隔</div>
+          <div class="monitor-cell hd">確認項目</div>
+          <div class="monitor-cell hd">備考</div>
+          <div class="monitor-cell grp">橋本病（機能正常）</div>
+          <div class="monitor-cell">6–12ヶ月毎</div>
+          <div class="monitor-cell">TSH・FT4</div>
+          <div class="monitor-cell">機能低下への移行確認</div>
+          <div class="monitor-cell grp">橋本病（機能低下）</div>
+          <div class="monitor-cell">1–3ヶ月毎（安定後6ヶ月）</div>
+          <div class="monitor-cell">TSH・FT4・症状</div>
+          <div class="monitor-cell">LT4用量調整</div>
+          <div class="monitor-cell grp">バセドウ病（治療中）</div>
+          <div class="monitor-cell">1–2ヶ月毎</div>
+          <div class="monitor-cell">TSH・FT4・血算・LFTs</div>
+          <div class="monitor-cell">MMI副作用モニタリング</div>
+          <div class="monitor-cell grp">甲状腺結節（良性）</div>
+          <div class="monitor-cell">6–12ヶ月毎</div>
+          <div class="monitor-cell">US容積変化</div>
+          <div class="monitor-cell">20%↑→FNA再検</div>
+          <div class="monitor-cell grp">亜急性甲状腺炎</div>
+          <div class="monitor-cell">2–4週毎</div>
+          <div class="monitor-cell">TSH・FT4・CRP</div>
+          <div class="monitor-cell">経過で自然回復確認</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd green"><span class="icon">🏥</span> 専門医紹介のタイミング</div>
+      <div class="card-body">
+        <div class="mh">緊急または早期紹介</div>
+        <ul class="cl">
+          <li>甲状腺クリーゼ（発熱・頻脈・意識障害）→ 直ちに</li>
+          <li>悪性レッドフラグあり → 甲状腺外科・耳鼻科</li>
+          <li>気管・食道圧迫症状</li>
+          <li>Bethesda IV以上 → 外科</li>
+        </ul>
+        <div class="mh mt">待機的紹介</div>
+        <ul class="cl">
+          <li>バセドウ病：薬物治療中断・副作用（無顆粒球症）・再発</li>
+          <li>小児バセドウ：RAI・手術選択時</li>
+          <li>甲状腺癌術後の長期フォロー（腫瘍内科・核医学）</li>
+          <li>MEN2疑い → 遺伝子検査・多発性内分泌腫瘍チーム</li>
+          <li>先天性甲状腺機能低下症（合成障害型） → 代謝専門</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MMI side effects -->
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">💊</span> 抗甲状腺薬（MMI）の主要副作用と対応</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">無顆粒球症 <span class="badge b-red">最重要</span></div>
+          <ul class="cl">
+            <li>頻度：0.2–0.5%（MMI）</li>
+            <li><strong>発熱・咽頭痛が出たら直ちに受診</strong></li>
+            <li>WBC・好中球 → 好中球 &lt; 500 → 即入院・G-CSF</li>
+            <li>MMI中止 → PTUへ変更（交差反応に注意）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">肝機能障害</div>
+          <ul class="cl">
+            <li>軽度のAST/ALT上昇（経過観察）</li>
+            <li>重篤な場合 → 中止</li>
+            <li>PTUでより頻度高い（重篤な肝障害リスク）</li>
+            <li>定期的なLFTsモニタリング</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">その他</div>
+          <ul class="cl">
+            <li>皮疹・掻痒感（5–10%）</li>
+            <li>関節痛・筋肉痛</li>
+            <li>ANCA関連血管炎（PTU）</li>
+            <li>催奇形性（MMI：第1三半期は注意）<br><span class="small">妊娠初期はPTUが推奨される場合あり</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="footer">
+  参考資料：日本甲状腺学会「甲状腺疾患診療ガイドライン」2023 ／ ACR TIRADS White Paper 2017 ／ Bethesda System for Reporting Thyroid Cytopathology 2023 ／ 日本小児内分泌学会 甲状腺疾患関連ガイドライン ／
+  本リファレンスは診療補助目的であり、最終判断は患者個別の臨床状況と主治医の判断に基づくこと
+</div>
+
+<script>
+function switchTab(n){
+  document.querySelectorAll('.tab-content').forEach(function(el,i){el.classList.toggle('active',i===n);});
+  document.querySelectorAll('.tab-btn').forEach(function(el,i){el.classList.toggle('active',i===n);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

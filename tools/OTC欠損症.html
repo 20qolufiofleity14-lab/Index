@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTC欠損症 診療クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診療クイックリファレンス">
+<meta name="mini-title" content="OTC欠損症">
+
+<style>
+:root {
+  --bg: #eef2f7; --card: #ffffff; --border: #dde3ec;
+  --text: #1a202c; --text-muted: #64748b;
+  --primary: #1e3a5f; --primary-mid: #254d80; --primary-light: #3468a8;
+  --red: #b91c1c; --red-soft: #dc2626; --red-bg: #fef2f2; --red-border: #fca5a5;
+  --amber: #92400e; --amber-soft: #b45309; --amber-bg: #fffbeb; --amber-border: #fcd34d;
+  --blue: #1d4ed8; --blue-soft: #2563eb; --blue-bg: #eff6ff; --blue-border: #93c5fd;
+  --green: #166534; --green-soft: #16a34a; --green-bg: #f0fdf4; --green-border: #86efac;
+  --purple: #5b21b6; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo','メイリオ',sans-serif;
+  background:var(--bg); color:var(--text); font-size:12.5px; line-height:1.55;
+}
+.header {
+  background:linear-gradient(135deg,#1e3a5f 0%,#2d5a9e 60%,#1e4e9e 100%);
+  color:white; padding:14px 20px 12px;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  box-shadow:0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 { font-size:17px; font-weight:800; letter-spacing:0.3px; }
+.header-left .sub { font-size:10.5px; opacity:0.75; margin-top:2px; }
+.header-right { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
+.header-tag {
+  font-size:9.5px; background:rgba(255,255,255,0.18);
+  padding:2px 9px; border-radius:12px;
+  border:1px solid rgba(255,255,255,0.3); white-space:nowrap;
+}
+.tab-nav {
+  background:var(--primary-mid);
+  display:flex; overflow-x:auto; scrollbar-width:none;
+  border-bottom:2px solid rgba(255,255,255,0.1);
+}
+.tab-nav::-webkit-scrollbar { display:none; }
+.tab-btn {
+  padding:9px 14px; color:rgba(255,255,255,0.62);
+  background:none; border:none; cursor:pointer;
+  white-space:nowrap; font-size:11.5px; font-family:inherit;
+  border-bottom:3px solid transparent; transition:all 0.18s;
+  font-weight:500; flex-shrink:0;
+}
+.tab-btn:hover { color:rgba(255,255,255,0.9); background:rgba(255,255,255,0.08); }
+.tab-btn.active { color:white; border-bottom-color:#5ef07a; background:rgba(255,255,255,0.12); font-weight:700; }
+.tab-content { display:none; padding:14px 16px 24px; max-width:1280px; margin:0 auto; }
+.tab-content.active { display:block; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:11px; }
+.grid-half { display:grid; grid-template-columns:1.4fr 1fr; gap:11px; }
+.mb-3 { margin-bottom:11px; }
+@media(max-width:780px){.grid-2,.grid-3,.grid-half{grid-template-columns:1fr;}}
+.card {
+  background:var(--card); border-radius:7px;
+  border:1px solid var(--border); overflow:hidden; box-shadow:var(--shadow);
+}
+.card-hd {
+  padding:7px 11px; font-weight:700; font-size:11.5px;
+  display:flex; align-items:center; gap:5px; letter-spacing:0.2px;
+}
+.card-hd.red    { background:var(--red-bg);    color:var(--red);    border-bottom:1px solid var(--red-border); }
+.card-hd.amber  { background:var(--amber-bg);  color:var(--amber);  border-bottom:1px solid var(--amber-border); }
+.card-hd.blue   { background:var(--blue-bg);   color:var(--blue);   border-bottom:1px solid var(--blue-border); }
+.card-hd.green  { background:var(--green-bg);  color:var(--green);  border-bottom:1px solid var(--green-border); }
+.card-hd.purple { background:var(--purple-bg); color:var(--purple); border-bottom:1px solid var(--purple-border); }
+.card-hd.dark   { background:var(--primary);   color:white; }
+.card-hd.navy   { background:var(--primary-mid); color:white; }
+.card-body { padding:9px 11px; }
+.hl { padding:5px 9px; border-radius:4px; margin:3px 0; border-left:3px solid; }
+.hl-red    { background:var(--red-bg);    border-color:var(--red-soft);   color:#7f1d1d; }
+.hl-amber  { background:var(--amber-bg);  border-color:var(--amber-soft); color:#78350f; }
+.hl-blue   { background:var(--blue-bg);   border-color:var(--blue-soft);  color:#1e3a8a; }
+.hl-green  { background:var(--green-bg);  border-color:var(--green-soft); color:#14532d; }
+.hl-purple { background:var(--purple-bg); border-color:var(--purple);     color:#3b0764; }
+.badge {
+  display:inline-block; padding:1px 5px; border-radius:3px;
+  font-size:9.5px; font-weight:700; vertical-align:middle; line-height:1.4;
+}
+.b-red    { background:var(--red-soft);   color:white; }
+.b-amber  { background:var(--amber-soft); color:white; }
+.b-blue   { background:var(--blue-soft);  color:white; }
+.b-green  { background:var(--green-soft); color:white; }
+.b-purple { background:var(--purple);     color:white; }
+.b-gray   { background:#64748b;           color:white; }
+.b-ev     { background:#374151; color:#e5e7eb; font-family:monospace; }
+.b-new    { background:#0f766e; color:white; }
+.tbl { width:100%; border-collapse:collapse; font-size:11px; }
+.tbl th {
+  background:var(--primary); color:white;
+  padding:5px 7px; text-align:center; font-weight:600; font-size:10.5px;
+}
+.tbl td { padding:4px 7px; border:1px solid #dde3ec; text-align:center; vertical-align:middle; }
+.tbl tr:nth-child(even) td { background:#f8fafc; }
+.tbl tr:hover td { background:var(--blue-bg); }
+.td-lbl    { text-align:left !important; font-weight:600; background:#f1f5f9 !important; color:#334155; }
+.td-prepub { background:var(--green-bg) !important; color:#14532d; }
+.td-pub    { background:var(--red-bg)   !important; color:#7f1d1d; font-weight:600; }
+.td-key    { background:#fff7ed        !important; color:#7c2d12; font-weight:700; }
+.td-amber  { background:var(--amber-bg) !important; color:#78350f; }
+.td-purple { background:var(--purple-bg) !important; color:#3b0764; }
+.dose-box {
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-mid) 100%);
+  color:white; padding:12px 14px; border-radius:7px; margin:6px 0; text-align:center;
+}
+.dose-box-amber {
+  background:linear-gradient(135deg,#78350f 0%,#b45309 100%);
+  color:white; padding:10px 14px; border-radius:7px; text-align:center;
+}
+.dose-box-red {
+  background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 100%);
+  color:white; padding:10px 14px; border-radius:7px; text-align:center;
+}
+.dose-box-green {
+  background:linear-gradient(135deg,#166534 0%,#16a34a 100%);
+  color:white; padding:10px 14px; border-radius:7px; text-align:center;
+}
+.dose-box-teal {
+  background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);
+  color:white; padding:10px 14px; border-radius:7px; text-align:center;
+}
+.dose-label { font-size:10px; opacity:0.65; margin-bottom:3px; font-weight:600; letter-spacing:0.5px; }
+.dose-num   { font-size:26px; font-weight:900; letter-spacing:-0.5px; }
+.dose-unit  { font-size:12px; opacity:0.82; margin-top:1px; }
+.monitor-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--border); border-radius:6px; overflow:hidden;
+}
+.monitor-cell {
+  padding:8px 9px; border-right:1px solid var(--border); border-bottom:1px solid var(--border);
+  font-size:11.5px;
+}
+.monitor-cell:nth-child(4n) { border-right:none; }
+.monitor-cell.hd  { background:var(--primary); color:white; font-weight:700; font-size:11px; text-align:center; }
+.monitor-cell.grp { background:#f1f5f9; font-weight:700; font-size:11px; color:var(--primary); }
+.monitor-grid-5 {
+  display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;
+  border:1px solid var(--border); border-radius:6px; overflow:hidden;
+}
+.monitor-grid-5 .monitor-cell { border-right:1px solid var(--border); }
+.monitor-grid-5 .monitor-cell:nth-child(4n) { border-right:1px solid var(--border); }
+.monitor-grid-5 .monitor-cell:nth-child(5n) { border-right:none; }
+.cl { list-style:none; padding:0; }
+.cl li {
+  padding:4px 0 4px 15px; border-bottom:1px solid #f1f5f9;
+  position:relative; font-size:12px;
+}
+.cl li:last-child { border-bottom:none; }
+.cl li::before { content:'▸'; position:absolute; left:0; color:var(--primary-light); font-size:9px; top:6px; }
+.mh { background:#f8fafc; border-radius:4px; padding:4px 8px; margin:4px 0; font-size:11.5px; border-left:2px solid #94a3b8; }
+.small      { font-size:10.5px; color:var(--text-muted); }
+.small-note { font-size:10.5px; color:var(--text-muted); margin-top:4px; padding-top:4px; border-top:1px dashed #cbd5e1; }
+.mt { margin-top:8px; }
+.arrow { color:var(--red); font-weight:700; }
+/* Urea cycle pathway */
+.uc-wrap {
+  background:#f8fafc; border-radius:7px; padding:10px 12px;
+  border:1px solid var(--border); margin:5px 0;
+}
+.uc-label {
+  font-size:9.5px; font-weight:700; letter-spacing:0.5px; margin-bottom:6px;
+  padding:3px 7px; border-radius:3px; display:inline-block;
+}
+.uc-mito  { background:#eff6ff; color:var(--blue); border:1px solid var(--blue-border); }
+.uc-cyto  { background:#f0fdf4; color:var(--green); border:1px solid var(--green-border); }
+.uc-row { display:flex; align-items:center; gap:4px; flex-wrap:wrap; margin:4px 0; }
+.uc-node {
+  background:var(--blue-bg); border:1.5px solid var(--blue-border);
+  color:var(--blue); padding:4px 9px; border-radius:5px;
+  font-size:11.5px; font-weight:700; text-align:center; min-width:75px;
+  white-space:nowrap;
+}
+.uc-node.red   { background:var(--red-bg);    border-color:var(--red-border);   color:var(--red); }
+.uc-node.green { background:var(--green-bg);  border-color:var(--green-border); color:var(--green); }
+.uc-node.gray  { background:#f1f5f9; border-color:#94a3b8; color:#475569; }
+.uc-node.amber { background:var(--amber-bg);  border-color:var(--amber-border); color:var(--amber); }
+.uc-enz {
+  font-size:9px; color:var(--text-muted); background:white;
+  border:1px dashed #cbd5e1; padding:1px 5px; border-radius:3px;
+  text-align:center; white-space:nowrap;
+}
+.uc-blocked {
+  font-size:11px; color:var(--red); font-weight:900;
+  background:var(--red-bg); border:2px solid var(--red-soft);
+  padding:2px 7px; border-radius:4px; white-space:nowrap;
+}
+.uc-arr { font-size:15px; color:#64748b; font-weight:700; }
+.uc-overflow {
+  margin-top:8px; padding:7px 9px; background:var(--amber-bg);
+  border:1px solid var(--amber-border); border-radius:5px;
+}
+.footer {
+  background:var(--primary); color:rgba(255,255,255,0.5);
+  text-align:center; padding:8px; font-size:9.5px; margin-top:20px;
+}
+/* NH3 level bar */
+.nh3-bar { display:flex; gap:3px; margin:6px 0; align-items:stretch; }
+.nh3-seg {
+  flex:1; padding:6px 5px; border-radius:4px; text-align:center;
+  font-size:10.5px; font-weight:700; line-height:1.3;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🔄 OTC欠損症 診療クイックリファレンス</h1>
+    <div class="sub">Ornithine Transcarbamylase Deficiency — X連鎖性尿素サイクル異常症（最多頻度）</div>
+  </div>
+  <div class="header-right">
+    <span class="header-tag">日本先天代謝異常学会 UCDガイドライン 2019</span>
+    <span class="header-tag">Häberle et al. JIMD 2012 / UCDC 2008</span>
+    <span class="header-tag">Ravicti® 日本承認 2025年12月</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">① 概要・病態・分類</button>
+  <button class="tab-btn" onclick="switchTab(1)">② 初期症状・診断</button>
+  <button class="tab-btn" onclick="switchTab(2)">③ 急性期治療 🔴</button>
+  <button class="tab-btn" onclick="switchTab(3)">④ 慢性期管理</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤ モニタリング</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥ 禁忌・移植・予後</button>
+</div>
+
+
+<!-- ════════ TAB 1: 概要・病態・分類 ════════ -->
+<div class="tab-content active" id="tab0">
+  <div class="grid-half mb-3">
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">🔄</span> 病態：尿素サイクルとOTC欠損</div>
+      <div class="card-body">
+        <div class="uc-wrap">
+          <span class="uc-label uc-mito">ミトコンドリア</span>
+          <div class="uc-row">
+            <div class="uc-node red">NH₃ ↑↑<br><span style="font-size:9px;">蓄積</span></div>
+            <span class="uc-arr">→</span>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+              <div class="uc-enz">CPS1 + NAGS</div>
+            </div>
+            <span class="uc-arr">→</span>
+            <div class="uc-node amber">カルバモイルP<br><span style="font-size:9px;">（CP）↑↑</span></div>
+            <span class="uc-arr">→</span>
+            <div class="uc-blocked">⛔ OTC 欠損</div>
+            <span class="uc-arr">→</span>
+            <div class="uc-node gray">シトルリン ↓↓<br><span style="font-size:9px;">産生↓</span></div>
+          </div>
+          <div class="uc-overflow">
+            <strong>⚠️ CP 過剰 → 細胞質へ溢流 → ピリミジン合成経路</strong><br>
+            カルバモイルP → カルバモイルアスパラギン酸 → DHO → UMP <span class="uc-arr">→</span> <strong style="color:#92400e;">尿中オロト酸 ↑↑</strong><br>
+            <span style="font-size:10px;color:#78350f;">→ OTC欠損の特異的所見（CPS1欠損と区別できる鍵）</span>
+          </div>
+        </div>
+        <div class="uc-wrap" style="margin-top:6px;">
+          <span class="uc-label uc-cyto">細胞質（尿素サイクル続き）</span>
+          <div class="uc-row">
+            <div class="uc-node gray">シトルリン</div>
+            <span class="uc-arr">→</span>
+            <div class="uc-enz">ASS1</div>
+            <span class="uc-arr">→</span>
+            <div class="uc-node gray">アルギニノ<br>コハク酸</div>
+            <span class="uc-arr">→</span>
+            <div class="uc-enz">ASL</div>
+            <span class="uc-arr">→</span>
+            <div class="uc-node green">アルギニン<br>＋ 尿素</div>
+          </div>
+        </div>
+        <div class="hl hl-red mt">
+          <strong>OTC欠損 → シトルリン産生↓ → アルギニン合成↓</strong><br>
+          アルギニンは本来「条件付き必須アミノ酸」→ 欠損時は<strong>必須アミノ酸</strong>となる<br>
+          <span class="small">→ アルギニン補充が治療の柱の一つ</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div class="card">
+        <div class="card-hd purple"><span class="icon">🧬</span> 遺伝・疫学</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li><strong>遺伝形式：</strong>X連鎖性（XL） — 最多の尿素サイクル異常症</li>
+            <li><strong>OTC遺伝子：</strong>Xp21.1（酵素：ミトコンドリア内膜）</li>
+            <li><strong>罹患頻度：</strong>約 1/14,000–1/56,000（日本：約 1/22,000）</li>
+            <li>ヘミ接合体男児：通常重症（新生児型）</li>
+            <li>ヘテロ接合体女性：X染色体不活化（ライオン化）で表現型に幅<br><span class="small">無症状〜重症まで。成人後の初発例も多い</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd dark"><span class="icon">📋</span> 病型分類</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>病型</th><th>発症時期</th><th>OTC活性</th><th>主な対象</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="td-lbl"><span class="badge b-red">新生児型（重症）</span></td>
+                <td class="td-pub">生後24–72h</td>
+                <td class="td-pub">&lt; 1%</td>
+                <td>ヘミ接合体男児（多）</td>
+              </tr>
+              <tr>
+                <td class="td-lbl"><span class="badge b-amber">遅発型（軽〜中等症）</span></td>
+                <td class="td-key">乳児期〜成人</td>
+                <td class="td-key">1–25%</td>
+                <td>男児（残存活性）・女性キャリア</td>
+              </tr>
+              <tr>
+                <td class="td-lbl"><span class="badge b-green">無症状キャリア</span></td>
+                <td class="td-prepub">症状なし（通常）</td>
+                <td class="td-prepub">25–75%（変動）</td>
+                <td>女性キャリア</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="small-note">遅発型誘因：高タンパク負荷・感染・手術・出産・バルプロ酸投与・絶食・ステロイド大量投与</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd navy"><span class="icon">📊</span> NBS（新生児マス・スクリーニング）</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li>タンデムマス：<strong>血中シトルリン値低下</strong>でスクリーニング</li>
+            <li>感度の限界：女性キャリア・残存活性あり例で偽陰性リスク</li>
+            <li>NBS陽性 → 血漿アミノ酸分析 + 尿中オロト酸 → 確定診断へ</li>
+          </ul>
+          <div class="hl hl-amber mt">
+            NBS陽性でも症状発現前から治療開始可能（最重要メリット）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ammonia mechanism -->
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🧪</span> 高アンモニア血症の神経毒性機序</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">NH₃ 毒性の主要機序</div>
+          <ul class="cl">
+            <li>グルタミン過剰産生（Glu + NH₃ → <strong>Gln ↑↑</strong>）<br><span class="small">→ アストロサイト浮腫（細胞性脳浮腫の主因）</span></li>
+            <li>TCAサイクル抑制（α-ケトグルタル酸消費）→ エネルギー産生障害</li>
+            <li>神経興奮毒性（NMDA受容体調節障害）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">標的器官と障害</div>
+          <ul class="cl">
+            <li><strong>脳：</strong>大脳皮質・基底核・脳幹<br><span class="small">白質病変・皮質萎縮・脳浮腫</span></li>
+            <li><strong>肝臓：</strong>肝機能障害（特に重症例）</li>
+            <li>NH₃ と Gln の組み合わせが最も毒性が高い</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">NH₃ 濃度と臨床病態</div>
+          <div class="nh3-bar">
+            <div class="nh3-seg" style="background:var(--green-bg);color:var(--green);">正常<br>&lt;50<br>μmol/L</div>
+            <div class="nh3-seg" style="background:var(--amber-bg);color:var(--amber);">要治療<br>100–200<br>μmol/L</div>
+            <div class="nh3-seg" style="background:#fde8d8;color:#9a3412;">昏睡<br>200–500<br>μmol/L</div>
+            <div class="nh3-seg" style="background:var(--red-bg);color:var(--red);font-weight:900;">透析<br>&gt;500<br>μmol/L</div>
+          </div>
+          <div class="small-note">新生児正常上限：&lt;110 μmol/L（生後3日以内）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 2: 初期症状・診断 ════════ -->
+<div class="tab-content" id="tab1">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🚨</span> 臨床症状（発症形式別）</div>
+      <div class="card-body">
+        <div class="mh">新生児型（生後24–72時間）</div>
+        <div class="hl hl-red">
+          哺乳開始（タンパク摂取開始）後に急速に悪化<br>
+          出生直後は一見正常 → 急速進行
+        </div>
+        <ul class="cl">
+          <li>哺乳不良・嘔吐・活気低下 → 急速に意識障害</li>
+          <li>過換気（呼吸性アルカローシス）→ 混合性代謝性アシドーシス（後期）</li>
+          <li>筋緊張低下 → 痙攣 → 昏睡</li>
+          <li>脳浮腫 → 脳ヘルニア（未治療では死亡）</li>
+        </ul>
+        <div class="mh mt">遅発型（乳児期〜成人）</div>
+        <ul class="cl">
+          <li>繰り返す嘔吐・頭痛・意識障害エピソード</li>
+          <li><strong>タンパク嫌い（protein aversion）</strong> — 自発的に肉を避ける<span class="badge b-blue">特徴的</span></li>
+          <li>誘因：感染・手術・分娩・高タンパク摂取・バルプロ酸</li>
+          <li>軽症例：行動変化・認知機能低下のみで長年診断されない</li>
+          <li>女性キャリア：産褥期・手術後などに初発することが多い</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">🔬</span> 診断検査と解釈</div>
+      <div class="card-body">
+        <div class="mh">緊急検査（NH₃上昇確認時）</div>
+        <ul class="cl">
+          <li><strong>血漿アンモニア（NH₃）</strong> <span class="badge b-red">最優先</span><br><span class="small">正常: &lt;50 μmol/L（小児）、&lt;110 μmol/L（新生児3日以内）<br>採血後は氷上保存・直ちに測定（放置で偽高値）</span></li>
+          <li><strong>血漿アミノ酸分析</strong> <span class="badge b-red">必須</span><br><span class="small">グルタミン ↑↑（最も鋭敏）、アラニン ↑、<strong>シトルリン ↓↓（OTC特徴）</strong></span></li>
+          <li><strong>尿中オロト酸</strong> <span class="badge b-red">必須・鑑別の鍵</span><br><span class="small"><strong>↑↑（OTC欠損の特異的所見）</strong> ← CPS1欠損では正常〜低値</span></li>
+          <li>血糖・電解質・血液ガス・LFTs・凝固・NH₃</li>
+        </ul>
+        <div class="mh mt">確定診断</div>
+        <ul class="cl">
+          <li><strong>OTC遺伝子解析</strong>（血液）— 確定・家族診断</li>
+          <li>肝OTC酵素活性測定（必要時・肝生検）</li>
+        </ul>
+        <div class="hl hl-amber mt">
+          NH₃ 採血の注意：溶血・採血後放置 → 偽高値<br>
+          凍結 or 氷上で直ちに測定。緊急検査依頼を
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UCD Differential -->
+  <div class="card mb-3">
+    <div class="card-hd blue"><span class="icon">📋</span> 尿素サイクル異常症（UCD）の鑑別診断</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead>
+          <tr><th>疾患</th><th>欠損酵素</th><th>NH₃</th><th>血漿シトルリン</th><th>尿中オロト酸</th><th>その他の特徴</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">OTC欠損症</span></td>
+            <td>OTC（ミトコンドリア）</td>
+            <td class="td-pub">↑↑↑</td>
+            <td class="td-pub">↓↓（低値〜検出感度以下）</td>
+            <td class="td-pub"><strong>↑↑（特異的）</strong></td>
+            <td style="text-align:left;">X連鎖 / グルタミン↑↑</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-amber">CPS1欠損症</span></td>
+            <td>CPS1（ミトコンドリア）</td>
+            <td class="td-pub">↑↑↑</td>
+            <td class="td-pub">↓↓</td>
+            <td class="td-prepub"><strong>正常〜↓（OTCとの鑑別点）</strong></td>
+            <td style="text-align:left;">AR / グルタミン↑↑</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-blue">シトルリン血症Ⅰ型（ASS）</span></td>
+            <td>ASS1（細胞質）</td>
+            <td class="td-pub">↑↑</td>
+            <td class="td-pub"><strong>↑↑↑（著明高値）</strong></td>
+            <td class="td-amber">↑</td>
+            <td style="text-align:left;">AR / アルギニン↓</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-blue">アルギニノコハク酸尿症（ASL）</span></td>
+            <td>ASL（細胞質）</td>
+            <td class="td-amber">↑</td>
+            <td class="td-key">↑</td>
+            <td class="td-amber">↑</td>
+            <td style="text-align:left;">AR / アルギニノコハク酸↑↑</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-purple">アルギナーゼ欠損症</span></td>
+            <td>ARG1（細胞質）</td>
+            <td class="td-key">軽度↑（エピソード性）</td>
+            <td>正常</td>
+            <td>正常〜↑</td>
+            <td style="text-align:left;">AR / アルギニン↑↑ / 痙性対麻痺</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-gray">NAGS欠損症</span></td>
+            <td>NAGS（ミトコンドリア）</td>
+            <td class="td-pub">↑↑↑</td>
+            <td class="td-pub">↓↓</td>
+            <td class="td-prepub">正常〜↓（CPS1様）</td>
+            <td style="text-align:left;">AR / カルグルミン酸に反応</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="small-note">CPS1欠損との鑑別：<strong>尿中オロト酸の有無が最重要</strong>。OTC欠損 → ↑↑、CPS1欠損 → 正常/低値。どちらもシトルリンは低値。AR = 常染色体劣性</div>
+    </div>
+  </div>
+
+  <!-- Other DDx -->
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">⚠️</span> 高アンモニア血症の鑑別（UCD以外）</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">新生児期</div>
+          <ul class="cl">
+            <li>一過性高アンモニア血症（未熟児）</li>
+            <li>有機酸代謝異常症（MMA、PA等）<br><span class="small">→ 代謝性アシドーシスを伴うことが多い</span></li>
+            <li>脂肪酸酸化異常症</li>
+            <li>肝不全（感染、虚血）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">乳児期以降</div>
+          <ul class="cl">
+            <li>ライ症候群様疾患（薬剤誘発性）</li>
+            <li>バルプロ酸誘発性高アンモニア血症<br><span class="small">→ OTC欠損キャリアで特に注意</span></li>
+            <li>肝硬変・劇症肝炎</li>
+            <li>敗血症・ショック（間接的）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">有機酸代謝異常との鑑別</div>
+          <ul class="cl">
+            <li>有機酸（MMA、PA）：<br>代謝性アシドーシス ＋ ケトーシス ＋ NH₃↑</li>
+            <li>UCD（OTC等）：<br>アシドーシス軽度（特に初期）＋ 呼吸性アルカローシス</li>
+            <li>血漿アミノ酸 ＋ 尿中有機酸 ＋ アシルカルニチンで鑑別</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 3: 急性期治療 ════════ -->
+<div class="tab-content" id="tab2">
+  <div class="hl hl-red mb-3" style="font-size:13px; padding:8px 12px;">
+    <strong>🚨 高アンモニア血症は神経学的緊急症 — NH₃ &gt; 150 μmol/L で直ちに治療開始</strong>
+  </div>
+
+  <!-- Step 1 and 2 -->
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">⏱️</span> Step 1：即時対応（最初の30分）</div>
+      <div class="card-body">
+        <div class="hl hl-red">
+          <strong>① 全てのタンパク摂取を即時中断</strong><br>
+          経口・経管・経静脈 — 全ルートからのアミノ酸/タンパク停止<br>
+          <span class="small">ただし 24–48時間を超える中断は筋崩壊（異化亢進）を招くため注意</span>
+        </div>
+        <div class="hl hl-red mt">
+          <strong>② 高カロリー輸液（カタボリズム抑制）</strong><br>
+          GIR <span style="font-size:15px;font-weight:900;">8–10 mg/kg/分</span> 以上（新生児）<br>
+          <span class="small">10–12.5% ブドウ糖（CVC推奨）＋ 脂肪乳剤 2–3 g/kg/日<br>インスリン抵抗性があれば少量インスリン併用</span>
+        </div>
+        <div class="hl hl-amber mt">
+          <strong>③ 中枢静脈路・気道確保の準備</strong><br>
+          高濃度糖輸液には中心静脈カテーテルが必要<br>
+          意識障害 → 気道確保・ICU管理へ
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💉</span> Step 2：窒素スカベンジャー IV投与</div>
+      <div class="card-body">
+        <div class="mh">ローディング（2時間かけて静注）</div>
+        <div class="dose-box-amber" style="margin-bottom:5px;">
+          <div class="dose-label">安息香酸ナトリウム（Sodium Benzoate）ローディング</div>
+          <div class="dose-num">250 mg/kg</div>
+          <div class="dose-unit">2時間で静注（ベンゾイルグリシン = 馬尿酸として尿中排泄）</div>
+        </div>
+        <div class="dose-box-amber">
+          <div class="dose-label">フェニル酢酸ナトリウム（Sodium Phenylacetate）ローディング</div>
+          <div class="dose-num">250 mg/kg</div>
+          <div class="dose-unit">2時間で静注（フェニルアセチルグルタミンとして尿中排泄）</div>
+        </div>
+        <div class="mh mt">維持（ローディング後 — 継続静注）</div>
+        <table class="tbl">
+          <thead><tr><th>薬剤</th><th>維持量</th><th>投与方法</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">安息香酸ナトリウム</td><td class="td-key">250 mg/kg/日</td><td>持続静注</td></tr>
+            <tr><td class="td-lbl">フェニル酢酸ナトリウム</td><td class="td-key">250 mg/kg/日</td><td>持続静注</td></tr>
+          </tbody>
+        </table>
+        <div class="small-note">両剤を同一ルートで投与可能。高浸透圧に注意（CVC推奨）。嘔気・嘔吐は副作用として頻度高い。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 and 4 -->
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💊</span> Step 3：アルギニン補充（IV）</div>
+      <div class="card-body">
+        <div class="hl hl-blue">
+          OTC欠損 → シトルリン産生↓ → アルギニン産生不能<br>
+          アルギニンは OTC欠損患者では「必須アミノ酸」
+        </div>
+        <div class="dose-box" style="margin-top:6px;">
+          <div class="dose-label">塩酸アルギニン — ローディング（2時間）</div>
+          <div class="dose-num">600 mg/kg</div>
+          <div class="dose-unit">2時間で静注（OTC欠損・CPS1欠損）</div>
+        </div>
+        <div class="dose-box-green" style="margin-top:5px;">
+          <div class="dose-label">塩酸アルギニン — 維持</div>
+          <div class="dose-num">200–400 mg/kg/日</div>
+          <div class="dose-unit">持続静注（経口摂取可能になれば内服へ）</div>
+        </div>
+        <div class="small-note">シトルリン血症・ASLでのアルギニン量（600–700 mg/kg）とは異なる。高クロール性アシドーシス（HCl塩使用時）に注意。血漿アルギニン値でモニタリング。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🩸</span> Step 4：血液浄化療法（透析）の適応</div>
+      <div class="card-body">
+        <div class="hl hl-red">
+          <strong>透析を強く推奨する場合</strong><br>
+          ・NH₃ &gt; 500 μmol/L<br>
+          ・薬物療法に反応しない or 急速な上昇<br>
+          ・意識障害を伴う（GCS ≤ 12 の目安）<br>
+          ・新生児重症例（&gt; 300–400 μmol/L で早期考慮）
+        </div>
+        <div class="mh mt">透析モダリティの選択</div>
+        <table class="tbl">
+          <thead><tr><th>方法</th><th>NH₃除去速度</th><th>推奨場面</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl"><strong>CVVHD / CVVHDF</strong></td><td class="td-prepub">中〜高</td><td class="td-prepub"><strong>新生児・乳児に推奨</strong></td></tr>
+            <tr><td class="td-lbl">間欠的血液透析（IHD）</td><td class="td-key">最高</td><td class="td-key">体格が大きい場合に有効</td></tr>
+            <tr><td class="td-lbl">腹膜透析（PD）</td><td class="td-pub">低（不十分）</td><td class="td-pub"><strong>推奨しない（緊急性が高い場合）</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="hl hl-amber mt">
+          <strong>透析開始後も薬物療法は継続</strong><br>
+          窒素スカベンジャー・アルギニン・高カロリー輸液を並行して継続
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Protein reintroduction and targets -->
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">📈</span> Step 5：回復期 — タンパク再開とモニタリング</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">タンパク再開の目安</div>
+          <ul class="cl">
+            <li>NH₃ &lt; 100–150 μmol/L が持続</li>
+            <li>経口摂取または経管投与が可能</li>
+            <li>タンパク中断から <strong>24–48時間を超えないこと</strong><br><span class="small">（筋崩壊による内因性NH₃産生が増加）</span></li>
+            <li>再開は少量から（0.5 g/kg/日）→ 段階的増量</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">急性期NH₃管理目標</div>
+          <div class="hl hl-green" style="margin-top:5px;">
+            目標NH₃：<span style="font-size:15px;font-weight:900;">&lt; 100 μmol/L</span><br>
+            24時間以内の達成を目指す<br>
+            <span class="small">できれば ≤ 80 μmol/L まで</span>
+          </div>
+          <div class="hl hl-red mt">
+            NH₃ &gt; 300 μmol/L が持続 →<br>
+            透析適応を再評価
+          </div>
+        </div>
+        <div>
+          <div class="mh">急性期モニタリング頻度</div>
+          <ul class="cl">
+            <li>血漿NH₃：1–4時間毎（治療中）</li>
+            <li>血糖：1–2時間毎（高カロリー輸液中）</li>
+            <li>電解質・血液ガス：4–6時間毎</li>
+            <li>血漿アミノ酸：6–12時間毎（Gln, Arg）</li>
+            <li>尿量・バランス：1時間毎</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 4: 慢性期管理 ════════ -->
+<div class="tab-content" id="tab3">
+  <div class="grid-half mb-3">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">🥣</span> 低タンパク食 ＋ EAAサプリメント</div>
+      <div class="card-body">
+        <div class="mh">タンパク制限の原則</div>
+        <ul class="cl">
+          <li>天然タンパクを制限しつつ<strong>必須アミノ酸（EAA）を確保</strong></li>
+          <li>アルギニン・シトルリン・システインは条件付き必須化 → 補充が必要</li>
+          <li>年齢別推奨タンパク量（目安）：</li>
+        </ul>
+        <table class="tbl" style="margin-top:5px;">
+          <thead><tr><th>年齢</th><th>天然タンパク制限量</th><th>EAA製剤で補充</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">乳児期</td><td class="td-key">0.5–1.5 g/kg/日</td><td>残りをUCDミルク等で補充</td></tr>
+            <tr><td class="td-lbl">幼小児期</td><td class="td-key">1.0–1.5 g/kg/日</td><td>必要に応じUCD製剤補充</td></tr>
+            <tr><td class="td-lbl">学童〜成人</td><td class="td-key">0.8–1.2 g/kg/日</td><td>体重・活性により調整</td></tr>
+          </tbody>
+        </table>
+        <div class="hl hl-amber mt">
+          <strong>過度な制限は異化亢進を招く</strong><br>
+          最低限の必須アミノ酸摂取が筋タンパク崩壊（内因性NH₃産生）を防ぐ<br>
+          → 代謝栄養士との連携が必須
+        </div>
+        <div class="mh mt">アルギニン経口補充（慢性期）</div>
+        <div class="dose-box-green">
+          <div class="dose-label">L-アルギニン 経口維持量</div>
+          <div class="dose-num">200–400 mg/kg/日</div>
+          <div class="dose-unit">1日2–3回に分割（食後）</div>
+        </div>
+        <div class="small-note">血漿アルギニン目標：50–150 μmol/L。アルギニンはシトルリン産生の代替として重要。</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div class="card">
+        <div class="card-hd dark"><span class="icon">💊</span> 経口窒素スカベンジャー — 慢性期維持療法</div>
+        <div class="card-body">
+          <div class="mh">① ブフェニル®（フェニル酪酸ナトリウム）</div>
+          <div class="dose-box-amber">
+            <div class="dose-label">ブフェニル®（NaPB） — 維持量</div>
+            <div class="dose-num">250–450 mg/kg/日</div>
+            <div class="dose-unit">最大 600 mg/kg or 13 g/m²/日 ／ 食事とともに 1日3–6回分割</div>
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>フェニル酪酸 → フェニル酢酸 → グルタミンと結合し尿中排泄</li>
+            <li>副作用：消化器症状・体臭（フェニル酢酸臭）・ナトリウム負荷</li>
+            <li>カルニチン消耗 → L-カルニチン補充を考慮</li>
+          </ul>
+          <div class="mh mt" style="display:flex;align-items:center;gap:5px;">
+            ② Ravicti®（グリセロールフェニル酪酸塩：GPB） <span class="badge b-new">日本 2025年12月承認</span>
+          </div>
+          <div class="dose-box-teal">
+            <div class="dose-label">Ravicti®（GPB） — 維持量</div>
+            <div class="dose-num">4.5–11.2 mL/m²/日</div>
+            <div class="dose-unit">食事とともに 1日3回分割投与（液体製剤）</div>
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>ブフェニル®からの変換：NaPB (mg/day) ÷ 0.86 ≈ GPB (mL/day)</li>
+            <li>メリット：体臭軽減・消化器副作用少・ナトリウム負荷なし</li>
+            <li>メリット：より安定したフェニル酢酸血中濃度</li>
+            <li>保険適用：2025年12月承認（要確認）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison and sick day -->
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">📊</span> ブフェニル® vs Ravicti® 比較</div>
+      <div class="card-body">
+        <table class="tbl">
+          <thead><tr><th>比較項目</th><th>ブフェニル®（NaPB）</th><th>Ravicti®（GPB）</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">剤形</td><td>錠剤・散剤</td><td class="td-prepub">液体（経口）</td></tr>
+            <tr><td class="td-lbl">投与回数</td><td>3–6回/日</td><td class="td-prepub">3回/日（食後）</td></tr>
+            <tr><td class="td-lbl">体臭</td><td class="td-pub">あり（フェニル酢酸臭）</td><td class="td-prepub">軽度</td></tr>
+            <tr><td class="td-lbl">消化器副作用</td><td class="td-key">比較的多い</td><td class="td-prepub">少ない</td></tr>
+            <tr><td class="td-lbl">ナトリウム負荷</td><td class="td-amber">あり（高Na食に注意）</td><td class="td-prepub">なし（グリセロールエステル）</td></tr>
+            <tr><td class="td-lbl">PK安定性</td><td class="td-key">変動あり</td><td class="td-prepub">より安定</td></tr>
+            <tr><td class="td-lbl">乳児への使用</td><td>可能</td><td class="td-prepub">可能（液体で使いやすい）</td></tr>
+            <tr><td class="td-lbl">日本承認</td><td class="td-prepub">あり</td><td class="td-prepub"><strong>2025年12月承認</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="small-note">どちらもグルタミンを捕捉しNH₃を排泄するが、薬物動態・副作用プロファイルに違いあり。個々の患者に合わせて選択。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🤒</span> シックデイ緊急プロトコル</div>
+      <div class="card-body">
+        <div class="hl hl-red">
+          <strong>感染・発熱・手術など：急性高アンモニア血症の誘因</strong><br>
+          異化亢進 → 内因性NH₃産生↑↑ → 急速な悪化
+        </div>
+        <div class="mh mt">家族への指導内容</div>
+        <ul class="cl">
+          <li><strong>食欲低下・嘔吐時：</strong><br>タンパク一時中断 ＋ 高カロリー補充（糖質・脂質）を優先</li>
+          <li><strong>経口摂取不可の場合：</strong>直ちに医療機関受診<br><span class="small">→ 高カロリー点滴・窒素スカベンジャーIV開始</span></li>
+          <li>スカベンジャー内服は原則継続<br><span class="small">（嘔吐で内服困難 → 救急受診の基準）</span></li>
+          <li>緊急時カード（Emergency Protocol Card）を常携</li>
+        </ul>
+        <div class="hl hl-amber mt">
+          <strong>受診の目安（患者家族への基準）</strong><br>
+          嘔吐が続く ／ 意識が変わった ／ 普段より眠い<br>
+          → 迷わず受診・血漿NH₃緊急測定
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carnitine -->
+  <div class="card">
+    <div class="card-hd green"><span class="icon">🧪</span> カルニチン補充・栄養管理</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">カルニチン補充</div>
+          <ul class="cl">
+            <li>窒素スカベンジャー（特にブフェニル®）使用中はカルニチン消耗</li>
+            <li>L-カルニチン：50–100 mg/kg/日（1日2–3回）</li>
+            <li>血漿遊離カルニチンでモニタリング（目標：正常域）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">栄養管理の重点</div>
+          <ul class="cl">
+            <li>十分なカロリー摂取（成長に必要な基礎カロリー ＋ 10–20%）</li>
+            <li>必須脂肪酸（DHA/EPA）補充を考慮</li>
+            <li>ビタミン・ミネラル：EAA製剤に含まれるが定期確認</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">成長モニタリング</div>
+          <ul class="cl">
+            <li>身長・体重：毎受診時（成長障害の早期発見）</li>
+            <li>体重増加不良 → カロリー不足 or 慢性的NH₃上昇の可能性</li>
+            <li>学校・保育園への食事指示書の準備</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 5: モニタリング ════════ -->
+<div class="tab-content" id="tab4">
+  <div class="card mb-3">
+    <div class="card-hd dark"><span class="icon">🎯</span> NH₃・アミノ酸 管理目標値</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <table class="tbl">
+            <thead><tr><th>指標</th><th>目標値</th><th>単位</th><th>備考</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">空腹時NH₃（慢性期）</td><td class="td-prepub"><strong>&lt; 80 μmol/L</strong></td><td>μmol/L</td><td>食前・朝が基準</td></tr>
+              <tr><td class="td-lbl">NH₃（許容上限）</td><td class="td-key">&lt; 100 μmol/L</td><td>μmol/L</td><td>これ以上で介入検討</td></tr>
+              <tr><td class="td-lbl">グルタミン（Gln）</td><td class="td-prepub">500–800 μmol/L</td><td>μmol/L</td><td>最も鋭敏なNH₃負荷指標</td></tr>
+              <tr><td class="td-lbl">グルタミン（要注意）</td><td class="td-amber">&gt; 1000 μmol/L</td><td>μmol/L</td><td>食事・薬剤調整を検討</td></tr>
+              <tr><td class="td-lbl">アルギニン（Arg）</td><td class="td-prepub">50–150 μmol/L</td><td>μmol/L</td><td>補充量の調整指標</td></tr>
+              <tr><td class="td-lbl">シトルリン（Citr）</td><td class="td-amber">低値が続く</td><td>μmol/L</td><td>OTC欠損では常に低い</td></tr>
+              <tr><td class="td-lbl">尿中オロト酸</td><td class="td-amber">制限下で↓</td><td>—</td><td>食事療法遵守のモニタリング</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="mh">NH₃測定の注意事項</div>
+          <ul class="cl">
+            <li>必ず空腹時（朝食前）に採血</li>
+            <li>採血後：<strong>氷上保存・30分以内に測定</strong><br><span class="small">室温放置 → NH₃産生（偽高値）</span></li>
+            <li>溶血検体は偽高値 → 再採血</li>
+            <li>食後2–3時間は上昇あり（食後測定は参考値）</li>
+          </ul>
+          <div class="hl hl-amber mt">
+            <strong>管理良好でもGln上昇は見落としやすい</strong><br>
+            NH₃正常 + Gln ↑ → 慢性的な窒素負荷過多のシグナル<br>
+            → タンパク量・スカベンジャー用量の見直しを
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monitoring schedule -->
+  <div class="card mb-3">
+    <div class="card-hd navy"><span class="icon">📅</span> モニタリングスケジュール</div>
+    <div class="card-body">
+      <div class="mh">定期検査頻度（慢性期安定例）</div>
+      <div class="monitor-grid-5" style="margin:6px 0 12px;">
+        <div class="monitor-cell hd">検査項目</div>
+        <div class="monitor-cell hd">乳児期</div>
+        <div class="monitor-cell hd">幼小児期</div>
+        <div class="monitor-cell hd">学童〜成人</div>
+        <div class="monitor-cell hd">備考</div>
+
+        <div class="monitor-cell grp">血漿NH₃</div>
+        <div class="monitor-cell" style="background:var(--red-bg);font-weight:700;color:var(--red);">1–2週毎</div>
+        <div class="monitor-cell" style="background:var(--amber-bg);color:var(--amber);">2–4週毎</div>
+        <div class="monitor-cell">月1–2回</div>
+        <div class="monitor-cell">不安定時は増やす</div>
+
+        <div class="monitor-cell grp">血漿アミノ酸分析</div>
+        <div class="monitor-cell" style="background:var(--red-bg);">1ヶ月毎</div>
+        <div class="monitor-cell">2–3ヶ月毎</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">Gln・Arg・Citr優先</div>
+
+        <div class="monitor-cell grp">尿中オロト酸</div>
+        <div class="monitor-cell">2–3ヶ月毎</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">6ヶ月毎</div>
+        <div class="monitor-cell">食事遵守の指標</div>
+
+        <div class="monitor-cell grp">LFTs・CBC</div>
+        <div class="monitor-cell">2–3ヶ月毎</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">6ヶ月毎</div>
+        <div class="monitor-cell">スカベンジャー副作用</div>
+
+        <div class="monitor-cell grp">遊離カルニチン</div>
+        <div class="monitor-cell">3ヶ月毎</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">6ヶ月毎</div>
+        <div class="monitor-cell">ブフェニル®使用時</div>
+
+        <div class="monitor-cell grp">亜鉛・セレン・B12</div>
+        <div class="monitor-cell">6ヶ月毎</div>
+        <div class="monitor-cell">6–12ヶ月毎</div>
+        <div class="monitor-cell">年1回</div>
+        <div class="monitor-cell">低タンパク食での欠乏</div>
+      </div>
+
+      <div class="mh">神経・発達評価</div>
+      <div class="monitor-grid" style="margin:6px 0;">
+        <div class="monitor-cell hd">項目</div>
+        <div class="monitor-cell hd">乳幼児期</div>
+        <div class="monitor-cell hd">学童〜</div>
+        <div class="monitor-cell hd">目的</div>
+
+        <div class="monitor-cell grp">発達評価</div>
+        <div class="monitor-cell" style="background:var(--red-bg);">3ヶ月毎</div>
+        <div class="monitor-cell">6ヶ月毎</div>
+        <div class="monitor-cell">DQ/IQ・言語・運動発達</div>
+
+        <div class="monitor-cell grp">神経心理検査</div>
+        <div class="monitor-cell">—</div>
+        <div class="monitor-cell">年1回</div>
+        <div class="monitor-cell">注意・実行機能・記憶</div>
+
+        <div class="monitor-cell grp">頭部MRI</div>
+        <div class="monitor-cell">急性発作後</div>
+        <div class="monitor-cell">適宜（症状時）</div>
+        <div class="monitor-cell">白質病変・萎縮評価</div>
+
+        <div class="monitor-cell grp">脳波（EEG）</div>
+        <div class="monitor-cell">痙攣発作後</div>
+        <div class="monitor-cell">必要時</div>
+        <div class="monitor-cell">てんかん合併評価</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signs of decompensation -->
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🚨</span> 代謝失代償のサイン（受診・入院基準）</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div class="mh">緊急受診の基準</div>
+          <ul class="cl">
+            <li>嘔吐が続く ／ 食事が取れない状態が続く</li>
+            <li>いつもと様子が違う（ぼんやり・眠い・ぐったり）</li>
+            <li>頭痛の訴え（遅発型患者）</li>
+            <li>意識レベルの変化</li>
+            <li>スカベンジャー内服が続けて飲めない</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">NH₃上昇時の対応フロー</div>
+          <div class="hl hl-amber">NH₃ 100–200 μmol/L → タンパク一時中断・高カロリー補充・外来または入院観察</div>
+          <div class="hl hl-red mt">NH₃ &gt; 200 μmol/L → 入院・IV窒素スカベンジャー開始（③急性期治療タブ参照）</div>
+          <div class="hl hl-red mt" style="font-weight:700;">NH₃ &gt; 500 μmol/L → PICU転送・透析準備</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 6: 禁忌・移植・予後 ════════ -->
+<div class="tab-content" id="tab5">
+  <!-- Valproate Contraindication -->
+  <div class="card mb-3">
+    <div class="card-hd red"><span class="icon">⛔</span> 絶対禁忌薬剤 — バルプロ酸（VPA）</div>
+    <div class="card-body">
+      <div class="hl hl-red" style="font-size:13px; padding:8px 12px;">
+        <strong>バルプロ酸（VPA）はOTC欠損症に絶対禁忌</strong><br>
+        OTC欠損患者（キャリア女性を含む）に投与すると<strong>致死的な急性高アンモニア血症</strong>を誘発する
+      </div>
+      <div class="grid-2 mt">
+        <div>
+          <div class="mh">VPAによるNH₃上昇機序（複合的）</div>
+          <ul class="cl">
+            <li>CPS1直接抑制（尿素サイクル全体の起点を阻害）</li>
+            <li>L-カルニチン消耗 → 脂肪酸β酸化障害 → 異化亢進</li>
+            <li>ミトコンドリア機能障害（補酵素A欠乏）</li>
+            <li>タンパク異化亢進によるNH₃産生増加</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">臨床的注意点</div>
+          <ul class="cl">
+            <li>OTC欠損（診断前の）患者にてんかんとしてVPA投与 → 急性脳症として発症した報告あり</li>
+            <li>無症状キャリア女性でもVPA使用で急性発作が誘発される</li>
+            <li>てんかん合併時：<strong>VPA以外の抗てんかん薬を選択</strong><br><span class="small">（レベチラセタム、ラモトリギン等）</span></li>
+            <li>処方時のアレルギー・禁忌欄への登録・お薬手帳への記載</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other drugs and cautions -->
+  <div class="card mb-3">
+    <div class="card-hd amber"><span class="icon">⚠️</span> 注意を要するその他の薬剤・状況</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th>薬剤・状況</th><th>リスク</th><th>対応</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl"><span class="badge b-red">バルプロ酸（VPA）</span></td><td class="td-pub">急性高NH₃血症（致死的）</td><td class="td-pub">絶対禁忌</td></tr>
+          <tr><td class="td-lbl">ステロイド大量投与</td><td class="td-amber">タンパク異化亢進 → NH₃↑</td><td class="td-amber">可能な限り避ける。使用時は頻回NH₃測定</td></tr>
+          <tr><td class="td-lbl">L-アスパラギナーゼ</td><td class="td-amber">NH₃産生増加</td><td class="td-amber">使用時は密接モニタリング</td></tr>
+          <tr><td class="td-lbl">カルモスチン（BCNU）</td><td class="td-key">肝毒性 + NH₃上昇</td><td class="td-key">慎重投与</td></tr>
+          <tr><td class="td-lbl">長時間絶食・術前処置</td><td class="td-amber">異化亢進 → NH₃↑</td><td class="td-amber">最低限の絶食時間・IV補液（glucose）を早期開始</td></tr>
+          <tr><td class="td-lbl">感染症・高熱</td><td class="td-amber">異化亢進 → 急性増悪</td><td class="td-amber">早期の高カロリー補給、NH₃頻回測定</td></tr>
+          <tr><td class="td-lbl">分娩・産褥期（女性）</td><td class="td-pub">女性キャリアで急性発作の誘因</td><td class="td-pub">周産期専門家との連携・NH₃監視体制</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd purple"><span class="icon">♀️</span> 女性キャリアの管理</div>
+      <div class="card-body">
+        <div class="mh">女性キャリアの特徴</div>
+        <ul class="cl">
+          <li>X染色体不活化（ライオン化）の偏りで表現型に幅<br><span class="small">無症状〜重症型まで多様</span></li>
+          <li>「タンパク嫌い」「食後の不調」が唯一の訴えのことがある</li>
+          <li>成人後（妊娠・出産・感染後）に初めて高NH₃症で発症する例多数</li>
+        </ul>
+        <div class="mh mt">管理・フォロー</div>
+        <ul class="cl">
+          <li>OTC遺伝子変異確認 ＋ タンパク負荷試験</li>
+          <li>空腹時NH₃・血漿Gln測定（定期）</li>
+          <li>妊娠・分娩時：産科と事前プロトコル共有<br><span class="small">分娩前後のNH₃モニタリング計画</span></li>
+          <li>VPA等禁忌薬剤の徹底周知</li>
+          <li>軽〜中等症には慢性期スカベンジャー療法を考慮</li>
+        </ul>
+        <div class="small-note">家族内のキャリアスクリーニングと遺伝カウンセリングが重要</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd navy"><span class="icon">🏥</span> 肝移植（根治療法）</div>
+      <div class="card-body">
+        <div class="hl hl-green">
+          <strong>肝移植はOTC欠損症に対して根治的</strong><br>
+          尿素サイクル機能を正常化 → NH₃管理の制限から解放
+        </div>
+        <div class="mh mt">適応・タイミング</div>
+        <ul class="cl">
+          <li>重症OTC欠損（新生児型・食事療法/薬物療法で管理困難例）</li>
+          <li>急性発作を繰り返す例</li>
+          <li>QOL・コンプライアンスに著しく影響する例</li>
+          <li><strong>タイミング：</strong>重篤な神経学的障害発生前が理想<br><span class="small">脳への不可逆的ダメージが生じる前に移植を</span></li>
+        </ul>
+        <div class="mh mt">移植後の変化</div>
+        <ul class="cl">
+          <li>タンパク制限を大幅に緩和可能</li>
+          <li>窒素スカベンジャー中止可能</li>
+          <li>既存の神経学的障害は回復しない（移植前の管理の重要性）</li>
+        </ul>
+        <div class="hl hl-amber mt">
+          <strong>ドナー選択に注意</strong><br>
+          家族内ドナー（血縁者）は必ずOTCキャリア検査を先行<br>
+          義務的キャリアや軽症発現キャリアをドナーにしないこと
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Long-term outcomes -->
+  <div class="card">
+    <div class="card-hd green"><span class="icon">📈</span> 長期予後・アウトカム</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">新生児型（重症・男児）</div>
+          <ul class="cl">
+            <li>初回NH₃発作の重症度と持続時間が予後を左右</li>
+            <li>早期診断・迅速治療でも神経学的後遺症が残ることあり</li>
+            <li>肝移植後は代謝的には安定</li>
+            <li>NBS前の時代：高い死亡率（現在はNBSで予防可）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">遅発型・管理良好例</div>
+          <ul class="cl">
+            <li>良好なNH₃管理下では通常の知的発達が可能</li>
+            <li>食事制限・服薬の長期維持が課題</li>
+            <li>急性発作のリスクは生涯持続（誘因に注意）</li>
+            <li>Ravicti®等の新薬でQOL改善期待</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">神経学的後遺症のリスク因子</div>
+          <ul class="cl">
+            <li>初回NH₃ピーク値（高値ほど不良）</li>
+            <li>NH₃ &gt; 300 μmol/L の持続時間</li>
+            <li>脳浮腫の程度（MRI所見）</li>
+            <li>急性発作の繰り返し</li>
+          </ul>
+          <div class="hl hl-red mt">
+            NH₃ 1000 μmol/L超・長時間持続<br>
+            → 重篤な後遺症・死亡リスク高
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="footer">
+  参考資料：日本先天代謝異常学会「尿素サイクル異常症診療ガイドライン」2019 ／ Häberle J et al. JIMD 2012 ／ Summar ML et al. UCDC 2008 ／
+  本リファレンスは診療補助目的であり、最終判断は患者個別の臨床状況と主治医の判断に基づくこと
+</div>
+
+<script>
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach(function(el,i){ el.classList.toggle('active',i===n); });
+  document.querySelectorAll('.tab-btn').forEach(function(el,i){ el.classList.toggle('active',i===n); });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
