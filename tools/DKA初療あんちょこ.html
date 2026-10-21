@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKA初療あんちょこ</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="ISPAD 2022準拠。体重を入れる輸液・インスリン計算とサマリテンプレ">
+
+<style>
+:root{
+  --navy:#122b45; --navy2:#1d4266; --ink:#16202b; --sub:#5a6b7c;
+  --line:#dbe3ec; --bg:#f2f5f8; --card:#ffffff;
+  --mild:#c98a00; --mildbg:#fff7e3;
+  --mod:#d95d1e;  --modbg:#fdeee5;
+  --sev:#c0272d;  --sevbg:#fbe9e9;
+  --act:#1e6f8c;  --actbg:#e8f3f7;
+  --ok:#2e7d55;   --okbg:#e8f5ee;
+  --warn:#8e2b2b; --warnbg:#fdeaea;
+}
+*{box-sizing:border-box;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
+  font-size:15px;line-height:1.75;padding-bottom:60px}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:16px 16px 14px}
+header h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.02em}
+header p{margin:4px 0 0;font-size:12px;color:#a9c4dd}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;overflow-x:auto;scrollbar-width:none;box-shadow:0 1px 4px rgba(18,43,69,.08)}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;border:0;background:none;padding:12px 15px;font-size:14px;font-weight:600;
+  color:var(--sub);cursor:pointer;border-bottom:3px solid transparent;font-family:inherit;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
+nav button:focus-visible{outline:2px solid var(--act);outline-offset:-2px}
+main{padding:14px 12px 0;max-width:760px;margin:0 auto}
+section[hidden]{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 14px;margin:0 0 12px}
+.card h2{margin:0 0 9px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.card h3{margin:14px 0 6px;font-size:14px;font-weight:700;color:var(--navy)}
+.card h3:first-child{margin-top:0}
+.card p{margin:0 0 8px}
+.card ul{margin:0 0 8px;padding-left:1.25em}
+.card li{margin-bottom:4px}
+.card>*:last-child{margin-bottom:0}
+.tint-act{background:var(--actbg);border-color:#bcdbe6}
+.tint-warn{background:var(--warnbg);border-color:#f0c4c4}
+.tint-ok{background:var(--okbg);border-color:#c2e0d0}
+.tint-sev{background:var(--sevbg);border-color:#f0c8c8}
+.tint-amber{background:var(--mildbg);border-color:#e8d3a0}
+b,strong{font-weight:700}
+.num{font-variant-numeric:tabular-nums;font-weight:700}
+.hit{background:#fff2a8;padding:0 2px;border-radius:2px;font-weight:700}
+.rail{position:relative;padding-left:60px}
+.rail .step{position:relative;padding-bottom:16px}
+.rail .step:last-child{padding-bottom:0}
+.rail .tm{position:absolute;left:-60px;top:1px;width:50px;text-align:right;font-size:12px;
+  font-weight:700;color:var(--act);font-variant-numeric:tabular-nums;line-height:1.5}
+.rail .step::before{content:"";position:absolute;left:-14px;top:6px;width:9px;height:9px;
+  border-radius:50%;background:var(--act)}
+.rail .step::after{content:"";position:absolute;left:-10.5px;top:15px;bottom:-2px;width:2px;background:#cfe0e8}
+.rail .step:last-child::after{display:none}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 8px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#eef3f7;font-weight:700;color:var(--navy)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.sev-mild td:first-child{background:var(--mildbg);color:var(--mild);font-weight:700}
+.sev-mod td:first-child{background:var(--modbg);color:var(--mod);font-weight:700}
+.sev-sev td:first-child{background:var(--sevbg);color:var(--sev);font-weight:700}
+.ban{border-radius:8px;padding:10px 12px;margin:0 0 10px;font-weight:700;font-size:14px;
+  background:var(--warnbg);border:1px solid #e6a9a9;color:var(--warn)}
+.note{font-size:13px;color:var(--sub);margin:6px 0 0}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;
+  background:#eef3f7;color:var(--navy);vertical-align:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--sub);margin-bottom:3px}
+input[type=number],select,textarea{width:100%;font-family:inherit;font-size:16px;padding:8px 9px;
+  border:1px solid #c3d0dc;border-radius:7px;background:#fff;color:var(--ink)}
+input[type=number]{font-variant-numeric:tabular-nums;font-weight:600}
+textarea{line-height:1.7;font-size:13.5px;resize:vertical}
+.out{background:#0f2438;color:#eaf2f8;border-radius:9px;padding:12px 13px;font-size:14px;line-height:1.85}
+.out .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #23425e;padding:3px 0}
+.out .row:last-child{border-bottom:0}
+.out .row span:last-child{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.out .flag{color:#ffb4b4}
+.out h4{margin:10px 0 4px;font-size:12px;color:#8fb4d4;font-weight:700}
+.out h4:first-child{margin-top:0}
+button.copy{background:var(--navy);color:#fff;border:0;border-radius:7px;padding:9px 14px;
+  font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+button.copy:active{background:var(--navy2)}
+.tmplhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+footer{max-width:760px;margin:16px auto 0;padding:0 12px;font-size:12px;color:var(--sub)}
+@media print{
+  nav,button{display:none!important}
+  section[hidden]{display:block!important}
+  body{background:#fff;font-size:11px}
+  .card{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DKA 初療あんちょこ</h1>
+  <p>小児DKAの初期管理 / ISPAD 2022 準拠 — 院内スライド（2024/5 服部）より</p>
+</header>
+
+<nav role="tablist" id="tabs">
+  <button role="tab" aria-selected="true" data-t="t1">初動</button>
+  <button role="tab" aria-selected="false" data-t="t2">輸液</button>
+  <button role="tab" aria-selected="false" data-t="t3">インスリン</button>
+  <button role="tab" aria-selected="false" data-t="t4">経過・離脱</button>
+  <button role="tab" aria-selected="false" data-t="t5">脳損傷</button>
+  <button role="tab" aria-selected="false" data-t="t6">計算</button>
+  <button role="tab" aria-selected="false" data-t="t7">サマリ</button>
+</nav>
+
+<main>
+
+<!-- ===== 初動 ===== -->
+<section id="t1">
+  <div class="card">
+    <h2>診断</h2>
+    <ul>
+      <li>高血糖 <span class="num">&gt;200 mg/dL</span></li>
+      <li>アシドーシス <span class="num">pH&lt;7.30</span> または <span class="num">HCO3⁻&lt;18 mmol/L</span></li>
+      <li>ケトーシス（血中3-OHBA <span class="num">≧3000 μmol/L</span> または ケトン尿）</li>
+    </ul>
+    <p class="note">※HCO3 の閾値は 15→18 に変更（2018→2022）。</p>
+  </div>
+
+  <div class="card">
+    <h2>重症度</h2>
+    <table>
+      <tr><th>重症度</th><th>pH</th><th>HCO3⁻</th></tr>
+      <tr class="sev-mild"><td>軽症</td><td class="n">&lt;7.30</td><td class="n">&lt;18 mmol/L</td></tr>
+      <tr class="sev-mod"><td>中等症</td><td class="n">&lt;7.20</td><td class="n">&lt;10 mmol/L</td></tr>
+      <tr class="sev-sev"><td>重症</td><td class="n">&lt;7.10</td><td class="n">&lt;5 mmol/L</td></tr>
+    </table>
+    <p class="note">脱水の見積り：軽症 5%／中等症 5–7%／重症 7–10%（輸液計算に使う）。</p>
+  </div>
+
+  <div class="card tint-act">
+    <h2>最初の30分〜1時間でやること</h2>
+    <div class="rail">
+      <div class="step"><span class="tm">まず</span>
+        <b>心電図モニター装着</b>（T波でKを推定しながら動く）</div>
+      <div class="step"><span class="tm">同時に</span>
+        <b>VBG・血糖・電解質・血中3-OHBA</b>を採取。体重（できれば病前体重も）を確認。</div>
+      <div class="step"><span class="tm">初期輸液</span>
+        <b>生理食塩水</b>で開始。以下で量を決める。
+        <ul style="margin-top:6px">
+          <li><b>ショック／意識障害</b> → NS <span class="hit">20 mL/kg を20〜30分</span>（反復可）</li>
+          <li><b>中等度以上の脱水／嘔吐</b> → NS <span class="hit">10〜20 mL/kg を20〜30分</span>（反復可）</li>
+          <li><b>上記以外で経口補水できる</b> → インスリン皮下注で治療開始も可</li>
+        </ul>
+      </div>
+      <div class="step"><span class="tm">K</span>
+        VBGで <b>K&lt;5.5 mmol/L</b> なら、この時点から <span class="hit">K 40 mmol/L 混注</span>で開始。</div>
+      <div class="step"><span class="tm">評価</span>
+        脱水の重症度を判定し、1時間後の再評価（Step2）へ。管理場所（ICU/病棟）を決める。</div>
+    </div>
+  </div>
+
+  <div class="ban">ショック・意識障害でも、メイロン投与と気管挿管は避ける（髄液のアシドーシス増悪・脳損傷リスク）。<br>
+  インスリンの初回ボーラスは禁忌。</div>
+
+  <div class="card">
+    <h2>ICUで管理すべき症例</h2>
+    <ul>
+      <li><b>重症DKA</b>：有症状期間が長い（HbA1c高値）、循環不全、意識障害</li>
+      <li><b>脳損傷リスクあり</b>：<span class="hit">5歳未満／pH&lt;7.1／pCO2&lt;21 mmHg／BUN&gt;20 mg/dL</span></li>
+    </ul>
+    <h3>搬送するとき</h3>
+    <ul>
+      <li>DKA管理の経験者が同行するか、そのサポートを受けて搬送</li>
+      <li>持参する：<b>高濃度ブドウ糖液・マンニトール・3%高張食塩水</b></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>見逃さないための症状</h2>
+    <p>意識障害／倦怠感／脱水／頻脈／頻呼吸／Kussmaul呼吸／ケトン臭（甘酸っぱい）／悪心・嘔吐／腹痛／（感染合併なら）発熱</p>
+    <p class="note">胃腸炎様・倦怠感などの非特異的症状で受診し見逃されることが多い。当院の新規発症1型19例中8例（42%）がDKA、うち3例は体重減少・口渇多飲多尿のみで自覚に乏しかった。</p>
+  </div>
+</section>
+
+<!-- ===== 輸液 ===== -->
+<section id="t2" hidden>
+  <div class="card tint-act">
+    <h2>Step2：1時間後にやること（輸液）</h2>
+    <p><b>まずVBG再評価（K と Glu を必ず見る）。</b>そのうえで輸液を決める。</p>
+    <h3>水</h3>
+    <p>水分欠乏量 ＋ 維持量を <span class="hit">24〜48時間</span>かけて補充<br>
+    欠乏量は 軽症5% / 中等症5–7% / 重症7–10% で計算</p>
+    <h3>糖</h3>
+    <p>血糖 <span class="hit">250–300 mg/dL</span> に達したら 5%Tz に切り替え<br>
+    1時間で90 mg/dL以上下がる勢いなら、300以上でもブドウ糖を入れてよい</p>
+    <h3>K</h3>
+    <p><span class="hit">40 mmol/L</span> で補充開始（上限 40 mmol/L かつ <span class="num">&lt;0.5 mmol/kg/hr</span>）</p>
+    <h3>Na</h3>
+    <p>細胞外液相当（<span class="num">Na 77〜154 mmol/L</span>）</p>
+  </div>
+
+  <div class="card">
+    <h2>実際の組成（当院で使える組み合わせ）</h2>
+    <table>
+      <tr><th>目的</th><th>組成</th><th>できあがり</th></tr>
+      <tr><td>糖なし</td><td>ラクトリンゲル 500mL ＋ KCl 18mEq</td><td class="n">0%Tz / Na 130 / K 40</td></tr>
+      <tr><td>糖あり</td><td>ヴィーンD 500mL ＋ KCl 18mEq</td><td class="n">5%Tz / Na 130 / K 40</td></tr>
+    </table>
+    <p class="note">元の輸液にK 4 mEq/L が入っているので、KCl 18mEq 追加でおよそ40 mmol/L になる。GIRの微調整は 20%Tz を側管から。下げるときはメインを下げてラクトリンゲルを側管から。</p>
+  </div>
+
+  <div class="card tint-amber">
+    <h2>実運用メモ：輸液の決め方 <span class="pill">別症例の指示より</span></h2>
+    <ul>
+      <li>維持量＋脱水分を <b>72時間</b>で割る（体重40kg前後で だいたい 130–140 mL/hr）</li>
+      <li>飲水できていれば、その分を輸液から引いてもよい</li>
+      <li><b>輸液中止の目安は尿ケトン陰性</b></li>
+    </ul>
+    <p class="note">ISPADの原則は24〜48時間だが、実際には72時間で組む運用も多い（自験例の症例1も72時間）。体重が違えば mL/hr の数字はそのまま使えないので、計算タブで出し直すこと。</p>
+    <p class="note"><b>ケトン尿の使い分けに注意。</b>「DKA離脱・経口再開の判断」には尿ケトンを使わない（3-OHBで判断）。一方「輸液を止めてよいか」の判断には尿ケトン陰性化を使う。時期が違うだけで矛盾ではない。</p>
+  </div>
+
+  <div class="card">
+    <h2>K の補充</h2>
+    <ul>
+      <li>DKAでは通常 <b>3–6 mmol/kg の K が欠乏</b>（特に細胞内）</li>
+      <li>インスリンを始めると K は急激に下がる → <b>K が正常でも 40 mmol/L で開始が原則</b></li>
+      <li>末梢からの上限：<span class="num">40 mmol/L</span>、<span class="num">&lt;0.5 mmol/kg/hr</span></li>
+    </ul>
+    <table>
+      <tr><th>初回K</th><th>どうする</th></tr>
+      <tr><td class="n">&gt;5.5（腎不全でない）</td><td>排尿を確認し、<b>&lt;5.5 になり次第</b>Kを開始</td></tr>
+      <tr><td class="n">3.5–5.5</td><td>遅くとも<b>インスリン開始と同時に</b>K開始</td></tr>
+      <tr><td class="n">&lt;3.5</td><td><b>Kの急速補正を先に開始し、インスリンは延期</b></td></tr>
+    </table>
+    <p class="note">末梢最大濃度でも下がり続けるときは、グルコン酸カリウムの内服追加も選択肢（症例1では2時間毎に追加）。</p>
+  </div>
+
+  <div class="card">
+    <h2>Na / Cl / P</h2>
+    <h3>Na</h3>
+    <ul>
+      <li>補正Na ＝ 実測Na ＋ 2 ×（血糖 − 100）/ 100</li>
+      <li>有効浸透圧 ＝ 2 × 血清Na ＋ 血糖 / 18</li>
+      <li>血糖が下がれば <b>実測Naは上がる</b>のが正常（血糖18低下ごとにNa +0.5）</li>
+      <li>上がってこなければ Na 含有量を増やす。<b>実測Na低下は脳浮腫の前兆</b>との報告あり</li>
+    </ul>
+    <h3>Cl</h3>
+    <p>高Cl性代謝性アシドーシスになりうる。ケトーシスが改善しているかは <b>3-OHB で判断</b>する（pH/HCO3だけで判断しない）。</p>
+    <h3>P</h3>
+    <p>50–60%が治療中に低Pになる。<span class="num">&lt;1 mg/dL</span> なら直ちに補正、できれば予防的に投与し <span class="num">&gt;2 mg/dL</span> で管理。<span class="pill">2022改訂で重視しない方針</span></p>
+  </div>
+
+  <div class="card">
+    <h2>平均喪失量と維持量</h2>
+    <table>
+      <tr><th></th><th>平均喪失量 /kg</th><th>24時間維持量</th></tr>
+      <tr><td>水</td><td class="n">70 mL（30–100）</td><td class="n">≦10kg：100 mL/kg<br>11–20kg：1000＋50×(体重−10)<br>≧20kg：1500＋20×(体重−20)</td></tr>
+      <tr><td>Na</td><td class="n">6 mmol（5–13）</td><td class="n">2–4 mmol</td></tr>
+      <tr><td>K</td><td class="n">5 mmol（5–13）</td><td class="n">2–3 mmol</td></tr>
+      <tr><td>Cl</td><td class="n">4 mmol（5–13）</td><td class="n">2–3 mmol</td></tr>
+      <tr><td>P</td><td class="n">0.5–2.5 mmol</td><td class="n">1–2 mmol</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== インスリン ===== -->
+<section id="t3" hidden>
+  <div class="ban">最初にボーラス投与は禁忌（脳浮腫予防）。輸液開始から約1時間後にインスリンを始める。</div>
+
+  <div class="card tint-act">
+    <h2>開始量</h2>
+    <table>
+      <tr><th>状況</th><th>持続静注量</th></tr>
+      <tr><td>原則</td><td class="n">0.05–0.1 u/kg/hr</td></tr>
+      <tr><td>中等度まで（pH&gt;7.15）の年長児</td><td class="n">0.05 u/kg/hr</td></tr>
+      <tr><td>中等度まで（pH&gt;7.15）の乳幼児</td><td class="n">0.03 u/kg/hr</td></tr>
+    </table>
+    <p>持続静注が難しければ<b>頻回皮下注</b>でも可：超速効型 <span class="hit">0.15 u/kg を2時間毎</span>。</p>
+    <p class="note">軽症で経口補水できるなら、最初から皮下注で治療開始という選択肢もある。</p>
+  </div>
+
+  <div class="card">
+    <h2>調整のルール</h2>
+    <ul>
+      <li><b>アシドーシスが改善するまでインスリンは下げない。</b>血糖が下がるなら糖を増やす（GIRを0.5ずつ上げる／20%Tz側管）</li>
+      <li>3-OHBA の低下が <span class="num">0.5 mmol/L/hr</span> に達しないなら、<b>インスリンを増量</b>する</li>
+      <li>血糖の下降が1時間あたり90 mg/dL を超えるようなら、糖を追加（それでも速いならインスリン減量を検討）</li>
+      <li>目標血糖は <span class="hit">150–300 mg/dL</span> と高めで管理（低血糖予防）</li>
+    </ul>
+    <p class="note">2018ガイドラインでは目標血糖 200前後の記載があったが、2022では記載がなくなった。</p>
+  </div>
+
+  <div class="card tint-amber">
+    <h2>実運用メモ：血糖が下がるとき <span class="pill">別症例の指示より</span></h2>
+    <p>急性期の目標は 150–300 mg/dL。</p>
+    <ol style="margin:0 0 8px;padding-left:1.4em">
+      <li>SMBG が <b>300を下回ったら糖入り輸液へ</b>（ヴィーンD＋KCl でOK）</li>
+      <li><b>pH 7.3以上になるまでは、インスリンは減らさずGIRを上げて対応</b></li>
+      <li>ヴィーンDに変えても下がるなら <b>50%Tz を側管から</b>流す<br>
+          <span class="note" style="display:inline">（体重40kgなら 50%Tz 5 mL/hr で GIR +1.0 mg/kg/min。体重が違えば計算タブで換算）</span></li>
+      <li><b>pH 7.3以上になってから</b>血糖が150を下回るようなら、はじめてインスリンを減量する</li>
+    </ol>
+    <h3>減量ラダー（pH&gt;7.3 到達後）</h3>
+    <table>
+      <tr><th>u/kg/hr</th><th>体重40kgでの実量</th></tr>
+      <tr><td class="n">0.05</td><td class="n">1.9 U/hr</td></tr>
+      <tr><td class="n">0.03</td><td class="n">1.2 U/hr</td></tr>
+      <tr><td class="n">0.02</td><td class="n">0.8 U/hr</td></tr>
+      <tr><td class="n">0.01</td><td class="n">0.4 U/hr</td></tr>
+    </table>
+    <p class="note">右の実量は体重約38–40kgの症例のもの。<b>他の児にそのまま使わない</b>。計算タブに体重を入れると同じラダーが出る。</p>
+  </div>
+
+  <div class="card tint-ok">
+    <h2>DKA離脱の目安</h2>
+    <p><span class="num">pH &gt; 7.3</span>　かつ　<span class="num">HCO3 &gt; 18 mmol/L</span>　かつ　<span class="num">3-OHB &lt; 1000 μmol/L</span></p>
+    <p class="note">ケトン尿の陰性化は離脱の目安にしない（遅れて残る）。</p>
+  </div>
+
+  <div class="card">
+    <h2>皮下注への移行</h2>
+    <ul>
+      <li>タイミングは<b>食前がベスト</b></li>
+      <li><b>追加</b>：超速効型を食前に皮下注 → <b>15〜30分後に持続静注をstop</b></li>
+      <li><b>基礎</b>：持効型を導入。<span class="hit">基礎インスリンが入っていない時間帯を作らない</span></li>
+      <li>補液は糖フリーに切り替え、数日で漸減中止</li>
+    </ul>
+    <h3>参考：退院時の投与量（自験例）</h3>
+    <p>約 <span class="num">1.0–1.1 U/kg/day</span>。持効型グラルギン 7–8単位＋超速効型リスプロを応用カーボカウント（カーボ比 朝1.0／昼0.7–0.8／夕0.5–0.8、インスリン効果値100）。</p>
+  </div>
+</section>
+
+<!-- ===== 経過・離脱 ===== -->
+<section id="t4" hidden>
+  <div class="card tint-act">
+    <h2>Step3：モニタリング</h2>
+    <table>
+      <tr><th>間隔</th><th>見るもの</th></tr>
+      <tr><td class="n">1時間毎</td><td>バイタル、in/out、血糖、<b>神経所見</b></td></tr>
+      <tr><td class="n">2–4時間毎</td><td>VBG ＋ 中検で電解質（K・P・Na・Cl）、できれば <b>3-OHBA</b></td></tr>
+      <tr><td class="n">連続</td><td>心電図モニター</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>血糖が下がってきたら</h2>
+    <ul>
+      <li>血糖 250–300 mg/dL に達したら <b>5%Tz に変更</b></li>
+      <li>1時間で90以上下がる勢いなら、300以上でもブドウ糖を入れてよい</li>
+      <li>血糖が下がるなら <b>GIR を 0.5 ずつ上げる</b>（20%Tz を側管から）</li>
+      <li>GIR を下げるときは、メインを下げてラクトリンゲルを側管から</li>
+    </ul>
+  </div>
+
+  <div class="card tint-amber">
+    <h2>実運用メモ：夜間に血糖が上がるとき（ポンプ使用中） <span class="pill">別症例の指示より</span></h2>
+    <ul>
+      <li><b>22時までは食後の影響があるので様子を見る</b></li>
+      <li>22時以降に上がってきたら、ボーラスウィザードで補正</li>
+      <li><b>1時間後に50 mg/dL以上下がらなければ、ポンプ閉塞を想定</b></li>
+      <li>ヒューマログ ミリオペンHD で注射する（ポンプの差し替えは翌日に検討）<br>
+        　血糖 <span class="num">300–399 → 2単位</span>／<span class="num">400以上 → 3単位</span></li>
+    </ul>
+    <p class="note">ボーラスウィザード設定：インスリン効果値 100、目標血糖 80–150。※補正量は体重・効果値で変わるので、他の児では設定を確認してから使う。</p>
+  </div>
+
+  <div class="card tint-ok">
+    <h2>Step4：アシドーシスを脱して</h2>
+    <ul>
+      <li>臨床所見が改善すれば<b>経口補水可</b>に（軽度DKAならOK。ケトン尿の陰性化は目安にしない）</li>
+      <li>DKA離脱（pH&gt;7.3, HCO3&gt;18, 3-OHB&lt;1000）＋経口摂取可 → <b>通常のインスリン強化療法へ</b></li>
+      <li>補液は糖フリーへ切り替え、数日で漸減中止</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>急性期を抜けたあとの流れ（自験例の目安）</h2>
+    <ul>
+      <li>来院後 13〜24時間：DKA軽症域まで改善 → 皮下注へ移行、昼から食事再開</li>
+      <li>入院2〜5日目：MDI（±CGM）へ移行。尿ケトン陰性化を確認して輸液を漸減中止</li>
+      <li>入院11〜12日目：自己血糖測定の手技獲得＋疾病教育を終えて退院</li>
+      <li>退院後：必要に応じてCSII/SAP導入を検討</li>
+    </ul>
+    <h3>入院管理を終えて外来へ渡す前に確認すること</h3>
+    <ul>
+      <li>基礎／追加インスリンの指示が本人・家族の言葉で言えるか</li>
+      <li>低血糖の対処、シックデイルール、ケトン測定のタイミングを説明済みか</li>
+      <li>学校・園への連絡書類、緊急時連絡先（24時間つながる窓口）を渡したか</li>
+      <li>「嘔吐が続く・呼吸が荒い・意識がおかしい時はすぐ受診」を家族に明言したか</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>備考：HHS（高血糖高浸透圧状態）</h2>
+    <p>高血糖・高浸透圧だが<b>ケトーシスはない</b>。管理がDKAと異なるので注意。初発2型糖尿病の〜2%で発生。</p>
+    <table>
+      <tr><th>診断基準</th><th></th></tr>
+      <tr><td>血糖</td><td class="n">&gt; 600 mg/dL</td></tr>
+      <tr><td>静脈血pH</td><td class="n">&gt; 7.25（動脈血 &gt;7.3）</td></tr>
+      <tr><td>HCO3⁻</td><td class="n">&gt; 15 mmol/L</td></tr>
+      <tr><td>ケトーシス</td><td>なし、あっても軽度</td></tr>
+      <tr><td>有効血漿浸透圧</td><td class="n">&gt; 320 mOsm/kg</td></tr>
+    </table>
+    <p class="note">DKA ＋ HHS（DKA かつ 血糖&gt;600 かつ 有効浸透圧&gt;320）の症例は特に慎重に管理する。</p>
+  </div>
+</section>
+
+<!-- ===== 脳損傷 ===== -->
+<section id="t5" hidden>
+  <div class="card tint-sev">
+    <h2>DKA関連脳損傷</h2>
+    <p>DKAの <b>0.5–0.9%</b> に発症し、死亡率 <b>21–24%</b>。近年は「脳浮腫」より、<b>DKAに伴う脳の低灌流と炎症</b>が主因と考えられている。</p>
+    <p><b>気づくサイン</b>：意識変容・頭痛・嘔吐・徐脈・血圧上昇・SpO2低下</p>
+    <h3>危険因子</h3>
+    <ul>
+      <li>背景：若年、初発糖尿病、有症状期間が長い</li>
+      <li>診断時：<span class="hit">5歳未満／pH&lt;7.1／pCO2&lt;21 mmHg／BUN&gt;20 mg/dL</span>（アシドーシスの程度にそぐわない低CO2血症）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>診断基準</h2>
+    <h3>基準①：下記のいずれか1つで診断</h3>
+    <ul>
+      <li>疼痛に対する運動または言語的反応の異常</li>
+      <li>除皮質または除脳硬直姿勢</li>
+      <li>脳神経麻痺（特にIII, IV, VI）</li>
+      <li>中枢性呼吸障害（呻吟、多呼吸、Cheyne-Stokes呼吸、持続的吸息）</li>
+    </ul>
+    <h3>基準②：大基準2つ、または大基準1つ＋小基準2つ</h3>
+    <table>
+      <tr><th>大基準</th><th>小基準</th></tr>
+      <tr><td>意識レベルの変動、精神状態の変化<br>循環や睡眠で説明できない心拍減少（≧20）<br>年齢に不適当な失禁</td>
+          <td>嘔吐<br>頭痛<br>嗜眠または難覚醒<br>拡張期血圧 &gt;90 mmHg<br>年齢 &lt;5歳</td></tr>
+    </table>
+    <p class="note">※必ず低血糖を除外する。</p>
+  </div>
+
+  <div class="card tint-warn">
+    <h2>治療 — 疑ったらすぐ開始</h2>
+    <ul>
+      <li>輸液は<b>血圧が維持できる程度まで減量</b></li>
+      <li><b>マンニトール 0.5–1 g/kg を10–15分</b>で投与<br>
+          効果は15分以内に発現し120分持続。必要に応じ30分毎に反復</li>
+      <li><b>3%高張食塩水 2.5–5 mL/kg を30分以上</b>かけて投与<br>
+          マンニトールの代用、またはマンニトールへの反応が15–30分でみられない場合</li>
+      <li>上級医コール、ICUへ。頭部画像は<b>患者が安定してから</b></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 計算 ===== -->
+<section id="t6" hidden>
+  <div class="card">
+    <h2>輸液・インスリン計算</h2>
+    <div class="grid">
+      <div><label class="f" for="wt">体重 (kg)</label><input type="number" id="wt" step="0.1" placeholder="27"></div>
+      <div><label class="f" for="hrs">補正時間</label>
+        <select id="hrs"><option value="24">24時間</option><option value="48" selected>48時間</option><option value="72">72時間</option></select></div>
+      <div><label class="f" for="mode">欠乏量の指定</label>
+        <select id="mode"><option value="pct">脱水率 (%)</option><option value="mlkg">mL/kg で直接</option></select></div>
+      <div><label class="f" for="def">脱水率 or mL/kg</label><input type="number" id="def" step="0.5" value="7"></div>
+      <div><label class="f" for="glu">血糖 (mg/dL)</label><input type="number" id="glu" step="1" placeholder="687"></div>
+      <div><label class="f" for="na">実測Na (mmol/L)</label><input type="number" id="na" step="0.1" placeholder="134"></div>
+      <div><label class="f" for="tz">輸液のブドウ糖 (%)</label>
+        <select id="tz"><option value="0">0%（糖フリー）</option><option value="5" selected>5%</option><option value="7.5">7.5%</option><option value="10">10%</option></select></div>
+      <div><label class="f" for="kc">K濃度 (mmol/L)</label><input type="number" id="kc" step="1" value="40"></div>
+    </div>
+    <p class="note">欠乏量は原則、来院時体重で計算。ボーラスを差し引くかは施設の運用に合わせる。</p>
+  </div>
+
+  <div class="card"><div class="out" id="out"><p style="margin:0">体重を入れると計算します。</p></div></div>
+
+  <div class="card">
+    <h2>手計算用の式</h2>
+    <ul>
+      <li>維持量/日：≦10kg 100mL/kg、11–20kg 1000＋50×(kg−10)、≧20kg 1500＋20×(kg−20)</li>
+      <li>欠乏量(mL) ＝ 体重 × 脱水率(%) × 10</li>
+      <li>輸液速度 ＝ (欠乏量 ＋ 維持量 × 補正日数) ÷ 補正時間</li>
+      <li>GIR (mg/kg/min) ＝ 速度(mL/hr) × 糖濃度(%) × 10 ÷ 60 ÷ 体重</li>
+      <li>K負荷 (mmol/kg/hr) ＝ 速度(mL/hr) × K濃度(mmol/L) ÷ 1000 ÷ 体重</li>
+      <li>50%Tz 側管で GIR を +1.0 mg/kg/min するのに必要な速度 ＝ 体重 × 0.12 mL/hr</li>
+      <li>補正Na ＝ 実測Na ＋ 2 ×(血糖−100)/100</li>
+      <li>有効浸透圧 ＝ 2×Na ＋ 血糖/18</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== サマリ ===== -->
+<section id="t7" hidden>
+  <div class="card">
+    <h2>入院時サマリ（新規発症1型糖尿病＋DKA）</h2>
+    <div class="tmplhead"><span class="note" style="margin:0">○○を埋めて使う。不要行は削除。</span>
+      <button class="copy" data-copy="s1">コピー</button></div>
+    <textarea id="s1" rows="26">【入院時サマリ】
+＃1 糖尿病性ケトアシドーシス（重症度：軽症／中等症／重症）
+＃2 新規発症1型糖尿病（疑い）
+＃3
+
+○歳○か月、男児／女児。既往なく、発達は年齢相当。糖尿病の家族歴なし／あり（　　）。
+
+○週間前より多飲・多尿を認めていた。○週間前から全身倦怠感、体重減少（病前○○kg → ○○kg、−○○%）が出現した。入院○日前から食欲低下・活気低下があり、当日には嘔吐を反復したため前医を受診した。前医採血で著明な高血糖（PG ○○ mg/dL）を認め、DKA疑いとして当院へ紹介搬送となった。
+
+来院時、意識は清明／傾眠、HR ○○、BP ○○/○○、RR ○○。口唇乾燥、CRT延長、ツルゴール低下など脱水所見が著明であった。Kussmaul呼吸あり／なし、ケトン臭あり／なし。腹部は平坦軟、軽度圧痛あり／なし。
+
+静脈血液ガスで pH ○.○○○、HCO3⁻ ○○ mmol/L、BE ○○ mmol/L、血糖 ○○ mg/dL を認め、糖尿病性ケトアシドーシス（○○症）と診断した。3-OHBA ○○ μmol/L、AcAc ○○ μmol/L と著明高値であった。HbA1c ○○% と高度上昇を認め、抗GAD抗体 ○○ U/mL・抗IA-2抗体 ○○ U/mL 陽性であり、新規発症1型糖尿病によるDKAと考えられた。
+
+生理食塩水 ○○ mL/kg を○○分で投与して初期輸液を行い、1時間後の再評価をもとに、水分欠乏量 ○○ mL/kg ＋維持量を○○時間で補正する方針として ○○ ○○ mL/hr で継続した。カリウムは ○○ mmol/L 混注で開始した。インスリンは持続静注 ○.○ u/hr（≒○.○○ u/kg/hr）で開始し、ICU／一般病棟で管理を開始した。
+
+今後は血糖・電解質・血液ガス・神経所見をモニタリングしながらアシドーシスの改善を図り、離脱後にインスリン強化療法へ移行、疾病教育と自己管理手技の獲得を進める方針とする。</textarea>
+  </div>
+
+  <div class="card">
+    <h2>口頭申し送り・ICU入室依頼（短縮版）</h2>
+    <div class="tmplhead"><span class="note" style="margin:0">30秒で伝える版。</span>
+      <button class="copy" data-copy="s2">コピー</button></div>
+    <textarea id="s2" rows="11">○歳○か月 男児／女児、体重 ○○ kg。
+主訴は口渇・多飲多尿・体重減少（−○○%）／嘔吐・意識障害。
+来院時 pH ○.○○○、HCO3 ○○、血糖 ○○、K ○○、HbA1c ○○%。
+新規発症1型糖尿病による○○症DKAと診断。
+NS ○○ mL/kg 投与後、○○ ○○ mL/hr（K ○○ mmol/L）で継続中。
+インスリン持続静注 ○.○ u/hr（○.○○ u/kg/hr）を開始。
+脳損傷リスク：年齢○歳／pH ○.○○／pCO2 ○○／BUN ○○ → 該当なし／あり（　　）。
+依頼事項：1時間毎のバイタル・血糖・神経所見、2〜4時間毎のVBG＋電解質。</textarea>
+  </div>
+
+  <div class="card">
+    <h2>退院時サマリ（骨子）</h2>
+    <div class="tmplhead"><span class="note" style="margin:0">経過をここに集約する。</span>
+      <button class="copy" data-copy="s3">コピー</button></div>
+    <textarea id="s3" rows="16">【退院時サマリ】
+＃1 1型糖尿病（新規発症、○○年○月○日診断）
+＃2 糖尿病性ケトアシドーシス（○○症）— 軽快
+
+【入院時診断の根拠】pH ○.○○○、HCO3 ○○、PG ○○、HbA1c ○○%、抗GAD抗体 ○○、抗IA-2抗体 ○○、C-peptide ○○。
+
+【入院後経過】
+生理食塩水による初期輸液と持続静注インスリン ○.○○ u/kg/hr で治療を開始した。来院○○時間でアシドーシスは軽症域まで改善し（pH ○.○○○、HCO3 ○○）、第○病日に皮下注へ移行、同日昼から食事を再開した。第○病日にMDI（±CGM）での管理へ移行し、第○病日に尿ケトンの陰性化を確認して輸液を漸減中止した。低血糖・脳損傷を含む合併症は認めなかった。
+自己血糖測定の手技獲得と疾病教育（低血糖対応、シックデイルール、カーボカウント、学校対応）を終え、第○病日に退院とした。
+
+【退院時インスリン】約 ○.○ U/kg/day
+　持効型：インスリン○○○○　○単位（○時）
+　超速効型：インスリン○○○○　応用カーボカウント法
+　　カーボ比 朝 ○.○ ／昼 ○.○ ／夕 ○.○（おやつ ○.○）、インスリン効果値 ○○
+
+【退院時指導】低血糖時の対応、シックデイルール（インスリンは中断しない、ケトン測定）、学校・園への連絡、24時間の緊急連絡先。
+
+【今後の方針】外来で○週間毎にフォロー。HbA1c目標 ○○%。CSII/CGM導入の検討：あり／なし。</textarea>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>院内スライド「DKA(糖尿病性ケトアシドーシス)の初期管理 －ISPAD guideline 2022(2018)－」（2024/5/20 服部真也）をもとにした個人用メモ。実際の判断は最新のガイドライン原文と施設の方針で確認すること。</p>
+</footer>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('#tabs button');
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      tabs.forEach(function(x){
+        x.setAttribute('aria-selected','false');
+        document.getElementById(x.dataset.t).hidden=true;
+      });
+      b.setAttribute('aria-selected','true');
+      document.getElementById(b.dataset.t).hidden=false;
+      window.scrollTo(0,0);
+    });
+  });
+
+  var ids=['wt','hrs','mode','def','glu','na','tz','kc'];
+  function g(id){return parseFloat(document.getElementById(id).value);}
+  function r(v,d){var m=Math.pow(10,d);return Math.round(v*m)/m;}
+  function row(l,v,flag){return '<div class="row"><span>'+l+'</span><span'+(flag?' class="flag"':'')+'>'+v+'</span></div>';}
+
+  function maint(w){
+    if(w<=10) return w*100;
+    if(w<=20) return 1000+50*(w-10);
+    return 1500+20*(w-20);
+  }
+
+  function calc(){
+    var w=g('wt'), out=document.getElementById('out');
+    if(!w||w<=0){out.innerHTML='<p style="margin:0">体重を入れると計算します。</p>';return;}
+    var hrs=g('hrs'), mode=document.getElementById('mode').value, d=g('def')||0;
+    var deficit = mode==='pct' ? w*d*10 : w*d;
+    var m24=maint(w), total=deficit+m24*(hrs/24), rate=total/hrs;
+    var tz=g('tz'), kc=g('kc')||0;
+    var gir = rate*tz*10/60/w;
+    var kl  = rate*kc/1000/w;
+    var h='';
+    h+='<h4>初期輸液（生理食塩水ボーラス）</h4>';
+    h+=row('10 mL/kg', r(w*10,0)+' mL / 20〜30分');
+    h+=row('20 mL/kg（ショック・意識障害）', r(w*20,0)+' mL / 20〜30分');
+    h+='<h4>維持輸液（Step2以降）</h4>';
+    h+=row('水分欠乏量', r(deficit,0)+' mL'+(mode==='pct'?'（脱水 '+d+'%）':'（'+d+' mL/kg）'));
+    h+=row('維持量 /日', r(m24,0)+' mL');
+    h+=row('総量 / '+hrs+'時間', r(total,0)+' mL');
+    h+=row('輸液速度', r(rate,0)+' mL/hr');
+    h+=row('GIR（'+tz+'%Tz）', r(gir,2)+' mg/kg/min');
+    h+=row('K負荷（'+kc+' mmol/L）', r(kl,3)+' mmol/kg/hr', kl>0.5);
+    if(kl>0.5) h+='<div class="row"><span class="flag" style="font-size:13px">K負荷が 0.5 mmol/kg/hr を超えています。濃度か速度を見直す。</span><span></span></div>';
+    h+='<h4>インスリン持続静注</h4>';
+    h+=row('0.03 u/kg/hr（乳幼児・軽〜中等症）', r(w*0.03,2)+' u/hr');
+    h+=row('0.05 u/kg/hr（年長児・pH&gt;7.15）', r(w*0.05,2)+' u/hr');
+    h+=row('0.10 u/kg/hr（標準）', r(w*0.1,2)+' u/hr');
+    h+=row('皮下注で代替：0.15 u/kg × 2時間毎', r(w*0.15,1)+' 単位');
+    h+='<h4>減量ラダー（pH&gt;7.3 到達後）</h4>';
+    [0.05,0.03,0.02,0.01].forEach(function(u){
+      h+=row(u.toFixed(2)+' u/kg/hr', r(w*u,2)+' u/hr');
+    });
+    h+='<h4>50%Tz 側管でGIRを足す</h4>';
+    h+=row('GIR +0.5 mg/kg/min', r(w*0.06,1)+' mL/hr');
+    h+=row('GIR +1.0 mg/kg/min', r(w*0.12,1)+' mL/hr');
+    h+=row('50%Tz 5 mL/hr を流すと', '+'+r(5*500/60/w,2)+' mg/kg/min');
+    var glu=g('glu'), na=g('na');
+    if(glu||na){
+      h+='<h4>電解質・浸透圧</h4>';
+      if(glu&&na) h+=row('補正Na', r(na+2*(glu-100)/100,1)+' mmol/L');
+      if(glu&&na) h+=row('有効浸透圧', r(2*na+glu/18,1)+' mOsm/kg', (2*na+glu/18)>320);
+      if(glu) h+=row('目標血糖', '150〜300 mg/dL');
+      if(glu) h+=row('5%Tzへ切替の目安', '血糖 250〜300 mg/dL');
+    }
+    h+='<h4>脳損傷リスク時に備える薬</h4>';
+    h+=row('マンニトール 0.5〜1 g/kg', r(w*0.5,1)+'〜'+r(w*1,1)+' g / 10〜15分');
+    h+=row('3%高張食塩水 2.5〜5 mL/kg', r(w*2.5,0)+'〜'+r(w*5,0)+' mL / 30分以上');
+    out.innerHTML=h;
+  }
+  ids.forEach(function(id){
+    var el=document.getElementById(id);
+    el.addEventListener('input',calc); el.addEventListener('change',calc);
+  });
+  document.getElementById('mode').addEventListener('change',function(){
+    document.getElementById('def').value = this.value==='pct' ? 7 : 100;
+    calc();
+  });
+  calc();
+
+  document.querySelectorAll('button.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=document.getElementById(b.dataset.copy);
+      t.select(); t.setSelectionRange(0,999999);
+      var done=false;
+      try{ done=document.execCommand('copy'); }catch(e){}
+      if(navigator.clipboard&&!done){ navigator.clipboard.writeText(t.value); done=true; }
+      var o=b.textContent; b.textContent=done?'コピーしました':'選択しました';
+      setTimeout(function(){b.textContent=o;},1400);
+    });
+  });
+})();
+</script>
+</body>
+</html>

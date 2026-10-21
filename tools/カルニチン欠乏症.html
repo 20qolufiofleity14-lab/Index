@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カルニチン欠乏症 診療クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診療クイックリファレンス">
+<meta name="mini-title" content="カルニチン欠乏症">
+
+<style>
+:root{
+  --bg:#eef3f1;--card:#ffffff;--border:#dbe5e1;
+  --text:#16201d;--text-muted:#5b6b66;
+  --primary:#0c4a45;--primary-mid:#106b61;--primary-light:#1b9384;
+  --red:#b91c1c;--red-soft:#dc2626;--red-bg:#fef2f2;--red-border:#fca5a5;
+  --amber:#92400e;--amber-soft:#b45309;--amber-bg:#fffbeb;--amber-border:#fcd34d;
+  --blue:#1d4ed8;--blue-soft:#2563eb;--blue-bg:#eff6ff;--blue-border:#93c5fd;
+  --green:#166534;--green-soft:#16a34a;--green-bg:#f0fdf4;--green-border:#86efac;
+  --purple:#5b21b6;--purple-soft:#7c3aed;--purple-bg:#f5f3ff;--purple-border:#c4b5fd;
+  --shadow:0 1px 4px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:12.5px;line-height:1.62;}
+.page{max-width:980px;margin:0 auto;padding:16px;}
+
+.header{background:linear-gradient(135deg,#09332f 0%,#0e6a5e 55%,#1ea08d 100%);color:#fff;padding:16px 22px 14px;border-radius:11px;display:flex;align-items:flex-end;justify-content:space-between;box-shadow:0 3px 14px rgba(0,0,0,.18);margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.header-left h1{font-size:19px;font-weight:800;letter-spacing:.01em;}
+.header-left p{font-size:11.5px;opacity:.85;margin-top:4px;}
+.header-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:5px 13px;font-size:11px;font-weight:700;white-space:nowrap;}
+
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:14px;overflow-x:auto;}
+.tab-btn{padding:9px 13px;font-size:12px;font-weight:700;background:none;border:none;cursor:pointer;color:var(--text-muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;font-family:inherit;transition:.15s;}
+.tab-btn:hover{color:var(--primary-light);}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary-light);}
+
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fade .2s;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;}
+.card.wide{grid-column:1/-1;}
+@media (max-width:760px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;box-shadow:var(--shadow);}
+.card-hd{padding:9px 14px;font-size:12.5px;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px;}
+.card-hd .icon{font-size:14px;}
+.card-hd.dark{background:var(--primary);}
+.card-hd.blue{background:var(--blue-soft);}
+.card-hd.amber{background:var(--amber-soft);}
+.card-hd.red{background:var(--red-soft);}
+.card-hd.green{background:var(--green-soft);}
+.card-hd.purple{background:var(--purple-soft);}
+.card-body{padding:13px 15px;}
+
+.hl{padding:9px 12px 9px 13px;border-radius:6px;font-size:12px;margin-bottom:7px;border-left:3px solid;line-height:1.65;}
+.hl:last-child{margin-bottom:0;}
+.hl-red{background:var(--red-bg);color:#7f1d1d;border-color:var(--red-soft);}
+.hl-amber{background:var(--amber-bg);color:#78350f;border-color:var(--amber-soft);}
+.hl-blue{background:var(--blue-bg);color:#1e3a5f;border-color:var(--blue-soft);}
+.hl-green{background:var(--green-bg);color:#14532d;border-color:var(--green-soft);}
+.hl-purple{background:var(--purple-bg);color:#4c1d95;border-color:var(--purple-soft);}
+
+.dose-box{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-mid) 100%);color:#fff;padding:11px 14px;border-radius:8px;text-align:center;}
+.dose-box-amber{background:linear-gradient(135deg,#78350f 0%,#b45309 100%);color:#fff;padding:10px 14px;border-radius:8px;text-align:center;}
+.dose-box-red{background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 100%);color:#fff;padding:10px 14px;border-radius:8px;text-align:center;}
+.dose-box-green{background:linear-gradient(135deg,#166534 0%,#16a34a 100%);color:#fff;padding:10px 14px;border-radius:8px;text-align:center;}
+.dose-box-blue{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);color:#fff;padding:10px 14px;border-radius:8px;text-align:center;}
+.dose-label{font-size:9.5px;opacity:.75;margin-bottom:3px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.dose-num{font-size:20px;font-weight:900;letter-spacing:-.3px;}
+.dose-unit{font-size:10.8px;opacity:.88;margin-top:2px;line-height:1.4;}
+
+.tbl{width:100%;border-collapse:collapse;font-size:11.3px;}
+.tbl th{background:var(--primary);color:#fff;padding:7px 8px;text-align:center;font-weight:700;font-size:10.8px;}
+.tbl td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+.tbl tr:nth-child(even) td{background:#f7faf9;}
+.td-lbl{text-align:left!important;font-weight:700;background:#eef3f1!important;color:#1f2d2a;}
+.td-bad{background:var(--red-bg)!important;color:#7f1d1d;font-weight:700;}
+.td-warn{background:var(--amber-bg)!important;color:#78350f;}
+.td-good{background:var(--green-bg)!important;color:#14532d;}
+.td-key{background:#fff7ed!important;color:#7c2d12;font-weight:700;}
+.td-purple{background:var(--purple-bg)!important;color:#3b0764;}
+
+.monitor-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.monitor-cell{padding:7px 8px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:11px;}
+.monitor-cell:nth-child(4n){border-right:none;}
+.monitor-cell.hd{background:var(--primary);color:#fff;font-weight:700;text-align:center;font-size:10.3px;}
+.monitor-cell.grp{background:#eef3f1;font-weight:700;font-size:10.3px;color:var(--primary);}
+
+.cl{list-style:none;}
+.cl li{padding:4px 0 4px 16px;border-bottom:1px solid #f1f5f4;position:relative;font-size:12px;}
+.cl li:last-child{border-bottom:none;}
+.cl li::before{content:'▸';position:absolute;left:0;color:var(--primary-light);font-size:9px;top:6px;}
+
+.box{padding:11px 13px;border-radius:7px;margin-bottom:9px;}
+.box:last-child{margin-bottom:0;}
+.box-title{font-weight:700;font-size:12px;margin-bottom:6px;}
+.box.green{background:var(--green-bg);border:1px solid var(--green-border);}
+.box.green .box-title{color:#14532d;}
+.box.amber{background:var(--amber-bg);border:1px solid var(--amber-border);}
+.box.amber .box-title{color:#78350f;}
+.box.red{background:var(--red-bg);border:1px solid var(--red-border);}
+.box.red .box-title{color:#7f1d1d;}
+.box.blue{background:var(--blue-bg);border:1px solid var(--blue-border);}
+.box.blue .box-title{color:#1e3a5f;}
+
+.small-note{font-size:10.5px;color:var(--text-muted);margin-top:6px;line-height:1.55;}
+.mb-3{margin-bottom:12px;}
+
+.decision-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+.decision-box{border-radius:8px;padding:11px 10px;text-align:center;color:#fff;}
+.decision-box .dlabel{font-size:9.5px;opacity:.85;margin-bottom:4px;}
+.decision-box .dval{font-size:12.5px;font-weight:800;margin-bottom:5px;line-height:1.3;}
+.decision-box .daction{font-size:10.3px;line-height:1.4;background:rgba(255,255,255,.18);border-radius:5px;padding:5px 6px;}
+.decision-box.red{background:linear-gradient(160deg,#7f1d1d,#dc2626);}
+.decision-box.amber{background:linear-gradient(160deg,#78350f,#d97706);}
+.decision-box.green{background:linear-gradient(160deg,#14532d,#16a34a);}
+.decision-box.purple{background:linear-gradient(160deg,#3b0764,#7c3aed);}
+@media (max-width:760px){.decision-grid{grid-template-columns:1fr 1fr;}}
+
+.shuttle{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:center;padding:10px 4px 4px;}
+.sh-box{border:1.5px solid var(--primary-light);border-radius:8px;padding:7px 9px;font-size:10.2px;text-align:center;background:#f3faf8;min-width:70px;line-height:1.3;}
+.sh-box b{display:block;font-size:11px;color:var(--primary);margin-bottom:1px;}
+.sh-arrow{font-size:15px;color:var(--primary-light);font-weight:700;}
+.sh-box.mito{background:#fff7ed;border-color:#d97706;}
+.sh-box.mito b{color:#9a3412;}
+.sh-box.energy{background:linear-gradient(135deg,var(--primary),var(--primary-mid));color:#fff;border-color:transparent;}
+.sh-box.energy b{color:#fff;}
+@media (max-width:760px){.shuttle{flex-direction:column;}.sh-arrow{transform:rotate(90deg);}}
+
+.flow-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.flow-box{background:#eef3f1;border:1px solid var(--border);border-radius:7px;padding:7px 11px;font-size:11px;font-weight:600;color:var(--primary);flex:1;text-align:center;min-width:120px;}
+.flow-arrow{font-size:15px;color:var(--primary-light);}
+
+.footer{font-size:10px;color:var(--text-muted);text-align:center;padding:16px 8px 6px;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>カルニチン欠乏症 — 診療クイックリファレンス</h1>
+      <p>対象患者・診断基準・病因分類・病態別投与量・モニタリングを一覧化</p>
+    </div>
+    <div class="header-badge">『カルニチン欠乏症の診断・治療指針 2018』準拠</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(0)">概要・病態生理</button>
+    <button class="tab-btn" onclick="switchTab(1)">診断</button>
+    <button class="tab-btn" onclick="switchTab(2)">病因分類</button>
+    <button class="tab-btn" onclick="switchTab(3)">製剤・治療総論</button>
+    <button class="tab-btn" onclick="switchTab(4)">投与量①</button>
+    <button class="tab-btn" onclick="switchTab(5)">投与量②(薬剤性)</button>
+    <button class="tab-btn" onclick="switchTab(6)">モニタリング</button>
+    <button class="tab-btn" onclick="switchTab(7)">早見表</button>
+  </div>
+
+  <!-- ════════════════ TAB 0: 概要・病態生理 ════════════════ -->
+  <div class="tab-content active" id="tab0">
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd dark"><span class="icon">🧬</span>カルニチンとは</div>
+        <div class="card-body">
+          <div class="hl hl-blue">必要量の約75%は食事から摂取、残り約25%は肝・腎・脳での生合成によって供給される「条件的必須栄養（conditionally essential nutrient）」。</div>
+          <ul class="cl">
+            <li>生合成材料は必須アミノ酸のリジン＋メチオニン（＋ビタミンC・ナイアシン・B6・鉄が必要）</li>
+            <li>生合成最終段階の γ-ブチロベタインヒドロキシラーゼは肝・腎・脳のみに存在</li>
+            <li>生物活性があるのはL体のみ。D体は拮抗作用を示すためDL体（ラセミ体）製剤は治療に使用しない</li>
+            <li>体内カルニチンの約98%は骨格筋・心筋に分布、血中プールはわずか約0.6%</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">⚡</span>生理作用（4機能）</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li><b>①エネルギー産生</b> — 長鎖脂肪酸のミトコンドリア内輸送に必須。β酸化によるATP産生を促進</li>
+            <li><b>②CoAプール維持</b> — 細胞内アシルCoA/CoA比率を調整し、種々の代謝に必要な遊離CoAプールを維持</li>
+            <li><b>③内因性解毒剤</b> — 有機酸代謝異常等で蓄積する有害なアシルCoAと結合し、アシルカルニチンとして尿中・体外へ排泄</li>
+            <li><b>④抗酸化・抗炎症</b> — SOD等の抗酸化酵素発現増強、抗アポトーシス作用、生体膜安定化（Nrf2経路、比較的新しい知見）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide mb-3">
+      <div class="card-hd dark"><span class="icon">🔄</span>カルニチン回路（カルニチンシャトル）</div>
+      <div class="card-body">
+        <div class="shuttle">
+          <div class="sh-box"><b>細胞外</b>遊離カルニチン</div>
+          <div class="sh-arrow">→</div>
+          <div class="sh-box"><b>OCTN2</b>細胞外の20-50倍に濃縮して取込み</div>
+          <div class="sh-arrow">→</div>
+          <div class="sh-box"><b>LACS</b>遊離脂肪酸→アシルCoA</div>
+          <div class="sh-arrow">→</div>
+          <div class="sh-box mito"><b>CPT-I</b>（外膜）アシルCoA+カルニチン→アシルカルニチン</div>
+          <div class="sh-arrow">→</div>
+          <div class="sh-box mito"><b>CACT</b>（内膜）トランスロカーゼで内外輸送</div>
+          <div class="sh-arrow">→</div>
+          <div class="sh-box mito"><b>CPT-II</b>（内膜）アシルカルニチン→脂肪酸+カルニチン</div>
+          <div class="sh-arrow">→</div>
+          <div class="sh-box energy"><b>β酸化→TCA回路</b>→電子伝達系→ATP産生</div>
+        </div>
+        <div class="small-note">遊離カルニチンの絶対的低下（carnitine deficiency）、または蓄積アシルCoA量に見合った遊離カルニチンの不足（carnitine insufficiency）のいずれでもこの回路は回らなくなる。</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd green"><span class="icon">⚖️</span>ホメオスタシスを決める4要因</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li>①食事からの摂取量（約300 μmol/日 ≒ 48 mg/日）</li>
+            <li>②生体内での生合成量（約100 μmol/日 ≒ 16 mg/日、肝・腎・脳のみ）</li>
+            <li>③腎臓からの排泄量（尿中排泄 約400 μmol/日）</li>
+            <li>④腎尿細管再吸収（OCTN2を介し<b>90%以上</b>が再吸収。アシルカルニチンは再吸収されにくく尿中排泄されやすい）</li>
+          </ul>
+          <div class="small-note">生体内カルニチンプールは小児で約50,000 μmol（≒8,000 mg）、成人は小児の約2.5倍。その約98%は骨格筋・心筋に、約1.6%は肝・腎に、約0.6%が血中（細胞外液）に存在。</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">📊</span>体内分布の基準値</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>部位</th><th>カルニチン濃度</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">血清・総カルニチン</td><td>40-60 μmol/L</td></tr>
+              <tr><td class="td-lbl">血清・遊離カルニチン</td><td>35-50 μmol/L</td></tr>
+              <tr><td class="td-lbl">血清・アシルカルニチン</td><td>&lt; 15 μmol/L</td></tr>
+              <tr><td class="td-lbl">肝臓</td><td>1,000-1,900 nmol/g tissue</td></tr>
+              <tr><td class="td-lbl">心臓</td><td>3,500-6,000 nmol/g tissue</td></tr>
+              <tr><td class="td-lbl">骨格筋</td><td>2,000-4,600 nmol/g tissue</td></tr>
+              <tr><td class="td-lbl">脳</td><td>200-500 nmol/g tissue</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">👶</span>年齢依存性の生合成能</div>
+        <div class="card-body">
+          <div class="monitor-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="monitor-cell hd">乳児期</div><div class="monitor-cell hd">3歳児</div><div class="monitor-cell hd">15歳〜</div>
+            <div class="monitor-cell" style="text-align:center;font-weight:700;">成人の約10%</div>
+            <div class="monitor-cell" style="text-align:center;font-weight:700;">成人の約30%</div>
+            <div class="monitor-cell" style="text-align:center;font-weight:700;">成人レベルに到達</div>
+          </div>
+          <div class="small-note">肝の γ-ブチロベタインヒドロキシラーゼ活性が年齢依存性。新生児期〜乳幼児期はこの生合成能が低く、かつ脂質依存度の高いエネルギー代謝のため、カルニチン欠乏症が発症しやすい時期となる。腎の同酵素は新生児でも成人同様の活性がある。</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd red"><span class="icon">⚠️</span>重要な落とし穴</div>
+        <div class="card-body">
+          <div class="hl hl-red">血中遊離カルニチンは必ずしも組織カルニチンの状態を反映しない。組織破壊を伴う病態ではカルニチン欠乏症であっても血中遊離カルニチンが低下していない、あるいは高値の場合がある。</div>
+          <ul class="cl">
+            <li>肝不全・肝硬変患者</li>
+            <li>横紋筋融解症</li>
+            <li>重度の食思不振症（肝機能異常を伴う場合）</li>
+            <li>CPT-I欠損症</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 1: 診断 ════════════════ -->
+  <div class="tab-content" id="tab1">
+
+    <div class="card wide mb-3">
+      <div class="card-hd dark"><span class="icon">🎯</span>対象患者（カルニチン欠乏を疑うべき背景）</div>
+      <div class="card-body">
+        <div class="grid-3" style="margin-bottom:0;">
+          <ul class="cl">
+            <li>先天代謝異常症患者</li>
+            <li>バルプロ酸投与患者（てんかん・精神疾患・脳外科術後など）</li>
+            <li>腎不全（腹膜透析・血液透析・CRRT）</li>
+            <li>Fanconi症候群患者</li>
+          </ul>
+          <ul class="cl">
+            <li>経管栄養・TPN・一部のアレルギーミルクで栄養管理中の患者</li>
+            <li>ピボキシル基含有抗菌薬投与患者</li>
+            <li>抗がん剤投与患者（プラチナ製剤・アントラサイクリン・アルキル化剤）</li>
+            <li>肝硬変・肝不全患者</li>
+          </ul>
+          <ul class="cl">
+            <li>筋ジストロフィー・ALS等の神経筋疾患患者</li>
+            <li>重症心身障害児（者）</li>
+            <li>食思不振症患者・高齢者・重症疾患・低栄養患者</li>
+            <li>その他、年齢・基礎疾患・筋肉量・処方薬・栄養形態からカルニチン欠乏が疑われる患者</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">🩺</span>疑うべき臨床症状・臨床徴候</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li>意識障害、けいれん</li>
+            <li>筋緊張低下・筋力低下・重度のこむら返り・重度の倦怠感</li>
+            <li>横紋筋融解症、脳症</li>
+            <li>空腹・感染で誘発される嘔吐、頻回嘔吐</li>
+            <li>精神・運動発達の遅延、体重増加不良、呼吸の異常</li>
+            <li>心肥大・心筋症・心機能低下・突然死（家族歴含む）</li>
+            <li>反復性Reye様症候群</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">🧪</span>疑うべき一般臨床検査所見</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li>低ケトン性低血糖</li>
+            <li>代謝性アシドーシス、高アンモニア血症</li>
+            <li>肝機能異常（AST・ALT上昇）、脂肪肝</li>
+            <li>血液ガス分析異常（pH、HCO3⁻、BE）</li>
+            <li>電解質異常（Na、K、Ca、Cl）</li>
+            <li>治療抵抗性の貧血</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide mb-3">
+      <div class="card-hd dark"><span class="icon">🔬</span>血中カルニチン2分画検査による診断基準</div>
+      <div class="card-body">
+        <div class="decision-grid">
+          <div class="decision-box red">
+            <div class="dlabel">遊離カルニチン</div>
+            <div class="dval">FC &lt; 20 μmol/L</div>
+            <div class="daction">カルニチン欠乏症と診断。レボカルニチン製剤の投与を積極的に考慮</div>
+          </div>
+          <div class="decision-box amber">
+            <div class="dlabel">境界域 または比異常</div>
+            <div class="dval">20≤FC&lt;36 または AC/FC&gt;0.4</div>
+            <div class="daction">発症する可能性が極めて高い。臨床症状・年齢・食事形態等から総合的に補充を検討</div>
+          </div>
+          <div class="decision-box green">
+            <div class="dlabel">基準範囲内</div>
+            <div class="dval">36≤FC≤74 μmol/L</div>
+            <div class="daction">正常</div>
+          </div>
+          <div class="decision-box purple">
+            <div class="dlabel">異常高値</div>
+            <div class="dval">FC &gt; 74 μmol/L</div>
+            <div class="daction">肝不全・肝硬変、横紋筋融解症等を考慮。必要と判断した場合はカルニチン製剤も検討</div>
+          </div>
+        </div>
+        <div class="small-note" style="margin-top:9px;">AC（アシルカルニチン）≧20 μmol/L も明らかに異常。AC/FC比 正常は≦0.25、>0.4 を Carnitine insufficiency と呼び、多くの二次性カルニチン欠乏症で認められる（ミトコンドリア内の毒性アシルCoAに見合う遊離カルニチンが不足する相対的欠乏）。</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">📋</span>参考基準値（血中カルニチン2分画検査）</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>項目</th><th>基準値</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">総カルニチン</td><td class="td-good">45-91 μmol/L</td></tr>
+              <tr><td class="td-lbl">遊離カルニチン</td><td class="td-good">36-74 μmol/L</td></tr>
+              <tr><td class="td-lbl">アシルカルニチン</td><td class="td-good">6-23 μmol/L</td></tr>
+              <tr><td class="td-lbl">AC/FC比</td><td class="td-good">≦0.25が正常／&gt;0.4で異常</td></tr>
+            </tbody>
+          </table>
+          <div class="small-note">酵素サイクリング法（カイノス社T-Carnitine／F-Carnitine試薬）。2018年2月より保険収載。先天代謝異常症の確定診断にはタンデムマス分析によるアシルカルニチンプロフィール分析が必須で、本検査は先天代謝異常症以外の原因によるカルニチン欠乏症の日常診療に適している。</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd green"><span class="icon">💉</span>治療的診断</div>
+        <div class="card-body">
+          <div class="hl hl-green">臨床症状・一般臨床検査所見があるが他の明確な原因を否定できず、血中カルニチン2分画検査での診断が困難な場合は、カルニチン補充（通常30-100 mg/kg）を行い、臨床症状の顕著な改善が認められればカルニチン欠乏症と診断する。</div>
+          <div class="small-note">急性脳症発症時や肝性脳症など、血中カルニチン検査の結果を待たずに治療的診断へ進むこともある。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-hd dark"><span class="icon">📌</span>診断上の重要な注意点（指針より）</div>
+      <div class="card-body">
+        <div class="hl hl-blue">① 血中カルニチン濃度は年齢・性別・採血時間で変動し、基準値にはかなりの幅がある。</div>
+        <div class="hl hl-blue">② FC&lt;20、あるいはFC&gt;74の場合、カルニチン代謝の異常がある可能性が高い。</div>
+        <div class="hl hl-amber">③ AC≧20も明らかに異常。AC/FC&gt;0.4はCarnitine insufficiency（正常≦0.25）で、多くの二次性カルニチン欠乏症で認められる。</div>
+        <div class="hl hl-amber">④ 無症候・無症状でも、空腹・飢餓・発熱・感染・嘔吐・激しい運動などエネルギー需要が増大した際に急激に発症しうる。</div>
+        <div class="hl hl-red">⑤ 血中プールは約0.6%のみ。組織細胞が破壊された病態（肝不全・肝硬変、横紋筋融解症、重度食思不振症など）では、欠乏症であっても血中遊離カルニチンが低下していない、あるいは高値の場合がある。</div>
+        <div class="hl hl-amber">⑥ 意識障害・けいれん・心筋症・高アンモニア血症はカルニチン欠乏症以外の病因でも発症しうるため、検査所見と臨床像から総合的に診断する。</div>
+        <div class="hl hl-green">⑦ 補充にはレボカルニチン製剤や自然流動食（ミキサー食）を総合的に判断して用いる。欠乏リスクが高い場合は維持期にもこれらを活用し、欠乏状態に陥らないよう注意する。</div>
+        <div class="hl hl-blue">⑧ 他の原因が除外できず血中カルニチン検査を待てない場合（急性脳症、肝性脳症など）は、治療的診断を先行させることもある。</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 2: 病因分類 ════════════════ -->
+  <div class="tab-content" id="tab2">
+
+    <div class="card wide mb-3">
+      <div class="card-hd purple"><span class="icon">🧬</span>一次性カルニチン欠乏症（全身性カルニチン欠乏症）</div>
+      <div class="card-body">
+        <div class="grid-2" style="margin-bottom:0;">
+          <ul class="cl">
+            <li>細胞膜のカルニチントランスポーター<b>OCTN2</b>（遺伝子<b>SLC22A5</b>）の機能低下による</li>
+            <li>腸からの吸収・腎尿細管からの再吸収・筋細胞等への取込みが低下し細胞内カルニチンが欠乏</li>
+            <li>アミノ酸置換を伴う変異は現時点で<b>138種類</b>報告</li>
+            <li>臨床像：乳幼児突然死症候群（SIDS）、低ケトン性低血糖、心筋症など。学童期以降は筋力低下・心筋症・不整脈を契機に診断されることもある</li>
+          </ul>
+          <div class="hl hl-purple">タンデムマススクリーニングでの発見頻度は約26万人に1人だが、秋田県での保因者解析では約4万人に1人。新生児マススクリーニングの二次対象疾患で自治体により対象外のため、未診断例が存在する可能性がある。血中カルニチン2分画検査ではFC・AC・総カルニチンすべてが顕著に低値。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-hd dark"><span class="icon">📂</span>二次性カルニチン欠乏症の分類</div>
+      <div class="card-body">
+        <table class="tbl">
+          <thead><tr><th style="width:18%;">分類</th><th>主な内容</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-lbl">先天代謝異常症によるもの</td>
+              <td style="text-align:left;">有機酸代謝異常症（プロピオン酸血症、メチルマロン酸血症など）／脂肪酸酸化異常症（MCAD欠損症、CPT-II欠損症など）／Fanconi症候群を合併する代謝異常症（チロシン血症1型、Lowe症候群など）／ミトコンドリア異常症</td>
+            </tr>
+            <tr>
+              <td class="td-lbl">後天的医学的条件によるもの</td>
+              <td style="text-align:left;"><b>生合成減少</b>：肝硬変、慢性腎疾患、極低出生体重児／<b>摂取減少</b>：長期TPN、栄養不良、厳格な菜食主義、特殊ミルク単独摂取、摂食嚥下機能障害／<b>吸収低下</b>：短腸症候群、セリアック病、クローン病、嚢胞性線維症／<b>必要量増大</b>：妊娠・授乳、極低体重児、敗血症／<b>損失増大</b>：Fanconi症候群、腎尿細管アシドーシス、表皮水疱症</td>
+            </tr>
+            <tr>
+              <td class="td-lbl">医原性（iatrogenic）</td>
+              <td style="text-align:left;"><b>腎代替療法</b>：血液透析、腹膜透析、CRRT／<b>薬剤性</b>：バルプロ酸、フェノバルビタール、フェニトイン、カルバマゼピン、ピボキシル基含有抗菌薬、抗がん剤（プラチナ製剤・アントラサイクリン・アルキル化剤）、安息香酸ナトリウムなど</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="small-note">一次性・Fanconi症候群では遊離・アシル・総カルニチンすべてが顕著に低下する「絶対的欠乏（deficiency）」が主体。その他の二次性カルニチン欠乏症は蓄積アシルCoAに対する相対的不足（insufficiency）が主体で、AC/FC比上昇が先行し、進行するとFCも低下する。</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 3: 製剤・治療総論 ════════════════ -->
+  <div class="tab-content" id="tab3">
+
+    <div class="card wide mb-3">
+      <div class="card-hd dark"><span class="icon">💊</span>レボカルニチン製剤の剤型選択（エルカルチン®FF）</div>
+      <div class="card-body">
+        <div class="grid-3" style="margin-bottom:0;">
+          <div class="dose-box">
+            <div class="dose-label">錠剤</div>
+            <div class="dose-num" style="font-size:15px;">100mg／250mg</div>
+            <div class="dose-unit">100mg：乳幼児・小児・頻回分割投与<br>250mg：青少年・成人</div>
+          </div>
+          <div class="dose-box-blue">
+            <div class="dose-label">内用液剤</div>
+            <div class="dose-num" style="font-size:15px;">10%（10mLで1,000mg）</div>
+            <div class="dose-unit">経管栄養への補給、高齢者で錠剤服用困難な場合など</div>
+          </div>
+          <div class="dose-box-red">
+            <div class="dose-label">静注製剤</div>
+            <div class="dose-num" style="font-size:15px;">1,000mg／5mL</div>
+            <div class="dose-unit">先天代謝異常症急性期、代謝救急、肝性脳症、VPA中毒、意識障害で経口不可、血液透析患者など</div>
+          </div>
+        </div>
+        <div class="small-note">後発品（レボカルニチン塩化物錠100mg・300mg）：日医工／フソー（扶桑薬品工業）／イセイ（コーアイセイ）／YD（陽進堂）。</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">🧭</span>投与法決定にあたって考慮する事項</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li><b>①原因の継続性</b> — 先天代謝異常症・透析等は原則継続。ピボキシル系抗菌薬等の時限的原因は発症・危惧時期のみ</li>
+            <li><b>②急性期と慢性期</b> — 投与量・剤型の選択が異なる</li>
+            <li><b>③重症度</b> — 重症例は高用量、回復後に減量を考慮</li>
+            <li><b>④個々の患者要因</b> — 年齢・性別・罹病期間・食事量・栄養形態・筋肉量・併用薬・合併疾患</li>
+            <li><b>⑤緊急性</b> — 緊急時は高用量・静注、安定後に低用量・経口へ切替</li>
+            <li><b>⑥複数栄養素欠乏の合併</b> — セレン・亜鉛・ヨウ素・ビタミンD3・ビオチン等も同時に評価</li>
+            <li><b>⑦カルニチン含有食品・ミキサー食の活用</b> — 経腸栄養剤の多くはカルニチン非添加</li>
+            <li><b>⑧発症年齢層</b> — 小児に限らず生涯にわたり発症リスクがある病態は成人にも適用</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd red"><span class="icon">⚠️</span>薬物動態上の注意点</div>
+        <div class="card-body">
+          <div class="hl hl-amber">経口カルニチンはOCTN2の<b>吸収飽和現象</b>により、高用量投与でも生物学的利用率は10-20%程度に留まる。重症例では少量頻回投与が望ましい。</div>
+          <div class="hl hl-blue">静脈内投与は腎尿細管再吸収の閾値を超えると尿中に排泄されるため、腎機能正常な患者では必ずしも効率的とは言えない（意識障害・経口不可の急性期には有用）。</div>
+          <div class="hl hl-red">長鎖脂肪酸代謝異常症が疑われる場合、急性期のレボカルニチン製剤<b>静注は禁忌</b>。先天代謝異常症の診療は専門家の指導のもとで進める。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-hd green"><span class="icon">🍽️</span>カルニチン含有経腸栄養剤・食品の活用</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>市販の経管栄養剤・TPN・一部のアレルゲン除去調製粉乳の多くはカルニチン非添加</li>
+          <li>エネーボ®配合経腸溶液（2014年発売）は100kcalあたりカルニチン11.0mg含有（既存栄養剤に比べNPC/N比が低く、腎不全患者では適応を要検討）</li>
+          <li>カルニチンは赤身肉・乳製品に多く含まれる（羊肉208.9、牛肉ランプ130.7、豚ロース69.6、鶏もも32.8、牛乳3.4 mg/100g など）</li>
+          <li>カルニチンは食事として摂取した方が、製剤として摂取するより少量で効果的との報告がある（腸管との接触時間が長いため）</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 4: 投与量①（腎・肝・栄養関連） ════════════════ -->
+  <div class="tab-content" id="tab4">
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-hd dark"><span class="icon">🫀</span>肝硬変・肝性脳症</div>
+        <div class="card-body">
+          <div class="dose-box">
+            <div class="dose-label">肝性脳症（成人量）</div>
+            <div class="dose-num">750-1,500</div>
+            <div class="dose-unit">mg/日 分2-3 経口<br>高アンモニア血症合併は3か月目安で1,500mg/日</div>
+          </div>
+          <div class="dose-box-amber" style="margin-top:7px;">
+            <div class="dose-label">こむら返り</div>
+            <div class="dose-num">750-1,000</div>
+            <div class="dose-unit">mg/日 分3-4（就寝前追加でより改善）</div>
+          </div>
+          <div class="small-note">血中カルニチン値が正常〜高値でも相対的欠乏の可能性は否定できず、臨床症状・アンモニア値・サルコペニア合併等から総合的に投与開始を判断。</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">🩸</span>透析・Fanconi症候群</div>
+        <div class="card-body">
+          <div class="dose-box-blue">
+            <div class="dose-label">血液透析</div>
+            <div class="dose-num">10-20</div>
+            <div class="dose-unit">mg/kg/回　透析終了後に静注</div>
+          </div>
+          <div class="dose-box-blue" style="margin-top:7px;">
+            <div class="dose-label">腹膜透析</div>
+            <div class="dose-num">10-20</div>
+            <div class="dose-unit">mg/kg/日　経口開始しデータをみて調節（経験的投与法）</div>
+          </div>
+          <div class="dose-box-amber" style="margin-top:7px;">
+            <div class="dose-label">Fanconi症候群</div>
+            <div class="dose-num">30-120</div>
+            <div class="dose-unit">mg/kg/日　経口投与</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd green"><span class="icon">🍼</span>TPN・経腸栄養剤への補充</div>
+        <div class="card-body">
+          <div class="dose-box-green">
+            <div class="dose-label">TPN（新生児・術後等）</div>
+            <div class="dose-num">2-5</div>
+            <div class="dose-unit">mg/kg/日　必ず静注剤を使用</div>
+          </div>
+          <div class="dose-box-green" style="margin-top:7px;">
+            <div class="dose-label">経腸栄養剤（高齢者等）</div>
+            <div class="dose-num">5</div>
+            <div class="dose-unit">mg/kg/日　基本的に内用液剤を使用</div>
+          </div>
+          <div class="small-note">VPA併用時・重症心身障害児（者）は専用プロトコルを参照。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">🧠</span>神経・筋疾患及び精神疾患</div>
+        <div class="card-body">
+          <div class="dose-box">
+            <div class="dose-label">投薬</div>
+            <div class="dose-num">3-10</div>
+            <div class="dose-unit">mg/kg/日（食事からの摂取は1-4mg/kg/日）</div>
+          </div>
+          <div class="dose-box-amber" style="margin-top:7px;">
+            <div class="dose-label">ミトコンドリア機能障害が強い場合（急性脳症等）</div>
+            <div class="dose-num">30-100</div>
+            <div class="dose-unit">mg/kg/日（代謝疾患と同等）</div>
+          </div>
+          <div class="hl hl-blue" style="margin-top:7px;">ADHDでは100mg/kg/日（最大4g）の有効報告。いずれも1日2-3回分割、1回投与量は最大でも<b>2gを超えない</b>ことが望ましい（トランスポーター飽和のため）。最大4-6g/日の有効報告あり。</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd purple"><span class="icon">🧑‍🦽</span>重症心身障害児（者）</div>
+        <div class="card-body">
+          <div class="dose-box-green">
+            <div class="dose-label">栄養剤として補充</div>
+            <div class="dose-num">2-10</div>
+            <div class="dose-unit">mg/kg/日</div>
+          </div>
+          <div class="dose-box" style="margin-top:7px;">
+            <div class="dose-label">カルニチン製剤として治療</div>
+            <div class="dose-num">20-50</div>
+            <div class="dose-unit">mg/kg/日（患児の状況に合わせ製剤を選択）</div>
+          </div>
+          <div class="small-note">栄養状態・カルニチン欠乏度・抗てんかん薬・抗菌薬使用状況を考慮して総合的に判断。定期的な血中カルニチン2分画検査を。過剰投与では心筋障害・動脈硬化のリスクも指摘されている。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-hd dark"><span class="icon">📄</span>エルカルチン®添付文書上の用法・用量</div>
+      <div class="card-body">
+        <table class="tbl">
+          <thead><tr><th style="width:16%;">投与経路</th><th>用量</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">経口（成人）</td><td style="text-align:left;">1日1.5-3g（15-30mL）を3回に分割経口投与。患者の状態に応じ適宜増減</td></tr>
+            <tr><td class="td-lbl">経口（小児）</td><td style="text-align:left;">1日体重1kgあたり25-100mg（0.25-1mL）を3回に分割経口投与</td></tr>
+            <tr><td class="td-lbl">点滴静注</td><td style="text-align:left;">1回体重1kgあたり50mgを3-6時間ごとに緩徐に静注（2-3分）または点滴静注。1日最大投与量は体重1kgあたり300mg</td></tr>
+            <tr><td class="td-lbl">血液透析時</td><td style="text-align:left;">体重1kgあたり10-20mgを透析終了時に透析回路静脈側に注入（静注）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 5: 投与量②（薬剤性） ════════════════ -->
+  <div class="tab-content" id="tab5">
+
+    <div class="card wide mb-3">
+      <div class="card-hd red"><span class="icon">💊</span>バルプロ酸誘発カルニチン欠乏症（VHT／VHE）</div>
+      <div class="card-body">
+        <div class="grid-3" style="margin-bottom:9px;">
+          <div class="dose-box-green">
+            <div class="dose-label">予防的投与（リスク因子のない小児等）</div>
+            <div class="dose-num" style="font-size:16px;">10-20mg/kg/日</div>
+            <div class="dose-unit">あるいは100-300mg/日<br>成人：250-750mg/日</div>
+          </div>
+          <div class="dose-box-amber">
+            <div class="dose-label">VHT/VHE治療（意識障害なし）</div>
+            <div class="dose-num" style="font-size:16px;">50-100mg/kg/日</div>
+            <div class="dose-unit">経口、6時間ごと<br>最大1日3gまで、重症度に応じ増減</div>
+          </div>
+          <div class="dose-box-red">
+            <div class="dose-label">意識障害あり（経口不可）</div>
+            <div class="dose-num" style="font-size:16px;">初期100mg/kg静注</div>
+            <div class="dose-unit">（最大6g）後、4-6時間ごとに15mg/kg追加。アンモニア低下後に経口へ切替</div>
+          </div>
+        </div>
+        <div class="hl hl-blue">VPA中毒例もこの意識障害時プロトコルに準じ、投与量を適宜増減する。</div>
+        <div class="small-note">VHT（肝毒性）発症率：成人 約4万人に1人／小児 約5,000人に1人／ハイリスク群（2歳以下・多剤併用・肝機能異常や代謝障害・神経学的疾患合併）約500人に1人。VHE（高アンモニア性脳症）は山本らの2,681例の検討で90例（3.4%）が200μg/dL以上の高アンモニア血症を示したと報告。</div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-hd amber"><span class="icon">🦠</span>ピボキシル基含有抗菌薬によるカルニチン欠乏症</div>
+      <div class="card-body">
+        <div class="grid-2" style="margin-bottom:9px;">
+          <div class="dose-box-amber">
+            <div class="dose-label">経口投与可能な場合</div>
+            <div class="dose-num">40-60</div>
+            <div class="dose-unit">mg/kg/日<br>投与期間は抗菌薬投与期間によるが、少なくとも臨床症状・血清遊離カルニチン値が正常化するまで</div>
+          </div>
+          <div class="dose-box-red">
+            <div class="dose-label">意識障害あり／重篤で緊急対処が必要</div>
+            <div class="dose-num">初期100mg/kg静注</div>
+            <div class="dose-unit">（最大6g）後、4時間ごとに15mg/kg追加投与。経口可能・安定後は左記用量に準ずる</div>
+          </div>
+        </div>
+        <div class="hl hl-amber">長期投与をやむを得ず行う場合の予防的カルニチン補充については、現時点で報告がない。血中カルニチン2分画検査・血糖検査を定期的に行い、臨床症状・臨床徴候に注意する。</div>
+        <table class="tbl" style="margin-top:9px;">
+          <thead><tr><th>成分名</th><th>略号</th><th>主な販売名</th></tr></thead>
+          <tbody>
+            <tr><td>セフテラム ピボキシル</td><td>CFTM-PI</td><td>トミロン</td></tr>
+            <tr><td>セフカペン ピボキシル</td><td>CFPN-PI</td><td>フロモックス</td></tr>
+            <tr><td>セフジトレン ピボキシル</td><td>CDTR-PI</td><td>メイアクト</td></tr>
+            <tr><td>テビペネム ピボキシル</td><td>TBPM-PI</td><td>オラペネム</td></tr>
+          </tbody>
+        </table>
+        <div class="small-note">国内報告例は生後11か月〜4歳に集中（特に1歳が過半数）。筋肉量の少ない乳幼児が感染による発熱や絶食を契機に低血糖・意識障害・けいれんで発症しやすい。複数のピボキシル系抗菌薬を切り替えながら使用された例が多い点も特徴。</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 6: モニタリング・フォロー ════════════════ -->
+  <div class="tab-content" id="tab6">
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd dark"><span class="icon">📈</span>補充後モニタリングの原則</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li>カルニチン製剤投与で見かけ上の血中カルニチン値は上昇するが、これはあくまで補充療法である</li>
+            <li>欠乏リスクがある患者では、臨床症状・検査所見・摂食状況・年齢・体格を考慮した継続的補充が必要</li>
+            <li>投与中止は、モニタリング項目および再発リスクを総合的に判断し慎重に行う</li>
+          </ul>
+          <div class="hl hl-amber">現時点ではカルニチン投与時のモニタリングに関する報告は限定的であり、今後の検討課題とされている。</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">🗓️</span>検査間隔（保険診療上の取り扱い）</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li>先天代謝異常症の診断補助・経過観察：<b>月1回</b>を限度に算定</li>
+            <li>長期静脈栄養／経腸栄養管理中の筋ジストロフィー・ALS・小児、人工乳または治療用特殊ミルク使用中の小児、バルプロ酸ナトリウム投与中の患者、Fanconi症候群、慢性維持透析患者：<b>6か月に1回</b>を限度に算定</li>
+            <li>血液透析患者の採血は<b>透析前</b>に、脱血側から行うことが望ましい</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <div class="card-hd green"><span class="icon">🏁</span>フォロー終了（経過観察オフ）の目安</div>
+      <div class="card-body">
+        <div class="box green">
+          <div class="box-title">終了・減量を検討できる場合</div>
+          <ul class="cl" style="margin-top:2px;">
+            <li>原因が時限的なもの（ピボキシル系抗菌薬投与の終了、VPA中止、急性疾患からの回復など）で、誘因そのものが消失している</li>
+            <li>臨床症状（意識障害・けいれん・倦怠感・こむら返り等）が消失している</li>
+            <li>血中カルニチン2分画検査で<b>FCが基準範囲内（36-74μmol/L）かつAC/FC比≦0.25</b>へ正常化し、それが減量後の再検でも維持されている</li>
+          </ul>
+        </div>
+        <div class="box amber">
+          <div class="box-title">⚠ 「終了」ではなく継続・維持管理が適切な場合</div>
+          原因が継続する患者（先天代謝異常症、透析、長期経管栄養、重症心身障害児（者）、VPA継続使用など）では、原則として補充療法を継続する。十分に補充された後の<b>減量</b>は可能でも、完全な投与中止の対象になることは少ない。維持期は製剤から、カルニチン含有経腸栄養剤や自然流動食（ミキサー食）への切替で同等の血中値が維持できる場合もある。
+        </div>
+        <div class="box red">
+          <div class="box-title">⚠ 終診・減量時に必ず伝えること（セーフティネット）</div>
+          原因が残っている患者では、発熱・感染・絶食・激しい運動などエネルギー需要が増大した際に、無症候の状態から急激に低ケトン性低血糖・意識障害・けいれん等で再増悪することがある。家族には「シックデイ（発熱・食欲不振・嘔吐）の際は早めに受診を」と明確に伝えてから減量・終診とする。
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════ TAB 7: 早見表 ════════════════ -->
+  <div class="tab-content" id="tab7">
+
+    <div class="card wide mb-3">
+      <div class="card-hd dark"><span class="icon">✅</span>初診・初回ワークアップ チェックリスト</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>対象患者リスト（先天代謝異常症・VPA・透析・TPN/経管栄養・ピボキシル系抗菌薬・抗がん剤・肝硬変・神経筋疾患・重症心身障害児（者）等）に当てはまるか確認</li>
+          <li>疑うべき臨床症状・一般臨床検査所見の有無を確認</li>
+          <li>血中カルニチン2分画検査をオーダー（先天代謝異常症が強く疑われる場合はタンデムマス分析を優先）</li>
+          <li>FC・AC/FC比から4分類（欠乏症確定／可能性極めて高い／正常／異常高値）に当てはめる</li>
+          <li>病因（一次性／二次性：先天代謝異常・後天的医学的条件・医原性）を分類</li>
+          <li>病態別の投与量プロトコルを選択し開始</li>
+          <li>モニタリング計画（検査間隔・保険算定条件）を立てる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">🔬</span>診断カットオフ早見</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>指標</th><th>カットオフ</th><th>意味</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">FC</td><td class="td-bad">&lt; 20 μmol/L</td><td>欠乏症と診断</td></tr>
+              <tr><td class="td-lbl">FC または AC/FC</td><td class="td-warn">20-36 / &gt;0.4</td><td>発症の可能性が極めて高い</td></tr>
+              <tr><td class="td-lbl">FC</td><td class="td-good">36-74 μmol/L</td><td>正常</td></tr>
+              <tr><td class="td-lbl">FC</td><td class="td-purple">&gt; 74 μmol/L</td><td>肝不全・横紋筋融解症等を考慮</td></tr>
+              <tr><td class="td-lbl">AC</td><td class="td-bad">≧ 20 μmol/L</td><td>明らかに異常</td></tr>
+              <tr><td class="td-lbl">AC/FC比</td><td class="td-good">≦ 0.25</td><td>正常</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">💊</span>病態別投与量 早見（mg/kg/日、特記なき限り経口）</div>
+        <div class="card-body">
+          <table class="tbl">
+            <tbody>
+              <tr><td class="td-lbl">肝性脳症（成人）</td><td>750-1,500mg/日</td></tr>
+              <tr><td class="td-lbl">血液透析</td><td>10-20/回（透析後静注）</td></tr>
+              <tr><td class="td-lbl">腹膜透析</td><td>10-20</td></tr>
+              <tr><td class="td-lbl">Fanconi症候群</td><td>30-120</td></tr>
+              <tr><td class="td-lbl">TPN補充</td><td>2-5（静注剤）</td></tr>
+              <tr><td class="td-lbl">経腸栄養剤補充</td><td>5</td></tr>
+              <tr><td class="td-lbl">神経筋・精神疾患</td><td>3-10</td></tr>
+              <tr><td class="td-lbl">重症心身障害児（者）治療</td><td>20-50</td></tr>
+              <tr><td class="td-lbl">VPA予防的投与</td><td>10-20</td></tr>
+              <tr><td class="td-lbl">VHT/VHE治療</td><td>50-100</td></tr>
+              <tr><td class="td-lbl">ピボキシル系抗菌薬関連</td><td>40-60</td></tr>
+              <tr><td class="td-lbl">意識障害時ローディング（共通）</td><td class="td-bad">初期100（静注、最大6g）</td></tr>
+            </tbody>
+          </table>
+          <div class="small-note">いずれの病態でも1回投与量は最大2gを超えないことが望ましい（トランスポーター飽和現象）。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    参考資料：『カルニチン欠乏症の診断・治療指針 2018』（2018年11月、改正WG委員長 位田忍ほか／日本小児科学会・日本小児保健協会・日本小児科医会・日本小児期外科系関連学会協議会 4社協合同委員会 栄養委員会、日本重症心身障害学会・日本肝臓学会・日本透析医学会 委員協力）<br>
+    本リファレンスは診療補助目的であり、最終判断は患者個別の臨床状況と主治医の判断に基づくこと。
+  </div>
+
+</div>
+
+<script>
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>

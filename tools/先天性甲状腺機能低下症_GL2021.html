@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>先天性甲状腺機能低下症 マススクリーニングGL 2021 クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="マススクリーニングGL 2021のクイックリファレンス">
+<meta name="mini-title" content="先天性甲状腺機能低下症 GL2021">
+
+<style>
+:root{
+  --bg:#eef2f7; --card:#ffffff; --border:#dde3ec;
+  --text:#1a202c; --text-muted:#64748b;
+  --primary:#1e3a5f; --primary-mid:#254d80; --primary-light:#3468a8;
+  --red:#b91c1c; --red-soft:#dc2626; --red-bg:#fef2f2; --red-border:#fca5a5;
+  --amber:#92400e; --amber-soft:#b45309; --amber-bg:#fffbeb; --amber-border:#fcd34d;
+  --blue:#1d4ed8; --blue-soft:#2563eb; --blue-bg:#eff6ff; --blue-border:#93c5fd;
+  --green:#166534; --green-soft:#15803d; --green-bg:#f0fdf4; --green-border:#86efac;
+  --purple:#6b21a8; --purple-bg:#faf5ff; --purple-border:#d8b4fe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.75; font-size:15px;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px 64px}
+
+/* ─── HEADER ─── */
+header{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-mid) 55%,var(--primary-light) 100%);
+  color:#fff; padding:28px 16px 22px; margin-bottom:0;
+}
+header .inner{max-width:1080px;margin:0 auto}
+header .eyebrow{font-size:11.5px;letter-spacing:.14em;opacity:.72;font-weight:600;margin-bottom:6px}
+header h1{font-size:23px;font-weight:700;letter-spacing:.01em;line-height:1.4}
+header h1 span{display:block;font-size:14px;font-weight:400;opacity:.82;margin-top:5px;letter-spacing:0}
+header .meta{margin-top:12px;font-size:12px;opacity:.75;border-top:1px solid rgba(255,255,255,.2);padding-top:10px}
+
+/* ─── TABS ─── */
+nav.tabs{
+  background:#fff;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;
+  box-shadow:0 1px 6px rgba(30,58,95,.07);
+}
+nav.tabs .inner{max-width:1080px;margin:0 auto;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+nav.tabs button{
+  flex:0 0 auto;background:none;border:none;cursor:pointer;
+  padding:14px 16px;font-size:13.5px;font-weight:600;color:var(--text-muted);
+  font-family:inherit;border-bottom:3px solid transparent;white-space:nowrap;transition:.15s;
+}
+nav.tabs button:hover{color:var(--primary-light);background:#f7f9fc}
+nav.tabs button.active{color:var(--primary);border-bottom-color:var(--primary-light);background:#f4f7fb}
+nav.tabs button:focus-visible{outline:2px solid var(--primary-light);outline-offset:-2px}
+nav.tabs button .num{display:inline-block;margin-right:6px;opacity:.55;font-size:11px}
+
+/* ─── PANELS ─── */
+.panel{display:none;padding-top:26px}
+.panel.active{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.panel.active{animation:none}}
+
+/* ─── CARDS ─── */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(30,58,95,.05);
+}
+.card > h2{
+  font-size:16.5px;font-weight:700;color:var(--primary);
+  padding-bottom:10px;margin-bottom:14px;border-bottom:2px solid var(--border);
+  display:flex;align-items:center;gap:9px;
+}
+.card > h2 .tag{
+  font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:20px;
+  background:var(--primary);color:#fff;letter-spacing:.04em;
+}
+.card h3{font-size:14.5px;font-weight:700;color:var(--primary-mid);margin:18px 0 8px}
+.card h3:first-of-type{margin-top:4px}
+p{margin-bottom:9px}
+ul,ol{margin:0 0 10px 20px}
+li{margin-bottom:5px}
+.muted{color:var(--text-muted);font-size:13px}
+strong{font-weight:700}
+.nowrap{white-space:nowrap}
+
+/* ─── CALLOUT BOXES ─── */
+.box{border-radius:8px;padding:13px 16px;margin:12px 0;border-left:4px solid}
+.box .bt{font-weight:700;font-size:13.5px;margin-bottom:5px;display:block}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+.box.red{background:var(--red-bg);border-color:var(--red-soft)}
+.box.red .bt{color:var(--red)}
+.box.amber{background:var(--amber-bg);border-color:var(--amber-soft)}
+.box.amber .bt{color:var(--amber)}
+.box.blue{background:var(--blue-bg);border-color:var(--blue-soft)}
+.box.blue .bt{color:var(--blue)}
+.box.green{background:var(--green-bg);border-color:var(--green-soft)}
+.box.green .bt{color:var(--green)}
+.box.purple{background:var(--purple-bg);border-color:var(--purple)}
+.box.purple .bt{color:var(--purple)}
+
+/* ─── DOSE BOX ─── */
+.dose{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-mid) 100%);
+  color:#fff;border-radius:9px;padding:16px 18px;margin:14px 0;
+}
+.dose .lbl{font-size:11.5px;letter-spacing:.1em;opacity:.75;font-weight:600;margin-bottom:4px}
+.dose .val{font-size:22px;font-weight:700;line-height:1.35}
+.dose .val small{font-size:14px;font-weight:500;opacity:.9}
+.dose .note{font-size:12.5px;opacity:.85;margin-top:7px;border-top:1px solid rgba(255,255,255,.2);padding-top:7px}
+
+/* ─── TABLES ─── */
+.tw{overflow-x:auto;margin:12px 0;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:440px}
+th{background:#f1f5f9;color:var(--primary);font-weight:700;text-align:left;padding:9px 11px;border:1px solid var(--border);white-space:nowrap}
+td{padding:9px 11px;border:1px solid var(--border);vertical-align:top}
+tbody tr:nth-child(even){background:#fafbfd}
+td.c,th.c{text-align:center}
+.hl-red{background:var(--red-bg)!important;font-weight:600}
+.hl-amber{background:var(--amber-bg)!important}
+.hl-green{background:var(--green-bg)!important}
+
+/* ─── CHECKLIST ─── */
+.chk{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:12px 0}
+.chk div{
+  background:#f8fafc;border:1px solid var(--border);border-radius:6px;
+  padding:9px 11px;font-size:13.5px;display:flex;align-items:center;gap:8px;
+}
+.chk div::before{
+  content:"";width:15px;height:15px;flex:0 0 15px;
+  border:2px solid var(--primary-light);border-radius:3px;
+}
+
+/* ─── STEP FLOW ─── */
+.flow{counter-reset:s;margin:14px 0}
+.flow > div{
+  position:relative;padding:11px 14px 11px 46px;margin-bottom:9px;
+  background:#f8fafc;border:1px solid var(--border);border-radius:7px;font-size:14px;
+}
+.flow > div::before{
+  counter-increment:s;content:counter(s);
+  position:absolute;left:12px;top:11px;
+  width:23px;height:23px;border-radius:50%;
+  background:var(--primary);color:#fff;font-size:12.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.flow > div b{color:var(--primary-mid)}
+
+/* ─── DECISION BRANCH ─── */
+.branch{border-left:3px solid var(--border);padding-left:14px;margin:10px 0 10px 6px}
+.branch > div{margin-bottom:9px}
+.branch .q{font-weight:700;color:var(--primary-mid);font-size:14px}
+
+/* ─── GRADE PILLS ─── */
+.g{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.g1{background:#dbeafe;color:#1e40af}
+.g2{background:#e2e8f0;color:#475569}
+.ev{display:inline-block;font-size:11px;color:var(--text-muted);margin-left:4px;letter-spacing:.05em}
+
+/* ─── TIMELINE ─── */
+.tl{position:relative;padding-left:22px;margin:14px 0}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--border)}
+.tl > div{position:relative;margin-bottom:13px}
+.tl > div::before{
+  content:"";position:absolute;left:-20px;top:7px;width:11px;height:11px;
+  border-radius:50%;background:var(--primary-light);border:2px solid #fff;box-shadow:0 0 0 2px var(--border);
+}
+.tl .when{font-weight:700;color:var(--primary);font-size:13.5px}
+.tl .what{font-size:13.5px;color:var(--text)}
+
+/* ─── FAMILY SCRIPT ─── */
+.script{
+  background:#fcfdfe;border:1px dashed var(--primary-light);border-radius:8px;
+  padding:15px 17px;margin:12px 0;font-size:14px;line-height:1.85;
+}
+.script .lbl{font-size:11px;letter-spacing:.1em;font-weight:700;color:var(--primary-light);margin-bottom:7px}
+
+footer{max-width:1080px;margin:0 auto;padding:22px 16px 0;font-size:12px;color:var(--text-muted);border-top:1px solid var(--border)}
+footer p{margin-bottom:5px}
+
+@media(max-width:640px){
+  body{font-size:14.5px}
+  header h1{font-size:19px}
+  .card{padding:16px 15px}
+  nav.tabs button{padding:12px 12px;font-size:12.5px}
+  .dose .val{font-size:19px}
+}
+@media print{
+  nav.tabs{display:none}
+  .panel{display:block!important;page-break-before:always}
+  header{background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <div class="eyebrow">CONGENITAL HYPOTHYROIDISM — NEWBORN SCREENING</div>
+    <h1>先天性甲状腺機能低下症 マススクリーニングガイドライン
+      <span>2021年改訂版（日本小児内分泌学会マススクリーニング委員会／日本マススクリーニング学会）＋ 追記 Ver.1–3</span>
+    </h1>
+    <div class="meta">
+      公開 2021.10.27 ／ 追記 Ver.1 2022.6.25・Ver.2 2022.12.25・多胎児フローチャート 2022.12.25・Ver.3 2023.7.20 ｜ Minds ID: c00692
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="inner" role="tablist">
+    <button class="active" data-t="t1"><span class="num">01</span>NBS判定</button>
+    <button data-t="t2"><span class="num">02</span>精査・鑑別</button>
+    <button data-t="t3"><span class="num">03</span>重症度</button>
+    <button data-t="t4"><span class="num">04</span>治療開始基準</button>
+    <button data-t="t5"><span class="num">05</span>L-T4投与・管理</button>
+    <button data-t="t6"><span class="num">06</span>再評価・フォロー</button>
+    <button data-t="t7"><span class="num">07</span>予後・遺伝・中枢性</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ══════════ TAB 1 ══════════ -->
+<section class="panel active" id="t1">
+
+  <div class="card">
+    <h2><span class="tag">基本</span>採血と判定フロー</h2>
+    <div class="box blue">
+      <span class="bt">検体の原則</span>
+      <ul>
+        <li><strong>日齢4〜6</strong>、足蹠外縁部からの濾紙血、<strong>TSH測定</strong>で実施<span class="g g1">推奨1</span><span class="ev">●●●</span></li>
+        <li>濾紙血TSHは<strong>原則「全血表示」</strong>（mIU/L of whole blood）。血清表示の場合は全血表示も併記 ― <span class="muted">通常採血の血清TSH値とは別物</span></li>
+        <li>CHのNBSは<strong>哺乳の影響を受けない</strong>。低出生体重児・NICU入院児でも規定の日齢4–6で採血する</li>
+      </ul>
+    </div>
+
+    <h3>初回採血の判定</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>初回 濾紙血TSH（全血）</th><th>判定</th><th>アクション</th></tr></thead>
+        <tbody>
+          <tr class="hl-red"><td>陽性基準以上<br><span class="muted">（各自治体 15〜30 mIU/L）</span></td><td>即精密検査</td><td>指定精査医療機関を<strong>速やかに受診</strong></td></tr>
+          <tr class="hl-amber"><td>7.5 〜 15 mIU/L</td><td>再採血</td><td>初回採血医療機関に2回目採血を依頼。<strong>日齢14まで</strong>に実施し最終判定</td></tr>
+          <tr class="hl-green"><td>カットオフ未満</td><td>陰性</td><td>ただし偽陰性・遅発上昇例が存在（下記）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">※ 2回目採血のTSHが各NBS検査施設のカットオフ以上 → 精密検査対象<span class="g g1">推奨1</span><span class="ev">●●○</span></p>
+
+    <div class="box amber">
+      <span class="bt">カットオフ設定の考え方</span>
+      各地域で過去成績から適切なカットオフを検討する。<strong>直ちに治療を要する症例が2回目採血に回って診断が遅れないよう</strong>、初回の即精検カットオフを設定することが最重要。引き下げは永続性CHの検出増（利）と、再採血率・コスト・保護者の不安増（害）のトレードオフ。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">要注意</span>低出生体重児・早産児</h2>
+    <div class="dose">
+      <div class="lbl">2回目NBS の対象</div>
+      <div class="val">出生体重 &lt; 2,000 g</div>
+      <div class="note">1回目（日齢4–6）が正常でも、<strong>①生後1か月 ／ ②体重2,500g到達 ／ ③退院</strong> のいずれか早い時期に2回目NBSを行う<span class="g g1">推奨1</span></div>
+    </div>
+    <ul>
+      <li>2回目NBSで<strong>TSH遅発上昇</strong>を認めた例は精密検査対象<span class="g g1">推奨1</span><span class="ev">●●●</span></li>
+      <li>2回目でも陽性なら、自治体の実施要綱に従い <strong>3回目採血 or 精査機関での精密検査</strong></li>
+      <li>背景：早産・低出生体重児では視床下部–下垂体–甲状腺系が未成熟。ドパミン投与・大量ステロイド・低栄養・交換輸血でもTSH上昇を伴わない低T4血症が起こる</li>
+    </ul>
+
+    <div class="box red">
+      <span class="bt">低T4血症に L-T4 は積極的に投与しない<span class="g g2">推奨2</span><span class="ev">●○○</span></span>
+      在胎30週未満では50%以上が低T4血症。通常は<strong>生後6〜10週で正常化</strong>し、無治療でも発達は正常。重度低T4血症へのL-T4投与は効果に乏しい報告が多く、本邦から<strong>晩期循環不全</strong>を顕在化させた報告がある。TSH遅発上昇型CHとの鑑別が難しいため、<strong>慎重な経過観察</strong>を選択する。<br>
+      <span class="muted">※低TBG血症の影響を除くため、評価はT4よりFT4が望ましい。</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">追記</span>多胎児の取り扱い（Ver.1–3）</h2>
+    <div class="box amber">
+      <span class="bt">Ver.3（2023.7.20）＝ 現時点の最終見解</span>
+      <ul>
+        <li>多胎児の<strong>2回目以降のスクリーニングはエビデンス集積中</strong>で、両学会として<strong>積極的に検査を推奨する状況ではない</strong></li>
+        <li>実施の可否は<strong>地域の先天性代謝異常等検査事業連絡会議等で検討し、各自治体が方針決定</strong>する</li>
+        <li>多胎児は単胎児よりCH発症リスクが高いと報告されており、<strong>検査結果にかかわらず症状の発現を注意深く経過観察</strong>すること</li>
+      </ul>
+    </div>
+    <h3>参考：多胎児フローチャート（2022.12.25 追記）</h3>
+    <div class="branch">
+      <div><span class="q">多胎児 → 一卵性 または 性別一致か？</span><br>Yes → 再採血対象（日齢14までに初回実施施設で2回目採血を考慮）</div>
+      <div><span class="q">No → 出生体重 2,000 g 未満か？</span><br>Yes → 再採血対象（低出生体重児の基準に準拠）／ No → 通常のスクリーニング</div>
+      <div><span class="q">NBS結果が不一致（一方がCH陽性）か？</span><br>Yes → <strong>スクリーニング陰性児も、陽性児の精査医療機関で甲状腺機能検査を考慮</strong></div>
+    </div>
+    <p class="muted">本文（2021年版 p.15）：双胎の一方がCH罹患児である場合、他方はNBS陰性でも後にTSHが上昇しCHと診断される場合があるため、慎重にフォローアップする。</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">落とし穴</span>NBSで見つからないCH</h2>
+    <ul>
+      <li>NBSで発見されないCHが存在する<span class="g g1">推奨1</span><span class="ev">●○○</span>。全国調査では<strong>約75万人に1人</strong>（35例報告）</li>
+      <li>原因：<strong>TSH遅発上昇例</strong>、測定上の問題、事務的処理の問題</li>
+      <li><strong>同胞にCHがいる場合</strong>、その児がNBS正常でも ― とくに初回NBSでTSH高値→再採血で正常化した場合 ― 甲状腺機能の再検を検討する</li>
+      <li>周産期の<strong>ヨウ素含有消毒剤</strong>は偽陽性率を高める。優劣に問題がなければNBSの立場からは使用を控えることが望ましい</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ══════════ TAB 2 ══════════ -->
+<section class="panel" id="t2">
+
+  <div class="card">
+    <h2><span class="tag">初診</span>精査機関初診時の問診ポイント</h2>
+    <h3>母体について</h3>
+    <ul>
+      <li><strong>甲状腺疾患の有無・既往</strong>：診断名、甲状腺手術歴、<sup>131</sup>I内用療法歴、内服薬</li>
+      <li><strong>甲状腺以外の薬剤</strong>：アミオダロン、リチウム製剤（経胎盤・経母乳的に児の甲状腺機能へ影響）</li>
+      <li><strong>子宮卵管造影（油性ヨウ素造影剤）</strong>：生殖補助医療等での使用歴。影響は<strong>最大6か月程度残存</strong></li>
+      <li>妊娠中のヨウ素含有食品の過剰摂取、ヨウ素含有消毒薬・含嗽薬の定期使用</li>
+      <li>必要に応じ母体の甲状腺機能・自己抗体・尿中総ヨウ素・甲状腺エコー</li>
+    </ul>
+    <h3>児について</h3>
+    <ul>
+      <li>胎児造影の有無、<strong>出産時のヨウ素消毒剤大量曝露</strong></li>
+      <li>栄養方法（経母乳的な薬剤移行の可能性）、家族歴（甲状腺疾患）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">鑑別</span>NBSでTSH高値を呈する疾患・病態（表1）</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>分類</th><th>病態</th></tr></thead>
+        <tbody>
+          <tr><td><strong>永続性</strong><br>原発性</td><td>甲状腺形成異常（無形成・低形成・異所性・片葉欠損）／ 甲状腺ホルモン合成障害</td></tr>
+          <tr><td><strong>永続性</strong><br>末梢性</td><td>甲状腺ホルモン不応症（RTH）／ MCT8異常症（トランスポーター異常）</td></tr>
+          <tr class="hl-amber"><td><strong>一過性</strong></td><td>重度ヨウ素欠乏／<strong>ヨウ素過剰</strong>／母体への抗甲状腺薬／<strong>阻害型TSH受容体抗体（TSBAb）の経胎盤移行</strong>／DUOX2・DUOXA2遺伝子異常／乳児一過性高TSH血症／低出生体重児</td></tr>
+          <tr><td><strong>その他</strong></td><td>偽性副甲状腺機能低下症／ホルモン抵抗性を伴う先端異骨症／乳児肝血管腫／TSH測定系への干渉物質（抗TSH抗体、抗マウスIgG抗体など）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">一過性CH</span>原因と持続期間</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>原因</th><th>ポイント・持続期間</th></tr></thead>
+        <tbody>
+          <tr><td>母体の抗甲状腺薬</td><td>出生後<strong>数日〜約2週</strong>まで持続。バセドウ病母体児では一過性<em>中枢性</em>甲状腺機能低下症も起こりうる（胎児期の過剰ホルモン曝露による視床下部–下垂体–甲状腺系の一時的抑制）</td></tr>
+          <tr><td>TSBAb の経胎盤移行</td><td>阻害型抗体の作用は<strong>出生後3〜6か月</strong>持続。頻度は新潟の報告で約1/40,000</td></tr>
+          <tr class="hl-amber"><td><strong>ヨウ素過剰</strong></td><td>日本ではヨウ素欠乏は稀で、<strong>過剰による一過性CHは少なくない</strong>。在胎36週以前の胎児はWolff-Chaikoff効果からのエスケープが未熟＋腎排泄率が低く影響を受けやすい。<br>原因：ヨウ素消毒剤、油性ヨウ素造影剤（HSG）、母体のヨウ化カリウム（バセドウ病治療GL2019で妊娠初期に推奨され使用機会が増加）、ヨウ素含有食品・調味料・含嗽薬</td></tr>
+          <tr><td>DUOX2 / DUOXA2 異常症</td><td>両アレル機能喪失変異。永続性にも一過性にもなりうる → <strong>再評価が必要</strong></td></tr>
+          <tr><td>低出生体重児</td><td>一過性が多いことが知られる</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box red">
+      <span class="bt">一過性であっても治療は必要</span>
+      永続性と同様、<strong>甲状腺機能低下状態にあることに変わりはなく</strong>、甲状腺ホルモン補充を行う必要がある<span class="g g1">推奨1</span><span class="ev">●●●</span>。ヨウ素欠乏地域では一過性CHのIQが低かったとの報告もある。機能正常化後も、できれば専門医のもとで慎重に経過観察する。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">定義</span>サブクリニカルCH と 乳児一過性高TSH血症</h2>
+
+    <h3>サブクリニカルCH（本GLでの定義）</h3>
+    <div class="dose">
+      <div class="lbl">本邦エキスパートアンケートに基づく異常値</div>
+      <div class="val">生後6か月未満：TSH ≧ 10 mIU/L<br>生後12か月以降：TSH ≧ 5 mIU/L</div>
+      <div class="note">アンケートに6–12か月の項目がなかったため、この区間は定義に含まれない。<strong>新生児期〜生後3か月はサブクリニカルCHと定義すること自体が困難</strong>（後から急に顕在化しうる）<span class="g g2">推奨2</span><span class="ev">●○○</span></div>
+    </div>
+    <ul>
+      <li>甲状腺の形態異常（半葉欠損・腫大・低形成）や <strong>TPO / TSHR 変異</strong> が少なからず含まれる</li>
+      <li>TSH軽度高値例が後に永続性CHと診断されることが知られている</li>
+      <li>本邦では<strong>食事性ヨウ素</strong>の影響も関連する可能性（一過性CHと思われた例が経過中にTSH再上昇→サブクリニカルCHと再診断される報告）</li>
+      <li>治療により知能予後が向上するかのエビデンスは日本・諸外国ともに<strong>存在しない</strong> → 慎重を期すべきという意見もある</li>
+    </ul>
+
+    <h3>乳児一過性高TSH血症（5項目すべてを満たす）</h3>
+    <div class="chk">
+      <div>精査時の<strong>血清</strong>TSH高値<span class="muted">（濾紙血のみ高値は除く）</span></div>
+      <div>甲状腺ホルモンは常に年齢相当の正常範囲内</div>
+      <div>乳児期にTSHが正常化<span class="muted">（TRH過大反応は除く）</span></div>
+      <div>機能低下の原因がない<span class="muted">（抗甲状腺薬・TSBAb・ヨウ素過剰など）</span></div>
+      <div>エコー／シンチの摂取率に異常なし</div>
+      <div>TSH測定系への干渉物質が否定される</div>
+    </div>
+    <div class="box amber">
+      <span class="bt">鑑別はしばしば困難</span>
+      サブクリニカルCHとの鑑別に難渋する。可能な限り専門医が診療することを考慮する。<strong>診断後も後年にTSHが再上昇し機能低下になることがある</strong>ため、慎重な経過観察が必要。
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ TAB 3 ══════════ -->
+<section class="panel" id="t3">
+
+  <div class="card">
+    <h2><span class="tag">総合判定</span>重症度は5項目から総合的に<span class="g g1">推奨1</span><span class="ev">●●●</span></h2>
+    <div class="flow">
+      <div><b>臨床症状チェックリスト</b> ― 12項目中 <strong>2項目以上</strong>で重症</div>
+      <div><b>血清 FT4</b> ― 測定キット依存。施設の新生児–乳児正常範囲を把握</div>
+      <div><b>血清 サイログロブリン（Tg）</b> ― 低値なら無形成／Tg欠損症</div>
+      <div><b>甲状腺超音波</b> ― 同定不能・甲状腺腫は重症</div>
+      <div><b>単純X線（大腿骨遠位端骨核）</b> ― 胎児期のホルモン不足を示唆</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">①</span>臨床症状チェックリスト（12項目）</h2>
+    <div class="chk">
+      <div>① 遷延性黄疸</div><div>② 便秘</div><div>③ 臍ヘルニア</div>
+      <div>④ 体重増加不良</div><div>⑤ 皮膚乾燥</div><div>⑥ 不活発</div>
+      <div>⑦ 巨舌</div><div>⑧ 嗄声</div><div>⑨ 四肢冷感</div>
+      <div>⑩ 浮腫</div><div>⑪ 小泉門開大</div><div>⑫ 甲状腺腫</div>
+    </div>
+    <div class="box red"><span class="bt">2項目以上 → 重症</span>
+      ただし<strong>初回精査時には所見を認めないことも多い</strong>。症状による重症度判定にこだわらず、<strong>TSH・FT4 を参考に速やかに治療を開始</strong>し、これらの症状が出現しないよう留意する。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">②</span>血清 FT4 による重症度</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>FT4 (ng/dL)</th><th class="c">本GL 推奨欄の表記</th><th class="c">ESPE 2020-21（解説欄）</th></tr></thead>
+        <tbody>
+          <tr class="hl-red"><td>&lt; 0.4</td><td class="c">最重症</td><td class="c">重症</td></tr>
+          <tr class="hl-amber"><td>0.4 – 0.8 未満</td><td class="c">重症</td><td class="c">中等症</td></tr>
+          <tr><td>0.8 – 1.2 未満</td><td class="c">中等症</td><td class="c">軽症</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box amber">
+      <span class="bt">重要な注意（GL本文の明記）</span>
+      <ul>
+        <li>FT4値は<strong>測定キットにより異なり標準化されていない</strong>。上記はあくまで参考値で、どのキットで測定したかを把握すること</li>
+        <li>ほとんどの施設で<strong>新生児–乳児の正常範囲が設定されていない</strong></li>
+        <li>したがって最重症〜中等症の判断は<strong>担当医の経験に基づく判断が優先される</strong></li>
+        <li><span class="muted">推奨欄と解説欄で用語の対応がずれている（同じ数値でも名称が1段階異なる）。施設内で数値ベースに統一しておくと混乱しない。</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">③④⑤</span>Tg・超音波・骨核</h2>
+    <h3>血清サイログロブリン（Tg）</h3>
+    <ul>
+      <li><strong>低値（&lt; 10 ng/mL）</strong> → 甲状腺無形成・Tg欠損症を疑う。<strong>重症の指標</strong></li>
+      <li>異常高値 → ホルモン合成障害の一部、ヨウ素過剰による機能低下症</li>
+      <li>異所性甲状腺でも比較的高値になる</li>
+    </ul>
+
+    <h3>甲状腺超音波検査</h3>
+    <ul>
+      <li><strong>甲状腺が同定できない／甲状腺腫を認める → 重症</strong></li>
+      <li>周波数 <strong>10 MHz 以上</strong>の高周波探触子が望ましい</li>
+      <li><strong>Th/Tr比（安本比）≦ 1.7</strong>（甲状腺小葉の全横径／気管幅）→ 形成異常を疑う</li>
+      <li>正所性か欠損かの判別は信頼性が高い。<strong>カラードプラで異所性の約90%が診断可能</strong>との報告があるが、異所性診断の特異度は文献により0–21%とばらつく</li>
+      <li class="muted">落とし穴：後鰓体の残余物が低形成・高輝度組織や嚢胞として描出され、正所性甲状腺と誤認されうる</li>
+    </ul>
+
+    <h3>大腿骨遠位端骨核（単純X線）</h3>
+    <ul>
+      <li><strong>在胎38週以降の成熟児で骨核出現の遅れ → 重症</strong></li>
+      <li>両側・片側の未出現は診断時T4濃度、IQと相関するとの報告あり ― <strong>胎児期の甲状腺ホルモン不足を示唆</strong></li>
+    </ul>
+
+    <div class="box blue">
+      <span class="bt">画像検査で治療を遅らせない</span>
+      超音波を直ちに行えない施設もある。その場合、<strong>画像検査の実施のために治療を遅らせるべきではない</strong>。NBS結果・臨床症状・精査時の内分泌検査から速やかに治療開始を判断する。
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ TAB 4 ══════════ -->
+<section class="panel" id="t4">
+
+  <div class="card">
+    <h2><span class="tag">最重要</span>直ちに治療を開始する基準</h2>
+    <div class="box red">
+      <span class="bt">A. 血清結果を待たずに開始<span class="g g1">推奨1</span><span class="ev">●●●</span></span>
+      以下のいずれかを認めたら、<strong>血清検査結果を待たずに直ちに L-T4 を開始</strong>：
+      <ul>
+        <li>臨床症状チェックリスト <strong>≧ 2 項目</strong></li>
+        <li>在胎38週以降の成熟児で<strong>大腿骨遠位端骨核出現の遅れ</strong></li>
+        <li>超音波で<strong>甲状腺が同定できない</strong>、あるいは<strong>甲状腺腫</strong>を認める</li>
+      </ul>
+    </div>
+    <div class="box red">
+      <span class="bt">B. 上記所見がなくても、血清値で開始<span class="g g1">推奨1</span><span class="ev">●○○</span></span>
+      <ul>
+        <li><strong>血清 TSH ≧ 30 mIU/L</strong></li>
+        <li><strong>血清 TSH 15〜30 mIU/L かつ FT4 低値</strong>（目安 FT4 &lt; 1.2 ng/dL、または各施設で正常児に比し低下と判断した場合）</li>
+      </ul>
+      ※精密検査機関ごとにFT4の正常値は異なることに留意。
+    </div>
+    <div class="box blue">
+      <span class="bt">評価に用いる検体<span class="g g2">推奨2</span><span class="ev">●○○</span></span>
+      原則として<strong>精査受診時の血清TSH・血清FT4</strong>で判断する（現在ほぼ全ての精査機関で即日結果が得られる）。長期休暇・災害等で甲状腺機能検査が十分に行えない場合のみ<strong>濾紙血TSH</strong>で評価。
+    </div>
+    <p class="muted">参考（新美らの検討／濾紙血で判断する場合）：即精検例＝濾紙血TSH ≧30、または &lt;30でもチェックリスト1点以上か骨核未出現。再採血例＝再採血の濾紙血TSH ≧20、または15–20でも初回より上昇傾向がある症例。</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">判断が割れる</span>サブクリニカルCH の取り扱い<span class="g g2">推奨2</span><span class="ev">●○○</span></h2>
+    <p>臨床症状がなく、血清FT4は正常範囲、<strong>血清TSH が正常上限（5 mIU/L）超〜15 mIU/L 未満</strong>の場合 ― エビデンスレベルの高い研究はない。</p>
+    <div class="tl">
+      <div><div class="when">初回精査時</div><div class="what">臨床症状なし・FT4正常・TSH &lt; 15 mIU/L → <strong>1〜2週間後に甲状腺機能を再評価</strong></div></div>
+      <div><div class="when">生後3〜4週</div><div class="what">この時期を過ぎても <strong>TSH &gt; 10 mIU/L</strong> なら<strong>治療を考慮</strong>（＝TSHが正常化しない場合は治療を行うことが多い／エキスパートオピニオン）</div></div>
+      <div><div class="when">無治療で経過観察する場合</div><div class="what">甲状腺機能検査を行いつつ慎重に経過観察。<strong>生後6か月未満で TSH ≧ 10</strong>、<strong>生後12か月以降で TSH ≧ 5</strong> なら治療を考慮</div></div>
+      <div><div class="when">治療を開始した場合</div><div class="what">甲状腺ホルモン過剰状態にないか留意。過剰と判断すれば<strong>減量または中止</strong>を考慮</div></div>
+      <div><div class="when">3歳以降</div><div class="what">治療継続中でも<strong>一度中止して甲状腺機能の再評価・病型診断</strong>を考慮 → Tab 06</div></div>
+    </div>
+    <div class="box amber">
+      <span class="bt">12か月で TSH ≧ 5 の扱いは世界的に未決着</span>
+      治療を行うかについて結論は得られていない。<strong>無治療で経過観察する方法もある</strong>。エビデンス情報に深く注意する必要がある。
+    </div>
+    <div class="box blue">
+      <span class="bt">紹介の原則<span class="g g1">推奨1</span></span>
+      NBSでTSH高値により陽性となった児は、<strong>小児内分泌科医に相談することが望ましい</strong>（エキスパートオピニオン）。本症は永続的治療を要する疾患であり、不必要な治療を避けるためにも確定診断・治療は専門医療機関が望ましい。
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ TAB 5 ══════════ -->
+<section class="panel" id="t5">
+
+  <div class="card">
+    <h2><span class="tag">用量</span>L-T4 開始量</h2>
+    <div class="dose">
+      <div class="lbl">標準（原発性CH）</div>
+      <div class="val">L-T4 10 – 15 μg/kg/日 <small>1日1回</small></div>
+      <div class="note">最重症例では <strong>15 μg/kg/日</strong>で開始<span class="g g1">推奨1</span><span class="ev">●●●</span>　／　レボチロキシンナトリウム（チラーヂン S<sup>®</sup> など）</div>
+    </div>
+    <div class="dose" style="background:linear-gradient(135deg,#475569 0%,#64748b 100%)">
+      <div class="lbl">サブクリニカルCH</div>
+      <div class="val">L-T4 3 – 5 μg/kg/日</div>
+      <div class="note">10 μg/kg/日で投与すると<strong>機能亢進状態に陥ることをしばしば経験する</strong>ため<span class="g g2">推奨2</span>（エキスパートオピニオン）</div>
+    </div>
+
+    <h3>参考：ESPE 2020-21 コンセンサス（FT4別）</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>FT4</th><th class="c">L-T4 開始量</th></tr></thead>
+        <tbody>
+          <tr class="hl-red"><td>&lt; 0.4 ng/dL（重症）</td><td class="c">10 – 15 μg/kg/日</td></tr>
+          <tr class="hl-amber"><td>&gt; 0.8 ng/dL（中等症）</td><td class="c">10 μg/kg/日</td></tr>
+          <tr><td>正常範囲内</td><td class="c">5 – 10 μg/kg/日</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box amber">
+      <span class="bt">重症でも 10 μg/kg/日 で十分な場合</span>
+      <strong>DUOX2異常症や正所性</strong>の場合、15 μg/kg/日では過剰投与に陥ることがあるため <strong>10 μg/kg/日</strong>で十分とされる（エキスパートオピニオン）。
+    </div>
+    <div class="box blue">
+      <span class="bt">用量選択のエビデンス</span>
+      初期投与量を &lt;8.8 / 8.8–10 / &gt;10 μg/kg/日 で分けたメタアナリシスでは <strong>&gt;10 μg/kg/日 で最もIQが高い</strong>。一方 <strong>12.5 μg/kg/日以上</strong>で開始すると<strong>減量する割合が有意に多い</strong>との報告 → 高用量開始は重要だが、<strong>その後のモニタリングに特に注意</strong>。
+    </div>
+    <p>重症例で 10–15 μg/kg/日を投与すると、多くの場合 <strong>FT4・T4 は3日以内</strong>、<strong>TSH は2–4週</strong>で正常化する。早期の正常化がその後の知能予後に非常に重要。</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">服薬</span>飲ませ方と吸収阻害</h2>
+    <ul>
+      <li><strong>朝・夕、食前・食後いずれも可</strong>。<strong>毎日一定の時間</strong>に服用することを推奨<span class="g g1">推奨1</span><span class="ev">●○○</span></li>
+      <li>新生児〜乳児では<strong>少量の水</strong>に溶いて投与。水が難しければ<strong>母乳またはミルク</strong>でも可</li>
+      <li>空腹時にこだわる必要はない（アドヒアランス優先。米国小児内分泌学会薬事委員会も哺乳後の服用で支障なしとする）</li>
+    </ul>
+    <div class="box red">
+      <span class="bt">同時摂取を避けるもの（吸収阻害）</span>
+      大豆乳 ／ 鉄剤 ／ カルシウム ／ 胃薬 ／ イオン交換樹脂 ／ ニューキノロン系抗菌薬
+    </div>
+    <h3>製剤（日本）</h3>
+    <ul>
+      <li><strong>チラーヂン S<sup>®</sup> 散</strong>（あすか製薬）― 乳児期はこれが基本</li>
+      <li>チラーヂン S<sup>®</sup> 錠：<strong>12.5 / 25 / 50 / 75 / 100 μg</strong> の5規格。<strong>12.5 μg と 75 μg には割線がなく分割不可</strong></li>
+      <li>レボチロキシン Na<sup>®</sup>（サンド）：25 / 50 μg の2規格</li>
+      <li>錠剤のみ利用可能な場合、そのまま服用できる年齢までは<strong>粉砕して投与可</strong></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">目標値</span>モニタリングの target</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>指標</th><th>目標</th></tr></thead>
+        <tbody>
+          <tr><td><strong>血清 TSH</strong></td><td><strong>年齢別の正常範囲</strong><span class="g g1">推奨1</span><span class="ev">●●○</span></td></tr>
+          <tr><td><strong>血清 FT4（または T4）</strong></td><td><strong>年齢別正常値の 50% 以上 〜 正常上限</strong><span class="g g1">推奨1</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box green">
+      <span class="bt">TSHが正常範囲内なら、FT4が上限を超えても必ずしも減量不要<span class="g g1">推奨1</span><span class="ev">●○○</span></span>
+      高用量（13.5 μg/kg/日）治療例で2歳までのFT4が半数以上高値でも、15歳以上のIQは同胞と差がなく、FT4高値の頻度・期間とIQに相関がなかったという報告に基づく。<br>
+      <strong>ただし減量する場面：</strong>TSHが抑制されている場合 ／ 頻脈・多汗など甲状腺中毒症状があると判断した場合。
+    </div>
+    <div class="box amber">
+      <span class="bt">2歳までのFT4高値には留意</span>
+      2歳までにL-T4過剰投与によるFT4高値を認めた例で<strong>11歳時のIQが有意に低下</strong>したという報告、生後1–3か月のFT4高値で<strong>注意欠如・多動症が増加</strong>したという報告がある（結論は未確定）。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">間隔</span>フォローアップ・スケジュール<span class="g g1">推奨1</span><span class="ev">●○○</span></h2>
+    <div class="tl">
+      <div><div class="when">開始後 1〜2週</div><div class="what">甲状腺機能評価（本邦では1週後・2週後に評価することが多い）</div></div>
+      <div><div class="when">開始後 4週</div><div class="what">甲状腺機能評価</div></div>
+      <div><div class="when">〜1歳</div><div class="what"><strong>1か月毎</strong>　<span class="muted">※生後半年〜1歳で35%が目標範囲に到達できなかったとの報告あり。1歳までは頻回に調節</span></div></div>
+      <div><div class="when">1歳〜成人期</div><div class="what"><strong>3〜4か月毎</strong></div></div>
+      <div><div class="when">成人期</div><div class="what">6か月〜1年毎（本邦の実情として妥当）</div></div>
+      <div><div class="when">用量変更時</div><div class="what"><strong>1か月後</strong>に再評価</div></div>
+      <div><div class="when">検査値異常・アドヒアランス不良を疑うとき</div><div class="what">1か月毎など<strong>間隔を狭めて</strong>経過観察</div></div>
+    </div>
+    <h3>維持量の目安（体重あたりは年齢とともに漸減）</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>時期</th><th class="c">L-T4 維持量</th></tr></thead>
+        <tbody>
+          <tr><td>就学前</td><td class="c">3 – 4 μg/kg/日</td></tr>
+          <tr><td>就学後</td><td class="c">2 – 3 μg/kg/日</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">正所性CHでは、異所性・無形成に比べL-T4量は少ない。</p>
+    <div class="box purple">
+      <span class="bt">女性患者：妊娠が判明したら</span>
+      <strong>L-T4 を 20–30% 増量</strong>することが推奨されている（ATA 2017）。妊娠初期〜中期の慎重なモニタリングで妊娠合併症（特に早産）の改善が示されている。
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ TAB 6 ══════════ -->
+<section class="panel" id="t6">
+
+  <div class="card">
+    <h2><span class="tag">原則</span>再評価・病型診断は 3歳以降<span class="g g1">推奨1</span><span class="ev">●●●</span></h2>
+    <p>神経細胞の発達が完了する<strong>3歳以降</strong>に、L-T4を中止して行う。</p>
+    <h3>再評価・病型診断の対象<span class="g g1">推奨1</span><span class="ev">●●○</span></h3>
+    <ul>
+      <li>CHの<strong>原因が確定されずに</strong>L-T4治療が継続されている児（特に<strong>エコーで正所性</strong>と診断された児 ― 12–54%が一過性との報告）</li>
+      <li><strong>低出生体重児</strong>でL-T4治療を開始している児</li>
+      <li>ホルモン合成障害・無形成・低形成の原因が<strong>遺伝子検査で判明していない</strong>場合<span class="g g2">推奨2</span></li>
+      <li><strong>DUOX2遺伝子異常症</strong>は機能が正常化する場合があるため<strong>再評価は必要</strong></li>
+      <li class="muted">3歳以前に甲状腺腫・家族歴などから合成障害や特定の遺伝子異常が疑われ、遺伝子診断で確定している場合は必ずしも必要ないが、個々の児で判断する</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">早期中止</span>3歳より前に中止を考慮できる基準</h2>
+    <p>甲状腺機能が安定しており、下記の月齢時点で治療量が<strong>この値を下回っている</strong>場合は一過性CHの可能性が高く、<strong>十分なインフォームド・コンセントのうえ早期治療中止を考慮してもよい</strong>。</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="c">月齢</th><th class="c">L-T4 治療量</th></tr></thead>
+        <tbody>
+          <tr class="hl-green"><td class="c">12 か月</td><td class="c"><strong>&lt; 1.7 μg/kg/日</strong></td></tr>
+          <tr class="hl-green"><td class="c">24 か月</td><td class="c"><strong>&lt; 1.45 μg/kg/日</strong></td></tr>
+          <tr class="hl-green"><td class="c">36 か月</td><td class="c"><strong>&lt; 1.25 μg/kg/日</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">本表は複数論文を参照し、<strong>偽陰性を少なくするため最も低用量の治療量を示した論文を抽出</strong>して作成されている。</p>
+    <div class="box green">
+      <span class="bt">3歳〜5歳3か月で増量不要 → 一過性の可能性が高い<span class="g g2">推奨2</span><span class="ev">●○○</span></span>
+      この期間にL-T4治療量の増量が必要ない児では、<strong>感度85%・特異度100%</strong>で一過性CHの可能性が高い。対象となる児には<strong>病型診断は行わず、再評価の検査のみでよい</strong>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">手技</span>病型診断・再評価のプロトコル</h2>
+    <div class="flow">
+      <div><b>3歳以上の時点で</b> L-T4 を <strong>1/4量のリオチロニンナトリウム（分3）</strong>に切り替える</div>
+      <div><b>4週間</b> リオチロニンを投与</div>
+      <div><b>7〜10日</b> 休薬する</div>
+      <div><b>検査</b>（下記）を実施</div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>実施する検査</th></tr></thead>
+        <tbody>
+          <tr><td><strong>病型診断</strong></td><td><sup>123</sup>I 甲状腺摂取率 ／ 唾液・血液ヨウ素比 ／ <strong>パークロレイト放出試験</strong> ／ シンチグラフィー ／ 甲状腺超音波 ／ 血清 TSH・FT4・FT3・Tg<br><span class="muted">→ 無形成・低形成・異所性・有機化障害・ヨウ素濃縮障害の確定診断が可能</span></td></tr>
+          <tr><td><strong>再評価のみ</strong></td><td>同様の休薬後に、甲状腺超音波 ／ 血清 TSH・FT4・FT3・Tg</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">TRH負荷試験は、原発性CHでは病型診断時・再評価時とも<strong>参考検査</strong>（エキスパートオピニオン）。</p>
+
+    <h3>シンチグラフィーの位置づけ<span class="g g2">推奨2</span><span class="ev">●○○</span></h3>
+    <ul>
+      <li>実施可能な施設が限られるため、<strong>治療が優先される新生児期には必須ではない</strong>。<strong>病型診断時点でL-T4を休薬して</strong>行う（1998年版GLの方針を踏襲）</li>
+      <li><sup>99m</sup>Tc：ヨウ素制限不要だが<strong>形成異常の評価のみ</strong>／<sup>123</sup>I：検査前1–2週のヨウ素制限が必要だが<strong>形成異常・ヨウ素取り込み障害・有機化障害</strong>を評価可能</li>
+      <li>集積が認められない場合は無形成かどうかエコーでも確認する（TSHβ変異、TSHR不活性化変異、ヨウ素シンポーター異常でも取り込み欠損が起こる）</li>
+      <li>新生児期にエコーで無形成・低形成・異所性と診断が確定していても、<strong>再度エコーで画像を検討</strong>。異所性の正確な診断にはシンチを考慮</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">重要</span>フォロー終了（経過観察オフ）の目安</h2>
+
+    <div class="box red">
+      <span class="bt">「一過性CH」＝ フォロー終了 ではない</span>
+      再評価・病型診断時点で正常であっても<strong>再び機能低下になる可能性がある</strong>ため、<strong>必ず経過を追う必要がある</strong>。乳児一過性高TSH血症と診断された児でも、後年にTSHが再上昇し機能低下になることがある。
+    </div>
+
+    <h3>経過観察を続ける期間の考え方</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>状況</th><th>方針</th></tr></thead>
+        <tbody>
+          <tr class="hl-red"><td>永続性CH（無形成・低形成・異所性・合成障害が確定）</td><td><strong>生涯にわたる L-T4 補充と定期フォロー</strong>。成人期は6か月〜1年毎</td></tr>
+          <tr class="hl-amber"><td>再評価で正常＝一過性CHと判断</td><td><strong>可能であれば思春期まで経過観察することが望ましい</strong>。思春期・妊娠時は甲状腺ホルモン需要が高まり、機能低下が顕性化する可能性がある</td></tr>
+          <tr class="hl-amber"><td>乳児一過性高TSH血症</td><td>後年のTSH再上昇があるため、同様に経過を追う</td></tr>
+          <tr class="hl-green"><td>女児のフォロー終了時</td><td><strong>「妊婦健診の際に1回は甲状腺機能を確認するように」と説明することが望ましい</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>終了前チェック</h3>
+    <div class="chk">
+      <div>病型診断／再評価が完了し、永続性が否定されている</div>
+      <div>思春期を通過し、甲状腺機能が安定している</div>
+      <div>直近の TSH・FT4 が年齢別正常範囲内</div>
+      <div>甲状腺腫・成長障害・症状がない</div>
+      <div>再受診の閾値を家族と本人が理解している</div>
+      <div>女性：妊娠時の再検について説明済み</div>
+    </div>
+
+    <div class="script">
+      <div class="lbl">家族・本人への説明（セーフティネット）</div>
+      甲状腺の働きは今のところ安定しているので、定期通院はここでいったん終了とします。ただし、<strong>甲状腺は一度落ち着いても、体が大きく変わる時期に再び働きが落ちることがあります</strong>。<br><br>
+      次のようなときは、通院が終わっていても<strong>甲状腺の血液検査を受けてください</strong>：<br>
+      ・思春期に入ってから、<strong>身長の伸びが急に鈍った</strong>／<strong>体重が増えやすくなった</strong>とき<br>
+      ・<strong>強い疲れやすさ、寒がり、便秘、皮膚の乾燥</strong>が続くとき<br>
+      ・<strong>のどの前が腫れてきた</strong>と感じたとき<br>
+      ・学業や集中力の低下が気になるとき<br>
+      ・<span class="nowrap">【女性の方へ】</span><strong>妊娠がわかったら、必ず一度は甲状腺の検査を受けてください</strong>（お腹の赤ちゃんの発達に甲状腺ホルモンが必要なためです）。すでに内服中の方は、妊娠がわかった時点で内服量の調整が必要になります。<br><br>
+      受診の際は、<strong>これまでの経過（診断名・服薬歴・最後の検査結果）を伝えられるよう記録をお渡しします</strong>。かかりつけ医からの紹介でも、直接当科でも構いません。
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ TAB 7 ══════════ -->
+<section class="panel" id="t7">
+
+  <div class="card">
+    <h2><span class="tag">予後</span>知能・成長・妊孕性・QOL</h2>
+    <div class="box green">
+      <span class="bt">現在の治療での見通し</span>
+      10–15 μg/kg/日の初期投与量で<strong>生後2週以内</strong>に治療されるようになり、知能予後は着実に改善。本邦の全国追跡調査（1994–1999年発見例、初診時平均日齢17.3日）では<strong>1–5歳各年齢のDQ/IQ 104.1–107.3</strong>と良好。CHによる重篤な知的障害はほぼ認めなくなった。
+    </div>
+    <ul>
+      <li>ただし<strong>子宮内で重度の機能低下状態</strong>にあった児では軽度のIQ低下が残りうる。重症例では軽度の知能・行動・注意欠陥の問題が青年期・成人期にも存在するとの報告</li>
+      <li>メタアナリシス：初期投与量 <strong>&lt;10 μg/kg/日</strong>では最重症CHで有意なIQ低下（&lt;8 μg/kg/日: −6.03、8–10 μg/kg/日: −9.2）。<strong>≧10 μg/kg/日ではIQ・QOLの低下なし</strong> → <strong>最重症CHでは初期から高用量が必要</strong></li>
+      <li>精神発達の遅れを示す場合は<strong>知能評価</strong>を行い、軽度の発達障害・学習障害の有無も慎重に経過観察。存在すれば適切な介入が受けられるよう調整する<span class="g g1">推奨1</span></li>
+      <li><strong>成人身長</strong>：適切な治療とアドヒアランスで良好。思春期開始年齢・成長率ピークも一般基準値と差なし<span class="g g1">推奨1</span><span class="ev">●●●</span></li>
+      <li><strong>肥満</strong>：本邦の調査では低身長・肥満なし。一方、不十分なL-T4補充が肥満の原因となる可能性、adiposity rebound の早期化の報告あり</li>
+      <li><strong>妊孕性・QOL</strong>：良好な思春期・妊孕性が得られる<span class="g g1">推奨1</span>。成人CH患者のQOLは一般人口と差がない<span class="g g1">推奨1</span><span class="ev">●●○</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">合併症</span>併存疾患・サーベイランス<span class="g g1">推奨1</span><span class="ev">●●○</span></h2>
+    <ul>
+      <li><strong>先天奇形・先天性心疾患</strong>：CHでは合併率が高く、特に<strong>心房中隔欠損</strong>。本邦報告では原発性CHの<strong>14.6%</strong>に心・神経・筋の先天奇形。女児は心・神経・筋、男児は消化器・泌尿器の奇形が有意に多い</li>
+      <li><strong>ダウン症候群</strong>：CH有病率は一般集団の<strong>28–40倍</strong>。FT4と乖離したTSH高値が特徴で、多くのサブクリニカルCHは自然寛解するが一部は顕性化 → 真のCHかを慎重に診断。多くは甲状腺低形成</li>
+      <li><strong>難聴</strong>：フランスの1,158例で対照の3倍、重症度と関連。<strong>重症CHでは定期的な聴力検査が推奨</strong></li>
+      <li>その他CHを呈しうる症候群：ペンドレッド症候群（難聴）、偽性副甲状腺機能低下症、アラジール症候群、ウィリアムズ症候群、22q11.2欠失症候群、プラダー・ウィリ症候群（中枢性が多い）、ヤング・シンプソン症候群</li>
+      <li><strong>炎症性腸疾患</strong>：米国後ろ向きコホートでCHは合併割合が73%高い（0.52% vs 0.30%）。クローン病より潰瘍性大腸炎等で有意。永続性より<strong>一過性、特にDUOX2変異</strong>に多かった</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">遺伝</span>遺伝カウンセリング</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>項目</th><th>説明内容</th></tr></thead>
+        <tbody>
+          <tr><td>責任遺伝子の同定率</td><td>日本人CHで<strong>約20%</strong><span class="g g2">推奨2</span><span class="ev">●●○</span>。合成障害では<strong>DUOX2が多く約20%前後</strong>、形成異常では<strong>5–10%程度</strong></td></tr>
+          <tr class="hl-green"><td><strong>形成異常</strong></td><td>多くが<strong>孤発性</strong>で<strong>再発の危険性は低い</strong>（仏の疫学研究で家族歴を有するのは2%）<span class="g g2">推奨2</span></td></tr>
+          <tr class="hl-amber"><td><strong>ホルモン合成障害</strong></td><td>約<strong>50%が常染色体潜性（劣性）遺伝</strong>による発症 → この場合<strong>次子罹患の可能性は最大25%</strong><span class="g g2">推奨2</span></td></tr>
+          <tr><td>まず説明すべきこと</td><td>形成異常（異所性・低形成・無形成）か、ホルモン合成障害か<span class="g g2">推奨2</span><span class="ev">●○○</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box purple">
+      <span class="bt">代表的な原因遺伝子と甲状腺外所見</span>
+      <strong>形成異常</strong>：NKX2-1（呼吸器症状・舞踏病）、FOXE1（口蓋裂・後鼻腔閉鎖）、NKX2-5（卵円孔開存）、PAX8（無形成腎）、TSHR、GLIS3、JAG1（Alagille 1型）、CDCA8、TUBB1（巨大血小板）<br>
+      <strong>合成障害</strong>：SLC5A5（ヨウ素濃縮障害）、SLC26A4（感音難聴・甲状腺腫＝ペンドレッド）、SLC26A7、TG（Tg低値）、TPO（有機化障害）、<strong>DUOX2</strong>（部分的有機化障害／永続性・一過性）、DUOXA2、DEHAL1<br>
+      <strong>TSH不応症</strong>：TSHR、GNAS（偽性副甲状腺機能低下症・PTH抵抗性）<br>
+      <strong>作用不全</strong>：THRB、THRA、SLC16A2（MCT8）、SECISBP2<br>
+      <span class="muted">※ TPO / TG 変異では、稀に成人期に甲状腺腫から癌が発生した症例報告がある。GNAS変異では他の内分泌機能（PTH抵抗性など）にも注意。遺伝子検査は保険収載されておらず研究レベル（GL作成時点）。</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">コラム</span>中枢性甲状腺機能低下症（CCH）</h2>
+    <ul>
+      <li>日本のNBSは<strong>濾紙血TSH単独測定</strong>が基本だが、<strong>一部地域でFT4・TSH同時測定</strong>を実施しCCHを発見（GL記載時点：札幌市、山形県、神奈川県、埼玉県、岡山県、香川県、山口県、沖縄県）</li>
+      <li>頻度は <strong>1/15,000〜1/30,000</strong> 程度と、従来報告より高頻度</li>
+      <li><strong>TSH単独欠損症はTSHのみのNBSでは見逃されている可能性</strong>。黄疸・低身長の精査から診断される例もある</li>
+      <li>約<strong>75%が下垂体前葉機能低下症に伴う</strong>もの。NBS前に<strong>低血糖・チアノーゼ</strong>で診断される例が1/3程度。中隔視神経形成異常症では追視がない・眼振でも発見されうる</li>
+      <li>原因遺伝子：TSHB、TRHR、<strong>IGSF1</strong>（本邦のCCHの主要な遺伝子異常／巨大精巣）、TBL1X（難聴）、IRS4</li>
+    </ul>
+    <h3>初回検査</h3>
+    <p>血算、一般生化学、<strong>TSH・FT3・FT4・プロラクチン・TBG</strong>、膝レントゲン、甲状腺エコー。FT4に比してTSHが不相応に低値でTBG欠損症など他要因が否定的なら、<strong>TRH負荷試験・CRH負荷試験を含む下垂体前葉機能評価</strong>と<strong>下垂体を描出できる条件での頭部MRI</strong>。<span class="muted">血清TSHは時に基準値を上回ることもあるので注意。TRH負荷は必須ではないが典型的にはTSH頂値が90分以降となる遷延反応。</span></p>
+
+    <div class="box red">
+      <span class="bt">ACTH分泌不全があれば必ずヒドロコルチゾンを先行</span>
+      L-T4治療により<strong>副腎不全をきたす可能性</strong>があるため、<strong>先にヒドロコルチゾンを補充してから L-T4 を補充</strong>する。ACTH分泌不全が明確でない場合でも、<strong>L-T4開始後 特に1週間〜10日は副腎不全を念頭に厳重に経過観察</strong>する。CCHの約75%が下垂体前葉機能低下症に伴うため、<strong>L-T4補充の前に視床下部・下垂体・副腎系の機能評価を行う</strong>。
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>CCH の重症度</th><th class="c">L-T4 開始量</th></tr></thead>
+        <tbody>
+          <tr class="hl-red"><td>最重症型（FT4 &lt; 0.4 ng/dL）</td><td class="c">10 – 15 μg/kg/日（原発性CHと同様）</td></tr>
+          <tr class="hl-amber"><td>重症–中等症（FT4 0.4 – 1.2 ng/dL）</td><td class="c">5 – 10 μg/kg/日</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>FT4値が<strong>年齢基準値の平均〜上限</strong>に入るようL-T4を調整</li>
+      <li>原発性CHと違い<strong>血清TSHは治療量の指標にならない</strong>が、<strong>TSH 1 µU/mL 以上ならL-T4量が不十分</strong>との報告あり</li>
+      <li>小児期のL-T4量はおよそ <strong>50–100 µg/m<sup>2</sup>/日</strong></li>
+      <li>鑑別：non thyroidal illness syndrome（NTIS）、早産児の一過性低サイロキシン血症</li>
+      <li>CCHとして発見される<strong>中隔視神経形成異常症では高率に発達の遅れを合併</strong></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="tag">凡例</span>グレードとエビデンスレベル</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>表記</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td><span class="g g1">推奨1</span></td><td>強い推奨「ほとんどの患者に利益を生み出す」</td></tr>
+          <tr><td><span class="g g2">推奨2</span></td><td>弱い推奨「利益をもたらすことが多いため考慮すべき。患者の状況によって最良の選択を行う」</td></tr>
+          <tr><td><span class="ev">●○○</span></td><td>低：コントロールを伴わない症例集積</td></tr>
+          <tr><td><span class="ev">●●○</span></td><td>中：コントロールを伴わないコホート研究</td></tr>
+          <tr><td><span class="ev">●●●</span></td><td>高：コントロールを伴うコホート研究、非ランダム化比較試験</td></tr>
+          <tr><td>コンセンサス</td><td>研究はないが広く認知されるもの</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">本GLは2025年時点で「公開5年以内に改訂」の方針。改訂状況は日本小児内分泌学会・日本マススクリーニング学会のサイトで確認すること。</p>
+  </div>
+
+</section>
+
+<footer>
+  <p><strong>出典</strong>：先天性甲状腺機能低下症マススクリーニングガイドライン（2021年改訂版）日本小児内分泌学会マススクリーニング委員会・日本マススクリーニング学会（2021年10月27日公開）／ 追記 Ver.1（2022.6.25）・Ver.2（2022.12.25）・多胎児フローチャート（2022.12.25）・Ver.3（2023.7.20）</p>
+  <p>本ファイルは臨床現場での参照用に要点を整理したものです。実際の判断は原文および各施設のプロトコル・自治体の実施要綱に従ってください。FT4・TSHの基準値は測定キットおよび年齢により異なります。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('nav.tabs button');
+  var panels = document.querySelectorAll('.panel');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){x.classList.remove('active')});
+      panels.forEach(function(p){p.classList.remove('active')});
+      b.classList.add('active');
+      document.getElementById(b.dataset.t).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+})();
+</script>
+</body>
+</html>

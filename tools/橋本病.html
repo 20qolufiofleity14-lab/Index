@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>橋本病（慢性甲状腺炎）クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診療クイックリファレンス">
+<meta name="mini-title" content="橋本病（慢性甲状腺炎）">
+
+<style>
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  background:#f1f5f9;
+  color:#1e293b;
+  font-size:14px;
+  line-height:1.6;
+  padding-bottom:28px;
+}
+.header {
+  background: linear-gradient(135deg,#1e3a8a,#2563eb);
+  color:#fff;
+  padding:20px 16px 16px;
+  text-align:center;
+}
+.header h1 { font-size:19px; font-weight:800; letter-spacing:.02em; }
+.header p { font-size:11.5px; opacity:.88; margin-top:5px; }
+
+.tabs {
+  display:flex; overflow-x:auto; background:#fff;
+  border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:5;
+  -webkit-overflow-scrolling:touch;
+}
+.tabs::-webkit-scrollbar { display:none; }
+.tab {
+  flex:0 0 auto; padding:11px 13px; font-size:12px; font-weight:700;
+  color:#64748b; cursor:pointer; white-space:nowrap; border-bottom:3px solid transparent;
+  transition:.15s;
+}
+.tab.active { color:#1e3a8a; border-bottom-color:#1e3a8a; background:#eff6ff; }
+
+.content { padding:13px; max-width:780px; margin:0 auto; }
+.tab-content { display:none; }
+.tab-content.active { display:block; animation:fadeIn .2s ease; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+.card { background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,.06); margin-bottom:12px; overflow:hidden; border:1px solid #eef2f7; }
+.card-hd { padding:10px 13px; font-size:13.5px; font-weight:800; color:#fff; display:flex; align-items:center; gap:6px; }
+.card-hd .icon { font-size:15px; }
+.card-hd.blue   { background:#2563eb; }
+.card-hd.red    { background:#dc2626; }
+.card-hd.amber  { background:#d97706; }
+.card-hd.green  { background:#16a34a; }
+.card-hd.purple { background:#9333ea; }
+.card-hd.slate  { background:#475569; }
+.card-hd.teal   { background:#0d9488; }
+.card-body { padding:13px; }
+
+.mh { font-weight:800; font-size:12.5px; color:#334155; margin-bottom:6px; }
+.mt { margin-top:13px; }
+.cl { list-style:none; }
+.cl li { position:relative; padding-left:14px; margin-bottom:6px; font-size:12.5px; color:#334155; }
+.cl li::before { content:"▸"; position:absolute; left:0; color:#94a3b8; }
+.small { font-size:11px; color:#64748b; }
+
+.hl { border-radius:8px; padding:10px 12px; font-size:12px; margin-top:9px; }
+.hl-amber { background:#fffbeb; border-left:3px solid #d97706; color:#78350f; }
+.hl-blue  { background:#eff6ff; border-left:3px solid #2563eb; color:#1e3a8a; }
+.hl-red   { background:#fef2f2; border-left:3px solid #dc2626; color:#7f1d1d; }
+.hl-green { background:#f0fdf4; border-left:3px solid #16a34a; color:#14532d; }
+.hl strong { display:block; margin-bottom:3px; }
+
+.ib-red    { background:#fef2f2; border-left:3px solid #dc2626; border-radius:8px; padding:10px 12px; margin-top:9px; }
+.ib-purple { background:#fdf4ff; border-left:3px solid #a855f7; border-radius:8px; padding:10px 12px; margin-top:9px; }
+.ib-teal   { background:#f0fdfa; border-left:3px solid #0d9488; border-radius:8px; padding:10px 12px; margin-top:9px; }
+.ib-title  { font-weight:700; margin-bottom:5px; font-size:12px; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.mb-3 { margin-bottom:13px; }
+
+.stat-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.stat-pill { flex:1; min-width:84px; background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:9px 6px; text-align:center; }
+.stat-num { font-size:17px; font-weight:800; color:#0369a1; }
+.stat-label { font-size:9.5px; color:#475569; margin-top:2px; line-height:1.35; }
+
+.freq-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+.freq-label { flex:0 0 118px; font-size:11px; color:#334155; }
+.freq-track { flex:1; background:#f1f5f9; border-radius:5px; height:19px; overflow:hidden; }
+.freq-fill { height:100%; display:flex; align-items:center; padding-left:6px; color:#fff; font-size:9.5px; font-weight:700; border-radius:5px; }
+
+table.tbl { width:100%; border-collapse:collapse; font-size:11.5px; }
+table.tbl th { background:#f1f5f9; padding:7px 7px; text-align:left; font-weight:700; color:#334155; border-bottom:2px solid #e2e8f0; }
+table.tbl td { padding:7px 7px; border-bottom:1px solid #eef2f7; vertical-align:top; }
+.td-lbl { font-weight:700; color:#1e3a8a; white-space:nowrap; }
+.tbl-wrap { overflow-x:auto; }
+
+.badge { display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:99px; }
+.badge-green { background:#dcfce7; color:#166534; }
+.badge-amber { background:#fef3c7; color:#92400e; }
+.badge-red   { background:#fee2e2; color:#991b1b; }
+.badge-blue  { background:#dbeafe; color:#1e40af; }
+
+.criteria-box { border-radius:8px; padding:10px 12px; margin-top:9px; border:1px solid; }
+.crit-certain { background:#f0fdf4; border-color:#86efac; }
+.crit-suspect { background:#fffbeb; border-color:#fde68a; }
+.crit-box-title { font-weight:800; font-size:12px; margin-bottom:6px; }
+
+.divider { border:none; border-top:1px dashed #e2e8f0; margin:10px 0; }
+
+@media (max-width:440px) {
+  .grid-2, .grid-3 { grid-template-columns:1fr; }
+  .stat-row { flex-wrap:wrap; }
+  .freq-label { flex-basis:92px; font-size:10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🦋 橋本病（慢性甲状腺炎）</h1>
+  <p>クイックリファレンス｜小児診療・診断基準・治療方針・フォロー</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab(0)">疫学・病因</div>
+  <div class="tab" onclick="showTab(1)">診断基準</div>
+  <div class="tab" onclick="showTab(2)">病型・経過</div>
+  <div class="tab" onclick="showTab(3)">鑑別診断</div>
+  <div class="tab" onclick="showTab(4)">治療方針</div>
+  <div class="tab" onclick="showTab(5)">フォロー</div>
+</div>
+
+<div class="content">
+
+<!-- ════════════════ TAB 0：疫学・病因・背景疾患 ════════════════ -->
+<div class="tab-content active" id="tab0">
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📖</span> 定義（日本甲状腺学会 診断ガイドライン2024）</div>
+    <div class="card-body">
+      <div class="small">慢性甲状腺炎（橋本病）は<strong>自己免疫性甲状腺炎</strong>。甲状腺組織に以下4所見を認める：</div>
+      <ul class="cl mt">
+        <li>①リンパ濾胞の形成</li>
+        <li>②甲状腺上皮細胞の変性（濾胞上皮の萎縮・好酸性変性）</li>
+        <li>③結合組織の新生（間質の線維化）</li>
+        <li>④円形細胞のびまん性浸潤（リンパ球浸潤）</li>
+      </ul>
+      <div class="hl hl-blue">
+        <strong>原発性甲状腺機能低下症の原因として最多。</strong>
+        ただし橋本病のうち実際に機能低下症となるのは約1割にとどまり、大部分は機能正常を維持する。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">📊</span> 疫学（小児）</div>
+    <div class="card-body">
+      <div class="stat-row">
+        <div class="stat-pill"><div class="stat-num">No.1</div><div class="stat-label">6歳以上の小児における甲状腺腫・後天性機能低下症の原因として</div></div>
+        <div class="stat-pill"><div class="stat-num">1:5</div><div class="stat-label">男女比（小児）<br>成人は約1:10</div></div>
+        <div class="stat-pill"><div class="stat-num">約1割</div><div class="stat-label">橋本病のうち機能低下症に至る割合</div></div>
+      </div>
+      <ul class="cl">
+        <li>思春期年齢から頻度が増加する</li>
+        <li>びまん性甲状腺腫は小児の80〜90%にみられる主要な臨床所見</li>
+        <li>抗Tg抗体・抗TPO抗体は小児の90〜95%で陽性</li>
+        <li>典型的には甲状腺は弾性硬で、小葉構造に沿った隆起状の表面を触れる</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🧬</span> 病因</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>遺伝的素因＋環境因子（ウイルス感染、ヨード摂取量）により免疫学的寛容が破綻して発症</li>
+        <li>家族内発症が30〜40%にみられる</li>
+        <li>過剰なヨード摂取は甲状腺自己免疫機序を誘発しやすくする</li>
+        <li>標的抗原はサイログロブリン（Tg）と甲状腺ペルオキシダーゼ（TPO）が中心</li>
+      </ul>
+      <div class="hl hl-amber mt">
+        抗TPO抗体・抗Tg抗体そのものに組織傷害性はなく、健常人にも検出されうる。実際の組織傷害は甲状腺特異的なT細胞性免疫（ヘルパーT細胞・細胞傷害性T細胞）が主体。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">⚠️</span> 背景にスクリーニングすべき合併疾患</div>
+    <div class="card-body">
+      <div class="small">慢性甲状腺炎は多腺性自己免疫症候群の初発症状となることがある。以下の基礎疾患では橋本病の合併頻度が高く、逆に橋本病の児ではこれらの既往・併存を意識する。</div>
+      <ul class="cl mt">
+        <li>1型糖尿病</li>
+        <li>Down症候群</li>
+        <li>Turner症候群</li>
+        <li>Klinefelter症候群</li>
+        <li>Noonan症候群</li>
+        <li>Celiac病</li>
+      </ul>
+      <div class="hl hl-red mt">
+        これらの背景疾患をもつ患児では、無症状でも甲状腺機能・自己抗体を定期的にスクリーニングする方針が妥当。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════ TAB 1：診断基準 ════════════════ -->
+<div class="tab-content" id="tab1">
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📋</span> 診断基準（日本甲状腺学会 2024）</div>
+    <div class="card-body">
+      <div class="mh">臨床所見</div>
+      <ul class="cl">
+        <li>びまん性甲状腺腫大（萎縮の場合もある）</li>
+      </ul>
+      <div class="mh mt">検査所見</div>
+      <ul class="cl">
+        <li>抗甲状腺ペルオキシダーゼ抗体（TPOAb）陽性</li>
+        <li>抗サイログロブリン抗体（TgAb）陽性</li>
+        <li>細胞診でリンパ球浸潤を認める</li>
+      </ul>
+      <div class="mh mt">除外規定</div>
+      <ul class="cl">
+        <li>バセドウ病を除く</li>
+      </ul>
+
+      <div class="criteria-box crit-certain">
+        <div class="crit-box-title"><span class="badge badge-green">確実例</span></div>
+        <div class="small">除外規定を満たし、臨床所見および検査所見のいずれか1つ以上を有するもの</div>
+      </div>
+      <div class="criteria-box crit-suspect">
+        <div class="crit-box-title"><span class="badge badge-amber">疑い例</span></div>
+        <ul class="cl">
+          <li>甲状腺機能異常も甲状腺腫大も認めないが、TPOAbまたはTgAbが陽性のもの</li>
+          <li>他に原因が認められない原発性甲状腺機能低下症</li>
+          <li>臨床所見＋甲状腺超音波検査で内部エコー低下や不均質を認める（リンパ球浸潤が示唆される）もの</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd teal"><span class="icon">🔬</span> 検査所見の実際（小児）</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>抗体陽性率：小児の90〜95%でTPOAb・TgAbいずれかが陽性</li>
+        <li>抗TPO抗体価と甲状腺機能低下の程度は<strong>必ずしも相関しない</strong></li>
+        <li>抗体陰性の橋本病も存在しうる（疑い例③のエコー所見が補助となる）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">📷</span> 超音波所見</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>病初期：粗雑なエコー像</li>
+        <li>進行期：内部エコー低下、不均一なエコーパターン</li>
+        <li>抗体陰性例で甲状腺腫大を認める場合、甲状腺形成異常との鑑別に有用</li>
+      </ul>
+      <div class="hl hl-blue mt">
+        CT・甲状腺シンチグラフィは、結節性病変の鑑別など用途を除き通常は不要。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🧫</span> 鑑別すべき疾患（診断時）</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li><strong>単純性甲状腺腫</strong>：ヨード充足地域の思春期の約5%に甲状腺腫を認め、その大部分は実は橋本病による。家族性でリンパ球浸潤を伴わないコロイド甲状腺腫の形態をとるものもある</li>
+        <li><strong>無痛性甲状腺炎</strong>：一過性の甲状腺中毒症状を呈し、TPOAb・TgAb陽性となる頻度は高いがTRAbは多くの場合陰性。詳細は鑑別診断タブ参照</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════ TAB 2：病型・自然経過 ════════════════ -->
+<div class="tab-content" id="tab2">
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📈</span> 機能スペクトラム</div>
+    <div class="card-body">
+      <div class="small">橋本病はびまん性甲状腺腫＋抗体陽性を核に、甲状腺機能は症例ごとに以下のいずれかをたどる。</div>
+      <ul class="cl mt">
+        <li><strong>機能正常（euthyroid）</strong>：大部分はこの状態を維持。治療不要</li>
+        <li><strong>潜在性機能低下症</strong>：FT4正常、TSHのみ軽度上昇</li>
+        <li><strong>顕性機能低下症</strong>：FT4低値＋TSH高値。全体の約1割</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🔥</span> 病初期の一過性甲状腺中毒症状 vs Hashitoxicosis</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th></th><th>病初期の一過性中毒症状</th><th>Hashitoxicosis</th></tr>
+        <tr><td class="td-lbl">機序</td><td>傷害された濾胞からのホルモン漏出（破壊性）</td><td>経過中に産生されたTSH受容体<strong>刺激</strong>抗体による合成亢進</td></tr>
+        <tr><td class="td-lbl">位置づけ</td><td>橋本病の自然経過そのもの</td><td>橋本病とバセドウ病が混在する病態</td></tr>
+        <tr><td class="td-lbl">検査</td><td>FT4↑・TSH↓、TRAb陰性が典型</td><td>TRAb陽性（刺激型）</td></tr>
+      </table>
+      </div>
+      <div class="hl hl-amber mt">
+        小児ではTSH受容体抗体の陽性率自体が成人より低い。<strong>阻害型</strong>抗体が優位だと萎縮性甲状腺炎として著明な機能低下を、<strong>刺激型</strong>が優位だとHashitoxicosisを呈する。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🧊</span> 萎縮性甲状腺炎</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>阻害型抗TSH受容体抗体により甲状腺が萎縮し、著明な機能低下症をきたす病型</li>
+        <li>妊娠母体がこの抗体を保有していると胎盤を経由し、新生児に一過性甲状腺機能低下症をきたしうる</li>
+        <li>進行すると身長増加の停止や粘液水腫様症状が出現する</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd green"><span class="icon">📉</span> 自然経過・予後（小児コホートデータ）</div>
+    <div class="card-body">
+      <div class="small">小児慢性甲状腺炎160名（男児43名・女児117名、初診時平均年齢9.1±3.6歳、Turner症候群・Down症候群・1型糖尿病例を含む）の5年追跡データ：</div>
+      <div class="stat-row mt">
+        <div class="stat-pill"><div class="stat-num">&gt;50%</div><div class="stat-label">初診時TSH正常群で、5年後もTSH正常を維持</div></div>
+        <div class="stat-pill"><div class="stat-num">約30%</div><div class="stat-label">初診時TSH異常高値群で、経過中にTSHが正常化</div></div>
+      </div>
+      <div class="hl hl-green">
+        <strong>機能低下症へ進展しやすい因子</strong>
+        初診時の甲状腺腫が大きい／抗Tg抗体が高値／経過中に抗TPO抗体が増加傾向
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════ TAB 3：鑑別診断（甲状腺中毒症） ════════════════ -->
+<div class="tab-content" id="tab3">
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">⚖️</span> 無痛性甲状腺炎・橋本病・バセドウ病の鑑別</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th></th><th>無痛性甲状腺炎</th><th>橋本病（急性増悪含む）</th><th>バセドウ病</th></tr>
+        <tr><td class="td-lbl">病態</td><td>破壊性甲状腺炎</td><td>慢性自己免疫性甲状腺炎</td><td>TRAb（刺激型）による持続的合成亢進</td></tr>
+        <tr><td class="td-lbl">TRAb</td><td>陰性が原則（最重要の鑑別点）<br><span class="small">稀に弱陽性あり</span></td><td>基本陰性<br><span class="small">稀に弱陽性で判断に迷う</span></td><td>陽性</td></tr>
+        <tr><td class="td-lbl">TPOAb/TgAb</td><td>陽性のことが多い<br><span class="small">背景にHashimoto素因</span></td><td>高値陽性</td><td>陽性のこともある<br><span class="small">病態の重複あり</span></td></tr>
+        <tr><td class="td-lbl">機能の経過</td><td>中毒症→低下→回復の三相性</td><td>正常〜低下が主、稀に一過性中毒症（Hashitoxicosis）</td><td>持続性の中毒症、自然軽快しない</td></tr>
+        <tr><td class="td-lbl">RAIU/シンチ</td><td>低下〜消失</td><td>通常施行不要</td><td>上昇・びまん性</td></tr>
+        <tr><td class="td-lbl">エコー血流</td><td>正常〜低下</td><td>不均一な低エコー、血流増加は目立たない</td><td>著明な血流増加（thyroid inferno）</td></tr>
+        <tr><td class="td-lbl">CRP/ESR</td><td>正常<br><span class="small">亜急性甲状腺炎との鑑別に有用</span></td><td>正常</td><td>正常</td></tr>
+        <tr><td class="td-lbl">治療方針</td><td>抗甲状腺薬の適応なし。βブロッカーで対症療法</td><td>機能低下例にLT4補充。中毒症期は対症療法のみ</td><td>MMIが第一選択</td></tr>
+      </table>
+      </div>
+      <div class="hl hl-blue mt">
+        鑑別のロジック：まずTRAb陽性かどうかでバセドウ病か破壊性プロセスかを大別し、TRAb陰性ならエコー血流低下・RAIU低下が破壊性甲状腺炎を支持する。無痛性甲状腺炎とHashitoxicosis（橋本病急性増悪）はTRAb陰性の点で重なるため、抗体価の経過やフォロー後に機能正常へ戻るか慢性低下へ移行するかで事後的に区別されることが多い。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">💡</span> 実践上の落とし穴：ヨード（KI）とシンチの順序</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>橋本病ベースの患者は一般にヨード過敏性があり、過剰摂取（昆布、ヨード含有うがい薬など）だけで機能低下に傾きやすい</li>
+        <li>KI投与中はヨード過剰と同じ状態となり、無痛性甲状腺炎・破壊性甲状腺炎の誘発が報告されている</li>
+        <li><strong>KI（無機ヨード）を先行投与するとNIS競合阻害により、シンチグラフィでの摂取率が人為的に抑制される</strong>。診断目的のシンチを予定している場合は、KI開始前（または十分なウォッシュアウト後）に撮影する</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════ TAB 4：治療方針 ════════════════ -->
+<div class="tab-content" id="tab4">
+
+  <div class="card">
+    <div class="card-hd green"><span class="icon">✅</span> 機能正常の橋本病</div>
+    <div class="card-body">
+      <div class="hl hl-green">
+        甲状腺機能が正常であれば、原則として治療は不要。抗体陽性のみで経過観察とする。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">⚖️</span> 潜在性甲状腺機能低下症：治療を始めるか</div>
+    <div class="card-body">
+      <div class="small">定義：FT4正常で、TSHが正常上限の2倍未満（おおむね10μU/mL未満）</div>
+      <div class="grid-2 mt">
+        <div>
+          <div class="mh">治療に慎重な立場の根拠</div>
+          <ul class="cl">
+            <li>機能低下が一過性で正常化しうる</li>
+            <li>潜在性機能低下は身長増加率を低下させない</li>
+            <li>むしろ補充過剰により多動・集中力低下などの行動上の問題を招く懸念</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">補充を支持する立場の根拠</div>
+          <ul class="cl">
+            <li>顕性機能低下症への進展を阻止できる</li>
+            <li>甲状腺腫の縮小につながる</li>
+            <li>血清脂質の改善</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hl hl-amber mt">
+        <strong>TSH ≥ 10μU/mLでは治療適応とする立場が一般的。</strong>
+        FT4正常でTSHが軽度上昇（目安5〜10μU/mL）にとどまる年長児は、無症候性として経過観察のみで対応されることも多い。施設・主治医判断の幅が大きい領域であり、迷う場合は上級医と方針をすり合わせる。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd teal"><span class="icon">🌊</span> ヨード制限</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>昆布だしの多用、ヨード含有うがい薬、ヨード造影剤など過剰摂取がある場合はまず摂取制限を行う</li>
+        <li>制限のみで機能が回復し、薬物治療が不要となる例も少なくない</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">💊</span> 顕性機能低下症の治療（LT4補充）</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>後天性甲状腺機能低下症のLT4開始量は、<strong>先天性（CH）より明らかに少量</strong>から開始する点に注意</li>
+        <li>体表面積を基準とした開始量の目安：約100μg/m²/日、または年齢・体重に応じた少量からの漸増</li>
+        <li>長期間未治療だった年長児・思春期例で急速に補正すると、偽脳腫瘍（pseudotumor cerebri）や行動変化のリスクが報告されている → 少量から開始し漸増する施設が多い</li>
+      </ul>
+      <div class="hl hl-blue mt">
+        CH（先天性）の10〜15μg/kg/日のような体重ベースの高用量開始は後天性には用いない。先天性と後天性で開始戦略が異なることを意識する。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🔁</span> モニタリングの基本</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>用量調整後は4〜6週でFT4・TSHを再検</li>
+        <li>用量安定後は3〜6ヶ月毎にフォロー</li>
+        <li>目標はFT4・TSHを年齢別正常範囲内に維持すること</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════ TAB 5：フォロー・経過観察 ════════════════ -->
+<div class="tab-content" id="tab5">
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📅</span> フォロー間隔の目安（機能別）</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th>状態</th><th>再検頻度</th></tr>
+        <tr><td>機能正常＋抗体陽性のみ</td><td>6ヶ月〜1年毎にFT4・TSH</td></tr>
+        <tr><td>潜在性機能低下（無治療で経過観察中）</td><td>2〜3ヶ月毎に再検し、一過性か持続性か確認</td></tr>
+        <tr><td>治療中（顕性機能低下、用量調整期）</td><td>4〜6週毎</td></tr>
+        <tr><td>治療中（用量安定後）</td><td>3〜6ヶ月毎</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🔍</span> 経過観察中に見るべきポイント</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>甲状腺腫の大きさの変化（増大・左右差の有無）</li>
+        <li>抗TPO抗体・抗Tg抗体価の推移（上昇傾向は機能低下進展のリスク因子）</li>
+        <li>身長増加率（成長曲線でのフォロー）</li>
+        <li>背景疾患（1型糖尿病、Down/Turner/Klinefelter/Noonan症候群、Celiac病）を有する場合は、無症状でも定期スクリーニングを継続</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🚩</span> 再評価・紹介を要するサイン</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>急激な甲状腺腫の増大、左右非対称、硬結・結節の触知 → 甲状腺リンパ腫は稀だが、その多くが慢性リンパ球性甲状腺炎を背景に発生するため要注意</li>
+        <li>嚥下困難・圧迫感などの局所症状</li>
+        <li>急性の疼痛・発熱を伴う増悪 → 亜急性甲状腺炎など他疾患との鑑別を検討</li>
+        <li>動悸・体重減少など中毒症状の出現 → Hashitoxicosis／無痛性甲状腺炎の可能性</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd green"><span class="icon">🏁</span> フォロー終了（経過観察オフ）の目安</div>
+    <div class="card-body">
+      <div class="mh">経過観察の間隔延長・終了を検討できる状態</div>
+      <ul class="cl">
+        <li>複数回（目安2〜3回以上）の再検で甲状腺機能が正常範囲を維持し、TSHの上昇傾向がない</li>
+        <li>抗体価の明らかな上昇傾向がなく、甲状腺腫の増大もない</li>
+        <li>思春期が完了し、機能正常かつ甲状腺腫が軽度で安定している場合は、間隔を年1回程度まで延ばす、または成人診療への移行を検討</li>
+      </ul>
+      <div class="hl hl-green mt">
+        <strong>自己免疫疾患である以上、「完全な治癒」という概念はない。</strong>
+        機能正常を維持している間は日常生活の制限は不要であることを家族に伝えつつ、生涯にわたり機能低下症を発症しうる素因が残ることを説明しておく。
+      </div>
+      <div class="ib-teal mt">
+        <div class="ib-title">👪 家族へのセーフティネット指導</div>
+        <div class="small">フォロー間隔を延ばす・終了する際は、以下の症状が出たら再受診するよう必ず伝える：全身倦怠感、体重増加、寒がり、便秘、無気力・活動性低下、月経不順（思春期女児）、急な甲状腺の腫れや痛み。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function showTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-content').forEach((c,i)=>c.classList.toggle('active', i===n));
+}
+</script>
+
+</body>
+</html>

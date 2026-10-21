@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小児低血糖 あんちょこ</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="初動・鑑別・負荷試験・GIRやケトン体の計算">
+
+<style>
+:root{
+  --navy:#12263f; --navy2:#1e4571; --teal:#0f766e;
+  --red:#b91c1c; --redbg:#fef2f2; --redbd:#fca5a5;
+  --amber:#b45309; --amberbg:#fffbeb; --amberbd:#fcd34d;
+  --green:#15803d; --greenbg:#f0fdf4; --greenbd:#86efac;
+  --blue:#1d4ed8; --bluebg:#eff6ff; --bluebd:#93c5fd;
+  --purple:#6d28d9; --purplebg:#f5f3ff; --purplebd:#c4b5fd;
+  --gray:#475569; --graybg:#f8fafc; --line:#e2e8f0;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  background:#f1f5f9;color:#0f172a;line-height:1.65;font-size:15px}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 55%,var(--teal) 100%);
+  color:#fff;padding:20px 18px 16px}
+header h1{margin:0;font-size:21px;letter-spacing:.02em}
+header p{margin:6px 0 0;font-size:12.5px;opacity:.82}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav button{flex:0 0 auto;background:none;border:none;padding:12px 15px;font-size:13.5px;
+  color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;font-weight:600;
+  font-family:inherit}
+nav button.on{color:var(--navy2);border-bottom-color:var(--navy2);background:#f8fafc}
+main{max-width:960px;margin:0 auto;padding:16px 14px 80px}
+section{display:none} section.on{display:block}
+h2{font-size:17px;margin:22px 0 10px;padding-left:10px;border-left:4px solid var(--navy2)}
+h2:first-child{margin-top:6px}
+h3{font-size:14.5px;margin:16px 0 7px;color:var(--navy2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 15px;margin:10px 0}
+.card.red{background:var(--redbg);border-color:var(--redbd)}
+.card.amber{background:var(--amberbg);border-color:var(--amberbd)}
+.card.green{background:var(--greenbg);border-color:var(--greenbd)}
+.card.blue{background:var(--bluebg);border-color:var(--bluebd)}
+.card.purple{background:var(--purplebg);border-color:var(--purplebd)}
+.card .t{font-weight:700;margin-bottom:6px;font-size:14.5px}
+.card.red .t{color:var(--red)} .card.amber .t{color:var(--amber)}
+.card.green .t{color:var(--green)} .card.blue .t{color:var(--blue)}
+.card.purple .t{color:var(--purple)}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;background:#fff}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#eef2f7;font-weight:700;font-size:12.5px}
+td.hi{background:#fef2f2;font-weight:700;color:var(--red)}
+td.lo{background:#eff6ff;color:var(--blue);font-weight:700}
+td.yes{background:#f0fdf4;color:var(--green);font-weight:700}
+td.no{background:#f8fafc;color:var(--gray)}
+.wrap{overflow-x:auto}
+ul,ol{margin:6px 0 6px;padding-left:22px} li{margin:3px 0}
+.k{display:inline-block;background:#e2e8f0;border-radius:4px;padding:1px 6px;font-size:12.5px;font-weight:700;margin-right:4px}
+.num{font-variant-numeric:tabular-nums;font-weight:700}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+.calc label{font-size:12.5px;color:var(--gray);font-weight:600;display:block;margin-bottom:3px}
+.calc input,.calc select{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px;
+  font-family:inherit;background:#fff}
+.full{grid-column:1/-1}
+.out{background:var(--navy);color:#fff;border-radius:9px;padding:13px 14px;margin:10px 0;font-size:14px}
+.out b{color:#7dd3fc}
+.out .big{font-size:20px;font-weight:700;letter-spacing:.01em}
+.out .line{margin:5px 0;padding:5px 0;border-top:1px solid rgba(255,255,255,.16)}
+.out .line:first-of-type{border-top:none}
+button.act{background:var(--navy2);color:#fff;border:none;border-radius:8px;padding:10px 16px;
+  font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+button.act:hover{background:var(--navy)}
+.note{font-size:12.5px;color:var(--gray);margin:6px 0}
+.ref{font-size:11.5px;color:#64748b;margin-top:8px;font-style:normal}
+pre.tpl{background:#0f172a;color:#e2e8f0;padding:13px;border-radius:9px;font-size:12.5px;
+  white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.6}
+.copy{background:#334155;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12.5px;
+  cursor:pointer;margin-top:6px;font-family:inherit;font-weight:600}
+.flow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.flow div{flex:1;min-width:150px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy2);
+  border-radius:8px;padding:9px 11px;font-size:13px}
+.flow div b{display:block;color:var(--navy2);font-size:12.5px;margin-bottom:3px}
+.tl{border-left:3px solid var(--line);margin-left:8px;padding-left:14px}
+.tl .ev{position:relative;margin:12px 0}
+.tl .ev:before{content:"";position:absolute;left:-20px;top:6px;width:9px;height:9px;border-radius:50%;
+  background:var(--navy2)}
+.tl .ev b{color:var(--navy2)}
+@media(max-width:560px){.calc{grid-template-columns:1fr}nav button{padding:11px 12px;font-size:13px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>小児低血糖 あんちょこ</h1>
+  <p>初療 → critical sample → 鑑別 → 負荷試験の解釈まで／院内スライド「小児の低血糖update」(2024/4/22 川北理恵) をベースに、絶食・グルカゴン負荷・延長OGTTの判定を追加</p>
+</header>
+
+<nav>
+  <button class="on" data-t="s1">初動</button>
+  <button data-t="s2">病態・時間軸</button>
+  <button data-t="s3">鑑別</button>
+  <button data-t="s4">負荷試験</button>
+  <button data-t="s5">計算・判定</button>
+  <button data-t="s6">疾患別</button>
+  <button data-t="s7">フォロー</button>
+  <button data-t="s8">テンプレ</button>
+</nav>
+
+<main>
+
+<!-- ============ 初動 ============ -->
+<section id="s1" class="on">
+  <h2>緊急に対応すべき低血糖</h2>
+  <div class="card red">
+    <div class="t">閾値</div>
+    <table>
+      <tr><th>小児</th><td>&lt; 2.5 mmol/L（<span class="num">45 mg/dL</span>）</td></tr>
+      <tr><th>成人</th><td>&lt; 3.0 mmol/L（<span class="num">54 mg/dL</span>）</td></tr>
+    </table>
+    <div class="note">※ 検体による差：動脈血 &gt; 静脈血（静脈は約10%低い）／血清=血漿 &gt; 全血（全血は約15%低い）。<b>簡易血糖と血漿血糖は15%程度ずれる</b> — 簡易で低ければ必ず血漿で確認。</div>
+  </div>
+
+  <h2>初療の順番</h2>
+  <div class="flow">
+    <div><b>① ライン確保</b>同時に簡易血糖＋緊急検査を提出</div>
+    <div><b>② critical sample</b>ブドウ糖を入れる<u>前</u>に採る（オーダーセット 020.内分泌 &gt; 008.低血糖）</div>
+    <div><b>③ 20%ブドウ糖 1 mL/kg 静注</b>（＝0.2 g/kg）</div>
+    <div><b>④ 5%程度のブドウ糖輸液</b>GIR 4–6（乳児）／2–4（小児）mg/kg/min</div>
+    <div><b>⑤ 尿パック</b>血糖補正後でよい。凍結2–3 mL 以上確保</div>
+    <div><b>⑥ 30分後に再検</b>以後は必要に応じ頻回測定</div>
+  </div>
+  <div class="card amber">
+    <div class="t">落ち着いてから、しっかり問診＋診察</div>
+    critical sample を採り損ねると診断が数か月遅れる。<b>糖を入れる前の1本</b>が最優先。採血困難なら、最低限「血糖・インスリン・血中ケトン体分画・遊離脂肪酸・血液ガス（乳酸）・アンモニア・ACTH/コルチゾール・血清凍結1 mL・ろ紙血」を死守。
+  </div>
+
+  <h2>低血糖時 critical sample</h2>
+  <div class="wrap"><table>
+    <tr><th style="width:70px">検体</th><th>項目</th></tr>
+    <tr><td><b>血液</b></td><td>CBC・一般生化学・電解質／<b>血糖</b>／<b>インスリン（C-ペプチド）</b>／血液ガス（できれば乳酸含む）／<b>遊離脂肪酸</b>／アンモニア／<b>血中ケトン体分画</b>／乳酸・ピルビン酸／ACTH・コルチゾール／血漿アミノ酸分析／GH・IGF-1／<b>血清保存 1 mL（凍結）＋ろ紙血</b>（→血清アシルカルニチン分析）</td></tr>
+    <tr><td><b>尿</b></td><td>検尿（ケトン体）／<b>尿保存 2–3 mL 以上（凍結）</b>（→尿中有機酸分析）</td></tr>
+  </table></div>
+
+  <h2>副腎不全を疑うサイン</h2>
+  <div class="card red">
+    <div class="t">ひとつでもあれば、迷わずヒドロコルチゾン</div>
+    <ul>
+      <li>意識障害</li>
+      <li>ショック、輸液抵抗性の低血圧</li>
+      <li>皮膚が黒い（特に口唇・爪・掌）</li>
+      <li>下垂体機能低下症の既往</li>
+      <li>病歴（長期のステロイド使用など：目安 &gt;1600 mg/m²、&gt;16日）</li>
+      <li>低血糖＋低Na血症</li>
+    </ul>
+    <div style="font-size:16px;font-weight:700;color:var(--red);margin-top:8px">
+      ソル・コーテフ 50 mg/m² 静注
+    </div>
+    <div class="note">※ 電解質・血糖が正常でも副腎不全は否定できない。ACTH・コルチゾールを採ってから投与するのが理想だが、疑いが強ければ投与を遅らせない。</div>
+  </div>
+
+  <h2>症状と血糖値の対応</h2>
+  <div class="wrap"><table>
+    <tr><th>血糖 mmol/L (mg/dL)</th><th>起こること</th></tr>
+    <tr><td>5.5 (99)</td><td>インスリン分泌増加</td></tr>
+    <tr><td>4.6 (83)</td><td>インスリン分泌減少</td></tr>
+    <tr><td>3.8 (68)</td><td><b>グルカゴン・エピネフリン・GH 分泌の増加</b></td></tr>
+    <tr><td>3.2 (58)</td><td><b>コルチゾール分泌増加</b></td></tr>
+    <tr><td>2.8 (50)</td><td>空腹感、だるさ、動悸、筋力低下、冷汗、吐き気</td></tr>
+    <tr><td>1.7 (31)</td><td class="hi">意識障害、けいれん、昏睡</td></tr>
+  </table></div>
+  <div class="note">低血糖性昏睡は「低血糖だった時間の分だけ」昏睡が続くことがある。覚醒が遅くても、血糖が戻っていれば慌てない。</div>
+
+  <h2>低血糖性脳症</h2>
+  <div class="card">
+    <b>画像</b>：後頭葉優位の皮質下白質障害（Burns CM. Pediatrics 2008;122:65）。発症する血糖の閾値は不明。<br>
+    <b>予後不良因子</b>（Hershey T, et al. Diabetes Care 2005）
+    <ol>
+      <li>けいれん・意識障害の既往</li>
+      <li>5歳未満での低血糖</li>
+      <li>繰り返す低血糖発作</li>
+      <li><b>持続時間が長いこと</b>（血糖の絶対値はあまり関係しない）</li>
+    </ol>
+  </div>
+  <div class="card blue">
+    <div class="t">なぜ血糖が大事か</div>
+    <b>脳</b>：ATP源はブドウ糖（飢餓時はケトン体）。総ブドウ糖消費量の20–25%を占める。グリコーゲンはほとんど持たない。新生児期はエネルギー源だけでなく<b>髄鞘化</b>にも必要。<br>
+    <b>骨格筋・心筋</b>：ケトン体と脂肪酸を有効に使える → 脳ほど困らない。
+  </div>
+</section>
+
+<!-- ============ 病態 ============ -->
+<section id="s2">
+  <h2>ヒトの血糖維持機構</h2>
+  <div class="tl">
+    <div class="ev"><b>0–4時間</b>：食物の腸管吸収。授乳中は約3時間、食事なら4時間前後保たれる。</div>
+    <div class="ev"><b>4–16時間</b>：<b>グリコーゲン分解（肝）</b>。16時間前後まで。</div>
+    <div class="ev"><b>16時間以降</b>：<b>糖新生（肝・腎）</b>＋ β酸化／ケトン産生。</div>
+  </div>
+  <div class="card amber">
+    <div class="t">この時間軸がそのまま鑑別になる</div>
+    破綻した機構に対応して、症状の出る「食後経過時間」が決まる。<b>最後の食事の時刻と内容を必ず聞く。</b>
+  </div>
+
+  <h2>低血糖の起こった時間帯は？</h2>
+  <div class="card blue">
+    <div class="t">① 食後 4–6 時間 → グリコーゲン分解の異常</div>
+    肝型糖原病（Ⅰ, Ⅲ, Ⅵ, Ⅷ, Ⅸ, Ⅺ, 0型）
+  </div>
+  <div class="card green">
+    <div class="t">② 食後 12–16 時間 → 糖新生系の異常</div>
+    いわゆる<b>ケトン性低血糖症（飢餓）</b>／糖新生異常症／脂肪酸代謝異常症（β酸化異常症）
+  </div>
+  <div class="card purple">
+    <div class="t">③ いつでも発症（食後経過時間と無関係）</div>
+    <b>高インスリン血症</b>／下垂体機能低下症・副腎不全<br>
+    <span class="note">食後2時間前後で下がるダンピング型もある。年長児の「朝食を摂っているのに昼食前に低血糖」は高インスリン血症を強く示唆。</span>
+  </div>
+  <div class="card">
+    <div class="note">
+    新生児は3–4時間ごとの哺乳なので、離乳期に入って食事間隔が空くまでは糖原病やβ酸化異常による低血糖は<b>出ない</b>。したがって<b>新生児持続性低血糖の最多原因は先天性高インスリン血症</b>。<br>
+    下垂体機能低下症・副腎不全は、糖新生異常症に似た像にも高インスリン血症に似た像にもなり得るので注意。
+    </div>
+  </div>
+
+  <h2>血糖に関係するホルモン</h2>
+  <div class="calc" style="grid-template-columns:1fr 1fr">
+    <div class="card green" style="margin:0">
+      <div class="t">上げる（4つ）＝インスリン拮抗ホルモン</div>
+      グルカゴン／エピネフリン／コルチゾール／成長ホルモン<br>
+      <span class="note">→ <b>下垂体機能低下症でも低血糖を起こす</b></span>
+    </div>
+    <div class="card purple" style="margin:0">
+      <div class="t">下げる（1つ）</div>
+      インスリン<br>
+      <span class="note">→ <b>高インスリン血性低血糖症を鑑別する</b></span>
+    </div>
+  </div>
+
+  <h3>ホルモンと血糖調節機構（どこに効くか）</h3>
+  <div class="wrap"><table>
+    <tr><th>経路</th><th>促進するホルモン</th><th>抑制</th></tr>
+    <tr><td>グリコーゲン分解 → グルコース</td><td>③エピネフリン、④グルカゴン</td><td>①インスリン</td></tr>
+    <tr><td>糖新生（アラニン・グリセロール → グルコース）</td><td>②コルチゾール、③エピネフリン、④グルカゴン</td><td>①インスリン</td></tr>
+    <tr><td>タンパク質分解 → アラニン</td><td>②コルチゾール</td><td>①インスリン</td></tr>
+    <tr><td>脂肪分解（TG → 脂肪酸＋グリセロール）</td><td>②コルチゾール、③エピネフリン、⑤GH</td><td>①インスリン</td></tr>
+    <tr><td>β酸化・ケトン産生</td><td>（脂肪酸供給に依存）</td><td>①インスリン</td></tr>
+  </table></div>
+  <div class="note">①インスリン ②コルチゾール ③エピネフリン ④グルカゴン ⑤GH。<b>インスリンは全経路を止める</b>ので、高インスリン血症では「低血糖なのにFFAもケトンも低い」という特徴的な組み合わせになる。</div>
+
+  <h2>薬剤性低血糖（見落とし注意）</h2>
+  <div class="card amber">
+    <ol>
+      <li><b>外因性インスリン、経口血糖降下薬の誤飲</b>（インスリン高値＋C-ペプチド低値なら外因性）</li>
+      <li><b>薬剤性カルニチン欠乏症</b>（β酸化障害）：ピボキシル基含有抗生剤（フロモックス／メイアクト／トミロン／オラペネム）、バルプロ酸</li>
+      <li><b>β遮断薬</b>（糖新生障害＋警告症状のマスク）</li>
+    </ol>
+  </div>
+
+  <h2>低血糖時に確認すること</h2>
+  <div class="calc" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="margin:0">
+      <div class="t">問診</div>
+      <ul>
+        <li><b>Last meal</b>（時間関係・内容・量）</li>
+        <li>既往歴（特に新生児期の異常、低血糖エピソード）</li>
+        <li>家族歴（同一症状、<b>突然死</b>）</li>
+        <li>成長・発達歴</li>
+        <li>食癖、経管栄養の有無</li>
+        <li>内服（抗生剤・抗てんかん薬・β遮断薬）</li>
+        <li>感染症の有無</li>
+      </ul>
+    </div>
+    <div class="card" style="margin:0">
+      <div class="t">診察</div>
+      <b>代謝疾患を示唆</b>
+      <ul><li>肝腫大</li><li>多呼吸・無呼吸</li><li>低身長・低体重</li></ul>
+      <b>内分泌疾患を示唆</b>
+      <ul><li>成長率低下、低身長・低体重</li><li>小陰茎、尿道下裂</li><li>色素沈着、巨大児</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 鑑別 ============ -->
+<section id="s3">
+  <h2>ベッドサイドでの鑑別（critical sample の読み方）</h2>
+  <div class="wrap"><table>
+    <tr>
+      <th></th>
+      <th>肝型糖原病</th>
+      <th>ケトン性低血糖<br>糖新生異常症</th>
+      <th>脂肪酸・カルニチン代謝異常<br>ケトン産生障害</th>
+      <th>高インスリン血症</th>
+    </tr>
+    <tr><th>食後経過時間</th><td>4–6 時間</td><td>12–16 時間</td><td>12–16 時間</td><td class="hi">食後2時間〜／いつでも</td></tr>
+    <tr><th>GIR 2–4 で血糖維持できるか</th><td class="yes">yes</td><td class="yes">yes</td><td class="yes">yes</td><td class="hi">No</td></tr>
+    <tr><th>インスリン</th><td class="no">&lt;1 μU/mL</td><td class="no">&lt;1 μU/mL</td><td class="no">&lt;1 μU/mL</td><td class="hi">≧1 μU/mL</td></tr>
+    <tr><th>遊離脂肪酸</th><td class="hi">高値</td><td class="hi">高値</td><td class="hi">高値</td><td class="lo">低値</td></tr>
+    <tr><th>ケトン体</th><td class="hi">高値</td><td class="hi">高値</td><td class="lo">低値</td><td class="lo">低値</td></tr>
+    <tr><th>グルカゴンに対する反応</th><td class="no">no</td><td class="no">no</td><td class="no">no</td><td class="yes">Yes</td></tr>
+  </table></div>
+  <div class="note">※「グルカゴンに対する反応」は<b>低血糖時（絶食後）</b>の反応。糖原病は食後（グリコーゲンが充填された状態）なら反応することがあり、空腹時に反応しないのがポイント。</div>
+
+  <h2>低血糖に見合うケトン体上昇か</h2>
+  <div class="card green">
+    <div class="t">積の法則</div>
+    <div style="font-size:16px;font-weight:700;text-align:center;margin:8px 0">
+      総ケトン体 (mmol/L) × 血糖 (mmol/L) ＝ 8 〜 12
+    </div>
+    <div class="note" style="text-align:center">※ 血糖 (mmol/L) ＝ 血糖 (mg/dL) ÷ 18</div>
+    例）血糖 36 mg/dL（＝2.0 mmol/L）のときの総ケトン体（AcAc＋3-OHBA）は <b>4.0〜6.0 mmol/L</b>。<br>
+    <b>これより低ければ低ケトン性低血糖症として鑑別が必要</b>（脂肪酸β酸化異常症、ケトン産生障害、高インスリン血症）。
+  </div>
+  <div class="note">→「計算・判定」タブに入力フォームあり。</div>
+
+  <h3>補助的な比（施設値・測定条件で幅があるため参考値）</h3>
+  <div class="wrap"><table>
+    <tr><th>指標</th><th>目安</th><th>意味</th></tr>
+    <tr><td>総ケトン体 / 遊離脂肪酸</td><td>おおむね ≧1</td><td>&lt;1 なら脂肪は動員されているのにケトンにならない → <b>β酸化異常・ケトン産生障害</b></td></tr>
+    <tr><td>遊離脂肪酸 と ケトン体が<b>ともに低い</b></td><td>—</td><td>脂肪分解自体が抑えられている → <b>高インスリン血症</b>（インスリン値が測定感度以下でも疑う）</td></tr>
+    <tr><td>3-OHBA / AcAc</td><td>おおむね 2〜3</td><td>著明高値ならミトコンドリア呼吸鎖異常も考慮</td></tr>
+    <tr><td>乳酸</td><td>高値＋肝腫大</td><td><b>糖原病Ⅰ型</b>を筆頭に肝型糖原病。糖新生異常症でも上がる</td></tr>
+    <tr><td>CK 高値、尿ケトン陰性</td><td>—</td><td><b>脂肪酸代謝異常</b>。高アンモニア血症・アシドーシスを伴うことがある</td></tr>
+  </table></div>
+
+  <h2>GH・コルチゾールを単回で判定してはいけない</h2>
+  <div class="card red">
+    <div class="t">院内データ（2018年 日本小児内分泌学会学術集会 P2-3-8）</div>
+    低血糖精査で入院絶食試験を行い、絶食22時間までに血漿血糖 ≦55 mg/dL となり critical sample が採れた <b>19例</b>の検討。<br><br>
+    <div class="wrap"><table>
+      <tr><th>項目</th><th>範囲（中央値）</th></tr>
+      <tr><td>年齢</td><td>0.83–7.33 歳（4.00）</td></tr>
+      <tr><td>絶食時間</td><td>8.5–22.0 時間（17.0）</td></tr>
+      <tr><td>低血糖時の血漿血糖</td><td>26–55 mg/dL（47）</td></tr>
+      <tr><td><b>低血糖時 GH</b></td><td>0.35–11.01 ng/mL（2.45）　<b>≧6 は 3/19 例のみ</b></td></tr>
+      <tr><td><b>低血糖時 コルチゾール</b></td><td>10.4–53.3 μg/dL（28.9）　<b>≧18 は 13/15 例</b></td></tr>
+      <tr><td>インスリン</td><td>&lt;0.3–1.2 μU/mL（0.3）</td></tr>
+      <tr><td>ケトン体</td><td>1447–5910 μmol/L（3493）</td></tr>
+      <tr><td>最終診断</td><td>ケトン性低血糖症 16、高インスリン血症 2、GH分泌不全 1</td></tr>
+    </table></div>
+    <b>結語</b>
+    <ul>
+      <li>絶食試験中の低血糖時 GH は多くの児で低値（年齢とも血糖値とも相関しない）。<b>GH分泌不全の診断目的には不適当</b>。</li>
+      <li>コルチゾール &lt;18 μg/dL だった2例とも最終診断は<b>ケトン性低血糖症</b>。単回検査で副腎機能低下症を診断するのは困難。</li>
+      <li>その他の臨床情報（身長SD・成長率・小陰茎・電解質・ACTH・IGF-1 など）を必ず加味する。</li>
+    </ul>
+    <div class="ref">cf. Hussain K 2003 / Kelly A 2008 / van Veen MR 2011 も同様の傾向を報告。</div>
+  </div>
+</section>
+
+<!-- ============ 負荷試験 ============ -->
+<section id="s4">
+  <h2>① 絶食試験（fasting test）</h2>
+  <div class="card red">
+    <div class="t">前提条件 — これを満たさずに始めない</div>
+    <ul>
+      <li><b>血清アシルカルニチン分析で脂肪酸代謝異常症が除外されている</b>（未除外での絶食は横紋筋融解・不整脈・突然死のリスク）</li>
+      <li>静脈ラインが確保され、20%ブドウ糖が手元にある</li>
+      <li>夜間も含めモニタできる体制、簡易血糖を頻回に測れる</li>
+      <li>感染・嘔吐・下痢がない安定した状態（異化亢進下では判定が歪む）</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="t">絶食時間の目安</div>
+    <div class="wrap"><table>
+      <tr><th>年齢</th><th>目安の上限</th></tr>
+      <tr><td>〜1歳</td><td>約 18 時間</td></tr>
+      <tr><td>1〜2歳</td><td>約 20 時間</td></tr>
+      <tr><td>2〜7歳</td><td>約 20〜24 時間</td></tr>
+      <tr><td>7歳〜</td><td>24 時間</td></tr>
+    </table></div>
+    <div class="note">van Veen MR, et al. Metabolic profiles in children during fasting. Pediatrics 2011（PMID 21422093）：<b>0–2歳が最も短時間で低血糖をきたす</b>。年長になるほど耐えられる。実施時間は施設プロトコルに従う。</div>
+  </div>
+  <div class="card blue">
+    <div class="t">実施と中止基準</div>
+    <b>採血</b>：開始時にベースライン（血糖・電解質・血ガス・遊離脂肪酸・ケトン体分画・インスリン）。以後 2〜4時間ごとに簡易血糖、後半（予測される低血糖の手前）は1時間ごと〜30分ごと。<br>
+    <b>終了トリガー</b>（いずれか）
+    <ul>
+      <li>簡易血糖 ≦45〜50 mg/dL（施設基準に従う。必ず<b>血漿で確認</b>）</li>
+      <li>低血糖症状の出現（不機嫌、発汗、意識変容、けいれん）</li>
+      <li>ケトーシスによる嘔吐・全身状態悪化</li>
+      <li>規定時間到達（＝低血糖に至らず陰性）</li>
+    </ul>
+    <b>終了時に critical sample をフルセットで採取</b>し、そのままグルカゴン負荷へ続ける。
+  </div>
+
+  <h2>② グルカゴン負荷試験（低血糖時）</h2>
+  <div class="card">
+    <div class="t">方法</div>
+    <ul>
+      <li>グルカゴン <b>0.03 mg/kg（最大 1 mg）</b>を静注または筋注</li>
+      <li>採血：<b>0, 10, 20, 30, 40（必要なら60）分</b>の血糖。乳酸・インスリンを併せると情報が増える</li>
+      <li>投与後もリバウンド低血糖・嘔吐に備え、血糖モニタを継続</li>
+    </ul>
+  </div>
+  <div class="card purple">
+    <div class="t">判定 — 「絶食後にグリコーゲンが残っているか」を見ている</div>
+    <div class="wrap"><table>
+      <tr><th>反応</th><th>解釈</th></tr>
+      <tr><td class="hi">Δ血糖 ≧ 30 mg/dL（30–40分以内）</td><td><b>陽性＝高インスリン血症性低血糖を強く示唆</b>。インスリン作用が続いているためグリコーゲンが分解されず温存されており、外から与えたグルカゴンで一気に動員される</td></tr>
+      <tr><td class="no">Δ血糖 &lt; 30 mg/dL</td><td>グリコーゲン枯渇＝生理的な絶食反応。<b>ケトン性低血糖症・糖新生異常症・脂肪酸代謝異常症</b>と矛盾しない</td></tr>
+      <tr><td>血糖上昇せず＋<b>乳酸上昇</b></td><td><b>糖原病Ⅰ型</b>（G6Pase／transporter 欠損：G6Pがグルコースにならず解糖へ流れる）</td></tr>
+      <tr><td>空腹時は無反応、<b>食後2時間では反応あり</b></td><td><b>糖原病Ⅲ／Ⅵ／Ⅸ型</b>など脱分枝・ホスホリラーゼ系</td></tr>
+    </table></div>
+    <div class="note">高インスリン血症の診断は「グルカゴン反応陽性」単独ではなく、<b>低血糖時にインスリンが測定感度以上（≧1 μU/mL）＋ FFA 低値＋ ケトン低値</b>の組み合わせで固める。インスリンは pulsatile なので、1点で検出されなくても他が揃えば否定しない。</div>
+  </div>
+
+  <h2>③ 延長 OGTT（prolonged OGTT／3〜5時間）</h2>
+  <div class="card">
+    <div class="t">何を見にいく検査か</div>
+    絶食試験が「空腹側」を見るのに対し、延長OGTTは<b>食後側</b>を見る。狙いは主に4つ。
+    <ol>
+      <li><b>反応性（食後）低血糖の再現</b>：訴えのある時間帯に実際に血糖が下がるか＋そのとき症状が出るか（Whipple三徴の証明）</li>
+      <li><b>遅発性インスリン過剰</b>：インスリンピークが遅れ、血糖が戻った後もインスリンが残って下がりすぎる型</li>
+      <li><b>ダンピング症候群</b>（胃手術後・噴門形成術後・経管栄養児）：早期の急峻な高血糖 → 後期低血糖</li>
+      <li>ついでに<b>耐糖能</b>そのものの評価（IGT／糖尿病型の検出）</li>
+    </ol>
+  </div>
+  <div class="card blue">
+    <div class="t">方法</div>
+    <ul>
+      <li>前日から10〜12時間絶食。ブドウ糖 <b>1.75 g/kg（最大 75 g）</b>を経口</li>
+      <li>採血：<b>0, 30, 60, 90, 120, 150, 180, 240, 300 分</b>の血糖・インスリン（±C-ペプチド、乳酸、遊離脂肪酸、ケトン体）</li>
+      <li>症状の有無と時刻を必ず記録（無症候の低値は解釈が変わる）</li>
+      <li>低血糖が出たらその時点で critical sample を採り、糖を投与して終了</li>
+    </ul>
+  </div>
+  <div class="card purple">
+    <div class="t">読み方（前半・後半に分けて見る）</div>
+    <div class="wrap"><table>
+      <tr><th>相</th><th>所見</th><th>解釈</th></tr>
+      <tr><td rowspan="3"><b>前半</b><br>0–120分</td><td>30–60分ピークが著明高値（&gt;200 mg/dL）で、その後急落</td><td>急速な胃排出＝<b>ダンピング型</b>。後期低血糖と組で見る</td></tr>
+      <tr><td>120分 ≧200 mg/dL</td><td>糖尿病型（140–199 は IGT）</td></tr>
+      <tr><td>負荷後に<b>乳酸が低下</b>／逆に著明上昇</td><td>低下＝糖原病Ⅰ型に特徴的／上昇＝糖新生系酵素欠損を考慮</td></tr>
+      <tr><td rowspan="3"><b>後半</b><br>150–300分</td><td>血糖 &lt;55–60 mg/dL <b>＋ そのとき症状あり</b> ＋ 同時インスリンが不適切に高い</td><td><b>反応性低血糖として陽性</b>。前半のピーク形状でダンピング型か遅発性インスリン過剰型かを分ける</td></tr>
+      <tr><td>血糖は下がるが<b>症状なし</b></td><td>健常小児でも 50 台まで落ちることがあり、単独では病的と言えない。Whipple三徴を満たさない</td></tr>
+      <tr><td>低血糖時に FFA・ケトンが<b>上がってこない</b></td><td>インスリン作用の残存を支持。高インスリン血症性低血糖の傍証</td></tr>
+    </table></div>
+    <div class="note"><b>最大の注意点</b>：延長OGTTは偽陽性が多い検査。低値が出ても「そのときの症状」と「同時のインスリン・FFA・ケトン」が揃って初めて意味を持つ。日常の低血糖エピソードと時間帯・症状が一致するかを必ず突き合わせる。</div>
+  </div>
+
+  <h2>2つの検査を組み合わせて読む</h2>
+  <div class="wrap"><table>
+    <tr><th>絶食試験＋グルカゴン</th><th>延長OGTT</th><th>まず考える病態</th></tr>
+    <tr><td>低血糖に至らず（陰性）</td><td>後半に症候性低血糖＋インスリン残存</td><td><b>食後（反応性）低血糖・ダンピング</b>。空腹耐性は保たれている</td></tr>
+    <tr><td>低血糖＋ケトン高値＋FFA高値＋グルカゴン無反応</td><td>異常なし</td><td><b>ケトン性低血糖症</b>（除外診断）</td></tr>
+    <tr><td>低血糖＋ケトン低値＋FFA低値＋<b>グルカゴン反応陽性</b></td><td>後半にも低血糖</td><td><b>高インスリン血症</b>（先天性／インスリノーマ／薬剤性／ダンピング後期を含む）</td></tr>
+    <tr><td>低血糖＋ケトン低値＋<b>FFA高値</b></td><td>—</td><td><b>脂肪酸β酸化異常症・ケトン産生障害</b>（本来は絶食前に除外しておく）</td></tr>
+    <tr><td>短時間で低血糖＋乳酸高値＋肝腫大</td><td>負荷後に乳酸低下</td><td><b>肝型糖原病（特にⅠ型）</b></td></tr>
+    <tr><td>低血糖＋ケトン高値だが GH・コルチゾール低め＋低身長／小陰茎／低Na</td><td>—</td><td><b>下垂体機能低下症・副腎不全</b>（単回値では決めず、負荷試験で確認）</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ 計算 ============ -->
+<section id="s5">
+  <h2>GIR（グルコース注入量）</h2>
+  <div class="card">
+    <div style="text-align:center;font-weight:700;margin:6px 0">
+      GIR (mg/kg/min) ＝ ブドウ糖濃度(%) × 流量(mL/h) × 1/6 ÷ 体重(kg)
+    </div>
+    <div class="calc">
+      <div><label>ブドウ糖濃度 (%)</label><input type="number" id="g_conc" value="5" step="0.5"></div>
+      <div><label>流量 (mL/h)</label><input type="number" id="g_rate" step="1"></div>
+      <div><label>体重 (kg)</label><input type="number" id="g_wt" step="0.1"></div>
+      <div style="display:flex;align-items:flex-end"><button class="act" onclick="calcGIR()">計算</button></div>
+    </div>
+    <div class="out" id="girOut">体重と流量を入力してください。</div>
+    <div class="note">
+      生理的な肝ブドウ糖産生量：成熟新生児 4–6、成人 1.5–2 mg/kg/min → <b>小児はその中間 2–4</b>。<br>
+      ヴィーンD／ソリタT3 の維持量で血糖が保てるなら、通常の飢餓・グリコーゲン分解／糖新生の異常で説明可能。<b>それ以上入れないと維持できないなら高インスリン血症（＋下垂体機能低下症）を考慮</b>。新生児で GIR &gt;8 が必要なら高インスリン血症を強く疑う。
+    </div>
+  </div>
+
+  <h2>低血糖に見合うケトン体か</h2>
+  <div class="card">
+    <div class="calc">
+      <div><label>血糖 (mg/dL)</label><input type="number" id="k_glu" step="1"></div>
+      <div><label>総ケトン体 (μmol/L)</label><input type="number" id="k_tk" step="1"></div>
+      <div><label>遊離脂肪酸 (mEq/L, 任意)</label><input type="number" id="k_ffa" step="0.01"></div>
+      <div style="display:flex;align-items:flex-end"><button class="act" onclick="calcKet()">判定</button></div>
+    </div>
+    <div class="out" id="ketOut">血糖と総ケトン体を入力してください。</div>
+  </div>
+
+  <h2>グルカゴン負荷の判定</h2>
+  <div class="card">
+    <div class="calc">
+      <div><label>投与前 血糖 (mg/dL)</label><input type="number" id="gg_pre" step="1"></div>
+      <div><label>最高 血糖 (mg/dL, 30–40分)</label><input type="number" id="gg_peak" step="1"></div>
+      <div><label>低血糖時 インスリン (μU/mL, 任意)</label><input type="number" id="gg_ins" step="0.1"></div>
+      <div><label>体重 (kg) → 投与量</label><input type="number" id="gg_wt" step="0.1"></div>
+    </div>
+    <div style="margin:4px 0"><button class="act" onclick="calcGlucagon()">判定</button></div>
+    <div class="out" id="ggOut">投与前と最高血糖を入力してください。</div>
+  </div>
+
+  <h2>延長OGTT の読み取り補助</h2>
+  <div class="card">
+    <div class="calc">
+      <div><label>0分 血糖</label><input type="number" id="o_g0" step="1"></div>
+      <div><label>0分 インスリン</label><input type="number" id="o_i0" step="0.1"></div>
+      <div><label>ピーク血糖 (mg/dL)</label><input type="number" id="o_gp" step="1"></div>
+      <div><label>ピーク時刻 (分)</label><input type="number" id="o_tp" step="10"></div>
+      <div><label>120分 血糖</label><input type="number" id="o_g120" step="1"></div>
+      <div><label>最低血糖 (mg/dL)</label><input type="number" id="o_gmin" step="1"></div>
+      <div><label>最低時刻 (分)</label><input type="number" id="o_tmin" step="10"></div>
+      <div><label>最低時 インスリン (μU/mL)</label><input type="number" id="o_imin" step="0.1"></div>
+      <div class="full"><label>最低血糖時の症状</label>
+        <select id="o_sx"><option value="1">あり（Whipple三徴を満たす）</option><option value="0">なし</option></select></div>
+    </div>
+    <div style="margin:4px 0"><button class="act" onclick="calcOGTT()">解釈</button></div>
+    <div class="out" id="ogttOut">値を入力してください。</div>
+    <div class="note">この判定は思考の補助であり、確定診断ではありません。症状の時間的一致、日常のエピソード、他の critical sample と併せて解釈してください。</div>
+  </div>
+
+  <h2>初療の投与量</h2>
+  <div class="card">
+    <div class="calc">
+      <div><label>体重 (kg)</label><input type="number" id="d_wt" step="0.1"></div>
+      <div><label>身長 (cm, BSA用・任意)</label><input type="number" id="d_ht" step="0.1"></div>
+    </div>
+    <div style="margin:4px 0"><button class="act" onclick="calcDose()">計算</button></div>
+    <div class="out" id="doseOut">体重を入力してください。</div>
+  </div>
+</section>
+
+<!-- ============ 疾患別 ============ -->
+<section id="s6">
+  <h2>ケトン性低血糖症（idiopathic ketotic hypoglycemia）</h2>
+  <div class="card green">
+    <b>典型像</b>：1.5〜5歳発症。感染・食思不振・夕食少量の翌朝など<b>異化が亢進した状況</b>で、食後12–16時間に低血糖。ケトン高値・FFA高値・インスリン &lt;1・グルカゴン無反応。<br>
+    <b>本質は除外診断</b>。糖原病・糖新生異常症・脂肪酸代謝異常症・高インスリン血症・下垂体/副腎機能低下を外して初めて名乗れる。<br>
+    <b>経過</b>：多くは学童期（8〜9歳頃）までに自然軽快。
+  </div>
+
+  <h2>肝型糖原病</h2>
+  <div class="card">
+    <b>Ⅰ型</b>：肝腫大著明、低血糖＋<b>乳酸高値</b>・高尿酸・高中性脂肪。グルカゴン負荷で血糖上がらず乳酸上昇。食後4–6時間で低血糖。<br>
+    <b>Ⅲ・Ⅵ・Ⅸ型</b>：肝腫大＋CK上昇（Ⅲ型）、空腹時ケトーシス。グルカゴンは食後なら反応、空腹時は反応不良。<br>
+    <b>0型</b>：肝腫大なし。空腹時低ケトン〜ケトン性低血糖、食後高血糖・高乳酸という組み合わせが特徴。
+  </div>
+
+  <h2>脂肪酸β酸化異常症・カルニチン代謝異常</h2>
+  <div class="card amber">
+    <b>低ケトン性低血糖</b>＋ FFA高値。CK高値、高アンモニア血症、アシドーシス、心筋症、突然死の家族歴。<br>
+    尿ケトン陰性なのに低血糖 → まずこれを疑う。<b>絶食試験の前に必ず血清アシルカルニチン分析で除外</b>。<br>
+    薬剤性（ピボキシル基抗生剤、バルプロ酸）による二次性カルニチン欠乏も忘れない。
+  </div>
+
+  <h2>高インスリン血症性低血糖症</h2>
+  <div class="card purple">
+    <b>診断を支える所見</b>（低血糖時＝血糖 &lt;50 mg/dL のとき）
+    <ul>
+      <li>インスリンが測定感度以上（<b>≧1 μU/mL</b>）</li>
+      <li>遊離脂肪酸 <b>低値</b>（目安 &lt;1.5 mmol/L）</li>
+      <li>総ケトン体 <b>低値</b>（目安 &lt;2.0 mmol/L）</li>
+      <li>グルカゴン負荷で <b>Δ血糖 ≧30 mg/dL</b></li>
+      <li>血糖維持に高い GIR が必要（新生児で &gt;8 mg/kg/min）</li>
+    </ul>
+    <b>鑑別</b>：先天性高インスリン血症、Beckwith-Wiedemann、糖尿病母体児、インスリノーマ（年長児）、外因性インスリン／SU薬（C-ペプチドで判別）、ダンピング症候群後期、インスリン自己免疫症候群。
+  </div>
+
+  <h2>内分泌性（下垂体機能低下症・副腎不全）</h2>
+  <div class="card red">
+    低血糖の像は<b>糖新生異常症にも高インスリン血症にも似る</b>。低血糖時の単回 GH・コルチゾールでは診断できない（→「鑑別」タブの院内データ）。<br>
+    <b>拾い上げの手がかり</b>：低身長・成長率低下、小陰茎・停留精巣、正中構造異常、遷延性黄疸の既往、低Na血症、色素沈着、頭蓋内病変。<br>
+    疑ったら後日あらためて GH 分泌刺激試験・ACTH 負荷／CRH 負荷、MRI で評価する。
+  </div>
+</section>
+
+<!-- ============ フォロー ============ -->
+<section id="s7">
+  <h2>退院時に家族へ伝えること</h2>
+  <div class="card blue">
+    <div class="t">シックデイ・ルール</div>
+    <ul>
+      <li>発熱・嘔吐・食欲低下のときが最も危ない。<b>食べられなくても糖分だけは切らさない</b>（経口補水液、ジュース、糖入りゼリーをこまめに）</li>
+      <li>夕食が少なかった日は<b>就寝前に補食</b>（炭水化物を含むもの）</li>
+      <li>絶食が長引かないよう、朝食を抜かせない</li>
+      <li>体調不良時は尿ケトンを自宅でチェック（試験紙を渡しておくと有用）</li>
+    </ul>
+  </div>
+  <div class="card red">
+    <div class="t">すぐ受診する目安（家族用セーフティネット）</div>
+    <ul>
+      <li>嘔吐を繰り返して水分・糖分が摂れない</li>
+      <li>ぐったりして起きない、呼びかけに反応が鈍い、けいれん</li>
+      <li>冷汗・顔面蒼白・手のふるえが糖分摂取で改善しない</li>
+      <li>尿ケトンが強陽性で、食事が摂れていない</li>
+    </ul>
+    <div class="note">救急受診時に見せられるよう、診断名・これまでの低血糖エピソード・critical sample の結果を1枚にまとめて携帯してもらう。</div>
+  </div>
+
+  <h2>フォロー終了（経過観察オフ）の目安</h2>
+  <div class="card green">
+    <div class="t">終了を検討してよい ― ケトン性低血糖症（除外診断が済んでいる例）</div>
+    <ul>
+      <li>器質的疾患（糖原病・脂肪酸代謝異常症・高インスリン血症・下垂体/副腎機能低下）が<b>検査で除外されている</b></li>
+      <li><b>学童期（おおむね8〜10歳）以降</b>で、直近 <b>1〜2年</b>、シックデイを含めて低血糖エピソードがない</li>
+      <li>成長率・発達が正常で、身長SDの下方偏位がない</li>
+      <li>家族がシックデイ対応と受診基準を理解し、自宅で完結できている</li>
+    </ul>
+    <div class="note">終了時には「思春期前後で再燃することは基本的にないが、長時間の絶食・胃腸炎では再び起こり得る」ことと、再受診の窓口を明示して終診とする。</div>
+  </div>
+  <div class="card red">
+    <div class="t">終了しない ― 生涯フォローが必要</div>
+    <ul>
+      <li>肝型糖原病（食事療法・コーンスターチの調整、肝腺腫・腎障害・骨密度の監視）</li>
+      <li>脂肪酸β酸化異常症・カルニチン代謝異常（シックデイ管理、心筋症、運動制限）</li>
+      <li>先天性高インスリン血症（薬物調整、神経発達フォロー）</li>
+      <li>下垂体機能低下症・副腎不全（補充療法、ストレス時増量、緊急カード）</li>
+      <li>低血糖性脳症を残した例（発達フォロー、てんかん管理）</li>
+    </ul>
+  </div>
+  <div class="card amber">
+    <div class="t">判断保留 ― 経過観察を続ける</div>
+    <ul>
+      <li>絶食試験で低血糖に至らず、原因が確定していない（＝陰性でも「否定」ではない）</li>
+      <li>延長OGTTで無症候の低値のみ得られている</li>
+      <li>成長率が鈍化しつつある、低身長が進行している（内分泌性を再評価）</li>
+      <li>2歳未満で発症し、まだエピソードが繰り返されている</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ テンプレ ============ -->
+<section id="s8">
+  <h2>低血糖 初療記録</h2>
+  <pre class="tpl" id="t1">【低血糖 初療】
+受診時刻：　　　　　最終食事：　　　　（内容・量：　　　　）
+最終食事からの経過時間：　　時間
+簡易血糖　　mg/dL ／ 血漿血糖　　mg/dL
+症状：意識・けいれん・冷汗・顔色不良・不機嫌・無症候
+現病歴（発熱／嘔吐／下痢／食思不振）：
+既往（新生児期異常・低血糖歴）：
+家族歴（同症状・突然死）：
+内服（ピボキシル基抗生剤／バルプロ酸／β遮断薬／その他）：
+身体所見：肝腫大 ±／低身長 ±（　SD）／小陰茎 ±／色素沈着 ±／多呼吸 ±
+
+【対応】
+critical sample 採取：　時　分（ブドウ糖投与前 ・ 後）
+20%ブドウ糖　　mL（1 mL/kg）静注　　時　分
+輸液：　　　　　　　流量　　mL/h → GIR　　mg/kg/min
+30分後血糖　　mg/dL
+尿検体確保：あり・なし
+副腎不全疑い：あり（ソル・コーテフ　　mg 静注）・なし
+
+【評価】
+低血糖の時間帯：食後4-6h ／ 12-16h ／ 無関係
+ケトン：見合う ・ 低い（血糖　mmol × ケトン　mmol ＝　　）
+方針：</pre>
+  <button class="copy" onclick="cp('t1')">コピー</button>
+
+  <h2>絶食試験 指示簿</h2>
+  <pre class="tpl" id="t2">【絶食試験】　実施日：　　　　体重　　kg　年齢　　歳　　か月
+前提：血清アシルカルニチン分析　異常なし（実施日　　　　）
+絶食開始：　　時　　分（最終食事　　時　　分の内容：　　　）
+予定上限：　　時間（〜1歳18h／1-2歳20h／2-7歳20-24h／7歳〜24h）
+
+モニタ：簡易血糖を開始後4hごと → 予測低血糖の4h前から1hごと → 60 mg/dL 未満で30分ごと
+中止基準：簡易血糖 ≦45-50 mg/dL ／ 症状出現 ／ 嘔吐・全身状態悪化 ／ 予定時間到達
+
+【低血糖時（＝終了時）critical sample】ブドウ糖投与前に採取
+血糖・血ガス（乳酸）・インスリン・C-ペプチド・遊離脂肪酸・ケトン体分画
+乳酸/ピルビン酸・アンモニア・ACTH・コルチゾール・GH・IGF-1
+血漿アミノ酸・血清凍結1mL・ろ紙血／尿（ケトン、凍結2-3mL）
+
+【引き続きグルカゴン負荷】
+グルカゴン　　mg（0.03 mg/kg、最大1 mg）静注/筋注　　時　分
+採血：0・10・20・30・40分の血糖（±乳酸・インスリン）
+終了後：20%ブドウ糖　　mL 静注 → 輸液開始、リバウンド低血糖に注意</pre>
+  <button class="copy" onclick="cp('t2')">コピー</button>
+
+  <h2>延長OGTT 指示簿</h2>
+  <pre class="tpl" id="t3">【延長OGTT（5時間）】実施日：　　　　体重　　kg
+前日夕食後より絶食（10-12時間）
+負荷：ブドウ糖 1.75 g/kg ＝　　g（最大75 g）経口、5分以内に摂取
+
+採血：0・30・60・90・120・150・180・240・300分
+　　　血糖／インスリン（±C-ペプチド・乳酸・遊離脂肪酸・ケトン体）
+各点で症状の有無と内容を記載（無症候か否かが判定を左右する）
+
+中止：血糖 ≦50 mg/dL または症状出現時
+　　　→ その時点で critical sample を採取 → 20%ブドウ糖 1 mL/kg 静注
+
+【判定メモ】
+ピーク　　mg/dL（　　分）　120分　　mg/dL
+最低　　mg/dL（　　分）　同時インスリン　　μU/mL　症状：あり／なし
+→ ダンピング型 ／ 遅発性インスリン過剰型 ／ 無症候性低値 ／ 異常なし</pre>
+  <button class="copy" onclick="cp('t3')">コピー</button>
+
+  <h2>退院サマリ／申し送り</h2>
+  <pre class="tpl" id="t4">【低血糖精査 入院サマリ】
+主訴・経過：
+低血糖時 critical sample（血糖　　mg/dL 時）
+　インスリン　　μU/mL ／ 遊離脂肪酸　　mEq/L ／ 総ケトン体　　μmol/L
+　乳酸　　mmol/L ／ アンモニア　　μg/dL ／ ACTH　　pg/mL ／ コルチゾール　　μg/dL
+　GH　　ng/mL ／ アシルカルニチン分析：　　／ 尿有機酸分析：
+絶食試験：絶食　　時間で血糖　　mg/dL（症状：　　）
+グルカゴン負荷：前　　→ 最高　　mg/dL（Δ　　mg/dL）＝ 反応 あり／なし
+延長OGTT：ピーク　　mg/dL（　分）／ 最低　　mg/dL（　分）／ 症状 あり・なし
+
+診断：
+根拠：
+治療・指導：シックデイルール／就寝前補食／尿ケトン自己チェック
+次回外来：　　　　　次に評価すること：
+救急受診の目安を家族に説明済み（嘔吐反復・意識障害・けいれん・糖分で改善しない症状）</pre>
+  <button class="copy" onclick="cp('t4')">コピー</button>
+
+  <h2>家族説明用（ケトン性低血糖症）</h2>
+  <pre class="tpl" id="t5">お子さんは、長い時間食べられないと血糖が下がりやすい体質です。
+体の中の糖の「貯金」が少なく、使い切るのが早いタイプで、多くのお子さんは
+小学校の中学年ごろまでに自然と起こらなくなります。
+
+気をつけていただきたいのは、熱が出たとき・吐いたとき・食欲がないときです。
+食べられなくても、糖分（ジュース、経口補水液、ゼリーなど）は少しずつでも
+続けてとらせてください。夕食が少なかった日は、寝る前に軽く炭水化物を。
+
+次のときはすぐに受診してください。
+　・吐いてしまって水分も糖分もとれない
+　・ぐったりして起きない、反応が鈍い、けいれん
+　・冷や汗や顔色不良が、糖分をとっても良くならない</pre>
+  <button class="copy" onclick="cp('t5')">コピー</button>
+</section>
+
+</main>
+
+<script>
+document.querySelectorAll('nav button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById(b.dataset.t).classList.add('on');
+    window.scrollTo(0,0);
+  };
+});
+const V=id=>parseFloat(document.getElementById(id).value);
+const ok=v=>!isNaN(v)&&v!==null;
+
+function calcGIR(){
+  const c=V('g_conc'),r=V('g_rate'),w=V('g_wt');
+  const o=document.getElementById('girOut');
+  if(!ok(c)||!ok(r)||!ok(w)||w<=0){o.innerHTML='体重と流量を入力してください。';return;}
+  const gir=c*r/6/w;
+  let j='';
+  if(gir<2) j='生理的産生量を下回る。維持できないなら増量を。';
+  else if(gir<=4) j='小児の生理的範囲（2–4）。この範囲で血糖が保てるなら、飢餓・グリコーゲン分解／糖新生の異常で説明可能。';
+  else if(gir<=6) j='乳児の生理的範囲（4–6）。乳児なら妥当、年長児ではやや多い。';
+  else if(gir<=8) j='やや高め。高インスリン血症・下垂体機能低下症を考慮。';
+  else j='<b style="color:#fca5a5">高値。高インスリン血症を強く疑う（新生児で >8 mg/kg/min）。</b>';
+  o.innerHTML='<div class="big">GIR '+gir.toFixed(2)+' mg/kg/min</div><div class="line">'+j+'</div>';
+}
+
+function calcKet(){
+  const g=V('k_glu'),tk=V('k_tk'),ffa=V('k_ffa');
+  const o=document.getElementById('ketOut');
+  if(!ok(g)||!ok(tk)){o.innerHTML='血糖と総ケトン体を入力してください。';return;}
+  const gm=g/18, km=tk/1000, prod=gm*km;
+  const lo=8/gm, hi=12/gm;
+  let j;
+  if(prod<8) j='<b style="color:#fca5a5">積 &lt;8 ＝ 低血糖に見合わない低ケトン</b>。脂肪酸β酸化異常症・ケトン産生障害・高インスリン血症の鑑別が必要。';
+  else if(prod<=12) j='<b>積 8–12 ＝ 見合ったケトン産生</b>。ケトン性低血糖症・糖新生異常症・肝型糖原病の側。';
+  else j='<b>積 &gt;12 ＝ 十分以上のケトン産生</b>。ケトン性低血糖症として矛盾しない。ケトーシスによる嘔吐に注意。';
+  let f='';
+  if(ok(ffa)&&ffa>0){
+    const ratio=km/ffa;
+    f='<div class="line">総ケトン体 / 遊離脂肪酸 ＝ <b>'+ratio.toFixed(2)+'</b> — '+
+      (ratio<1?'&lt;1：脂肪は動員されているのにケトンにならない → β酸化異常・ケトン産生障害を疑う':'≧1：ケトン産生は保たれている')+'</div>';
+    if(ffa<1.5&&km<2.0) f+='<div class="line"><b style="color:#fca5a5">FFA・ケトンとも低値 → 高インスリン血症を強く疑う</b>（インスリンが感度以下でも否定しない）</div>';
+  }
+  o.innerHTML='<div class="big">積 ＝ '+prod.toFixed(1)+'</div>'+
+    '<div class="line">血糖 '+g+' mg/dL ＝ '+gm.toFixed(2)+' mmol/L ／ 総ケトン体 '+km.toFixed(2)+' mmol/L</div>'+
+    '<div class="line">この血糖なら期待される総ケトン体は <b>'+lo.toFixed(1)+'–'+hi.toFixed(1)+' mmol/L</b>（'+Math.round(lo*1000)+'–'+Math.round(hi*1000)+' μmol/L）</div>'+
+    '<div class="line">'+j+'</div>'+f;
+}
+
+function calcGlucagon(){
+  const pre=V('gg_pre'),pk=V('gg_peak'),ins=V('gg_ins'),w=V('gg_wt');
+  const o=document.getElementById('ggOut');
+  if(!ok(pre)||!ok(pk)){o.innerHTML='投与前と最高血糖を入力してください。';return;}
+  const d=pk-pre;
+  let j = d>=30
+    ? '<b style="color:#7dd3fc">Δ ≧30 mg/dL ＝ 反応陽性。</b>絶食後もグリコーゲンが温存されている＝インスリン作用が続いている → <b>高インスリン血症性低血糖を強く示唆</b>。低血糖時のインスリン・FFA・ケトン体と合わせて確認を。'
+    : 'Δ &lt;30 mg/dL ＝ 反応なし。グリコーゲン枯渇＝生理的な絶食反応。ケトン性低血糖症・糖新生異常症・脂肪酸代謝異常症と矛盾しない。<br><span style="opacity:.85">※ 血糖が上がらず乳酸が上昇するなら糖原病Ⅰ型。空腹時は無反応でも食後2時間で反応するならⅢ/Ⅵ/Ⅸ型を考慮。</span>';
+  let i='';
+  if(ok(ins)) i='<div class="line">低血糖時インスリン '+ins+' μU/mL — '+(ins>=1?'<b style="color:#fca5a5">≧1：不適切な分泌。高インスリン血症の診断基準を満たす</b>':'&lt;1：インスリンは適切に抑制されている')+'</div>';
+  let dose = ok(w)? '<div class="line">グルカゴン投与量：<b>'+Math.min(w*0.03,1).toFixed(2)+' mg</b>（0.03 mg/kg、最大1 mg）</div>':'';
+  o.innerHTML='<div class="big">Δ血糖 ＝ '+d.toFixed(0)+' mg/dL</div><div class="line">'+j+'</div>'+i+dose;
+}
+
+function calcOGTT(){
+  const g0=V('o_g0'),i0=V('o_i0'),gp=V('o_gp'),tp=V('o_tp'),g120=V('o_g120'),
+        gmin=V('o_gmin'),tmin=V('o_tmin'),imin=V('o_imin'),
+        sx=document.getElementById('o_sx').value==='1';
+  const o=document.getElementById('ogttOut');
+  if(!ok(gmin)){o.innerHTML='少なくとも最低血糖を入力してください。';return;}
+  let L=[];
+  if(ok(g0)&&ok(i0)&&g0>0){
+    const homa=(g0*i0)/405;
+    L.push('空腹時 血糖 '+g0+' / インスリン '+i0+' → HOMA-IR <b>'+homa.toFixed(2)+'</b>'+(homa>=2.5?'（インスリン抵抗性あり）':'（正常域）'));
+  }
+  if(ok(gp)){
+    let s='ピーク '+gp+' mg/dL'+(ok(tp)?'（'+tp+'分）':'');
+    if(gp>200&&ok(tp)&&tp<=60) s+=' → <b>早期の急峻な高血糖。急速な胃排出＝ダンピング型を示唆</b>';
+    else if(gp>200) s+=' → 高値。耐糖能も併せて評価';
+    L.push(s);
+  }
+  if(ok(g120)){
+    let s='120分 '+g120+' mg/dL → ';
+    s += g120>=200 ? '<b>糖尿病型</b>' : (g120>=140 ? '<b>IGT（耐糖能異常）</b>' : '正常型');
+    L.push(s);
+  }
+  let s='最低 '+gmin+' mg/dL'+(ok(tmin)?'（'+tmin+'分）':'');
+  L.push(s);
+  let verdict='';
+  if(gmin<=55||(gmin<60&&sx)){
+    if(sx){
+      verdict='<b style="color:#7dd3fc">症候性の低血糖を再現＝Whipple三徴を満たす。</b>';
+      if(ok(imin)){
+        verdict += imin>=1
+          ? ' 同時インスリン '+imin+' μU/mL は低血糖時としては<b>不適切に高値</b> → インスリン作用の残存（遅発性インスリン過剰／ダンピング後期／高インスリン血症）。'
+          : ' 同時インスリン '+imin+' μU/mL は抑制されており、インスリン依存性は乏しい。空腹側の機序（糖新生・ケトン産生）を再評価。';
+      }
+      if(ok(gp)&&gp>200&&ok(tp)&&tp<=60&&ok(tmin)&&tmin>=150) verdict+=' 前半の高いピーク＋後半の低血糖は<b>ダンピング型（後期低血糖）</b>のパターン。';
+    }else{
+      verdict='<b>低値だが無症候</b>。健常小児でも延長OGTT後半に50台まで下がることがあり、これ単独では病的と判定できない（Whipple三徴を満たさない）。日常のエピソードとの時間的一致を確認。';
+    }
+  }else{
+    verdict='後半に有意な低血糖なし＝食後（反応性）低血糖は再現されず。空腹側の評価（絶食試験）で判断する。';
+  }
+  L.push(verdict);
+  o.innerHTML='<div class="line">'+L.join('</div><div class="line">')+'</div>';
+}
+
+function calcDose(){
+  const w=V('d_wt'),h=V('d_ht');
+  const o=document.getElementById('doseOut');
+  if(!ok(w)||w<=0){o.innerHTML='体重を入力してください。';return;}
+  let L=[];
+  L.push('20%ブドウ糖 <b>'+(w*1).toFixed(1)+' mL</b>（1 mL/kg ＝ 0.2 g/kg）静注');
+  L.push('10%ブドウ糖なら <b>'+(w*2).toFixed(1)+' mL</b>（2 mL/kg）');
+  L.push('グルカゴン負荷 <b>'+Math.min(w*0.03,1).toFixed(2)+' mg</b>（0.03 mg/kg、最大1 mg）');
+  L.push('延長OGTT ブドウ糖 <b>'+Math.min(w*1.75,75).toFixed(1)+' g</b>（1.75 g/kg、最大75 g）');
+  if(ok(h)&&h>0){
+    const bsa=Math.sqrt(h*w/3600);
+    L.push('体表面積 <b>'+bsa.toFixed(2)+' m²</b> → ソル・コーテフ <b>'+(bsa*50).toFixed(0)+' mg</b>（50 mg/m²）');
+  }else{
+    L.push('ソル・コーテフは 50 mg/m²（身長を入力すると自動計算）');
+  }
+  const r5=w*4*6/5, r10=w*4*6/10;
+  L.push('GIR 4 mg/kg/min を出す流量：5%ブドウ糖 <b>'+r5.toFixed(0)+' mL/h</b> ／ 10%ブドウ糖 <b>'+r10.toFixed(0)+' mL/h</b>');
+  o.innerHTML='<div class="line">'+L.join('</div><div class="line">')+'</div>';
+}
+
+function cp(id){
+  const t=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=event.target; const o=b.textContent; b.textContent='コピーしました'; setTimeout(()=>b.textContent=o,1400);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>抗がん剤と内分泌 あんちょこ＆ドリル</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="商品名・略号の対応と内分泌の副作用。CCS併診用、ドリルつき">
+
+<style>
+:root{--ink:#1b2430;--sub:#5b6675;--line:#dde2e9;--bg:#f3f5f8;--acc:#2a6f97;--f:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+--gh:#6d4fc2;--gon:#c2185b;--adr:#d35400;--thy:#2e7d32;--glu:#1565c0;--lip:#8d6e63;--bone:#546e7a;--ele:#00838f;--bp:#b71c1c}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 var(--f)}
+header{background:linear-gradient(120deg,#1a1030 0%,#3a2150 50%,#6b2d5c 100%);color:#fff;padding:20px 16px 0}
+.hin{max-width:960px;margin:0 auto}
+h1{margin:0;font-size:20px}
+.hsub{margin:4px 0 14px;color:#e2cfe0;font-size:13px}
+nav{display:flex;gap:4px;overflow-x:auto;max-width:960px;margin:0 auto}
+.tab{appearance:none;border:0;background:transparent;color:#e6d6e8;padding:10px 14px;font:600 14px var(--f);border-radius:10px 10px 0 0;cursor:pointer;white-space:nowrap}
+.tab[aria-selected=true]{background:var(--bg);color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b98fd0;outline-offset:2px}
+main{max-width:960px;margin:0 auto;padding:16px 14px 70px}
+.panel[hidden]{display:none}
+.muted{color:var(--sub);font-size:13px}
+.flt{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:3}
+.inp{font:15px var(--f);padding:8px 10px;border:1px solid #c3cad5;border-radius:9px;background:#fff;color:var(--ink);min-width:0}
+#q{flex:1 1 200px}
+.clsh{font-size:13px;color:var(--sub);margin:18px 0 6px;font-weight:700}
+.dc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.dc.has{border-left:4px solid #7b4a92}
+.dh{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.br{font-size:17px;font-weight:700}
+.gn{color:var(--sub);font-size:14px}.ab{display:inline-block;margin-left:8px;padding:0 7px;border-radius:6px;background:#eef1f5;color:#34404e;font-weight:700;font-size:13px}
+.axs{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}
+.ax{display:inline-flex;gap:3px;align-items:center;font-size:12.5px;padding:1px 9px;border-radius:99px;color:#fff;font-weight:600}
+.ax b{font-weight:800}
+.none{font-size:12.5px;color:var(--sub);background:#eef1f5;padding:1px 9px;border-radius:99px}
+.ax-gh{background:var(--gh)}.ax-gon{background:var(--gon)}.ax-adr{background:var(--adr)}.ax-thy{background:var(--thy)}.ax-glu{background:var(--glu)}.ax-lip{background:var(--lip)}.ax-bone{background:var(--bone)}.ax-ele{background:var(--ele)}.ax-bp{background:var(--bp)}
+.why{margin:4px 0;padding:0;list-style:none;font-size:14px}
+.why li{margin:2px 0}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.oth{margin:6px 0 0;font-size:13.5px}.oth span{display:inline-block;font-size:11.5px;background:#f1f4f8;color:#44505f;border-radius:5px;padding:0 6px;margin-right:6px}
+.nt{margin:6px 0 0;font-size:13.5px;color:#4a3d57;background:#f7f2fa;border-radius:8px;padding:5px 9px}
+.axc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.axc h3{margin:0 0 4px;font-size:16px}
+.chk{margin:0 0 8px;font-size:13.5px}.chk b{display:inline-block;font-size:11.5px;background:#eef1f5;border-radius:5px;padding:0 6px;margin-right:6px}
+.axl{margin:0;padding:0;list-style:none;font-size:14px}.axl li{padding:4px 0;border-top:1px solid #f0f2f5}
+.mk{display:inline-block;width:1.4em;font-weight:800}
+.thr{display:grid;grid-template-columns:auto 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.thr p{margin:2px 0}
+.src{font-size:11.5px;padding:2px 8px;border-radius:99px;white-space:nowrap;height:fit-content;font-weight:700}
+.src.ok{background:#e3f3ea;color:#1f7a4d}.src.memo{background:#fff2d6;color:#8a5a00}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.card+.card{margin-top:12px}
+h2{font-size:17px;margin:0 0 8px}
+.cbs{display:flex;flex-wrap:wrap;gap:8px 16px;margin:6px 0 12px}
+.cb{display:flex;gap:6px;align-items:center}
+.btn{font:600 15px var(--f);padding:10px 16px;border-radius:10px;border:1px solid #7b4a92;background:#fff;color:#6b2d7c;cursor:pointer}
+.btn.pri{background:#6b2d7c;color:#fff}.btn.ghost{border-color:#c3cad5;color:var(--sub)}
+.ms{display:grid;grid-template-columns:5.5em 1fr auto;gap:10px;align-items:center;margin:5px 0;font-size:14px}
+.bar{height:8px;background:#eceff3;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:#8e4aa8}
+#miss{margin:0;padding-left:18px;font-size:14px}#miss li{margin-bottom:8px}
+.prog{font-size:13px;color:var(--sub);margin-bottom:6px}
+.tagc{margin-left:8px;background:#f1e8f5;color:#6b2d7c;border-radius:99px;padding:0 8px;font-size:12px}
+.qq{font-size:17px;margin:0 0 12px;line-height:1.6}
+.opts{display:grid;gap:8px}
+.op{text-align:left;font:15px var(--f);padding:12px 14px;border:1px solid #c9cfd8;border-radius:10px;background:#fff;color:var(--ink);cursor:pointer}
+.op:hover:not(:disabled){background:#faf6fc}
+.op.ok{border-color:#1f7a4d;background:#e6f4ec}.op.ng{border-color:#b42318;background:#fdeceb}
+.fb{margin:14px 0;padding:12px 14px;border-radius:10px}
+.fb.good{background:#eef8f2}.fb.bad{background:#fdf1ef}
+.fb p{margin:4px 0}
+.mini{margin-top:6px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:#2a1838;color:#fff;padding:9px 16px;border-radius:99px;font-size:14px;transition:.2s;pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+</style></head>
+<body>
+<header><div class="hin"><h1>抗がん剤と内分泌　あんちょこ＆ドリル</h1>
+<p class="hsub">商品名・一般名・略号の対応と、内分泌として意識する副作用</p></div>
+<nav><button class="tab" data-t="p-list" aria-selected="true">早見</button><button class="tab" data-t="p-axis" aria-selected="false">軸で見る</button><button class="tab" data-t="p-drill" aria-selected="false">ドリル</button><button class="tab" data-t="p-th" aria-selected="false">閾値</button></nav></header>
+<main>
+<div class="panel" id="p-list">
+ <div class="flt"><input id="q" class="inp" placeholder="オンコビン、ｴﾝﾄﾞｷｻﾝ、IFO…"><select id="cf" class="inp"></select></div>
+ <p class="muted">色のタグが内分泌で意識する軸（◎可能性が高い ○充分ある △ありうる）。紫の縦線は内分泌に効く薬。</p>
+ <div id="list"></div>
+</div>
+<div class="panel" id="p-axis" hidden>
+ <p class="muted">治療別内分泌合併症一覧表の化学療法部分を、商品名で引けるように並べ替えたもの。成長と甲状腺は主に照射で起こる。</p>
+ <div id="axes"></div>
+ <section class="axc"><h3>フォロー終了（経過観察オフ）の目安</h3>
+ <p>CCSは原則生涯フォロー。内分泌として受診間隔を広げる目安は、成長と思春期が完了し、各軸が正常か補充が安定していること。照射例は終了せず成人内分泌へ引き継ぐ。</p>
+ <p><b>家族へ：</b>身長の伸びが止まった、疲れやすい・朝起きられない、月経が来ない・止まった、発熱や嘔吐でぐったりする（副腎不全の可能性）ときは、次の予約を待たずに受診を。</p></section>
+</div>
+<div class="panel" id="p-drill" hidden>
+ <div id="drill-home">
+  <section class="card"><h2>10問ずつ</h2><p class="muted" style="margin-top:-4px">間違えた問題と覚えていない問題ほど多く出ます。</p>
+   <div class="cbs" id="cats"></div><button class="btn pri" id="start">はじめる</button></section>
+  <section class="card"><h2>習熟</h2><div id="mastery"></div><p class="muted">3回続けて正解した問題を「習熟」として数えます。</p></section>
+  <section class="card"><h2>取り違えた選択肢</h2><ul id="miss"></ul><button class="btn ghost" id="reset" style="margin-top:8px">記録をリセット</button></section>
+ </div>
+ <div id="drill-q" class="card" hidden></div>
+</div>
+<div class="panel" id="p-th" hidden>
+ <p class="muted">「メモ由来」は先生のメモの数値で、出典をまだ確認できていないもの。ガイドラインで確認できたら書き換えてください。</p>
+ <div id="th"></div>
+</div>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>const AX={gh:'成長',gon:'性腺',adr:'副腎',thy:'甲状腺',glu:'糖代謝',lip:'肥満・脂質',bone:'骨',ele:'水電解質',bp:'高血圧'};
+const AXCHECK={
+ gh:'身長・成長率、骨年齢、IGF-1。治療中は成長が止まり、終了後にキャッチアップするかを見る',
+ gon:'Tanner、LH・FSH、男子はテストステロン、女子はE2・AMH、月経歴。成人後は精液検査',
+ adr:'朝のACTH・コルチゾール、境界なら迅速ACTH負荷。発熱・嘔吐時のストレスカバーの説明',
+ thy:'TSH・FT4。照射例は甲状腺エコー（結節）',
+ glu:'HbA1c、空腹時血糖、必要ならOGTT',
+ lip:'BMI、TC・TG・HDL-C・LDL-C',
+ bone:'DXA、25(OH)D、Ca・P・ALP、骨代謝マーカー。股関節・膝の痛み→MRI（骨壊死）',
+ ele:'Na・K・Mg・P・Ca、尿β2MG・TmP/GFR',
+ bp:'外来で血圧測定'};
+const CLS={ster:'ステロイド',anth:'アントラサイクリン',alk:'アルキル化剤',plat:'白金製剤',anti:'代謝拮抗薬',vinca:'ビンカアルカロイド',topo:'トポイソメラーゼ阻害薬',asp:'アスパラギナーゼ',oth:'その他の抗がん剤・分子標的薬',imm:'免疫抑制薬（移植）',sup:'支持療法'};
+// ax: 3=◎ 2=○ 1=△
+const DRUGS=[
+ {ab:'PSL',gen:'プレドニゾロン',br:['プレドニン','プレドニゾロン'],cls:'ster',main:'adr',ax:{adr:3,bone:2,glu:2,lip:2,bp:2,gh:1},
+  why:{adr:'長期投与でHPA軸が抑制され、中止後に続発性副腎不全',bone:'骨形成抑制で骨密度低下（>9 g/㎡でハイリスク※）',glu:'インスリン抵抗性で高血糖',lip:'体重増加・脂質異常',bp:'高血圧',gh:'治療中の成長抑制'},
+  other:'白内障、感染',note:'髄注の中身のプレドニンは累積に入れず、髄注回数で数える'},
+ {ab:'DEX',gen:'デキサメタゾン',br:['デカドロン','デキサート'],cls:'ster',main:'bone',ax:{bone:3,adr:3,glu:2,lip:2,bp:2,gh:1},
+  why:{bone:'PSLより骨への影響が強い。10歳以上（特に女子）で骨壊死のハイリスク',adr:'PSLより強力で長時間作用。中止直後の副腎不全に注意',glu:'高血糖',lip:'体重増加・脂質異常',bp:'高血圧',gh:'治療中の成長抑制'},
+  other:'白内障、気分変調',note:'使用歴があるだけでJCCG長期FUレベル3'},
+ {ab:'DNR',gen:'ダウノルビシン',br:['ダウノマイシン'],cls:'anth',main:null,ax:{gon:2},why:{gon:'性腺への影響あり（アルキル化剤ほどではない）'},
+  other:'心筋症（DXR換算 JCCG×0.83／COG v6×0.5）',note:'アントラ換算の対象。換算≥100でJCCGの心電図・心エコーフォロー対象'},
+ {ab:'DXR',gen:'ドキソルビシン',br:['アドリアシン','ドキソルビシン'],cls:'anth',main:null,ax:{gon:2},why:{gon:'性腺への影響あり'},
+  other:'心筋症（換算の基準×1）',note:'記録ではADR（アドリアマイシン）と書かれることもある'},
+ {ab:'IDA',gen:'イダルビシン',br:['イダマイシン'],cls:'anth',main:null,ax:{gon:2},why:{gon:'性腺への影響あり'},other:'心筋症（DXR換算 JCCG×4／COG v6×5）',note:'AMLで使う。1 mgあたりの心毒性が強い'},
+ {ab:'Mit',gen:'ミトキサントロン',br:['ノバントロン'],cls:'anth',main:null,ax:{gon:2},why:{gon:'性腺への影響あり'},other:'心筋症（DXR換算 JCCG×5／COG v6×10）',note:'AMLで使う'},
+ {ab:'THP',gen:'ピラルビシン',br:['ピノルビン','テラルビシン'],cls:'anth',main:null,ax:{gon:2},why:{gon:'性腺への影響あり'},other:'心筋症（DXR換算×0.6）',note:'B19のLR減量群はDXRをTHPに置き換えて心毒性を減らしている'},
+ {ab:'CPM',gen:'シクロホスファミド',br:['エンドキサン'],cls:'alk',main:'gon',ax:{gon:3,ele:1},
+  why:{gon:'CEDの基準薬（×1）。CED>4,000で不妊ハイリスク。JCCGの性腺FU基準はCPM≥7,500（男女とも）',ele:'大量投与時にSIADH（低Na）'},
+  other:'出血性膀胱炎（→メスナで予防）、膀胱癌、二次性MDS/AML',note:'CPAと略されることもある。JCCGレベル判定は「CPA<5 g/㎡」で見る'},
+ {ab:'IFO',gen:'イホスファミド',br:['イホマイド'],cls:'alk',main:'gon',ax:{gon:3,ele:3,bone:2},
+  why:{gon:'CED係数×0.244。JCCGの性腺FU基準は男子IFO≥60,000',ele:'近位尿細管障害（Fanconi）でP・K・Mgが尿に漏れる。JCCGの腎FU基準はIFO≥45,000',bone:'低リン血症が続くと骨軟化症・くる病'},
+  other:'脳症、慢性腎障害',note:'テンプレにIFOの行がないとCEDを見落とす。JCCGレベル判定は「IFO<45 g/㎡」'},
+ {ab:'L-PAM',gen:'メルファラン',br:['アルケラン'],cls:'alk',main:'gon',ax:{gon:3},why:{gon:'CED係数×40。移植前処置の量で性腺機能不全はほぼ必発'},other:'粘膜障害',note:'神経芽腫・移植前処置'},
+ {ab:'BU',gen:'ブスルファン',br:['ブスルフェクス','マブリン'],cls:'alk',main:'gon',ax:{gon:3},why:{gon:'CED係数×8.823。前処置量で卵巣機能不全・無精子症の頻度が高い'},other:'VOD/SOS、肺障害、けいれん',note:'移植前処置'},
+ {ab:'TEPA',gen:'チオテパ',br:['テパディナ'],cls:'alk',main:'gon',ax:{gon:3},why:{gon:'CED係数×50'},other:'粘膜・皮膚障害',note:'脳腫瘍の大量化学療法・移植前処置'},
+ {ab:'PCZ',gen:'プロカルバジン',br:['塩酸プロカルバジン'],cls:'alk',main:'gon',ax:{gon:3},why:{gon:'CED係数×0.857。特に男子の造精機能に強い'},other:'',note:'ホジキンリンパ腫'},
+ {ab:'ACNU',gen:'ニムスチン',br:['ニドラン'],cls:'alk',main:'gon',ax:{gon:2},why:{gon:'ニトロソウレア系。CEDの式には入っていない'},other:'肺障害',note:'脳腫瘍'},
+ {ab:'DTIC',gen:'ダカルバジン',br:['ダカルバジン'],cls:'alk',main:null,ax:{gon:1},why:{gon:'CEDの式には入っていない'},other:'',note:'ホジキンリンパ腫（ABVD）'},
+ {ab:'CDDP',gen:'シスプラチン',br:['ランダ','ブリプラチン','シスプラチン'],cls:'plat',main:'ele',ax:{ele:3,gon:2},
+  why:{ele:'腎からMgが漏れ、低Mg→低Ca・低K。JCCGの腎FU基準はCDDP≥200',gon:'JCCGの性腺FU基準は男子CDDP≥400。≥500で不妊と関連（CEDには入らない）'},
+  other:'感音性難聴（JCCG聴覚FU ≥360）、慢性腎障害',note:'JCCGレベル判定は「CDDP<300 mg/㎡」'},
+ {ab:'CBDCA',gen:'カルボプラチン',br:['パラプラチン','カルボプラチン'],cls:'plat',main:null,ax:{gon:2,ele:1},
+  why:{gon:'≥2,000 mg/㎡で不妊と関連（CEDには入らない）',ele:'腎障害・電解質異常（CDDPより軽い）'},
+  other:'難聴（JCCG聴覚FU ≥1,500）',note:'AUC（mg/mL·min）で投与量が書かれていることがある'},
+ {ab:'MTX',gen:'メトトレキサート',br:['メソトレキセート'],cls:'anti',main:null,ax:{bone:1,ele:1,bp:1},
+  why:{bone:'旧来の表では○だが、COG ver.6で骨密度低下との関連は「既知の関連なし」に変更。骨はステロイド側で評価',ele:'大量療法中の急性腎障害',bp:'高血圧（可能性あり）'},
+  other:'白質脳症・認知機能障害（大量療法・髄注）、肝障害（内服）',note:'使い方が3つ：点滴（大量療法）・髄注・錠剤（維持療法）。テンプレの「MTX iv」は点滴だけ'},
+ {ab:'Ara-C',gen:'シタラビン',br:['キロサイド','シタラビン'],cls:'anti',main:null,ax:{},why:{},other:'骨髄抑制、大量で小脳症状・結膜炎',note:'キロサイドとシタラビンは同じ薬。記録では通常量がキロサイド、大量療法がシタラビンと書き分けられることがある'},
+ {ab:'6-MP',gen:'メルカプトプリン',br:['ロイケリン'],cls:'anti',main:null,ax:{},why:{},other:'肝障害、骨髄抑制（NUDT15多型で強く出る）',note:'維持療法で毎日内服'},
+ {ab:'6-TG',gen:'チオグアニン',br:['ランビス'],cls:'anti',main:null,ax:{},why:{},other:'肝VOD/SOS',note:''},
+ {ab:'VCR',gen:'ビンクリスチン',br:['オンコビン'],cls:'vinca',main:'ele',ax:{ele:2},why:{ele:'SIADHで低Na血症'},other:'末梢神経障害、便秘',note:'1回2 mgで頭打ち（キャップ）'},
+ {ab:'VDS',gen:'ビンデシン',br:['フィルデシン'],cls:'vinca',main:null,ax:{ele:1},why:{ele:'SIADH（低Na）がありうる'},other:'末梢神経障害',note:'B19のHRブロック②'},
+ {ab:'VLB',gen:'ビンブラスチン',br:['エクザール'],cls:'vinca',main:null,ax:{ele:1},why:{ele:'SIADH（低Na）がありうる'},other:'末梢神経障害',note:'LCH、ホジキン'},
+ {ab:'VP-16',gen:'エトポシド',br:['ラステット','ベプシド','エトポシド'],cls:'topo',main:null,ax:{},why:{},other:'二次性AML/MDS（JCCG：≥3,000で検血年1回）',note:'内分泌よりも二次がんの記録として残す'},
+ {ab:'CPT-11',gen:'イリノテカン',br:['カンプト','トポテシン'],cls:'topo',main:null,ax:{},why:{},other:'下痢',note:''},
+ {ab:'L-Asp',gen:'L-アスパラギナーゼ',br:['ロイナーゼ'],cls:'asp',main:'glu',ax:{glu:1,lip:1},why:{glu:'インスリン分泌低下で高血糖（治療中に多い）',lip:'高TG血症'},other:'膵炎、血栓、凝固異常',note:'単位はネイティブ製剤のU/㎡'},
+ {ab:'PEG-Asp',gen:'ペグアスパラガーゼ',br:['オンキャスパー'],cls:'asp',main:'glu',ax:{glu:1,lip:1},why:{glu:'インスリン分泌低下で高血糖',lip:'高TG血症'},other:'膵炎、血栓、アレルギー（→ソルコーテフ前投薬）',note:'1回で長く効くPEG製剤。ロイナーゼの単位とは意味が違うので「オンキャスパー○回」と書く'},
+ {ab:'BLM',gen:'ブレオマイシン',br:['ブレオ'],cls:'oth',main:null,ax:{},why:{},other:'肺線維症（JCCG：≥400 U/㎡で胸部X線・呼吸機能年1回）',note:''},
+ {ab:'ActD',gen:'アクチノマイシンD',br:['コスメゲン'],cls:'oth',main:null,ax:{},why:{},other:'肝VOD/SOS',note:'ウィルムス腫瘍・横紋筋肉腫'},
+ {ab:'BLIN',gen:'ブリナツモマブ',br:['ビーリンサイト'],cls:'oth',main:null,ax:{},why:{},other:'サイトカイン放出症候群、神経症状（治療中）',note:'抗体薬。晩期の内分泌合併症は知られていない。CEDにも入らない'},
+ {ab:'IM',gen:'イマチニブ',br:['グリベック'],cls:'oth',main:'gh',ax:{gh:2,bone:1},why:{gh:'長期内服で成長率低下',bone:'骨代謝・リン代謝への影響'},other:'',note:'Ph+ALL。ダサチニブ（スプリセル）も同系'},
+ {ab:'CsA',gen:'シクロスポリン',br:['ネオーラル','サンディミュン'],cls:'imm',main:'bp',ax:{bp:2,ele:2,glu:1},why:{bp:'高血圧',ele:'低Mg・高K',glu:'耐糖能異常'},other:'腎障害、多毛',note:'移植後'},
+ {ab:'TAC',gen:'タクロリムス',br:['プログラフ'],cls:'imm',main:'glu',ax:{glu:2,ele:2,bp:2},why:{glu:'移植後糖尿病（CsAより多い）',ele:'低Mg・高K',bp:'高血圧'},other:'腎障害、神経症状',note:'移植後'},
+ {ab:'HC',gen:'ヒドロコルチゾン',br:['ソルコーテフ'],cls:'sup',main:null,ax:{},why:{},other:'',note:'オンキャスパーのアレルギー予防の前投薬。単回なので累積ステロイドには通常入れない'},
+ {ab:'メスナ',gen:'メスナ',br:['ウロミテキサン'],cls:'sup',main:null,ax:{},why:{},other:'',note:'CPM・IFOの出血性膀胱炎予防。これが並んでいたら近くにCPMかIFOがある'},
+ {ab:'LV',gen:'ホリナートカルシウム',br:['ロイコボリン'],cls:'sup',main:null,ax:{},why:{},other:'',note:'大量MTX後の救援療法。これが並んでいたら大量MTXをやっている'},
+ {ab:'グラニ',gen:'グラニセトロン',br:['グラニセトロン','カイトリル'],cls:'sup',main:null,ax:{},why:{},other:'',note:'制吐剤'},
+];
+// 閾値（src: ok=出典確認済み, memo=先生のメモ由来・出典未確認）
+const TH=[
+ {t:'JCCG推奨FU：アントラ換算 ≥100 mg/㎡',m:'心電図年1回＋心エコー5年ごと（≥250で2年ごと）',src:'ok',s:'JCCG治療サマリーver4.8'},
+ {t:'JCCG推奨FU：性腺 男子 CPM ≥7,500／IFO ≥60,000／CDDP ≥400、女子 CPM ≥7,500',m:'Tanner・成長曲線・LH・FSH・性ステロイド・PRL・AMH（男子は精液検査）年1回',src:'ok',s:'JCCG治療サマリーver4.8'},
+ {t:'JCCG推奨FU：腎 IFO ≥45,000 または CDDP ≥200',m:'血圧・検尿・Cr・シスタチンC・β2MG・電解質 年1回',src:'ok',s:'JCCG治療サマリーver4.8'},
+ {t:'JCCG推奨FU：聴覚 CBDCA ≥1,500 または CDDP ≥360',m:'聴力検査（5歳以下年1回、6〜12歳2年ごと、13歳〜5年ごと）',src:'ok',s:'JCCG治療サマリーver4.8'},
+ {t:'JCCG推奨FU：エトポシド ≥3,000、BLM ≥400 U/㎡',m:'検血一般 年1回／胸部X線・呼吸機能 年1回',src:'ok',s:'JCCG治療サマリーver4.8'},
+ {t:'アントラ換算係数 JCCG2021：DXR 1、DNR 0.83、THP 0.6、Mit 5、IDA 4',m:'COG ver.6：DNR 0.5、Mit 10、IDA 5。mg/kgは×30で換算',src:'ok',s:'JCCG治療サマリーver4.8'},
+ {t:'CED >4,000 mg/㎡',m:'不妊ハイリスク（主に男性のデータ。女子は閾値未確定）',src:'ok',s:'Green DM ら 2014／Pittsburgh FPP'},
+ {t:'CED = CPM×1 ＋ IFO×0.244 ＋ PCZ×0.857 ＋ L-PAM×40 ＋ TEPA×50 ＋ BU×8.823 ＋ BCNU×15 ＋ CCNU×16',m:'アルキル化剤だけを足す。白金製剤・抗体薬は入らない',src:'ok',s:'Green DM ら 2014'},
+ {t:'CBDCA ≥2,000 mg/㎡、CDDP ≥500 mg/㎡',m:'不妊と関連（CEDとは別に見る）',src:'ok',s:'Pittsburgh FPP'},
+ {t:'ステロイド：骨密度低下・骨壊死・白内障',m:'COG ver.6 第37〜39項（PSLとDEXをまとめて「Corticosteroids」）',src:'ok',s:'COG LTFU ver.6.0'},
+ {t:'MTXと骨密度低下',m:'COG ver.6で「既知の関連なし」に変更。MTX後の骨密度スクリーニングは推奨されなくなった',src:'ok',s:'COG LTFU ver.6.0'},
+ {t:'JCCG レベル2の条件',m:'DXR換算<250、CPA<5 g/㎡、CDDP<300、IFO<45 g/㎡、DEX使用歴なし（照射・移植なし）',src:'memo',s:'先生のメモ（レベル表は未確認）'},
+ {t:'DEX使用歴あり → レベル3',m:'10歳以上（特に女子）は骨壊死ハイリスク',src:'memo',s:'先生のメモ（レベル表は未確認）'},
+ {t:'PSL >9 g/㎡で骨ハイリスク',m:'',src:'memo',s:'先生のメモ（出典未確認）'},
+ {t:'Leydig細胞障害 CPM >20 g/㎡、IFO >60 g/㎡',m:'テストステロン低下',src:'memo',s:'先生のメモ（出典未確認）'},
+ {t:'IFO >60 g/㎡',m:'Fanconi症候群リスク',src:'memo',s:'先生のメモ（出典未確認）'},
+ {t:'白質脳症：HD-MTX（≥1 g/㎡）＋髄注 → 治療終了時に頭部MRI',m:'',src:'memo',s:'先生のメモ（国内運用か。COGではMRIは症状に応じて）'},
+];
+// 手書き問題（紛らわしい・症例・閾値）
+const HAND=[
+ {c:'mix',q:'キロサイドとシタラビンの関係は？',o:['同じ薬（シタラビン）','キロサイドは内服、シタラビンは点滴の別薬','キロサイドは髄注専用の別薬','シタラビンはアントラサイクリン'],a:0,e:'どちらもシタラビン（Ara-C）。記録では通常量がキロサイド、大量療法がシタラビンと書き分けられることがあるが、累積はまとめて足す。'},
+ {c:'mix',q:'髄注（メソトレキセート・キロサイド・プレドニン）の中身は累積量にどう入れる？',o:['入れず、髄注の回数で数える','それぞれの累積量に足す','PSLだけ足す','MTXだけ足す'],a:0,e:'髄注は「髄注○回」で数える。PSLやMTXの累積量には入れない。'},
+ {c:'mix',q:'テンプレの「MTX iv」に入れるのはどれ？',o:['点滴（大量MTX）の分だけ','点滴＋髄注＋錠剤すべて','維持療法の錠剤','髄注の分'],a:0,e:'メソトレキセートは点滴・髄注・錠剤の3通りで使う。「MTX iv」は点滴だけ。'},
+ {c:'mix',q:'ソルコーテフ100 mgがオンキャスパーの前に入っていた。累積ステロイドは？',o:['前投薬なので通常は入れない','PSL換算して足す','DEXとして数える','レベル3の根拠になる'],a:0,e:'アレルギー予防の単回前投薬。累積ステロイドの評価には通常入れない。'},
+ {c:'mix',q:'ブリナツモマブはCEDに入る？',o:['入らない','×1で入る','×0.244で入る','女子だけ入る'],a:0,e:'CEDはアルキル化剤だけ。ブリナツモマブは抗体薬で、晩期の内分泌合併症は知られていない。'},
+ {c:'mix',q:'ロイナーゼとオンキャスパーの単位は？',o:['意味が違うので足さない','同じU/㎡なので足してよい','オンキャスパーは×10して足す','どちらもmg/㎡'],a:0,e:'オンキャスパーはPEG製剤。記録には「オンキャスパー○回」と回数で書くほうが正確。'},
+ {c:'mix',q:'ウロミテキサン（メスナ）が並んでいたら、近くに何がある？',o:['CPMかIFO','大量MTX','DNR','CDDP'],a:0,e:'メスナはCPM・IFOの出血性膀胱炎予防。アルキル化剤を見落とさない手がかりになる。'},
+ {c:'mix',q:'ロイコボリンが並んでいたら何をやっている？',o:['大量MTX','大量Ara-C','IFO','CDDP'],a:0,e:'ロイコボリンは大量MTX後の救援療法。'},
+ {c:'mix',q:'JCCGのFUレベル判定で見るのは？',o:['CPMとIFOを別々に（<5 g、<45 g）','CED 4,000','CPM＋IFOの合計','IFOだけ'],a:0,e:'レベル判定はCPA<5 g/㎡とIFO<45 g/㎡を別々に見る。CEDは性腺の評価のための指標。'},
+ {c:'case',q:'「ﾃﾞｶﾄﾞﾛﾝ、ﾌｨﾙﾃﾞｼﾝ、ﾒｿﾄﾚｷｾｰﾄ、ｲﾎﾏｲﾄﾞ、ﾀﾞｳﾉﾏｲｼﾝ、ｵﾝｷｬｽﾊﾟｰ」のうち、性腺（CED）に効くのは？',o:['イホマイド','フィルデシン','オンキャスパー','デカドロン'],a:0,e:'イホマイド（IFO）はアルキル化剤。CED係数×0.244。'},
+ {c:'case',q:'「ﾛｲｹﾘﾝ散、ｴﾝﾄﾞｷｻﾝ、ｷﾛｻｲﾄﾞ、ｵﾝｷｬｽﾊﾟｰ」のうち、テンプレのCED計算に入るのは？',o:['エンドキサン','ロイケリン','キロサイド','オンキャスパー'],a:0,e:'エンドキサン（CPM）がCEDの基準薬。'},
+ {c:'case',q:'「ﾃﾞｶﾄﾞﾛﾝ、ｼﾀﾗﾋﾞﾝ、ｴﾄﾎﾟｼﾄﾞ、ｵﾝｷｬｽﾊﾟｰ」で、内分泌として一番意識するのは？',o:['デカドロン（骨・副腎）','エトポシド（性腺）','シタラビン（甲状腺）','オンキャスパー（副腎）'],a:0,e:'デカドロンが骨・副腎。エトポシドは二次がんの薬で、内分泌の軸にはつかない。'},
+ {c:'case',q:'維持療法開始時の併診で、治療終盤にデカドロンが入っていた。まず見るのは？',o:['朝のACTH・コルチゾール（必要なら迅速ACTH）','TRH負荷','GH分泌刺激試験','OGTT'],a:0,e:'デカドロン中止直後は続発性副腎不全が起こりやすい。'},
+ {c:'case',q:'「ｵﾝｺﾋﾞﾝ」投与中に低Na血症。考えるのは？',o:['SIADH','副腎不全のみ','尿崩症','Fanconi症候群'],a:0,e:'ビンクリスチンはSIADHを起こす。'},
+ {c:'th',q:'CPM 4,000 mg/㎡ ＋ IFO 4,000 mg/㎡ のCEDは？',o:['約4,976 mg/㎡','8,000 mg/㎡','4,000 mg/㎡','約4,244 mg/㎡'],a:0,e:'4,000＋4,000×0.244＝4,976。4,000を超えて不妊ハイリスク。'},
+ {c:'th',q:'DNR 150 mg/㎡ ＋ DXR 120 mg/㎡ のアントラ換算は？',o:['244.5 mg/㎡','270 mg/㎡','225 mg/㎡','150 mg/㎡'],a:0,e:'150×0.83＋120＝244.5。250未満。'},
+ {c:'th',q:'CED >4,000 mg/㎡ の閾値の注意点は？',o:['主に男性のデータで、女子は閾値未確定','女子のほうが低い閾値','思春期前は関係ない','白金製剤も含めた値'],a:0,e:'女子は「早発閉経リスクとして評価」と書き添える。'},
+ {c:'th',q:'CDDPを使った症例で、CEDとは別に不妊リスクとして見る量は？',o:['≥500 mg/㎡','≥100 mg/㎡','≥2,000 mg/㎡','CEDに×1で入る'],a:0,e:'CDDP ≥500、CBDCA ≥2,000 mg/㎡。CEDの式には入らない。'},
+ {c:'th',q:'JCCGの推奨FUで、男子の性腺フォロー対象になるCPMの量は？',o:['≥7,500 mg/㎡','≥4,000 mg/㎡（CED）','≥3,000 mg/㎡','≥20,000 mg/㎡'],a:0,e:'JCCGの性腺FU基準はCPM≥7,500（男女とも）、男子はIFO≥60,000、CDDP≥400も。CED>4,000（Green）とは別の基準。'},
+ {c:'th',q:'JCCGで心電図・心エコーのフォロー対象になるアントラ換算は？',o:['≥100 mg/㎡','≥250 mg/㎡','≥300 mg/㎡','使用があれば全例'],a:0,e:'≥100で心電図年1回＋心エコー5年ごと、≥250で心エコー2年ごと。'},
+ {c:'th',q:'COG ver.6で、MTXと骨密度低下の関係はどう変わった？',o:['既知の関連なしに変更','40 g/㎡以上でハイリスクに','ステロイド併用時のみ対象','項目が新設された'],a:0,e:'MTX後の骨密度スクリーニングは推奨されなくなった。骨はステロイド側で評価する。'},
+ {c:'th',q:'JCCG2021のアントラ換算で、IDAとMitの係数は？',o:['IDA 4、Mit 5','IDA 5、Mit 4','IDA 5、Mit 10','IDA 0.83、Mit 0.6'],a:0,e:'JCCG2021はIDA 4・Mit 5。COG ver.6はIDA 5・Mit 10。元のメモはIDA 5・Mit 4だった。'},
+ {c:'th',q:'DEX使用歴ありの意味は？',o:['それだけでJCCGレベル3','量が500 mg/㎡を超えたらレベル3','レベルに影響しない','レベル4'],a:0,e:'メモの基準では使用歴だけでレベル3（レベル表の原文は未確認）。10歳以上は骨壊死にも注意。'},
+];
+</script><script>const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MK={3:'◎',2:'○',1:'△'};
+const norm=s=>(s||'').normalize('NFKC').toLowerCase().replace(/\s/g,'');
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.random()*a.length|0];
+const LS='drug_endo_drill_v1';
+let ST=(()=>{try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return{}}})();
+ST.box=ST.box||{};ST.miss=ST.miss||[];ST.cats=ST.cats||['name','axis','mix','case','th'];
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(ST))}catch(e){}};
+function tab(id){$$('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===id));$$('.panel').forEach(p=>p.hidden=p.id!==id);if(id==='p-drill')renderStats();window.scrollTo(0,0)}
+function axChips(d,withWhy){
+  const ks=Object.keys(d.ax).sort((a,b)=>d.ax[b]-d.ax[a]);
+  if(!ks.length)return '<span class="none">内分泌としてはほぼ意識しなくてよい</span>';
+  return ks.map(k=>`<span class="ax ax-${k}"><b>${MK[d.ax[k]]}</b>${AX[k]}</span>`).join('');
+}
+// ===== 早見 =====
+function renderList(){
+  const q=norm($('#q').value),cf=$('#cf').value;
+  const L=DRUGS.filter(d=>(!cf||d.cls===cf)&&(!q||[d.ab,d.gen,...d.br].some(x=>norm(x).includes(q))));
+  let last='';
+  $('#list').innerHTML=L.map(d=>{const h=d.cls!==last?`<h3 class="clsh">${CLS[d.cls]}</h3>`:'';last=d.cls;
+   const why=Object.keys(d.ax).sort((a,b)=>d.ax[b]-d.ax[a]).map(k=>`<li><span class="dot ax-${k}"></span><b>${AX[k]}</b>：${esc(d.why[k])}</li>`).join('');
+   return h+`<article class="dc${d.main?' has':''}">
+    <div class="dh"><div class="br">${d.br.map(esc).join('／')}</div><div class="gn">${esc(d.gen)}<span class="ab">${esc(d.ab)}</span></div></div>
+    <div class="axs">${axChips(d)}</div>
+    ${why?`<ul class="why">${why}</ul>`:''}
+    ${d.other?`<p class="oth"><span>内分泌以外</span>${esc(d.other)}</p>`:''}
+    ${d.note?`<p class="nt">${esc(d.note)}</p>`:''}
+   </article>`}).join('')||'<p class="muted">見つかりません。商品名・一般名・略号のどれでも検索できます（半角カナも可）。</p>';
+}
+// ===== 軸 =====
+function renderAxes(){
+  $('#axes').innerHTML=Object.keys(AX).map(k=>{
+   const ds=DRUGS.filter(d=>d.ax[k]).sort((a,b)=>b.ax[k]-a.ax[k]);
+   return `<section class="axc"><h3><span class="dot ax-${k}"></span>${AX[k]}</h3>
+    <p class="chk"><b>見るもの</b>${esc(AXCHECK[k])}</p>
+    ${ds.length?`<ul class="axl">${ds.map(d=>`<li><span class="mk">${MK[d.ax[k]]}</span><b>${esc(d.br[0])}</b><span class="muted">（${esc(d.ab)}）</span>　${esc(d.why[k])}</li>`).join('')}</ul>`:'<p class="muted">薬ではなく、主に頭蓋照射・頸部照射で起こる（照射の症例で確認）</p>'}
+   </section>`}).join('');
+}
+// ===== 閾値 =====
+function renderTH(){
+  $('#th').innerHTML=TH.map(t=>`<div class="thr"><span class="src ${t.src}">${t.src==='ok'?'出典確認済み':'メモ由来・未確認'}</span><div><b>${esc(t.t)}</b>${t.m?`<p>${esc(t.m)}</p>`:''}<p class="muted">${esc(t.s)}</p></div></div>`).join('');
+}
+// ===== ドリル =====
+const CATN={name:'名前',axis:'効く軸',mix:'紛らわしい',case:'記録から',th:'閾値'};
+const CORE=DRUGS.filter(d=>d.cls!=='sup');
+function makeQ(id){
+  const [t,key]=id.split(':');
+  if(t==='h'){const h=HAND[+key];const idx=shuffle([0,1,2,3]);return{id,cat:h.c,q:h.q,o:idx.map(i=>h.o[i]),a:idx.indexOf(h.a),e:h.e}}
+  if(t==='n'){const d=CORE.find(x=>x.ab===key);const brs=d.br.filter(b=>b!==d.gen);const b=pick(brs.length?brs:d.br);
+    const others=shuffle(CORE.filter(x=>x.ab!==d.ab)).slice(0,3).map(x=>x.ab);const o=shuffle([d.ab,...others]);
+    return{id,cat:'name',q:`「${b}」の略号は？`,o,a:o.indexOf(d.ab),e:`${b}＝${d.gen}（${d.ab}）。${d.note||''}`,drug:d}}
+  if(t==='g'){const d=CORE.find(x=>x.ab===key);const others=shuffle(CORE.filter(x=>x.ab!==d.ab)).slice(0,3).map(x=>x.gen);const o=shuffle([d.gen,...others]);
+    return{id,cat:'name',q:`略号「${d.ab}」の一般名は？`,o,a:o.indexOf(d.gen),e:`${d.ab}＝${d.gen}。商品名は${d.br.join('・')}。`,drug:d}}
+  if(t==='a'){const d=CORE.find(x=>x.ab===key);const NONE='内分泌としてはほぼ意識しなくてよい';
+    const right=d.main?AX[d.main]:NONE;
+    let pool=Object.keys(AX).filter(k=>!d.ax[k]).map(k=>AX[k]);if(d.main)pool.push(NONE);
+    const o=shuffle([right,...shuffle(pool).slice(0,3)]);
+    const e=d.main?`${d.br[0]}（${d.ab}）→ ${AX[d.main]}：${d.why[d.main]}`:`${d.br[0]}（${d.ab}）は内分泌の軸にはつかない。主な問題は${d.other||'特になし'}。`;
+    return{id,cat:'axis',q:`「${d.br[0]}」（${d.ab}）で、内分泌として一番意識するのは？`,o,a:o.indexOf(right),e,drug:d}}
+  if(t==='r'){const k=key;const yes=CORE.filter(d=>d.ax[k]>=2),no=CORE.filter(d=>!d.ax[k]);const d=pick(yes);
+    const o=shuffle([d,...shuffle(no).slice(0,3)]);
+    return{id,cat:'axis',q:`${AX[k]}に◎か○がつく薬はどれ？`,o:o.map(x=>`${x.br[0]}（${x.ab}）`),a:o.indexOf(d),e:`${d.br[0]}（${d.ab}）：${d.why[k]}`,drug:d}}
+}
+function allIds(){
+  const ids=[];
+  CORE.forEach(d=>{ids.push('n:'+d.ab,'g:'+d.ab,'a:'+d.ab)});
+  Object.keys(AX).forEach(k=>{if(CORE.some(d=>d.ax[k]>=2))ids.push('r:'+k)});
+  HAND.forEach((h,i)=>ids.push('h:'+i));
+  return ids;
+}
+const catOf=id=>{const t=id[0];if(t==='h')return HAND[+id.split(':')[1]].c;return t==='a'||t==='r'?'axis':'name'};
+let sess=null;
+function start(){
+  const ids=allIds().filter(id=>ST.cats.includes(catOf(id)));
+  if(!ids.length){alert('分野を1つ以上選んでください');return}
+  const w=ids.map(id=>({id,w:Math.pow(2,5-Math.min(5,ST.box[id]||0))*(0.5+Math.random())}));
+  w.sort((a,b)=>b.w-a.w);
+  sess={qs:w.slice(0,10).map(x=>makeQ(x.id)),i:0,ok:0};
+  $('#drill-home').hidden=true;$('#drill-q').hidden=false;showQ();
+}
+function showQ(){
+  const Q=sess.qs[sess.i];
+  $('#drill-q').innerHTML=`<div class="prog">${sess.i+1} / ${sess.qs.length}<span class="tagc">${CATN[Q.cat]}</span></div>
+   <h3 class="qq">${esc(Q.q)}</h3><div class="opts">${Q.o.map((o,i)=>`<button class="op" data-i="${i}">${esc(o)}</button>`).join('')}</div><div id="fb"></div>`;
+  $$('.op').forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+}
+function answer(i){
+  const Q=sess.qs[sess.i],ok=i===Q.a;
+  $$('.op').forEach((b,j)=>{b.disabled=true;if(j===Q.a)b.classList.add('ok');else if(j===i)b.classList.add('ng')});
+  ST.box[Q.id]=ok?Math.min(5,(ST.box[Q.id]||0)+1):0;
+  if(ok)sess.ok++;else{ST.miss.unshift({q:Q.q,c:Q.o[i],r:Q.o[Q.a],t:Date.now()});ST.miss=ST.miss.slice(0,60)}
+  save();
+  const d=Q.drug;
+  $('#fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b>${ok?'正解':'不正解'}</b><p>${esc(Q.e)}</p>
+   ${d?`<div class="mini"><div class="axs">${axChips(d)}</div>${d.other?`<p class="oth"><span>内分泌以外</span>${esc(d.other)}</p>`:''}</div>`:''}</div>
+   <button class="btn pri" id="nx">${sess.i+1<sess.qs.length?'次へ':'結果を見る'}</button>`;
+  $('#nx').onclick=()=>{sess.i++;if(sess.i<sess.qs.length)showQ();else finish()};
+  $('#nx').focus();
+}
+function finish(){
+  $('#drill-q').hidden=true;$('#drill-home').hidden=false;
+  toast(`${sess.qs.length}問中 ${sess.ok}問正解`);sess=null;renderStats();
+}
+function renderStats(){
+  $('#cats').innerHTML=Object.keys(CATN).map(c=>`<label class="cb"><input type="checkbox" value="${c}"${ST.cats.includes(c)?' checked':''}>${CATN[c]}</label>`).join('');
+  $$('#cats input').forEach(el=>el.onchange=()=>{ST.cats=$$('#cats input:checked').map(x=>x.value);save()});
+  const ids=allIds();
+  $('#mastery').innerHTML=Object.keys(CATN).map(c=>{const my=ids.filter(id=>catOf(id)===c);const m=my.filter(id=>(ST.box[id]||0)>=3).length;const pct=Math.round(m/my.length*100);
+    return `<div class="ms"><span>${CATN[c]}</span><div class="bar"><i style="width:${pct}%"></i></div><b>${m}/${my.length}</b></div>`}).join('');
+  $('#miss').innerHTML=ST.miss.length?ST.miss.slice(0,15).map(m=>`<li><span class="muted">${esc(m.q)}</span><br><s>${esc(m.c)}</s> → <b>${esc(m.r)}</b></li>`).join(''):'<li class="muted">まだありません。間違えた選択肢がここに残ります。</li>';
+}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200)}
+document.addEventListener('DOMContentLoaded',()=>{
+  $$('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+  $('#cf').innerHTML='<option value="">すべての分類</option>'+Object.entries(CLS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  $('#q').oninput=renderList;$('#cf').onchange=renderList;
+  $('#start').onclick=start;
+  $('#reset').onclick=()=>{if(confirm('学習記録をリセットしますか？')){ST={box:{},miss:[],cats:ST.cats};save();renderStats()}};
+  renderList();renderAxes();renderTH();renderStats();
+});
+</script>
+</body></html>

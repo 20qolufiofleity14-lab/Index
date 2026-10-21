@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>男性中枢性思春期早発症 治療管理リファランス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="治療管理リファレンス">
+<meta name="mini-title" content="男性中枢性思春期早発症 治療管理">
+
+<style>
+:root {
+  --pri:      #1e3a8a;
+  --pri-lt:   #2563eb;
+  --pri-pale: #dbeafe;
+  --grn:  #16a34a; --grn-dk: #14532d; --grn-bg: #dcfce7;
+  --yel:  #ca8a04; --yel-dk: #713f12; --yel-bg: #fef9c3;
+  --red:  #dc2626; --red-dk: #7f1d1d; --red-bg: #fee2e2;
+  --org:  #ea580c; --org-dk: #7c2d12; --org-bg: #ffedd5;
+  --pur:  #9333ea; --pur-dk: #4a1d96; --pur-bg: #f3e8ff;
+  --tel:  #0d9488; --tel-dk: #134e4a; --tel-bg: #ccfbf1;
+  --gry:  #6b7280; --gry-bg: #f9fafb;
+  --bdr: #e5e7eb; --txt: #111827; --sub: #6b7280;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+  background:#eff6ff;color:var(--txt);font-size:13px;line-height:1.5}
+
+/* header */
+.hdr{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-lt) 100%);
+  color:white;padding:11px 15px}
+.hdr h1{font-size:14px;font-weight:700;letter-spacing:.04em}
+.hdr .sub{font-size:10px;opacity:.82;margin-top:2px}
+
+/* tabs */
+.tabs{display:flex;background:white;border-bottom:2px solid var(--pri);overflow-x:auto}
+.tab{padding:8px 13px;font-size:12px;font-weight:600;color:var(--sub);
+  cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;
+  margin-bottom:-2px;flex-shrink:0;transition:background .12s}
+.tab.active{color:var(--pri);border-bottom-color:var(--pri);background:var(--pri-pale)}
+.tab:hover:not(.active){color:var(--pri-lt);background:var(--gry-bg)}
+
+/* content */
+.pg{display:none;padding:11px;max-width:800px;margin:0 auto}
+.pg.active{display:block}
+
+/* cards */
+.card{background:white;border-radius:8px;padding:11px 12px;margin-bottom:10px;
+  box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:4px solid var(--pri)}
+.card.grn{border-left-color:var(--grn)} .card.yel{border-left-color:var(--yel)}
+.card.red{border-left-color:var(--red)} .card.org{border-left-color:var(--org)}
+.card.pur{border-left-color:var(--pur)} .card.tel{border-left-color:var(--tel)}
+.card.gry{border-left-color:var(--gry)}
+.ctit{font-size:13px;font-weight:700;color:var(--pri);margin-bottom:8px}
+.card.grn .ctit{color:var(--grn-dk)} .card.yel .ctit{color:var(--yel-dk)}
+.card.red .ctit{color:var(--red-dk)} .card.org .ctit{color:var(--org-dk)}
+.card.pur .ctit{color:var(--pur-dk)} .card.tel .ctit{color:var(--tel-dk)}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+th{background:var(--pri-pale);color:var(--pri);padding:5px 8px;text-align:left;
+  font-weight:700;border:1px solid var(--bdr)}
+td{padding:5px 8px;border:1px solid var(--bdr);vertical-align:top}
+tr:nth-child(even) td{background:var(--gry-bg)}
+
+/* highlight boxes */
+.hb{border-radius:6px;padding:8px 10px;margin:6px 0;font-size:12px}
+.hb-b{background:var(--pri-pale);color:var(--pri);border:1px solid #bfdbfe}
+.hb-g{background:var(--grn-bg);color:var(--grn-dk);border:1px solid #bbf7d0}
+.hb-y{background:var(--yel-bg);color:var(--yel-dk);border:1px solid #fde68a}
+.hb-r{background:var(--red-bg);color:var(--red-dk);border:1px solid #fca5a5}
+.hb-o{background:var(--org-bg);color:var(--org-dk);border:1px solid #fdba74}
+.hb-p{background:var(--pur-bg);color:var(--pur-dk);border:1px solid #d8b4fe}
+.hb-t{background:var(--tel-bg);color:var(--tel-dk);border:1px solid #99f6e4}
+
+/* section header */
+.sHd{font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.06em;
+  margin:10px 0 5px;padding-bottom:2px;border-bottom:1px solid var(--bdr)}
+
+/* list items */
+.li{display:flex;gap:5px;margin-bottom:3px;font-size:12px;align-items:flex-start}
+.li::before{content:"▸";color:var(--pri);flex-shrink:0;margin-top:1px;font-size:11px}
+
+/* calc box */
+.cbox{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 12px;margin:8px 0}
+.cbox label{font-size:12px;font-weight:700;color:var(--pri);display:block;margin-bottom:5px}
+.crow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.cbox input,.cbox select{border:1px solid #93c5fd;border-radius:4px;padding:4px 7px;
+  font-size:12px;background:white}
+.cbox input{width:68px}
+.cres{background:var(--pri);color:white;border-radius:6px;padding:8px 10px;
+  margin-top:6px;font-size:12px;font-weight:600;line-height:1.65}
+
+/* grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* timeline */
+.tl{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+.tldot{width:30px;height:30px;border-radius:50%;background:var(--pri);color:white;
+  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tlbod{flex:1;background:var(--gry-bg);border-radius:6px;padding:7px 10px;font-size:12px}
+
+/* footnote */
+.fn{font-size:10px;color:var(--sub);margin-top:6px;padding-top:4px;
+  border-top:1px solid var(--bdr);line-height:1.5}
+
+@media(max-width:480px){
+  .g2{grid-template-columns:1fr}
+  .tab{font-size:11px;padding:7px 9px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🔷 男性中枢性思春期早発症（Male CPP）治療管理クイックリファランス</h1>
+  <div class="sub">GnRHアナログ（リュープリン）＋ プリモボラン導入・フォロー管理 ／ 平成15年度診断基準対応</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="sw(0)">① 診断・適応確認</div>
+  <div class="tab" onclick="sw(1)">② 治療導入</div>
+  <div class="tab" onclick="sw(2)">③ フォロー管理</div>
+  <div class="tab" onclick="sw(3)">④ 身長予測・治療期間</div>
+</div>
+
+<!-- ========== TAB 0 ========== -->
+<div class="pg active" id="t0">
+
+  <div class="card">
+    <div class="ctit">📋 診断の手引き（平成15年度版）— 男児基準</div>
+    <div class="sHd">主要症状（いずれか1項目）</div>
+    <div class="hb hb-b">
+      <strong>1⃣</strong>　<strong>11歳未満</strong>で陰毛発生・陰茎腫大・精巣腫大<br>
+      <strong>2⃣</strong>　<strong>11歳以上12歳未満</strong>で腋毛・ひげ・声変わり出現
+    </div>
+    <div class="sHd">副症状（いずれか1項目）</div>
+    <div class="hb hb-b">
+      <strong>A.</strong>　身長促進現象：年間成長速度が2年以上にわたり ≥+1.5 SD<br>
+      <strong>B.</strong>　骨年齢の<strong>1年以上</strong>の促進<br>
+      <span style="font-size:11px;color:var(--sub)">※低身長例（−1 SD以下）では基準を1段階緩めて適用可（副症状「いずれか」→「参考とする」扱い）</span>
+    </div>
+    <div class="sHd">確定・強疑例</div>
+    <div class="hb hb-g">
+      主要症状1項目 ＋ 副症状1項目 → <strong>確実例</strong><br>
+      GnRH負荷試験 LH最高値 ≥5 IU/L で内分泌学的確認可（アッセイにより閾値異なる場合あり）
+    </div>
+    <div class="hb hb-r" style="margin-top:6px">
+      ⚠️ <strong>男児では器質的疾患が約50%（女児より高頻度）</strong><br>
+      視床下部・下垂体腫瘍、視床下部過誤腫（hamartoma）、頭蓋咽頭腫を<strong>MRIで必ず除外</strong>
+    </div>
+  </div>
+
+  <div class="card grn">
+    <div class="ctit">✅ 本症例の治療適応チェック</div>
+    <table>
+      <tr><th>確認項目</th><th>基準</th><th>本症例</th></tr>
+      <tr><td>診断</td><td>確実例または強疑例</td><td>✅ 確実例（主要症状②＋副症状A 充足）</td></tr>
+      <tr><td>MRI</td><td>器質的疾患なし</td><td>✅ 異常なし（機能性CPP）</td></tr>
+      <tr><td>骨年齢乖離</td><td>促進傾向</td><td>⚠️ &lt;1歳（軽微）</td></tr>
+      <tr><td>最終身長予測</td><td>THより低い</td><td>165 cm（TH 169.9 cm、乖離 −4.9 cm）</td></tr>
+      <tr><td>成長速度</td><td>亢進</td><td>✅ 9〜12 cm/年（Z ≥6、2年以上継続）</td></tr>
+    </table>
+    <div class="hb hb-g" style="margin-top:8px">
+      ⭕ <strong>治療適応あり</strong>（機能性CPP確実例。骨年齢乖離は軽微だが臨床症状・成長速度から適応判断）
+    </div>
+  </div>
+
+  <div class="card gry">
+    <div class="ctit">🧪 治療前必須ベースライン評価</div>
+    <div class="g2">
+      <div>
+        <div class="sHd">採血</div>
+        <div class="li">LH、FSH（基礎値）</div>
+        <div class="li">テストステロン</div>
+        <div class="li">GnRH負荷試験（確認目的）</div>
+        <div class="li">ALT、AST、ALP、γ-GTP</div>
+        <div class="li">TC、HDL-C、TG</div>
+        <div class="li">IGF-1（GH分泌能の参考）</div>
+      </div>
+      <div>
+        <div class="sHd">画像・身体</div>
+        <div class="li">骨年齢（手X線）— ベースライン記録</div>
+        <div class="li">頭部MRI（器質的疾患除外済み確認）</div>
+        <div class="li">精巣容積（Prader orchidometer）</div>
+        <div class="li">身長・体重・BMI</div>
+        <div class="li">Tanner分類（G・P・精巣）</div>
+        <div class="li">現在の成長速度算出</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /t0 -->
+
+<!-- ========== TAB 1 ========== -->
+<div class="pg" id="t1">
+
+  <div class="card">
+    <div class="ctit">💉 リュープリン（酢酸リュープロレリン）導入</div>
+
+    <div class="cbox">
+      <label>▼ 体重を入力してください</label>
+      <div class="crow">
+        体重：<input type="number" id="wt" placeholder="kg" min="10" max="80" oninput="clh()"> kg
+        &nbsp;用量：
+        <select id="dpk" onchange="clh()">
+          <option value="30">30 μg/kg（標準開始量）</option>
+          <option value="45">45 μg/kg（第1段階増量）</option>
+          <option value="90">90 μg/kg（最大量）</option>
+        </select>
+      </div>
+      <div class="cres" id="lhres">← 体重を入力してください</div>
+    </div>
+
+    <div class="sHd">製剤・投与方法</div>
+    <table>
+      <tr><th>製剤</th><th>規格</th><th>投与法</th><th>間隔</th></tr>
+      <tr><td>リュープリン注射用</td><td>1.88 mg / 3.75 mg</td><td>筋注または皮下注</td><td><strong>4週毎</strong></td></tr>
+      <tr><td>リュープリンSR注射用</td><td>11.25 mg</td><td>筋注</td><td>12週毎（小児では通常非推奨）</td></tr>
+    </table>
+
+    <div class="hb hb-y" style="margin-top:8px">
+      ⚠️ <strong>フレア反応（初回投与後 1〜2週間）</strong><br>
+      一過性にLH・FSH・テストステロンが上昇。精巣腫大・思春期所見の一時的増悪あり。<br>
+      事前に家族へ必ず説明すること。
+    </div>
+
+    <div class="sHd">男児での効果判定と増量基準（3ヶ月後評価）</div>
+    <table>
+      <tr><th>評価項目</th><th>抑制良好</th><th>増量検討基準</th></tr>
+      <tr><td>基礎LH</td><td>&lt;2 IU/L</td><td>≥2 IU/L</td></tr>
+      <tr><td>テストステロン</td><td>&lt;0.5 ng/mL</td><td>≥0.5 ng/mL</td></tr>
+      <tr><td>成長速度</td><td>鈍化傾向</td><td>依然亢進（>7 cm/年）</td></tr>
+      <tr><td>骨年齢進行速度</td><td>&lt;1歳/年</td><td>≥1歳/年</td></tr>
+    </table>
+    <div class="fn">
+      ※男児は女児に比べ抑制不十分例が多い。3ヶ月後に判定し、必要なら 30→45→90 μg/kg と段階的増量を検討。<br>
+      ※最大 3,750 μg（3.75 mg）/回を超えないこと。
+    </div>
+  </div>
+
+  <div class="card pur">
+    <div class="ctit">💊 プリモボラン（メテノロン酢酸エステル）導入</div>
+    <div class="hb hb-p">
+      <strong>使用目的</strong>：GnRHaによるテストステロン低下に伴う成長速度低下の補正<br>
+      <strong>特徴</strong>：蛋白同化作用を持ちながら男性化・骨端線促進作用が比較的弱い<br>
+      <span style="font-size:11px">（本剤単独での成長促進効果は限定的。あくまでGnRHa補助として使用）</span>
+    </div>
+
+    <div class="cbox" style="background:#faf5ff;border-color:#c4b5fd">
+      <label>▼ 体重を入力してください（参考用量）</label>
+      <div class="crow">
+        体重：<input type="number" id="pw" placeholder="kg" min="10" max="80" oninput="cpr()"> kg
+      </div>
+      <div class="cres" id="prres" style="background:var(--pur)">← 体重を入力してください</div>
+    </div>
+
+    <div class="sHd">投与方法</div>
+    <table>
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>製剤</td><td>プリモボラン錠 5 mg</td></tr>
+      <tr><td>参考用量</td><td>0.5〜1 mg/kg/日（経口、分1〜2）</td></tr>
+      <tr><td>服薬タイミング</td><td>食直後（消化器症状軽減のため）</td></tr>
+    </table>
+
+    <div class="hb hb-y" style="margin-top:8px">
+      ⚠️ <strong>主要注意事項（プリモボラン特有）</strong><br>
+      • 骨年齢の過剰進行がないか<strong>6ヶ月毎</strong>に確認（骨成熟促進で目標が逆転するリスク）<br>
+      • 肝機能（ALT・AST）：<strong>3ヶ月毎</strong>確認。ALT &gt;2×ULN で減量・中止<br>
+      • 脂質（TC・HDL-C）：HDL-C低下に注意。<strong>6ヶ月毎</strong>確認<br>
+      • 保険診療上の適応外使用に該当する場合があり（施設方針・同意書確認のこと）
+    </div>
+  </div>
+
+  <div class="card grn">
+    <div class="ctit">📝 治療導入時の家族説明事項</div>
+    <div class="li">治療目的：思春期進行抑制・最終身長改善（+3〜8 cmが目安、個人差大）</div>
+    <div class="li">フレア反応：初回注射後2週間の一過性増悪。事前説明要（心配させすぎない）</div>
+    <div class="li">投与頻度：4週毎外来注射（定期受診を休まないことが重要）</div>
+    <div class="li">治療期間：概ね2年間（骨年齢12〜13歳または暦年齢14歳を目安に終了）</div>
+    <div class="li">内服薬：プリモボランは毎日服薬（飲み忘れのないよう）</div>
+    <div class="li">副作用：注射部位反応、一過性の思春期増悪（フレア）、肝機能変化（プリモボラン）</div>
+    <div class="li">治療終了後：自然に思春期が再開することを説明。急に進むことはない</div>
+    <div class="li">最終身長の確認：成長が止まる18〜19歳頃に改めて確認する</div>
+  </div>
+
+</div><!-- /t1 -->
+
+<!-- ========== TAB 2 ========== -->
+<div class="pg" id="t2">
+
+  <div class="card">
+    <div class="ctit">📅 フォロースケジュール</div>
+    <table>
+      <tr><th>時期</th><th>受診間隔</th><th>主な評価内容</th></tr>
+      <tr>
+        <td><strong>導入直後<br>（0〜3ヶ月）</strong></td>
+        <td>4週毎<br>（注射毎）</td>
+        <td>
+          毎回：身長・体重・注射・フレア確認<br>
+          <strong>4週時</strong>：LFT確認（プリモボラン開始後初回）<br>
+          <strong>8週時</strong>：テストステロン（初期抑制確認）
+        </td>
+      </tr>
+      <tr>
+        <td><strong>安定期前半<br>（3〜12ヶ月）</strong></td>
+        <td>4週毎</td>
+        <td>
+          <strong>3ヶ月時</strong>：LH・FSH・テストステロン・LFT・脂質 → 増量判断<br>
+          <strong>6ヶ月時</strong>：骨年齢（手XP）・Tanner・精巣容積・成長速度・最終身長予測更新
+        </td>
+      </tr>
+      <tr>
+        <td><strong>安定期後半<br>（12ヶ月〜）</strong></td>
+        <td>4〜8週毎</td>
+        <td>
+          3ヶ月毎：LH・テストステロン・LFT（プリモボラン使用中）<br>
+          6ヶ月毎：骨年齢・成長速度・最終身長予測更新
+        </td>
+      </tr>
+      <tr>
+        <td><strong>終了前評価<br>（終了3〜6ヶ月前）</strong></td>
+        <td>4週毎</td>
+        <td>
+          骨年齢最終評価・最終身長予測・Tanner分類<br>
+          終了後の自然経過について家族へ説明
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card tel">
+    <div class="ctit">🧪 採血項目・目標値一覧</div>
+    <table>
+      <tr><th>採血項目</th><th>頻度</th><th>治療中の目標・判断基準</th></tr>
+      <tr><td><strong>LH（基礎値）</strong></td><td>3ヶ月毎</td><td><strong>&lt;2 IU/L</strong>（抑制良好）</td></tr>
+      <tr><td><strong>FSH（基礎値）</strong></td><td>3ヶ月毎</td><td>低下・抑制傾向</td></tr>
+      <tr><td><strong>テストステロン</strong></td><td>3ヶ月毎</td><td><strong>&lt;0.5 ng/mL</strong>（思春期前レベル）</td></tr>
+      <tr><td>ALT・AST・ALP・γ-GTP</td><td>3ヶ月毎<br>（プリモボラン使用中）</td><td>正常範囲内。ALT &gt;2×ULN→減量・中止検討</td></tr>
+      <tr><td>TC・HDL-C・TG</td><td>6ヶ月毎</td><td>HDL-C &lt;40 mg/dL で要注意</td></tr>
+      <tr><td>GnRH負荷試験</td><td>6〜12ヶ月毎または疑問時</td><td>LH最高値 &lt;5 IU/L で抑制確認</td></tr>
+      <tr><td>IGF-1</td><td>年1回</td><td>GH分泌不全合併の有無（必要ならGHT検討）</td></tr>
+    </table>
+    <div class="fn">
+      ※採血は<strong>次回注射直前（トラフ時）</strong>に採取（ピーク時ではなくトラフ値で判定）<br>
+      ※プリモボラン使用中はLFTを最優先で確認
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctit">📏 身体評価項目</div>
+    <table>
+      <tr><th>項目</th><th>頻度</th><th>評価ポイント</th></tr>
+      <tr><td>身長・体重</td><td>毎受診時</td><td>成長曲線にプロット・記録</td></tr>
+      <tr><td>年間成長速度（cm/年）</td><td>6ヶ月毎に算出</td><td>治療中は低下傾向が正常。&lt;4 cm/年で終了検討</td></tr>
+      <tr><td>骨年齢（手X線）</td><td>6ヶ月毎</td><td>進行速度 &lt;1歳/年 →良好。暦年齢との乖離縮小確認</td></tr>
+      <tr><td>最終身長予測（BP法）</td><td>骨年齢撮影毎</td><td>更新してTHと比較。治療効果の主指標</td></tr>
+      <tr><td>Tanner分類（G・P・精巣）</td><td>6ヶ月毎</td><td>Stage進行が停止しているか確認</td></tr>
+      <tr><td>精巣容積</td><td>6ヶ月毎</td><td>Prader orchidometer。増大抑制を確認</td></tr>
+    </table>
+  </div>
+
+  <div class="card org">
+    <div class="ctit">⚡ 効果不十分・要注意サインと対応</div>
+    <table>
+      <tr><th>状況</th><th>対応</th></tr>
+      <tr><td>基礎LH ≥2 IU/L（3ヶ月時）</td><td>リュープリン増量（30→45→90 μg/kg）</td></tr>
+      <tr><td>テストステロン ≥0.5 ng/mL</td><td>同上</td></tr>
+      <tr><td>骨年齢急速進行（>1歳/年）</td><td>プリモボラン減量・中止検討 ／ リュープリン増量検討</td></tr>
+      <tr><td>ALT &gt;2×ULN</td><td>プリモボラン減量または中止</td></tr>
+      <tr><td>HDL-C &lt;40 mg/dL</td><td>プリモボラン量見直し ／ 生活指導</td></tr>
+      <tr><td>成長速度 &lt;4 cm/年 が持続</td><td>プリモボラン有効性再評価 ／ IGF-1確認（GHT適応の検討）</td></tr>
+    </table>
+  </div>
+
+  <!-- 必須：フォロー終了の目安 -->
+  <div class="card red">
+    <div class="ctit">🏁 フォロー終了（治療中止・経過観察オフ）の目安</div>
+
+    <div class="sHd">治療中止の判断基準（以下のいずれかに最初に到達した時点）</div>
+    <table>
+      <tr><th>基準</th><th>具体的目安</th><th>理由</th></tr>
+      <tr><td><strong>骨年齢（優先）</strong></td><td>骨年齢 12〜13歳相当</td><td>正常男性の思春期開始骨年齢に相当。これが主目標</td></tr>
+      <tr><td><strong>暦年齢（上限）</strong></td><td>14歳到達</td><td>男性思春期遅発の下限年齢。骨年齢未到達でも終了</td></tr>
+      <tr><td><strong>成長速度</strong></td><td>&lt;4 cm/年</td><td>成長恩恵が減少し治療継続の意義が低下</td></tr>
+      <tr><td><strong>最終身長予測改善</strong></td><td>TH（170 cm）に近接・到達</td><td>目標達成</td></tr>
+      <tr><td><strong>有害事象</strong></td><td>肝機能異常・骨年齢急進等</td><td>ベネフィット・リスク再評価</td></tr>
+    </table>
+
+    <div class="sHd" style="margin-top:10px">治療中止後の経過観察（1〜2年継続）</div>
+    <div class="hb hb-o">
+      <strong>中止後の自然経過（患者・家族への説明ポイント）</strong><br>
+      • 中止後3〜6ヶ月以内にLH・テストステロン上昇→思春期進行が再開<br>
+      • 一時的に成長速度が再加速することがある（思春期スパート）<br>
+      • 中止後最初の1年は<strong>3〜6ヶ月毎</strong>に外来継続<br>
+      • Tanner分類・精巣容積・成長速度を追い、自然経過を確認<br>
+      • 成長速度 &lt;2 cm/年 まで落ち着いたら終診可（最終身長確認後）
+    </div>
+    <div class="hb hb-g">
+      🏠 <strong>家族へのセーフティネット</strong><br>
+      治療終了後、以下があれば早めに受診：<br>
+      「急に声が変わった」「精巣が急激に大きくなった」「背が急に伸び始めた」<br>
+      → 異常な早期再燃でないか確認が必要です、と伝える
+    </div>
+  </div>
+
+</div><!-- /t2 -->
+
+<!-- ========== TAB 3 ========== -->
+<div class="pg" id="t3">
+
+  <div class="card">
+    <div class="ctit">📊 治療による最終身長予測</div>
+    <div class="g2" style="margin-bottom:8px">
+      <div class="hb hb-b" style="margin:0">
+        <strong>本症例の身長情報</strong><br>
+        骨年齢からの予測：165 cm<br>
+        遺伝的標準身長（TH）：169.9 cm<br>
+        乖離：−4.9 cm<br>
+        骨年齢乖離：&lt;1歳（軽微）<br>
+        現在の成長速度：Z ≥6（亢進）
+      </div>
+      <div class="hb hb-g" style="margin:0">
+        <strong>治療介入後の期待値</strong><br>
+        文献上の改善幅：+3〜10 cm<br>
+        <strong>現実的な中央値：+4〜6 cm</strong><br>
+        期待最終身長：<strong>168〜171 cm</strong><br>
+        TH到達可能性：中等度〜やや低<br>
+        <span style="font-size:11px">（骨年齢乖離が軽微なため大きな改善は期待しにくい）</span>
+      </div>
+    </div>
+
+    <div class="sHd">文献エビデンス（男性CPP　GnRHa治療）</div>
+    <table>
+      <tr><th>報告</th><th>対象症例</th><th>最終身長（治療群）</th><th>vs 予測身長</th></tr>
+      <tr><td>Arrigo T ら（1996）</td><td>早発症（&lt;9歳）中心</td><td>174 cm 前後</td><td><strong>+10 cm 以上</strong></td></tr>
+      <tr><td>Bertelloni S ら（2000）</td><td>GnRHa単独治療群</td><td>172〜174 cm</td><td><strong>+7〜10 cm</strong></td></tr>
+      <tr><td>Carel JC ら（2004）</td><td>男女混在・多施設</td><td>SDS改善 +0.7〜1.0</td><td>（SDS評価）</td></tr>
+      <tr><td>日本・後期発症参考例</td><td>11〜12歳発症</td><td>症例差大</td><td><strong>+3〜6 cm</strong>（限定的）</td></tr>
+    </table>
+    <div class="fn">
+      ※上記は後方視的研究が中心。男性CPPのRCTは少なく、エビデンスレベルは中程度。<br>
+      ※早発症（&lt;9歳）例のデータが多く、11〜12歳発症例への直接外挿には注意が必要。
+    </div>
+
+    <div class="hb hb-y" style="margin-top:8px">
+      ⚠️ <strong>本症例への重要な注意点</strong><br>
+      ① 骨年齢乖離 &lt;1歳（軽微）→ BP法予測はすでに比較的正確。大きな改善幅は期待しにくい<br>
+      ② 発症11歳後半（late onset CPP）→ 早発症例（&lt;9歳）のような10 cm改善は現実的ではない<br>
+      ③ 成長速度Z ≥6 → 骨端線が急速に閉鎖するリスクあり。治療開始後の骨年齢追跡が鍵<br>
+      ④ 男性CPPのエビデンスは女性に比べ少なく、個体差が大きい
+    </div>
+
+    <div class="hb hb-p">
+      <strong>📌 慎重な予後予測（家族説明用）</strong><br>
+      <table style="margin-top:6px;background:transparent;border:none">
+        <tr>
+          <td style="border:none;padding:2px 8px;font-weight:700">楽観的シナリオ</td>
+          <td style="border:none;padding:2px 8px">170〜173 cm</td>
+          <td style="border:none;padding:2px 8px;font-size:11px">GnRHa感受性良好・骨年齢進行抑制成功</td>
+        </tr>
+        <tr>
+          <td style="border:none;padding:2px 8px;font-weight:700;color:var(--pur-dk)">✅ 最も可能性が高い</td>
+          <td style="border:none;padding:2px 8px;font-weight:700">167〜170 cm</td>
+          <td style="border:none;padding:2px 8px;font-size:11px">THに近づくが到達は不確実</td>
+        </tr>
+        <tr>
+          <td style="border:none;padding:2px 8px;font-weight:700">保守的シナリオ</td>
+          <td style="border:none;padding:2px 8px">165〜167 cm</td>
+          <td style="border:none;padding:2px 8px;font-size:11px">治療効果が限定的（骨年齢急進など）</td>
+        </tr>
+      </table>
+      <div style="margin-top:6px;font-size:11px;border-top:1px solid rgba(147,51,234,.3);padding-top:4px">
+        → 家族説明例：「治療によって3〜6 cmほど最終身長が改善する可能性があります。ただし骨年齢の進み具合で効果は変わりますので、6ヶ月毎に骨年齢を確認しながら方針を見直していきます」
+      </div>
+    </div>
+  </div>
+
+  <div class="card grn">
+    <div class="ctit">⏱️ 治療期間の考え方</div>
+
+    <div class="sHd">治療期間の根拠</div>
+    <table>
+      <tr><th>根拠</th><th>内容</th><th>本症例への適用</th></tr>
+      <tr>
+        <td><strong>骨年齢（優先基準）</strong></td>
+        <td>骨年齢12〜13歳：正常男性の思春期開始骨年齢</td>
+        <td>現在&lt;11歳骨齢 → 到達まで約2年見込み</td>
+      </tr>
+      <tr>
+        <td><strong>暦年齢（上限）</strong></td>
+        <td>14歳：男性思春期遅発の下限年齢</td>
+        <td>11y8m + 2y4m = 14歳前後</td>
+      </tr>
+      <tr>
+        <td><strong>上医の方針</strong></td>
+        <td>「2年間」で治療する</td>
+        <td>✅ 骨年齢・暦年齢の両基準とほぼ一致</td>
+      </tr>
+    </table>
+
+    <div class="hb hb-g" style="margin-top:8px">
+      ✅ <strong>「2年」と「14歳まで」はほぼ一致している</strong><br>
+      方針：2年間を目安とし、<strong>骨年齢12〜13歳相当に達した時点での終了</strong>を主目標に設定。<br>
+      暦年齢14歳を超えない範囲で、骨年齢が先に基準を満たせばそちらを優先する。
+    </div>
+
+    <div class="sHd">治療タイムライン（目安）</div>
+
+    <div class="tl">
+      <div class="tldot">今</div>
+      <div class="tlbod">
+        <strong>11y 8m（現在）</strong>　治療開始<br>
+        骨年齢：〜11歳（乖離&lt;1歳）／予測身長 165 cm<br>
+        リュープリン 30 μg/kg 開始 ＋ プリモボラン内服開始
+      </div>
+    </div>
+    <div class="tl">
+      <div class="tldot">3M</div>
+      <div class="tlbod">
+        <strong>12y 0m</strong>　最初の効果判定<br>
+        LH・テストステロン評価 → 必要なら増量判断 ／ LFT確認
+      </div>
+    </div>
+    <div class="tl">
+      <div class="tldot">6M</div>
+      <div class="tlbod">
+        <strong>12y 2m</strong>　初回骨年齢評価<br>
+        骨年齢進行速度・成長速度確認 ／ 最終身長予測更新
+      </div>
+    </div>
+    <div class="tl">
+      <div class="tldot">12M</div>
+      <div class="tlbod">
+        <strong>12y 8m</strong>　中間評価<br>
+        効果判定・骨年齢更新 ／ 治療継続または増量確認
+      </div>
+    </div>
+    <div class="tl">
+      <div class="tldot">18M</div>
+      <div class="tlbod">
+        <strong>13y 2m</strong>　終了前評価<br>
+        骨年齢12〜13歳相当なら終了準備開始
+      </div>
+    </div>
+    <div class="tl">
+      <div class="tldot">2Y</div>
+      <div class="tlbod">
+        <strong>13y 8m〜14歳</strong>　治療終了<br>
+        骨年齢12〜13歳相当を確認 → 中止 ／ 自然思春期へ<br>
+        中止後フォロー継続（1〜2年）／ 最終身長確認は18〜19歳
+      </div>
+    </div>
+  </div>
+
+  <div class="card yel">
+    <div class="ctit">⚠️ 慎重な予後評価のための観察ポイント</div>
+    <div class="li">骨年齢進行速度が治療効果の鍵：6ヶ月毎の骨年齢評価を欠かさない</div>
+    <div class="li">成長速度Z ≥6は骨端線が急速に閉鎖するリスクを含む。開始後早期の骨年齢評価が重要</div>
+    <div class="li">治療目標は「TH到達」ではなく「165 cmより改善させること」を現実的目標として家族と共有</div>
+    <div class="li">IGF-1確認：GH分泌不全合併があればGHT追加でさらなる身長改善を期待できる</div>
+    <div class="li">精神・社会的発達：早熟に伴う心理的ストレスや仲間との違いの自覚にも配慮</div>
+    <div class="li">TH 170 cmは日本人成人男性平均身長（約170〜171 cm）に相当。十分に現実的な到達目標</div>
+    <div class="fn">
+      参考文献：<br>
+      Arrigo T, et al. Horm Res. 1996 / Bertelloni S, et al. Horm Res. 2000<br>
+      Carel JC, et al. GnRH agonist treatment of children with precocious puberty. Eur J Endocrinol. 2004<br>
+      中枢性思春期早発症の診断の手引き（平成15年度版）小児内分泌学会<br>
+      ※男性CPPの大規模RCTは少なく、多くが後方視的研究。エビデンスレベルは中程度。
+    </div>
+  </div>
+
+</div><!-- /t3 -->
+
+<script>
+function sw(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.pg').forEach((p,i)=>p.classList.toggle('active',i===n));
+}
+
+function clh(){
+  const w=parseFloat(document.getElementById('wt').value);
+  const d=parseFloat(document.getElementById('dpk').value);
+  const el=document.getElementById('lhres');
+  if(!w||isNaN(w)||w<5){el.textContent='← 体重を入力してください';return;}
+  const ug=d*w;
+  const cap=Math.min(ug,3750);
+  const capMg=(cap/1000).toFixed(2);
+  const calMg=(ug/1000).toFixed(2);
+  const note=ug>3750?`（計算値 ${calMg} mg → 上限 3.75 mg 適用）`:'';
+  const form=cap<=1880
+    ?'リュープリン注射用 <strong>1.88 mg</strong>（1バイアル）'
+    :'リュープリン注射用 <strong>3.75 mg</strong>（1バイアル）';
+  el.innerHTML=`投与量：${Math.round(cap)} μg ＝ ${capMg} mg / 回　${note}<br>▶ 製剤：${form}`;
+}
+
+function cpr(){
+  const w=parseFloat(document.getElementById('pw').value);
+  const el=document.getElementById('prres');
+  if(!w||isNaN(w)||w<5){el.textContent='← 体重を入力してください';return;}
+  const lo=Math.round(0.5*w);
+  const hi=Math.round(1.0*w);
+  const tLo=Math.ceil(lo/5);
+  const tHi=Math.ceil(hi/5);
+  el.innerHTML=`参考用量：${lo}〜${hi} mg / 日<br>▶ プリモボラン錠5 mg　1日 ${tLo}〜${tHi} 錠　食後内服`;
+}
+</script>
+
+</body>
+</html>

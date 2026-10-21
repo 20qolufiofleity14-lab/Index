@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>予測身長・成長曲線ビジュアルツール ver6</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="成長曲線と目標身長・予測身長の可視化">
+<meta name="mini-title" content="予測身長・成長曲線ビジュアルツール">
+
+<style>
+:root{
+  --navy:#1e3c72; --navy2:#2a5298;
+  --blue:#2563eb; --sky:#0ea5e9; --green:#059669; --amber:#d97706;
+  --red:#dc2626; --purple:#7c3aed; --gray:#64748b;
+  --bg:#f1f5f9; --card:#ffffff; --line:#e2e8f0; --text:#1e293b;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;
+  font-size:14px;line-height:1.6;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 12px 60px;}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  color:#fff;padding:20px 24px;border-radius:0 0 14px 14px;margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(30,60,114,.25);}
+header h1{margin:0;font-size:21px;letter-spacing:.02em;}
+header p{margin:6px 0 0;font-size:12px;opacity:.85;}
+
+/* ---------- 入力パネル ---------- */
+.panel{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.panel h2{margin:0 0 12px;font-size:15px;color:var(--navy);
+  border-left:5px solid var(--navy2);padding-left:9px;}
+.grid{display:grid;gap:10px;}
+.g4{grid-template-columns:repeat(4,1fr);}
+.g3{grid-template-columns:repeat(3,1fr);}
+.g2{grid-template-columns:repeat(2,1fr);}
+@media(max-width:820px){.g4,.g3{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.g4,.g3,.g2{grid-template-columns:1fr;}}
+label{display:block;font-size:11.5px;color:var(--gray);font-weight:700;margin-bottom:3px;}
+input[type=text],input[type=number],input[type=date],select{
+  width:100%;padding:8px 9px;border:1.5px solid var(--line);border-radius:8px;
+  font-size:15px;font-family:inherit;background:#fff;}
+input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12);}
+.sexbtns{display:flex;gap:8px;}
+.sexbtns button{flex:1;padding:9px 0;border:1.5px solid var(--line);background:#fff;
+  border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;color:var(--gray);}
+.sexbtns button.on[data-sex=M]{background:#dbeafe;border-color:var(--blue);color:var(--blue);}
+.sexbtns button.on[data-mode]{background:#e0e7ff;border-color:var(--navy2);color:var(--navy);}
+.sexbtns button[data-mode]{font-size:13px;}
+.sexbtns button.on[data-sex=F]{background:#fce7f3;border-color:#db2777;color:#db2777;}
+table.meas{width:100%;border-collapse:collapse;margin-top:6px;}
+table.meas th{font-size:11px;color:var(--gray);text-align:left;padding:2px 4px;font-weight:700;}
+table.meas td{padding:2px 4px;}
+table.meas input{padding:6px 7px;font-size:14px;}
+table.meas td.agecell{font-size:13px;color:var(--navy);font-weight:700;white-space:nowrap;}
+table.meas th.bacol{color:#c2410c;}
+table.meas input.ba{border-color:#fed7aa;background:#fff7ed;}
+body.mode-bd .col-age{display:none;}
+body.mode-age .col-date,body.mode-age .col-calc{display:none;}
+body.mode-age #bdWrap{display:none;}
+.btn{border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;}
+.btn-main{background:var(--navy2);color:#fff;}
+.btn-sub{background:#e2e8f0;color:#334155;}
+.btn-mini{background:#f1f5f9;color:#475569;padding:5px 10px;font-size:12px;
+  border:1px solid var(--line);border-radius:6px;cursor:pointer;font-family:inherit;}
+.row-x{background:none;border:none;color:#cbd5e1;font-size:17px;cursor:pointer;padding:0 4px;}
+.row-x:hover{color:var(--red);}
+
+/* ---------- タブ ---------- */
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.tabs button{padding:9px 15px;border:none;border-radius:9px 9px 0 0;background:#dde5ef;
+  color:#475569;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+.tabs button.active{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;}
+.tabc{display:none;}
+.tabc.active{display:block;}
+
+/* ---------- カード ---------- */
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.card{background:var(--card);border-radius:12px;padding:14px 16px;border-left:6px solid var(--gray);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.card.blue{border-left-color:var(--blue);} .card.green{border-left-color:var(--green);}
+.card.amber{border-left-color:var(--amber);} .card.red{border-left-color:var(--red);}
+.card.purple{border-left-color:var(--purple);} .card.sky{border-left-color:var(--sky);}
+.card h3{margin:0 0 6px;font-size:12px;color:var(--gray);letter-spacing:.03em;}
+.big{font-size:30px;font-weight:800;line-height:1.15;color:var(--navy);}
+.big span.u{font-size:14px;font-weight:700;color:var(--gray);margin-left:3px;}
+.sub{font-size:12px;color:var(--gray);margin-top:4px;}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;}
+.b-ok{background:#d1fae5;color:#065f46;} .b-warn{background:#fef3c7;color:#92400e;}
+.b-ng{background:#fee2e2;color:#991b1b;} .b-info{background:#dbeafe;color:#1e40af;}
+
+/* ---------- グラフ ---------- */
+#chartBox{background:#fff;border-radius:12px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;}
+#tip{position:absolute;display:none;pointer-events:none;z-index:30;background:rgba(15,23,42,.96);color:#fff;
+  padding:9px 11px;border-radius:9px;font-size:12px;line-height:1.65;max-width:250px;
+  box-shadow:0 6px 18px rgba(0,0,0,.28);}
+#tip b{color:#7dd3fc;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:99px;
+  border:1.5px solid var(--line);background:#fff;font-size:12.5px;font-weight:700;color:#334155;
+  cursor:pointer;font-family:inherit;user-select:none;}
+.chip .dot{width:11px;height:11px;border-radius:3px;flex:none;}
+.chip.off{background:#f1f5f9;color:#94a3b8;border-color:#e2e8f0;}
+.chip.off .dot{opacity:.25;}
+.chip.off .lbl{text-decoration:line-through;}
+svg{width:100%;height:auto;display:block;}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11.5px;color:#475569;padding:8px 4px 0;}
+.legend i{display:inline-block;width:22px;height:0;border-top-width:3px;border-top-style:solid;
+  vertical-align:middle;margin-right:5px;}
+
+/* ---------- テキスト系 ---------- */
+.note{background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:11px 13px;
+  font-size:12.5px;color:#475569;margin-top:10px;}
+.note b{color:var(--navy);}
+ul.tight{margin:6px 0 0;padding-left:20px;} ul.tight li{margin-bottom:4px;}
+.formula{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:9px 12px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;margin:6px 0;overflow-x:auto;}
+textarea{width:100%;min-height:150px;padding:10px;border:1.5px solid var(--line);border-radius:8px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.65;resize:vertical;}
+table.ref{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+table.ref th,table.ref td{border:1px solid var(--line);padding:6px 8px;text-align:left;}
+table.ref th{background:#f1f5f9;color:var(--navy);font-size:11.5px;}
+.hl{background:#fef9c3;}
+footer{text-align:center;font-size:11px;color:#94a3b8;margin-top:24px;}
+@media print{
+  .tabs,.panel .btn,.btn,footer,.noprint{display:none!important;}
+  .tabc{display:block!important;}
+  body{background:#fff;} header{border-radius:0;}
+}
+</style>
+</head>
+<body class="mode-bd">
+<div class="wrap">
+
+<header>
+  <h1>予測身長・成長曲線ビジュアルツール</h1>
+  <p>両親の身長から目標身長（TH）／現在のSDスコアから予測成人身長を自動計算し、日本人標準成長曲線（2000年基準値）上に描画します。 ver6</p>
+</header>
+
+<!-- ================= 入力 ================= -->
+<div class="panel">
+  <h2>1. 基本情報</h2>
+  <div class="grid g4">
+    <div>
+      <label>性別</label>
+      <div class="sexbtns">
+        <button type="button" data-sex="M" class="on" onclick="setSex('M')">男児</button>
+        <button type="button" data-sex="F" onclick="setSex('F')">女児</button>
+      </div>
+    </div>
+    <div>
+      <label>年齢の入力方法</label>
+      <div class="sexbtns">
+        <button type="button" data-mode="bd" class="on" onclick="setMode('bd')">生年月日</button>
+        <button type="button" data-mode="age" onclick="setMode('age')">歳・か月で直接</button>
+      </div>
+    </div>
+    <div id="bdWrap"><label>生年月日</label><input type="date" id="bd" oninput="calc()"></div>
+    <div><label>父の身長 (cm)</label><input type="number" id="fh" step="0.1" placeholder="172.0" oninput="calc()"></div>
+    <div><label>母の身長 (cm)</label><input type="number" id="mh" step="0.1" placeholder="158.0" oninput="calc()"></div>
+    <div><label>父の体重 (kg) 任意</label><input type="number" id="fw" step="0.1" oninput="calc()"></div>
+    <div><label>母の体重 (kg) 任意</label><input type="number" id="mw" step="0.1" oninput="calc()"></div>
+    <div><label>患者ID / 氏名（任意・保存されません）</label><input type="text" id="pid" placeholder="表示用" oninput="calc()"></div>
+    <div><label>グラフ表示範囲</label>
+      <select id="range" onchange="calc()">
+        <option value="18">0〜18歳（全年齢）</option>
+        <option value="6">0〜6歳（乳幼児拡大）</option>
+        <option value="auto">測定年齢まわりを拡大</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>2. 身体計測値（新しい行を追加すると成長トレンドが描けます）</h2>
+  <table class="meas" id="measTbl">
+    <thead><tr>
+      <th class="col-date" style="width:19%">測定日</th>
+      <th class="col-calc" style="width:13%">年齢（自動）</th>
+      <th class="col-age" style="width:10%">歳</th>
+      <th class="col-age" style="width:10%">か月</th>
+      <th style="width:15%">身長 (cm)</th><th style="width:14%">体重 (kg)</th>
+      <th style="width:11%" class="bacol">骨年齢 歳</th><th style="width:11%" class="bacol">骨年齢 か月</th>
+      <th style="width:5%"></th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div style="margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="btn btn-main" onclick="addToday()">＋ 今日の測定</button>
+    <button class="btn btn-sub" onclick="addRow()">＋ 過去の記録を追加</button>
+    <button class="btn btn-sub" onclick="clearAll()">クリア</button>
+    <button class="btn btn-sub noprint" onclick="window.print()">🖨 印刷（説明用）</button>
+  </div>
+  <div class="note"><b>骨年齢は撮影したその行に入力してください</b>（撮影時の暦年齢と身長をペアで使って計算します）。<br><b>2通りの入力法</b>：①「生年月日」モード＝生年月日を1回入れれば、各行は<b>測定日を入れるだけ</b>で年齢を自動計算。②「歳・か月で直接」モード＝生年月日が分からない時に <b>10歳 6か月</b> のように打つだけ。<br>過去の記録も同じ行を追加していけば、そのまま成長曲線上に線でつながります。<b>最新（いちばん年齢が上）の測定値</b>が判定・予測の基準になります。</div>
+</div>
+
+<!-- ================= タブ ================= -->
+<div class="tabs">
+  <button class="active" onclick="switchTab(0)">① 判定サマリー</button>
+  <button onclick="switchTab(1)">② 成長曲線グラフ</button>
+  <button onclick="switchTab(2)">③ 体重・肥満度</button>
+  <button onclick="switchTab(3)">④ 計算式と解説</button>
+  <button onclick="switchTab(4)">⑤ 精査・紹介／フォロー終了の目安</button>
+  <button onclick="switchTab(5)">⑥ カルテ／説明用テキスト</button>
+</div>
+
+<!-- ---- ① サマリー ---- -->
+<div class="tabc active" id="tab0">
+  <div class="cards" id="sumCards"></div>
+  <div class="note" id="sumNote"></div>
+</div>
+
+<!-- ---- ② グラフ ---- -->
+<div class="tabc" id="tab1">
+  <div class="chips">
+    <button class="chip" id="ch-meas" onclick="toggleLayer('meas')"><span class="dot" style="background:#2563eb"></span><span class="lbl">実測値</span></button>
+    <button class="chip" id="ch-predC" onclick="toggleLayer('predC')"><span class="dot" style="background:#93c5fd"></span><span class="lbl">暦年齢による予測</span></button>
+    <button class="chip" id="ch-predB" onclick="toggleLayer('predB')"><span class="dot" style="background:#ea580c"></span><span class="lbl">骨年齢による予測</span></button>
+    <button class="chip" id="ch-th" onclick="toggleLayer('th')"><span class="dot" style="background:#059669"></span><span class="lbl">目標身長 TH</span></button>
+    <button class="chip" id="ch-sd" onclick="toggleLayer('sd')"><span class="dot" style="background:#94a3b8"></span><span class="lbl">標準曲線（SDライン）</span></button>
+  </div>
+  <div id="chartBox">
+    <div id="chart"></div>
+    <div id="tip"></div>
+    <div class="legend">
+      <span><i style="border-top-color:#94a3b8;"></i>±1SD / ±2SD</span>
+      <span><i style="border-top-color:#1e3c72;border-top-width:4px;"></i>平均（0SD）</span>
+      <span><i style="border-top-color:#dc2626;border-top-style:dashed;"></i>−2.5SD（低身長の基準）</span>
+      <span><i style="border-top-color:#2563eb;"></i>実測値</span>
+      <span><i style="border-top-color:#2563eb;border-top-style:dashed;"></i>予測トレンド（現在のSD維持）</span>
+      <span><i style="border-top-color:#059669;border-top-width:5px;"></i>目標身長 TH ±9cm（カーソルを合わせると数値表示）</span>
+      <span><i style="border-top-color:#ea580c;border-top-style:dashed;"></i>骨年齢による予測（◆＝撮影時点／右端の縦バー＝±1歳の読み誤差幅）</span>
+    </div>
+  </div>
+  <div class="note">
+    <b>グラフの見かた（患者説明用）</b><br>
+    青い実線が実際の伸び、青い点線が「今の伸び方（SDスコア）をこのまま保った場合」の予測です。骨年齢を入力すると<b>オレンジの点線</b>で骨年齢ベースの予測が重なります。右端の緑のバーが両親の身長から計算した<b>目標身長（TH）</b>で、細い横線が<b>±9cm（一般的な目標範囲）</b>、濃い帯が±1SDです。<br>
+    上のボタンで<b>実測値／暦年齢予測／骨年齢予測／TH／標準曲線</b>をそれぞれ表示・非表示にできます（重なって見づらいときや、家族に1つずつ順番に見せたいときに使ってください）。非表示にした項目はグラフの拡大範囲からも除外されます。<br>
+    <b>グラフ上の緑のバー・点線・実測点にカーソルを合わせる（スマホはタップ）と、TH±9cmの具体的な数値や各測定点のSD・パーセンタイルがポップアップします。</b><br>
+    オレンジの<b>◆</b>は骨年齢を撮影した時点（その時の身長）で、オレンジの点線はそこを起点にした予測軌道です。
+  </div>
+</div>
+
+<!-- ---- ③ 体重 ---- -->
+<div class="tabc" id="tab2">
+  <div class="cards" id="wCards"></div>
+  <div class="panel" style="margin-top:14px;">
+    <h2>肥満度の判定基準</h2>
+    <table class="ref">
+      <tr><th>区分</th><th>幼児（1〜6歳）</th><th>学童・思春期</th></tr>
+      <tr><td>やせすぎ</td><td>−20%以下</td><td>−30%以下（高度やせ）</td></tr>
+      <tr><td>やせ</td><td>−15%以下</td><td>−20%以下</td></tr>
+      <tr><td>ふつう</td><td>−15%〜+15%</td><td>−20%〜+20%</td></tr>
+      <tr><td>ふとりぎみ／軽度肥満</td><td>+15%以上</td><td>+20%以上</td></tr>
+      <tr><td>ややふとりすぎ／中等度肥満</td><td>+20%以上</td><td>+30%以上</td></tr>
+      <tr><td>ふとりすぎ／高度肥満</td><td>+30%以上</td><td>+50%以上</td></tr>
+    </table>
+    <div class="note">1歳未満は標準体重が定義できないため肥満度は算出しません（カウプ指数などで評価）。18歳以上、男性181cm・女性170cm以上の身長ではBMI 22を標準体重として計算します。</div>
+  </div>
+</div>
+
+<!-- ---- ④ 解説 ---- -->
+<div class="tabc" id="tab3">
+  <div class="panel">
+    <h2>目標身長（TH：target height / 両親中央身長）</h2>
+    <div class="formula">男児 TH = (父の身長 + 母の身長 + 13) / 2
+女児 TH = (父の身長 + 母の身長 − 13) / 2</div>
+    <ul class="tight">
+      <li>13cmは日本人成人の男女平均身長差に由来します（(父+母)/2 ± 6.5cm と同じ式）。</li>
+      <li>THはあくまで<b>期待値（中央値）</b>で、実際の成人身長はこの前後にばらつきます。本ツールは成人身長のSD（男5.83cm・女5.25cm）を用いて ±1SD・±2SD の範囲を併記しています。</li>
+      <li>両親のいずれかが低身長の場合、その親自身に疾患（家族性低身長・骨系統疾患・SHOX異常など）が隠れている可能性があり、THだけで「遺伝的だから正常」と判断しないよう注意します。</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>身長SDスコアと予測成人身長</h2>
+    <div class="formula">SDスコア = (実測身長 − 同性同月齢の平均身長) / SD
+予測成人身長 = 成人平均身長 + 現在のSDスコア × 成人のSD</div>
+    <ul class="tight">
+      <li>いわゆる<b>SDトラッキング法</b>です。「現在のSDスコアをそのまま維持して成人に至る」という仮定に基づきます。</li>
+      <li>思春期前の児では概ね妥当ですが、<b>思春期の開始時期が早い／遅い場合には大きく外れます</b>（早発では過大評価、遅発では過小評価）。</li>
+      <li>より精密な予測にはBayley-Pinneau法・TW法など<b>骨年齢を用いた予測</b>が必要です。本ツールは骨年齢を扱いません。</li>
+      <li>参照値は日本小児内分泌学会「2000年度乳幼児身体発育調査・学校保健統計調査」に基づく標準値です。</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>骨年齢を用いた予測（本ツールの方法と、その限界）</h2>
+    <div class="formula">予測成人身長 = 現在の身長 ÷ (骨年齢時点の標準身長 ÷ 成人平均身長)</div>
+    <ul class="tight">
+      <li>「その骨年齢の時点で、成人身長の何%に達しているか」で割り戻す<b>比率法（%成人身長法）</b>です。日本人標準成長曲線の中央値から%を求めています。</li>
+      <li><b>ご指摘の「思春期に入ると伸びが止まる」点は、この方法では自動的に織り込まれます。</b>例えば女児で骨年齢14歳なら標準曲線上の身長は156.0cm・成人158.1cmなので到達率98.6%、つまり残りは約2cmしか予測されません。骨年齢が進んでいるほど残存身長が小さく出ます。</li>
+      <li>グラフのオレンジ点線は「骨年齢が暦年齢と同じ速さで進む」と仮定して、標準曲線の形に沿わせた軌道です。思春期後半で自然にプラトーになります。</li>
+      <li><b>限界（重要）</b>：これは <b>Bayley-Pinneau法（BP法）ではありません</b>。BP法はGreulich-Pyle骨年齢に対する「成人身長到達率表」を用い、しかも<b>骨年齢が暦年齢より進んでいるか遅れているかで別の表</b>を使います。本ツールは単一の中央値曲線しか用いていないため、成熟の早い児・遅い児では系統的な誤差が生じます。</li>
+      <li>集団の中央値曲線は多数の児の思春期スパートを平均したものなので、<b>個人のスパートの鋭さは平滑化</b>されています。思春期直前の児では残存身長を過小評価しやすい傾向があります。</li>
+      <li>成長ホルモン治療の適応判定・治療効果判定など<b>公式な最終身長予測にはBP法・TW法（RUSスコア）など検証済みの方法</b>を使用してください。本ツールの値は外来での説明・おおよその目安に留めてください。</li>
+      <li>骨年齢の評価法（GP法／TW2-RUS法／日本人標準）によって骨年齢そのものが1歳前後ずれることがあります。どの方法で読んだかを併記して解釈してください。</li>
+      <li><b>骨年齢は1点あれば予測できます。</b>Bayley-Pinneau法・TW3法・RWT法いずれも「骨年齢1点＋その時の身長＋暦年齢」で計算する設計で、連続撮影は前提ではありません。本ツールも同じで、予測値は1点のみから算出されます（グラフのオレンジ点線の"形"だけはΔBA/ΔCA＝1と仮定して描いており、到達点の数値はこの仮定に依存しません）。</li>
+      <li>連続撮影が必要になるのは予測のためではなく<b>骨成熟速度（ΔBA/ΔCA）を評価するため</b>です。GnRHアナログ治療の効果判定、思春期早発症、先天性副腎皮質過形成のコントロール評価、GH治療中の骨年齢の追い越し確認などが該当します。骨年齢を2点以上入力すると本ツールもΔBA/ΔCAを表示します（目安：約1.0＝相応、&gt;1.3＝促進、&lt;0.7＝遅延）。</li>
+      <li><b>1点であることの本当のリスクは「読みの誤差」です。</b>GP法の読者間差は±0.5〜1歳が通常で、これがそのまま予測誤差になります。本ツールは骨年齢を±1歳ずらした場合の予測幅を自動表示するので、家族には点ではなく<b>幅で</b>説明してください。</li>
+      <li>骨年齢を用いない <b>Khamis-Roche法</b>（身長・体重・両親中央身長のみ）という選択肢もあります。レントゲンが撮れない・撮る適応が乏しい場面で有用です。</li>
+    </ul>
+    <div class="note"><b>撮影時の暦年齢の扱い（重要）</b><br>
+    骨年齢は「何歳の時に撮ったか」とセットでなければ意味を持ちません。本ツールでは骨年齢を<b>測定行そのものに入力</b>する方式にしており、<b>その行の暦年齢と身長</b>を使って計算します。<br>
+    ・予測式に入るのは<b>撮影時の身長</b>と骨年齢だけです（暦年齢は式には入りません）。したがって12歳2か月時の骨年齢14歳なら、<b>12歳2か月時点の身長</b>で割り戻すのが正しく、その後に伸びた身長を使ってはいけません。<br>
+    ・暦年齢は<b>「進んでいるか／遅れているか」の判定</b>に使われ、解釈（思春期早発の疑い、体質性遅発の疑い）と、本来ならBayley-Pinneau法の<b>どの換算表を使うか</b>を決めます。12歳2か月で骨年齢14歳なら +1.8年の促進で、BP法なら accelerated の表を使う場面です。<br>
+    ・骨年齢が古い撮影（最新の身長測定から6か月以上前）の場合は警告を表示します。骨成熟の速度は一定とは限らないため、その間に変化している可能性があります。</div>
+    <ul class="tight" style="display:none">
+    </ul>
+    <div class="note"><b>2つの予測値の読み分け</b><br>
+    ・<b>暦年齢法 &gt; 骨年齢法</b>（骨年齢が進んでいる）→ 思春期早発・肥満・CAHなどによる骨成熟促進の可能性。今の身長が高くても最終身長は低くなりうる、という説明に使えます。<br>
+    ・<b>暦年齢法 &lt; 骨年齢法</b>（骨年齢が遅れている）→ 体質性思春期遅発症、GH分泌不全、甲状腺機能低下症など。伸びしろが残っている、という説明に使えます。<br>
+    ・両者が近い → 成熟のペースは年齢相応。</div>
+  </div>
+  <div class="panel">
+    <h2>成長速度（growth velocity）</h2>
+    <ul class="tight">
+      <li>直近2点から年間成長速度（cm/年）を算出し、同年齢の平均的な成長速度（標準曲線の傾き）と比較表示します。</li>
+      <li>測定間隔が短いと誤差が大きくなるため、<b>6か月以上（できれば1年）</b>あけた2点での評価を推奨します。</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>肥満度・BMI</h2>
+    <div class="formula">肥満度(%) = (実測体重 − 標準体重) / 標準体重 × 100</div>
+    <ul class="tight">
+      <li><b>伊藤式</b>：性別・身長別標準体重（幼児は二次式、学童以降は身長帯ごとの三次式）。</li>
+      <li><b>村田式</b>：性別・年齢別・身長別標準体重（5〜17歳、y = a×身長 + b）。学校健診で広く使われます。</li>
+      <li>BMIのSDスコアはLMS法（日本人小児のL・M・S係数）で算出しています。</li>
+    </ul>
+  </div>
+  <div class="note">出典：日本小児内分泌学会「日本人小児の体格の評価に関する基本的な考え方」および同学会公開の成長曲線描画ファイル（plotgrowthchart v1.21, 伊藤善也ら）に収載された標準値・係数を使用しています。</div>
+</div>
+
+<!-- ---- ⑤ 目安 ---- -->
+<div class="tabc" id="tab4">
+  <div class="panel">
+    <h2>低身長として精査を検討する目安</h2>
+    <ul class="tight">
+      <li>身長が <b>−2.0SD以下</b>（特に −2.5SD以下は成長ホルモン治療の適応判定の対象）</li>
+      <li>SDスコアが経時的に<b>1.0SD以上低下</b>している（成長曲線を下向きに横切る）</li>
+      <li>年間成長速度が同年齢の平均を明らかに下回る（学童期でおおむね <b>4cm/年未満</b>）</li>
+      <li><b>予測成人身長がTH−2SDを下回る</b>（＝家族性で説明できない低身長）</li>
+      <li>低身長＋不均衡（上下肢比の異常）、SGA性低身長、思春期の遅れ、頭痛・視野障害などの中枢症状を伴う</li>
+      <li>体重増加不良・便通異常・慢性疾患の症状を伴う（栄養・消化器・腎・心疾患・甲状腺機能低下症など）</li>
+    </ul>
+    <div class="note">スクリーニング検査の一例：血算・生化学・電解質・IGF-1・FT4・TSH・骨年齢（左手X線）・尿検査。必要に応じてカリオタイプ（女児）、抗TG/TPO抗体、セリアック病スクリーニング、GH分泌刺激試験など。</div>
+  </div>
+  <div class="panel">
+    <h2>高身長として精査を検討する目安</h2>
+    <ul class="tight">
+      <li>身長 +2.0SD以上、かつ<b>THから大きく上方に乖離</b>している</li>
+      <li>成長加速を伴う（思春期早発症、甲状腺機能亢進症、GH過剰）</li>
+      <li>マルファン症候群、ソトス症候群、ホモシスチン尿症、クラインフェルター症候群などを示唆する身体所見</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>フォロー終了（経過観察オフ）の目安</h2>
+    <ul class="tight">
+      <li>身長SDスコアが <b>−2SD以内で安定</b>し、かつ<b>TH±2SDの範囲内</b>を推移している</li>
+      <li>年間成長速度が年齢相応で、成長曲線に平行して伸びている（SDのチャンネルを保っている）</li>
+      <li>基礎疾患のスクリーニングが陰性で、身体所見・発達に異常がない</li>
+      <li>思春期が年齢相応に進行し、<b>最終身長に到達</b>している（成長速度 &lt;1cm/年、骨端線閉鎖）</li>
+    </ul>
+    <div class="note"><b>家族への安全網（safety net）の説明</b><br>
+    「今のところ、ご両親の身長から予想される範囲で順調に伸びています。学校の身体計測の記録は必ず母子手帳やアプリに残しておいてください。<b>①1年間で背がほとんど伸びない ②成長曲線のカーブを下向きに横切ってきた ③頭痛や吐き気、視野の異常が出た ④体重が減ってきた</b>——このいずれかがあれば、次の健診を待たずに受診してください。」</div>
+  </div>
+</div>
+
+<!-- ---- ⑥ テキスト ---- -->
+<div class="tabc" id="tab5">
+  <div class="panel">
+    <h2>カルテ記載用テキスト</h2>
+    <textarea id="karte" readonly></textarea>
+    <div style="margin-top:8px;"><button class="btn btn-main" onclick="copyText('karte')">コピー</button></div>
+  </div>
+  <div class="panel">
+    <h2>患者・家族への説明文（そのまま読み上げ可）</h2>
+    <textarea id="expl" readonly></textarea>
+    <div style="margin-top:8px;"><button class="btn btn-main" onclick="copyText('expl')">コピー</button></div>
+  </div>
+</div>
+
+<footer>
+  標準値出典：日本小児内分泌学会（2000年基準値／plotgrowthchart v1.21, 伊藤善也ら）<br>
+  本ツールは臨床判断の補助であり、診断を置き換えるものではありません。オフラインで動作します（データは保存されません）。
+</footer>
+</div>
+
+<script>
+const HREF={M:[48.96,2.139,53.47,2.175,57.86,2.212,61.37,2.248,64.16,2.285,66.2,2.321,67.83,2.358,69.17,2.394,70.48,2.431,71.65,2.467,72.78,2.503,73.91,2.54,74.97,2.576,75.99,2.613,76.91,2.649,77.85,2.686,78.75,2.722,79.63,2.758,80.54,2.795,81.4,2.831,82.27,2.868,83.11,2.904,83.91,2.941,84.67,2.977,85.44,3.014,86.18,3.051,86.89,3.087,87.59,3.123,88.27,3.16,88.94,3.196,89.58,3.233,90.22,3.269,90.84,3.305,91.46,3.342,92.09,3.378,92.71,3.414,93.34,3.452,93.95,3.488,94.56,3.525,95.14,3.561,95.73,3.597,96.31,3.634,96.88,3.67,97.45,3.706,98.02,3.743,98.59,3.78,99.15,3.816,99.7,3.853,100.24,3.889,100.79,3.925,101.33,3.962,101.86,3.998,102.41,4.035,102.95,4.071,103.5,4.108,104.04,4.145,104.58,4.181,105.11,4.217,105.65,4.254,106.19,4.29,106.72,4.326,107.25,4.363,107.79,4.399,108.34,4.437,108.89,4.473,109.43,4.509,109.97,4.546,110.52,4.582,111.07,4.618,111.61,4.655,112.17,4.691,112.73,4.727,113.31,4.765,113.88,4.801,114.46,4.838,115,4.873,115.57,4.902,116.13,4.931,116.7,4.96,117.18,4.975,117.67,4.99,118.15,5.005,118.63,5.02,119.12,5.035,119.6,5.05,120.08,5.065,120.57,5.08,121.05,5.095,121.53,5.11,122.02,5.125,122.5,5.14,122.97,5.166,123.43,5.192,123.9,5.218,124.37,5.243,124.83,5.269,125.3,5.295,125.77,5.321,126.23,5.347,126.7,5.372,127.17,5.398,127.63,5.424,128.1,5.45,128.56,5.474,129.02,5.498,129.47,5.522,129.93,5.547,130.39,5.571,130.85,5.595,131.31,5.619,131.77,5.643,132.22,5.668,132.68,5.692,133.14,5.716,133.6,5.74,134.06,5.772,134.52,5.805,134.97,5.838,135.43,5.87,135.89,5.902,136.35,5.935,136.81,5.968,137.27,6,137.72,6.032,138.18,6.065,138.64,6.098,139.1,6.13,139.62,6.214,140.13,6.298,140.65,6.383,141.17,6.467,141.68,6.551,142.2,6.635,142.72,6.719,143.23,6.803,143.75,6.888,144.27,6.972,144.78,7.056,145.3,7.14,145.93,7.217,146.57,7.293,147.2,7.37,147.83,7.447,148.47,7.523,149.1,7.6,149.73,7.677,150.37,7.753,151,7.83,151.63,7.907,152.27,7.983,152.9,8.06,153.49,8.029,154.08,7.998,154.68,7.968,155.27,7.937,155.86,7.906,156.45,7.875,157.04,7.844,157.63,7.813,158.22,7.782,158.82,7.752,159.41,7.721,160,7.69,160.46,7.59,160.92,7.49,161.38,7.39,161.83,7.29,162.29,7.19,162.75,7.09,163.21,6.99,163.67,6.89,164.12,6.79,164.58,6.69,165.04,6.59,165.5,6.49,165.76,6.44,166.02,6.39,166.28,6.34,166.53,6.29,166.79,6.24,167.05,6.19,167.31,6.14,167.57,6.09,167.82,6.04,168.08,5.99,168.34,5.94,168.6,5.89,168.72,5.882,168.85,5.873,168.97,5.865,169.1,5.857,169.22,5.848,169.35,5.84,169.47,5.832,169.6,5.823,169.72,5.815,169.85,5.807,169.97,5.798,170.1,5.79,170.16,5.793,170.22,5.797,170.28,5.8,170.33,5.803,170.39,5.807,170.45,5.81,170.51,5.813,170.57,5.817,170.62,5.82,170.68,5.823,170.74,5.827,170.8,5.83,170.8,5.83,170.8,5.83,170.8,5.83,170.8,5.83,170.8,5.83],F:[48.4,2.079,52.6,2.114,56.68,2.15,59.96,2.185,62.62,2.222,64.61,2.257,66.23,2.293,67.54,2.328,68.85,2.364,70.03,2.4,71.17,2.435,72.3,2.471,73.38,2.506,74.46,2.543,75.48,2.578,76.51,2.614,77.46,2.649,78.4,2.684,79.35,2.721,80.25,2.756,81.16,2.792,81.98,2.827,82.78,2.864,83.53,2.899,84.29,2.935,85.01,2.97,85.71,3.006,86.41,3.042,87.07,3.077,87.73,3.113,88.37,3.149,89,3.184,89.62,3.22,90.27,3.255,90.93,3.291,91.57,3.327,92.21,3.363,92.84,3.398,93.47,3.434,94.09,3.47,94.7,3.505,95.32,3.541,95.91,3.576,96.52,3.612,97.12,3.648,97.71,3.684,98.29,3.719,98.88,3.755,99.45,3.791,100.03,3.826,100.6,3.862,101.16,3.897,101.73,3.934,102.28,3.969,102.85,4.005,103.39,4.041,103.94,4.076,104.49,4.112,105.05,4.148,105.61,4.183,106.17,4.219,106.73,4.255,107.28,4.29,107.84,4.326,108.38,4.362,108.93,4.397,109.48,4.433,110.02,4.469,110.57,4.504,111.1,4.54,111.65,4.576,112.19,4.611,112.73,4.648,113.26,4.683,113.8,4.718,114.07,4.647,114.64,4.721,115.22,4.796,115.8,4.87,116.29,4.892,116.78,4.913,117.28,4.935,117.77,4.957,118.26,4.978,118.75,5,119.24,5.022,119.73,5.043,120.22,5.065,120.72,5.087,121.21,5.108,121.7,5.13,122.18,5.167,122.67,5.203,123.15,5.24,123.63,5.277,124.12,5.313,124.6,5.35,125.08,5.387,125.57,5.423,126.05,5.46,126.53,5.497,127.02,5.533,127.5,5.57,128,5.62,128.5,5.67,129,5.72,129.5,5.77,130,5.82,130.5,5.87,131,5.92,131.5,5.97,132,6.02,132.5,6.07,133,6.12,133.5,6.17,134.07,6.222,134.63,6.273,135.2,6.325,135.77,6.377,136.33,6.428,136.9,6.48,137.47,6.532,138.03,6.583,138.6,6.635,139.17,6.687,139.73,6.738,140.3,6.79,140.87,6.78,141.43,6.77,142,6.76,142.57,6.75,143.13,6.74,143.7,6.73,144.27,6.72,144.83,6.71,145.4,6.7,145.97,6.69,146.53,6.68,147.1,6.67,147.52,6.608,147.93,6.547,148.35,6.485,148.77,6.423,149.18,6.362,149.6,6.3,150.02,6.238,150.43,6.177,150.85,6.115,151.27,6.053,151.68,5.992,152.1,5.93,152.35,5.886,152.6,5.842,152.85,5.798,153.1,5.753,153.35,5.709,153.6,5.665,153.85,5.621,154.1,5.577,154.35,5.532,154.6,5.488,154.85,5.444,155.1,5.4,155.24,5.392,155.38,5.383,155.53,5.375,155.67,5.367,155.81,5.358,155.95,5.35,156.09,5.342,156.23,5.333,156.38,5.325,156.52,5.317,156.66,5.308,156.8,5.3,156.84,5.293,156.88,5.287,156.93,5.28,156.97,5.273,157.01,5.267,157.05,5.26,157.09,5.253,157.13,5.247,157.18,5.24,157.22,5.233,157.26,5.227,157.3,5.22,157.33,5.221,157.37,5.222,157.4,5.223,157.43,5.223,157.47,5.224,157.5,5.225,157.53,5.226,157.57,5.227,157.6,5.228,157.63,5.228,157.67,5.229,157.7,5.23,157.73,5.232,157.77,5.233,157.8,5.235,157.83,5.237,157.87,5.238,157.9,5.24,157.93,5.242,157.97,5.243,158,5.245,158.03,5.247,158.07,5.248,158.1,5.25,158.1,5.25,158.1,5.25,158.1,5.25,158.1,5.25,158.1,5.25]};
+
+/* ---------- 参照テーブル ---------- */
+// 村田式 [年齢]:[a,b]  標準体重 = a*身長(cm) + b
+const MURATA={M:{5:[0.386,-23.699],6:[0.461,-32.382],7:[0.513,-38.878],8:[0.592,-48.804],
+ 9:[0.687,-61.39],10:[0.752,-70.461],11:[0.782,-75.106],12:[0.783,-75.642],13:[0.815,-81.348],
+ 14:[0.832,-83.695],15:[0.766,-70.989],16:[0.656,-51.822],17:[0.672,-53.642]},
+ F:{5:[0.377,-22.75],6:[0.458,-32.079],7:[0.508,-38.367],8:[0.561,-45.006],9:[0.652,-56.992],
+ 10:[0.73,-68.091],11:[0.803,-78.846],12:[0.796,-76.934],13:[0.655,-54.234],14:[0.594,-43.264],
+ 15:[0.56,-37.002],16:[0.578,-39.057],17:[0.598,-42.339]}};
+
+// 伊藤式 学童以降：身長(m)の三次式 [上限m, a3,a2,a1,a0]
+const ITO={M:[[1.40,30.3882,-57.1495,50.8124,-9.17791],[1.49,-85.013,370.692,-465.58,191.847],
+ [1.84,-310.205,1511.59,-2363.03,1231.04]],
+ F:[[1.40,127.719,-414.712,485.75,-184.492],[1.49,-1787.66,8039.22,-11931,5885.03],
+ [1.71,956.401,-4627.55,7530.58,-4068.31]]};
+
+// BMI LMS：月齢の三次式 [上限月齢, a3,a2,a1,a0]
+const BMILMS={
+ M:{L:[[78,1.4345e-06,-0.000119864,-0.037620259,0.624077322],[150,-3.06037e-06,0.001387949,-0.190798754,5.531514491],[210,9.04656e-07,-0.00066203,0.156555714,-13.82908985]],
+    S:[[90,-7.58553e-08,2.1302e-05,-0.001094812,0.090651064],[210,1.99415e-08,-1.37006e-05,0.002877807,-0.053198893]],
+    M:[[2.5,0.032048517,-0.493433273,2.551397766,12.62254537],[9.5,0.007972878,-0.201998877,1.54342034,13.697217],[26.75,-7.67459e-05,0.007173901,-0.251765964,18.77518828],[90,-3.88384e-06,0.001076046,-0.081944537,17.20118685],[210,-3.94748e-06,0.001761925,-0.203856428,22.66402577]]},
+ F:{L:[[69,3.47613e-07,-2.38575e-05,-0.037631412,0.795846301],[150,-5.83768e-06,0.002194825,-0.255465003,7.295142629],[210,5.41432e-06,-0.002965041,0.532984646,-32.85082504]],
+    S:[[90,-1.0218e-07,2.31971e-05,-0.000923983,0.08896935],[210,2.10831e-08,-1.43497e-05,0.002839146,-0.035441889]],
+    M:[[2.5,0.019399718,-0.359429206,2.139236779,12.56896799],[9.5,0.007312299,-0.194108219,1.537772117,13.22824693],[26.75,-0.000168505,0.013702125,-0.385286062,19.15626964],[90,-4.80005e-07,0.000350143,-0.031651293,16.03450105],[150,-3.03967e-06,0.001541344,-0.183867689,21.95124139],[210,-2.5069e-06,0.00064283,0.049828797,5.323050314]]}};
+
+const ADULT={M:{mean:170.80,sd:5.83},F:{mean:158.10,sd:5.25}};
+let SEX='M';
+const SHOW={meas:true,predC:true,predB:true,th:true,sd:true};
+function toggleLayer(k){ SHOW[k]=!SHOW[k];
+  const ids={meas:'ch-meas',predC:'ch-predC',predB:'ch-predB',th:'ch-th',sd:'ch-sd'};
+  const el=document.getElementById(ids[k]); if(el) el.classList.toggle('off',!SHOW[k]);
+  draw(); }
+
+/* ---------- 基本関数 ---------- */
+function poly(list,x){ for(const r of list){ if(x<=r[0]) return r[1]*x*x*x+r[2]*x*x+r[3]*x+r[4]; }
+  const r=list[list.length-1]; return r[1]*x*x*x+r[2]*x*x+r[3]*x+r[4]; }
+function href(sex,months){                       // 平均身長とSD（線形補間）
+  const a=HREF[sex]; let m=Math.max(0,Math.min(215,months));
+  const i=Math.floor(m), f=m-i, j=Math.min(215,i+1);
+  return {mean:a[i*2]*(1-f)+a[j*2]*f, sd:a[i*2+1]*(1-f)+a[j*2+1]*f};
+}
+function hSDS(sex,months,h){ const r=href(sex,months); return (h-r.mean)/r.sd; }
+function erf(x){ const s=x<0?-1:1; x=Math.abs(x);
+  const a1=.254829592,a2=-.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=.3275911;
+  const t=1/(1+p*x), y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x); return s*y; }
+function pctile(z){ return 50*(1+erf(z/Math.SQRT2)); }
+function fmtPct(z){ const p=pctile(z);
+  if(p<0.1) return '<0.1'; if(p>99.9) return '>99.9';
+  return p<1||p>99 ? p.toFixed(1) : Math.round(p).toString(); }
+function stdWeightIto(sex,h){                     // 伊藤式（性別身長別標準体重）
+  if(h<70) return null;
+  if(h<101) return sex==='M' ? 2.06e-3*h*h-0.1166*h+6.5273 : 2.49e-3*h*h-0.1858*h+9.0360;
+  const lim = sex==='M'?184:171;
+  if(h>lim) return 22*(h/100)*(h/100);
+  return poly(ITO[sex], h/100);
+}
+function stdWeightMurata(sex,ageY,h){
+  const y=Math.floor(ageY); if(y<5||y>17) return null;
+  const c=MURATA[sex][y]; return c[0]*h+c[1];
+}
+function bmiSDS(sex,months,bmi){
+  if(months>210) months=210;
+  const L=poly(BMILMS[sex].L,months), M=poly(BMILMS[sex].M,months), S=poly(BMILMS[sex].S,months);
+  if(Math.abs(L)<1e-6) return Math.log(bmi/M)/S;
+  return (Math.pow(bmi/M,L)-1)/(L*S);
+}
+function predByBA(h,baVal){ return h/(href(SEX,Math.min(215,baVal*12)).mean/ADULT[SEX].mean); }
+function ageStr(ageY){ const y=Math.floor(ageY), m=Math.round((ageY-y)*12);
+  return m===12 ? (y+1)+'歳0か月' : y+'歳'+m+'か月'; }
+function n(v){ const x=parseFloat(v); return isFinite(x)?x:null; }
+
+/* ---------- UI ---------- */
+function setSex(s){ SEX=s; document.querySelectorAll('.sexbtns button').forEach(b=>
+  b.classList.toggle('on', b.dataset.sex===s)); calc(); }
+function switchTab(i){
+  document.querySelectorAll('.tabs button').forEach((b,k)=>b.classList.toggle('active',k===i));
+  document.querySelectorAll('.tabc').forEach((c,k)=>c.classList.toggle('active',k===i));
+  if(i===1) draw();
+}
+function addRow(d,y,m,h,w,by,bm){
+  const tb=document.getElementById('rows'); const tr=document.createElement('tr');
+  tr.innerHTML='<td class="col-date"><input type="date" class="c-d" value="'+(d||'')+'" oninput="calc()"></td>'
+   +'<td class="col-calc agecell"></td>'
+   +'<td class="col-age"><input type="number" step="1" min="0" max="20" class="c-y" value="'+(y!=null?y:'')+'" placeholder="歳" oninput="calc()"></td>'
+   +'<td class="col-age"><input type="number" step="1" min="0" max="11" class="c-m" value="'+(m!=null?m:'')+'" placeholder="か月" oninput="calc()"></td>'
+   +'<td><input type="number" step="0.1" class="c-h" value="'+(h||'')+'" placeholder="cm" oninput="calc()"></td>'
+   +'<td><input type="number" step="0.1" class="c-w" value="'+(w||'')+'" placeholder="kg" oninput="calc()"></td>'
+   +'<td><input type="number" step="1" min="0" max="19" class="c-by ba" value="'+(by!=null?by:'')+'" placeholder="歳" oninput="calc()"></td>'
+   +'<td><input type="number" step="1" min="0" max="11" class="c-bm ba" value="'+(bm!=null?bm:'')+'" placeholder="か月" oninput="calc()"></td>'
+   +'<td><button class="row-x" onclick="this.closest(\'tr\').remove();calc()">×</button></td>';
+  tb.appendChild(tr); calc();
+  const inp = tr.querySelector(document.body.classList.contains('mode-age')?'.c-y':'.c-d');
+  if(inp) inp.focus();
+}
+function addToday(){
+  const t=new Date(), z=new Date(t.getTime()-t.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  addRow(z);
+}
+function setMode(m){
+  document.body.classList.toggle('mode-bd',m==='bd');
+  document.body.classList.toggle('mode-age',m==='age');
+  document.querySelectorAll('.sexbtns button[data-mode]').forEach(function(b){
+    b.classList.toggle('on', b.dataset.mode===m); });
+  calc();
+}
+function clearAll(){ document.getElementById('rows').innerHTML=''; addRow(); addRow();
+  ['bd','fh','mh','fw','mw','pid'].forEach(id=>document.getElementById(id).value=''); calc(); }
+function copyText(id){ const t=document.getElementById(id);
+  t.removeAttribute('readonly'); t.select(); t.setSelectionRange(0,999999);
+  try{ document.execCommand('copy'); }catch(e){}
+  if(navigator.clipboard){ navigator.clipboard.writeText(t.value).catch(function(){}); }
+  t.setAttribute('readonly','readonly'); alert('コピーしました'); }
+
+/* ---------- データ収集 ---------- */
+function getPoints(){
+  const bd=document.getElementById('bd').value;
+  const ageMode=document.body.classList.contains('mode-age');
+  const pts=[];
+  document.querySelectorAll('#rows tr').forEach(function(tr){
+    const d=tr.querySelector('.c-d').value;
+    const yy=n(tr.querySelector('.c-y').value), mm=n(tr.querySelector('.c-m').value);
+    const h=n(tr.querySelector('.c-h').value), w=n(tr.querySelector('.c-w').value);
+    const bay=n(tr.querySelector('.c-by').value), bam=n(tr.querySelector('.c-bm').value);
+    const ba = (bay!==null||bam!==null) ? (bay||0)+(bam||0)/12 : null;
+    let age=null, byDate=null;
+    if(bd&&d){ const t=(new Date(d)-new Date(bd))/86400000; if(t>=0) byDate=t/365.2425; }
+    const byAge = (yy!==null||mm!==null) ? (yy||0)+(mm||0)/12 : null;
+    age = ageMode ? (byAge!==null?byAge:byDate) : (byDate!==null?byDate:byAge);
+    const cell=tr.querySelector('.agecell');
+    if(cell) cell.textContent = (byDate!==null)? ageStr(byDate) : (bd?'':'生年月日未入力');
+    if(age!==null && (h!==null||w!==null) && age<=20) pts.push({age:age,h:h,w:w,date:d,ba:ba});
+  });
+  pts.sort(function(a,b){return a.age-b.age;});
+  return pts;
+}
+
+/* ---------- メイン計算 ---------- */
+let STATE={};
+function calc(){
+  const fh=n(document.getElementById('fh').value), mh=n(document.getElementById('mh').value);
+  const pts=getPoints(), hp=pts.filter(p=>p.h!==null);
+  const last=hp.length?hp[hp.length-1]:null;
+  const A=ADULT[SEX];
+  let th=null,thZ=null;
+  if(fh&&mh){ th = (fh+mh+(SEX==='M'?13:-13))/2; thZ=(th-A.mean)/A.sd; }
+  let z=null,pred=null;
+  if(last){ z=hSDS(SEX,last.age*12,last.h); pred=A.mean+z*A.sd; }
+  let vel=null,velRef=null;
+  if(hp.length>=2){
+    const p1=hp[hp.length-2], p2=hp[hp.length-1], dy=p2.age-p1.age;
+    if(dy>=0.2){ vel=(p2.h-p1.h)/dy;
+      const mid=(p1.age+p2.age)/2*12;
+      velRef=href(SEX,mid+6).mean-href(SEX,mid-6).mean; }
+  }
+  // ---- 骨年齢：骨年齢を入力した「その行」の暦年齢・身長とペアで計算する ----
+  const baRows=pts.filter(function(p){return p.ba!==null&&p.h!==null;});
+  const baPt = baRows.length? baRows[baRows.length-1] : null;
+  let ba=null,baZ=null,predBA=null,ratio=null,baDelta=null,baStale=null,predBAlo=null,predBAhi=null;
+  if(baPt && baPt.ba>0 && baPt.ba<=19){
+    ba=baPt.ba;
+    const mBA=href(SEX,Math.min(215,ba*12)).mean;
+    ratio  = mBA/A.mean;              // 撮影時点で成人身長の何%に達しているか
+    predBA = baPt.h/ratio;            // 比率法：撮影時の身長 ÷ 到達率
+    baZ    = hSDS(SEX,ba*12,baPt.h);  // 骨年齢に対する身長SD（撮影時の身長で評価）
+    baDelta= ba-baPt.age;             // 撮影時の暦年齢との差 ＝ 進行/遅延
+    baStale= last ? last.age-baPt.age : 0;
+    predBAlo = predByBA(baPt.h, Math.min(18,ba+1));   // 骨年齢を1歳高く読んだ場合＝低い予測
+    predBAhi = predByBA(baPt.h, Math.max(1,ba-1));    // 1歳低く読んだ場合＝高い予測
+  }
+  // 骨年齢が2点以上あれば骨成熟速度 ΔBA/ΔCA
+  let baVel=null;
+  if(baRows.length>=2){
+    const b1=baRows[0], b2=baRows[baRows.length-1], dca=b2.age-b1.age;
+    if(dca>=0.5) baVel=(b2.ba-b1.ba)/dca;
+  }
+  STATE={fh:fh,mh:mh,pts:pts,hp:hp,last:last,th:th,thZ:thZ,z:z,pred:pred,vel:vel,velRef:velRef,
+         ba:ba,baPt:baPt,baZ:baZ,predBA:predBA,ratio:ratio,baDelta:baDelta,baStale:baStale,
+         predBAlo:predBAlo,predBAhi:predBAhi,baVel:baVel};
+  renderSummary(); renderWeight(); renderText(); draw();
+}
+
+function card(cls,title,big,unit,sub){
+  return '<div class="card '+cls+'"><h3>'+title+'</h3><div class="big">'+big+
+    (unit?'<span class="u">'+unit+'</span>':'')+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>';
+}
+function renderSummary(){
+  const S=STATE, A=ADULT[SEX], box=document.getElementById('sumCards');
+  let h='';
+  if(S.th!==null){
+    h+=card('green','目標身長 TH（両親の身長から）',S.th.toFixed(1),'cm',
+      '±1SD: '+(S.th-A.sd).toFixed(1)+'〜'+(S.th+A.sd).toFixed(1)+' cm ／ ±2SD: '
+      +(S.th-2*A.sd).toFixed(1)+'〜'+(S.th+2*A.sd).toFixed(1)+' cm<br>THのSDスコア '+
+      (S.thZ>=0?'+':'')+S.thZ.toFixed(2)+' SD');
+  } else {
+    h+=card('gray','目標身長 TH','—','','父・母の身長を入力してください');
+  }
+  if(S.last){
+    const zc = S.z<=-2.5?'red' : S.z<=-2?'amber' : S.z>=2?'purple':'blue';
+    const bd = S.z<=-2.5?'<span class="badge b-ng">−2.5SD以下</span>'
+            : S.z<=-2?'<span class="badge b-warn">−2SD以下</span>'
+            : S.z>=2?'<span class="badge b-info">+2SD以上</span>'
+            : '<span class="badge b-ok">正常範囲</span>';
+    h+=card(zc,'現在の身長SDスコア',(S.z>=0?'+':'')+S.z.toFixed(2),'SD',
+      ageStr(S.last.age)+'／'+S.last.h.toFixed(1)+' cm　'+fmtPct(S.z)+'パーセンタイル<br>'+bd);
+    h+=card('blue','予測成人身長（現在のSD維持）',S.pred.toFixed(1),'cm',
+      '±1SD: '+(S.pred-A.sd).toFixed(1)+'〜'+(S.pred+A.sd).toFixed(1)+' cm<br>同性成人平均 '+A.mean.toFixed(1)+' cm');
+  }
+  if(S.ba!==null&&S.baPt){
+    const dcls = Math.abs(S.baDelta)<=1?'sky' : Math.abs(S.baDelta)<=2?'amber':'red';
+    const dir = S.baDelta>=0?'進行':'遅延';
+    h+=card(dcls,'骨年齢（撮影時の暦年齢と対比）',ageStr(S.ba),'',
+      '<b>撮影時 '+ageStr(S.baPt.age)+'・身長 '+S.baPt.h.toFixed(1)+' cm</b><br>'
+      +'暦年齢との差 '+(S.baDelta>=0?'+':'−')+Math.abs(S.baDelta).toFixed(1)+'年（'+dir+'）　BA/CA '
+      +(S.ba/S.baPt.age).toFixed(2)+'<br>骨年齢に対する身長SD '+(S.baZ>=0?'+':'')+S.baZ.toFixed(2)+' SD'
+      +'<br>成人身長の '+(S.ratio*100).toFixed(1)+'% に到達（標準曲線比）');
+    h+=card('amber','予測成人身長（骨年齢法・比率法）',S.predBA.toFixed(1),'cm',
+      '撮影時の身長 '+S.baPt.h.toFixed(1)+' cm から算出<br>残りの伸びしろ 約 '
+      +(S.predBA-(S.last?S.last.h:S.baPt.h)).toFixed(1)+' cm（最新身長から）<br>暦年齢法との差 '
+      +((S.predBA-S.pred)>=0?'+':'')+(S.predBA-S.pred).toFixed(1)+' cm');
+    h+=card('red','骨年齢の読み誤差による予測の幅',
+      S.predBAlo.toFixed(1)+'〜'+S.predBAhi.toFixed(1),'cm',
+      '骨年齢を ±1歳 ずれて読んだ場合の予測範囲（幅 '+(S.predBAhi-S.predBAlo).toFixed(1)+' cm）<br>'
+      +'GP法の読者間差は±0.5〜1歳が通常。<b>1点の骨年齢予測はこの程度の不確実性を持つ</b>ものとして説明してください。');
+    if(S.baVel!==null){
+      const vcls = (S.baVel>1.3||S.baVel<0.7)?'red':'sky';
+      h+=card(vcls,'骨成熟速度 ΔBA/ΔCA',S.baVel.toFixed(2),'',
+        '骨年齢が2点以上あるため算出<br>約1.0＝年齢相応／&gt;1.3＝促進（思春期早発・肥満・CAH等）／&lt;0.7＝遅延（体質性遅発・GHD・甲状腺機能低下等）');
+    }
+  }
+  if(S.th!==null && S.pred!==null){
+    const d=S.pred-S.th;
+    const cls = Math.abs(d)<=A.sd?'green' : Math.abs(d)<=2*A.sd?'amber':'red';
+    const cm  = Math.abs(d)<=A.sd?'THの±1SD以内：遺伝的な見込みどおり'
+              : Math.abs(d)<=2*A.sd?'THから1〜2SDの乖離：経過観察'
+              : 'THから2SD以上の乖離：原因検索を検討';
+    h+=card(cls,'予測身長 − TH の差',(d>=0?'+':'')+d.toFixed(1),'cm',cm);
+  }
+  if(S.vel!==null){
+    const ratio=S.velRef? S.vel/S.velRef : null;
+    const cls = ratio===null?'sky' : ratio<0.75?'red' : ratio<0.9?'amber':'sky';
+    h+=card(cls,'年間成長速度（直近2点）',S.vel.toFixed(1),'cm/年',
+      S.velRef? '同年齢の平均 '+S.velRef.toFixed(1)+' cm/年（比 '+(ratio*100).toFixed(0)+'%）':'');
+  }
+  if(S.fh&&S.mh){
+    const fz=(S.fh-ADULT.M.mean)/ADULT.M.sd, mz=(S.mh-ADULT.F.mean)/ADULT.F.sd;
+    h+=card('purple','両親の身長SD','父 '+(fz>=0?'+':'')+fz.toFixed(1)+' / 母 '+(mz>=0?'+':'')+mz.toFixed(1),'SD',
+      '父 '+S.fh.toFixed(1)+' cm・母 '+S.mh.toFixed(1)+' cm<br>いずれかが−2SD以下なら親側の低身長の原因も検討');
+  }
+  box.innerHTML = h || '<div class="note">性別・両親の身長・身体計測値を入力してください。</div>';
+
+  const nt=document.getElementById('sumNote');
+  let msg=[];
+  if(S.hp.length<2) msg.push('測定値が1点のみです。<b>2点以上（6か月〜1年以上の間隔）</b>入力すると成長速度とトレンドが評価できます。');
+  if(S.last&&S.last.age<3) msg.push('乳幼児期は身長のSDが生理的に変動しやすく、キャッチアップ／キャッチダウンの途中である可能性があります。');
+  if(S.last&&S.last.age>=9) msg.push('思春期の時期によって予測は大きくずれます。二次性徴（Tanner stage・精巣容積・乳房発育）と骨年齢の評価を併せてください。');
+  if(S.baStale!==null&&S.baStale>=0.5) msg.push('骨年齢は <b>'+ageStr(S.baPt.age)+'（'+S.baStale.toFixed(1)
+    +'年前）</b>の撮影値です。予測は撮影時の身長を用いて計算しています。その後の成長パターンが変わっている可能性があるため、再評価を検討してください。');
+  if(S.ba!==null&&Math.abs(S.baDelta)>=2) msg.push('<b>骨年齢と暦年齢の差が2年以上あります。</b>比率法は成熟が大きくずれた児で誤差が大きく（特に骨年齢が遅れている児では過大評価）、Bayley-Pinneau法では成熟の進み／遅れで別の換算表を用います。この予測値は参考程度にとどめてください。');
+  if(S.ba!==null&&S.ba<6) msg.push('骨年齢6歳未満では比率法の予測精度は低く、参考値としても扱えません。');
+  msg.push('暦年齢による予測はSDトラッキング、骨年齢による予測は比率法（%成人身長）による簡易推定で、いずれもBayley-Pinneau法・TW法といった検証済みの最終身長予測法ではありません。');
+  nt.innerHTML='<b>解釈上の注意</b><ul class="tight"><li>'+msg.join('</li><li>')+'</li></ul>';
+}
+
+function renderWeight(){
+  const S=STATE, box=document.getElementById('wCards');
+  const wp=S.pts.filter(p=>p.w!==null&&p.h!==null);
+  if(!wp.length){ box.innerHTML='<div class="note">身長と体重の両方が入った測定値を入力してください。</div>'; return; }
+  const p=wp[wp.length-1], bmi=p.w/Math.pow(p.h/100,2);
+  let h='';
+  h+=card('sky','BMI',bmi.toFixed(1),'kg/m²',ageStr(p.age)+'／'+p.h.toFixed(1)+' cm・'+p.w.toFixed(1)+' kg');
+  if(p.age<=17.9){
+    const bz=bmiSDS(SEX,p.age*12,bmi);
+    h+=card(bz>=2?'red':bz<=-2?'amber':'green','BMI SDスコア',(bz>=0?'+':'')+bz.toFixed(2),'SD',
+      fmtPct(bz)+'パーセンタイル（LMS法）');
+  }
+  if(p.age>=1){
+    const si=stdWeightIto(SEX,p.h);
+    if(si){ const oi=(p.w-si)/si*100; h+=card(judgeCls(oi,p.age),'肥満度（伊藤式・身長別）',
+      (oi>=0?'+':'')+oi.toFixed(1),'%','標準体重 '+si.toFixed(1)+' kg<br><span class="badge '+
+      badgeCls(oi,p.age)+'">'+judgeText(oi,p.age)+'</span>'); }
+    const sm=stdWeightMurata(SEX,p.age,p.h);
+    if(sm){ const om=(p.w-sm)/sm*100; h+=card(judgeCls(om,p.age),'肥満度（村田式・年齢身長別）',
+      (om>=0?'+':'')+om.toFixed(1),'%','標準体重 '+sm.toFixed(1)+' kg<br><span class="badge '+
+      badgeCls(om,p.age)+'">'+judgeText(om,p.age)+'</span>'); }
+  } else {
+    h+=card('gray','肥満度','—','','1歳未満は標準体重が定義されないため算出しません');
+  }
+  const fh=n(document.getElementById('fh').value), fw=n(document.getElementById('fw').value);
+  const mh=n(document.getElementById('mh').value), mw=n(document.getElementById('mw').value);
+  if(fh&&fw) h+=card('purple','父のBMI',(fw/Math.pow(fh/100,2)).toFixed(1),'kg/m²',
+    fh.toFixed(1)+' cm・'+fw.toFixed(1)+' kg');
+  if(mh&&mw) h+=card('purple','母のBMI',(mw/Math.pow(mh/100,2)).toFixed(1),'kg/m²',
+    mh.toFixed(1)+' cm・'+mw.toFixed(1)+' kg');
+  box.innerHTML=h;
+}
+function judgeText(o,age){
+  const inf=age<6;
+  if(inf){ if(o>=30)return'ふとりすぎ'; if(o>=20)return'ややふとりすぎ'; if(o>=15)return'ふとりぎみ';
+    if(o<=-20)return'やせすぎ'; if(o<=-15)return'やせ'; return'ふつう'; }
+  if(o>=50)return'高度肥満'; if(o>=30)return'中等度肥満'; if(o>=20)return'軽度肥満';
+  if(o<=-30)return'高度やせ'; if(o<=-20)return'やせ'; return'ふつう';
+}
+function judgeCls(o,age){ const t=judgeText(o,age);
+  if(t==='ふつう')return'green'; if(t.indexOf('高度')===0||t==='ふとりすぎ'||t==='やせすぎ')return'red'; return'amber'; }
+function badgeCls(o,age){ const t=judgeText(o,age);
+  if(t==='ふつう')return'b-ok'; if(t.indexOf('高度')===0||t==='ふとりすぎ'||t==='やせすぎ')return'b-ng'; return'b-warn'; }
+
+/* ---------- グラフ描画 ---------- */
+function draw(){
+  const S=STATE, A=ADULT[SEX];
+  const sel=document.getElementById('range').value;
+  let x0=0,x1=18;
+  if(sel==='6'){ x1=6; }
+  else if(sel==='auto'&&S.hp.length){
+    const a0=S.hp[0].age, a1=S.hp[S.hp.length-1].age;
+    x0=Math.max(0,Math.floor(a0-1)); x1=Math.min(18,Math.ceil(a1+3));
+    if(x1-x0<4) x1=Math.min(18,x0+4);
+  }
+  // y範囲
+  let vals=[];
+  for(let a=x0;a<=x1+0.001;a+=0.25){ const r=href(SEX,Math.min(215,a*12));
+    vals.push(r.mean+2.2*r.sd, r.mean-2.7*r.sd); }
+  const showTH = (x1>=15);
+  if(S.th&&showTH&&SHOW.th) vals.push(S.th+9.5, S.th-9.5);
+  if(S.pred&&showTH&&SHOW.predC) vals.push(S.pred+A.sd,S.pred-A.sd);
+  if(S.predBA&&showTH&&SHOW.predB) vals.push(S.predBA, S.predBAlo, S.predBAhi);
+  if(SHOW.meas) S.hp.forEach(p=>vals.push(p.h));
+  let y0=Math.floor(Math.min.apply(null,vals)/10)*10-2, y1=Math.ceil(Math.max.apply(null,vals)/10)*10+2;
+
+  const W=980,H=620,L=54,R=112,T=18,B=46;
+  const px=a=>L+(a-x0)/(x1-x0)*(W-L-R);
+  const py=h=>T+(y1-h)/(y1-y0)*(H-T-B);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">';
+  s+='<rect x="'+L+'" y="'+T+'" width="'+(W-L-R)+'" height="'+(H-T-B)+'" fill="#fbfdff" stroke="#cbd5e1"/>';
+  // grid
+  const xstep=(x1-x0)<=6?1:1;
+  for(let a=Math.ceil(x0);a<=x1;a+=xstep){
+    s+='<line x1="'+px(a)+'" y1="'+T+'" x2="'+px(a)+'" y2="'+(H-B)+'" stroke="#e8eef5"/>';
+    s+='<text x="'+px(a)+'" y="'+(H-B+17)+'" font-size="12" fill="#64748b" text-anchor="middle">'+a+'</text>';
+  }
+  for(let hh=Math.ceil(y0/10)*10;hh<=y1;hh+=10){
+    s+='<line x1="'+L+'" y1="'+py(hh)+'" x2="'+(W-R)+'" y2="'+py(hh)+'" stroke="#e8eef5"/>';
+    s+='<text x="'+(L-7)+'" y="'+(py(hh)+4)+'" font-size="12" fill="#64748b" text-anchor="end">'+hh+'</text>';
+  }
+  s+='<text x="'+(L+(W-L-R)/2)+'" y="'+(H-6)+'" font-size="13" fill="#334155" text-anchor="middle">年齢（歳）</text>';
+  s+='<text x="14" y="'+(T+(H-T-B)/2)+'" font-size="13" fill="#334155" text-anchor="middle" transform="rotate(-90,14,'+(T+(H-T-B)/2)+')">身長（cm）</text>';
+
+  // SDライン
+  const SDL=[[2,'#94a3b8',1.2,''],[1,'#94a3b8',1.2,''],[0,'#1e3c72',2.6,''],
+             [-1,'#94a3b8',1.2,''],[-2,'#94a3b8',1.2,''],[-2.5,'#dc2626',1.6,'5,4']];
+  if(SHOW.sd) SDL.forEach(function(c){
+    let d='';
+    for(let a=x0;a<=x1+0.001;a+=1/12){
+      const r=href(SEX,Math.min(215,a*12)), v=r.mean+c[0]*r.sd;
+      d+=(d?'L':'M')+px(a).toFixed(1)+' '+py(v).toFixed(1);
+    }
+    s+='<path d="'+d+'" fill="none" stroke="'+c[1]+'" stroke-width="'+c[2]+'"'
+      +(c[3]?' stroke-dasharray="'+c[3]+'"':'')+'/>';
+    const r=href(SEX,Math.min(215,x1*12)), v=r.mean+c[0]*r.sd;
+    s+='<text x="'+(W-R+4)+'" y="'+(py(v)+4)+'" font-size="11" fill="'+c[1]+'">'
+      +(c[0]>0?'+':'')+c[0]+'SD</text>';
+  });
+
+  // TH バンド（±9cm ＋ ±1SD、ホバーで数値表示）
+  if(S.th&&showTH&&SHOW.th){
+    const xt=px(Math.min(x1-0.15,17.6));
+    const tip='<b>目標身長 TH '+S.th.toFixed(1)+' cm</b><br>'
+      +'±9cm（一般的な目標範囲）： '+(S.th-9).toFixed(1)+' 〜 '+(S.th+9).toFixed(1)+' cm<br>'
+      +'±1SD（'+A.sd.toFixed(1)+'cm）： '+(S.th-A.sd).toFixed(1)+' 〜 '+(S.th+A.sd).toFixed(1)+' cm<br>'
+      +'±2SD： '+(S.th-2*A.sd).toFixed(1)+' 〜 '+(S.th+2*A.sd).toFixed(1)+' cm<br>'
+      +'父 '+S.fh.toFixed(1)+' cm ／ 母 '+S.mh.toFixed(1)+' cm';
+    s+='<g data-tip="'+tip+'">';
+    s+='<rect x="'+(xt-9)+'" y="'+py(S.th+9)+'" width="18" height="'
+      +(py(S.th-9)-py(S.th+9))+'" fill="#059669" opacity="0.12"/>';
+    s+='<rect x="'+(xt-9)+'" y="'+py(S.th+A.sd)+'" width="18" height="'
+      +(py(S.th-A.sd)-py(S.th+A.sd))+'" fill="#059669" opacity="0.3"/>';
+    s+='<line x1="'+(xt-13)+'" y1="'+py(S.th)+'" x2="'+(xt+13)+'" y2="'+py(S.th)
+      +'" stroke="#059669" stroke-width="4"/>';
+    s+='<line x1="'+(xt-6)+'" y1="'+py(S.th+9)+'" x2="'+(xt+6)+'" y2="'+py(S.th+9)+'" stroke="#059669" stroke-width="1.5"/>';
+    s+='<line x1="'+(xt-6)+'" y1="'+py(S.th-9)+'" x2="'+(xt+6)+'" y2="'+py(S.th-9)+'" stroke="#059669" stroke-width="1.5"/>';
+    s+='<rect x="'+(xt-16)+'" y="'+py(S.th+9.6)+'" width="32" height="'
+      +(py(S.th-9.6)-py(S.th+9.6))+'" fill="#059669" fill-opacity="0"/>';
+    s+='</g>';
+    s+='<text x="'+(xt+16)+'" y="'+(py(S.th)-6)+'" font-size="12.5" font-weight="bold" fill="#059669">TH '
+      +S.th.toFixed(1)+'</text>';
+    s+='<text x="'+(xt+16)+'" y="'+(py(S.th)+13)+'" font-size="10.5" fill="#059669">±9cm '
+      +(S.th-9).toFixed(0)+'〜'+(S.th+9).toFixed(0)+'</text>';
+  }
+  // 予測トレンド（暦年齢＝現在のSD維持）
+  if(S.last&&S.z!==null&&SHOW.predC){
+    let d='';
+    for(let a=S.last.age;a<=18.001;a+=1/12){
+      const r=href(SEX,Math.min(215,a*12)), v=r.mean+S.z*r.sd;
+      if(a>x1) break;
+      d+=(d?'L':'M')+px(a).toFixed(1)+' '+py(v).toFixed(1);
+    }
+    const tipC='<b>暦年齢による予測 '+S.pred.toFixed(1)+' cm</b><br>現在のSDスコア '
+      +(S.z>=0?'+':'')+S.z.toFixed(2)+' SD をこのまま維持した場合<br>±1SD： '
+      +(S.pred-A.sd).toFixed(1)+' 〜 '+(S.pred+A.sd).toFixed(1)+' cm<br>残りの伸びしろ 約 '
+      +(S.pred-S.last.h).toFixed(1)+' cm';
+    if(d) s+='<g data-tip="'+tipC+'"><path d="'+d+'" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-dasharray="7,5" opacity="0.85"/>'
+      +'<path d="'+d+'" fill="none" stroke="#2563eb" stroke-width="14" opacity="0"/></g>';
+    if(x1>=17.5){
+      s+='<g data-tip="'+tipC+'"><circle cx="'+px(18)+'" cy="'+py(S.pred)+'" r="5.5" fill="#fff" stroke="#2563eb" stroke-width="2.5"/></g>';
+      s+='<text x="'+(px(18)-6)+'" y="'+(py(S.pred)+22)+'" font-size="12.5" font-weight="bold" fill="#2563eb" text-anchor="end">暦年齢 '
+        +S.pred.toFixed(1)+'cm</text>';
+    }
+  }
+  // 予測トレンド（骨年齢法：撮影時点を起点に、骨年齢が暦年齢と同じ速さで進むと仮定）
+  if(S.baPt&&S.predBA!==null&&SHOW.predB){
+    let d='';
+    for(let a=S.baPt.age;a<=18.001;a+=1/12){
+      if(a>x1) break;
+      const baAt=Math.min(215,(S.ba+(a-S.baPt.age))*12);
+      const v=href(SEX,baAt).mean/A.mean*S.predBA;
+      d+=(d?'L':'M')+px(a).toFixed(1)+' '+py(v).toFixed(1);
+    }
+    const tipB='<b>骨年齢による予測 '+S.predBA.toFixed(1)+' cm</b><br>撮影時 '+ageStr(S.baPt.age)
+      +'（身長 '+S.baPt.h.toFixed(1)+' cm）で骨年齢 '+ageStr(S.ba)+'<br>暦年齢との差 '
+      +(S.baDelta>=0?'+':'−')+Math.abs(S.baDelta).toFixed(1)+'年<br>その時点で成人身長の '
+      +(S.ratio*100).toFixed(1)+'% に到達 → 割り戻して算出<br>暦年齢法との差 '
+      +((S.predBA-S.pred)>=0?'+':'')+(S.predBA-S.pred).toFixed(1)+' cm<br>※Bayley-Pinneau法ではない簡易推定';
+    if(d) s+='<g data-tip="'+tipB+'"><path d="'+d+'" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-dasharray="3,4"/>'
+      +'<path d="'+d+'" fill="none" stroke="#ea580c" stroke-width="14" opacity="0"/></g>';
+    if(S.baPt.age>=x0&&S.baPt.age<=x1)
+      s+='<g data-tip="'+tipB+'"><rect x="'+(px(S.baPt.age)-5)+'" y="'+(py(S.baPt.h)-5)+'" width="10" height="10" '
+        +'fill="#fff" stroke="#ea580c" stroke-width="2.2" transform="rotate(45,'+px(S.baPt.age)+','+py(S.baPt.h)+')"/></g>';
+    if(x1>=17.5){
+      const tipR='<b>骨年齢の読み誤差による幅</b><br>骨年齢 ±1歳 のずれで予測は '+S.predBAlo.toFixed(1)
+        +' 〜 '+S.predBAhi.toFixed(1)+' cm（幅 '+(S.predBAhi-S.predBAlo).toFixed(1)+' cm）';
+      s+='<g data-tip="'+tipR+'"><line x1="'+px(18)+'" y1="'+py(S.predBAhi)+'" x2="'+px(18)+'" y2="'+py(S.predBAlo)
+        +'" stroke="#ea580c" stroke-width="2.5" opacity="0.45"/>'
+        +'<line x1="'+(px(18)-6)+'" y1="'+py(S.predBAhi)+'" x2="'+(px(18)+6)+'" y2="'+py(S.predBAhi)+'" stroke="#ea580c" stroke-width="2" opacity="0.6"/>'
+        +'<line x1="'+(px(18)-6)+'" y1="'+py(S.predBAlo)+'" x2="'+(px(18)+6)+'" y2="'+py(S.predBAlo)+'" stroke="#ea580c" stroke-width="2" opacity="0.6"/>'
+        +'<rect x="'+(px(18)-9)+'" y="'+py(S.predBAhi)+'" width="18" height="'+(py(S.predBAlo)-py(S.predBAhi))+'" fill="#ea580c" fill-opacity="0"/></g>';
+      s+='<g data-tip="'+tipB+'"><circle cx="'+px(18)+'" cy="'+py(S.predBA)+'" r="5.5" fill="#fff" stroke="#ea580c" stroke-width="2.5"/></g>';
+      s+='<text x="'+(px(18)-6)+'" y="'+(py(S.predBA)-10)+'" font-size="12.5" font-weight="bold" fill="#ea580c" text-anchor="end">骨年齢 '
+        +S.predBA.toFixed(1)+'cm</text>';
+    }
+  }
+  // 実測値
+  if(S.hp.length&&SHOW.meas){
+    let d='';
+    S.hp.forEach(function(p){ if(p.age>=x0&&p.age<=x1) d+=(d?'L':'M')+px(p.age).toFixed(1)+' '+py(p.h).toFixed(1); });
+    if(d) s+='<path d="'+d+'" fill="none" stroke="#2563eb" stroke-width="2.6"/>';
+    S.hp.forEach(function(p){ if(p.age<x0||p.age>x1) return;
+      const zz=hSDS(SEX,p.age*12,p.h);
+      let t='<b>'+ageStr(p.age)+'　'+p.h.toFixed(1)+' cm</b><br>'+(zz>=0?'+':'')+zz.toFixed(2)
+        +' SD（'+fmtPct(zz)+' パーセンタイル）';
+      if(p.w!==null){ t+='<br>体重 '+p.w.toFixed(1)+' kg　BMI '+(p.w/Math.pow(p.h/100,2)).toFixed(1);
+        const si=stdWeightIto(SEX,p.h);
+        if(si&&p.age>=1) t+='<br>肥満度 '+((p.w-si)/si*100>=0?'+':'')+((p.w-si)/si*100).toFixed(1)+'%（伊藤式）'; }
+      if(p.date) t+='<br>測定日 '+p.date;
+      s+='<g data-tip="'+t+'"><circle cx="'+px(p.age)+'" cy="'+py(p.h)+'" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.6"/>'
+        +'<circle cx="'+px(p.age)+'" cy="'+py(p.h)+'" r="12" fill="#2563eb" fill-opacity="0"/></g>'; });
+    const p=S.hp[S.hp.length-1];
+    if(p.age>=x0&&p.age<=x1)
+      s+='<text x="'+(px(p.age)+9)+'" y="'+(py(p.h)-9)+'" font-size="12.5" font-weight="bold" fill="#1e3c72">'
+        +p.h.toFixed(1)+'cm ('+(S.z>=0?'+':'')+S.z.toFixed(1)+'SD)</text>';
+  }
+  const nm=document.getElementById('pid').value;
+  s+='<text x="'+(L+6)+'" y="'+(T+16)+'" font-size="13" font-weight="bold" fill="#334155">'
+    +(nm?nm+'　':'')+(SEX==='M'?'男児':'女児')+'　日本人標準成長曲線（2000年）</text>';
+  s+='</svg>';
+  document.getElementById('chart').innerHTML=s;
+  attachTips();
+}
+function attachTips(){
+  const box=document.getElementById('chartBox'), tip=document.getElementById('tip');
+  if(!box||!tip) return;
+  box.querySelectorAll('[data-tip]').forEach(function(el){
+    el.style.cursor='pointer';
+    const show=function(ev){
+      tip.innerHTML=el.getAttribute('data-tip'); tip.style.display='block';
+      const r=box.getBoundingClientRect();
+      let x=ev.clientX-r.left+16, y=ev.clientY-r.top+16;
+      if(x+265>r.width) x=Math.max(4,ev.clientX-r.left-265);
+      if(y+130>r.height) y=Math.max(4,y-150);
+      tip.style.left=x+'px'; tip.style.top=y+'px';
+    };
+    el.addEventListener('mouseenter',show);
+    el.addEventListener('mousemove',show);
+    el.addEventListener('click',show);
+    el.addEventListener('mouseleave',function(){tip.style.display='none';});
+  });
+  box.addEventListener('mouseleave',function(){tip.style.display='none';});
+}
+
+/* ---------- テキスト ---------- */
+function renderText(){
+  const S=STATE,A=ADULT[SEX];
+  let k='',e='';
+  if(S.last){
+    k+='【身体計測】'+ageStr(S.last.age)+' 身長 '+S.last.h.toFixed(1)+' cm ('
+      +(S.z>=0?'+':'')+S.z.toFixed(2)+' SD, '+fmtPct(S.z)+'%ile)';
+    const wl=S.pts.filter(p=>p.w!==null);
+    if(wl.length){ const p=wl[wl.length-1];
+      k+='／体重 '+p.w.toFixed(1)+' kg';
+      if(p.h){ const bmi=p.w/Math.pow(p.h/100,2); k+=' (BMI '+bmi.toFixed(1);
+        const si=stdWeightIto(SEX,p.h);
+        if(si&&p.age>=1) k+=', 肥満度 '+((p.w-si)/si*100>=0?'+':'')+((p.w-si)/si*100).toFixed(1)+'%（伊藤式）';
+        k+=')'; } }
+    k+='\n';
+  }
+  if(S.vel!==null) k+='【成長速度】'+S.vel.toFixed(1)+' cm/年'
+    +(S.velRef?'（同年齢平均 '+S.velRef.toFixed(1)+' cm/年）':'')+'\n';
+  if(S.predBA!==null) k+='【予測成人身長（骨年齢・比率法）】'+S.predBA.toFixed(1)+' cm（骨年齢±1歳の読み誤差で '
+    +S.predBAlo.toFixed(1)+'〜'+S.predBAhi.toFixed(1)+' cm。最新身長からの残存 約'
+    +(S.predBA-S.last.h).toFixed(1)+' cm。BP法・TW法による正式な予測ではない）\n';
+  if(S.baVel!==null) k+='【骨成熟速度】ΔBA/ΔCA = '+S.baVel.toFixed(2)+'\n';
+  if(S.th!==null) k+='【家族歴】父 '+S.fh.toFixed(1)+' cm／母 '+S.mh.toFixed(1)
+    +' cm → 目標身長(TH) '+S.th.toFixed(1)+' cm（±1SD '+(S.th-A.sd).toFixed(1)+'〜'+(S.th+A.sd).toFixed(1)+' cm）\n';
+  if(S.ba!==null&&S.baPt) k+='【骨年齢】'+ageStr(S.baPt.age)+'時点（身長 '+S.baPt.h.toFixed(1)+' cm）で骨年齢 '
+    +ageStr(S.ba)+'（暦年齢との差 '+(S.baDelta>=0?'+':'−')+Math.abs(S.baDelta).toFixed(1)+'年 '
+    +(S.baDelta>=0?'進行':'遅延')+', 骨年齢に対する身長SD '+(S.baZ>=0?'+':'')+S.baZ.toFixed(2)
+    +' SD, 成人身長到達率 '+(S.ratio*100).toFixed(1)+'%）\n';
+  if(S.pred!==null){ k+='【予測成人身長】'+S.pred.toFixed(1)+' cm（現在のSDスコアを維持した場合の推定。骨年齢による予測ではない）\n';
+    if(S.th!==null){ const d=S.pred-S.th;
+      k+='【評価】予測身長はTHと'+(d>=0?'+':'')+d.toFixed(1)+' cmの差（'
+        +(Math.abs(d)<=A.sd?'TH±1SD以内':Math.abs(d)<=2*A.sd?'TH±2SD以内':'TH±2SDを超える乖離')+'）\n'; } }
+  k+='【方針】成長曲線をプロットし経過観察／二次性徴の評価／必要に応じ骨年齢・内分泌学的精査を検討\n';
+  document.getElementById('karte').value=k||'（データを入力してください）';
+
+  if(S.th!==null||S.pred!==null){
+    e+='お子さんの身長についてご説明します。\n\n';
+    if(S.last) e+='現在 '+ageStr(S.last.age)+' で身長 '+S.last.h.toFixed(1)+' cm です。同じ年齢・性別のお子さん100人の中で、背の低い方から数えておよそ '
+      +fmtPct(S.z)+' 番目にあたります（平均からのずれは '+(S.z>=0?'+':'')+S.z.toFixed(1)+'SD）。\n\n';
+    if(S.predBA!==null) e+='手のレントゲンを撮った '+ageStr(S.baPt.age)+' の時点で、骨の年齢は '+ageStr(S.ba)+' でした。実際の年齢より '
+      +(S.baDelta>=0?'約'+Math.abs(S.baDelta).toFixed(1)+'年進んで':'約'+Math.abs(S.baDelta).toFixed(1)+'年ゆっくりで')
+      +'います。骨の年齢から計算すると、大人になったときの身長はおよそ '+S.predBA.toFixed(0)+' cm、'
+      +'いまからの伸びしろは約 '+(S.predBA-S.last.h).toFixed(0)+' cm という計算になります。'
+      +'ただし骨の年齢の読み方には1歳くらいの幅があるので、実際には '+S.predBAlo.toFixed(0)+' cm 〜 '
+      +S.predBAhi.toFixed(0)+' cm くらいと考えてください。\n\n';
+    if(S.th!==null) e+='お父さんが '+S.fh.toFixed(1)+' cm、お母さんが '+S.mh.toFixed(1)
+      +' cm ですので、ご両親の身長から計算した「目標身長」はおよそ '+S.th.toFixed(1)+' cm です。'
+      +'ただしこれは真ん中の目安で、ふつうは前後9cmくらい（'+(S.th-9).toFixed(0)+' cm 〜 '+(S.th+9).toFixed(0)
+      +' cm）の幅があります。\n\n';
+    if(S.pred!==null) e+='いまの伸び方のペースがこのまま続いた場合、大人になったときの身長はおよそ '
+      +S.pred.toFixed(0)+' cm と予想されます。';
+    if(S.th!==null&&S.pred!==null){ const d=S.pred-S.th;
+      e+= Math.abs(d)<=A.sd ? 'ご両親から予想される範囲の中に入っており、遺伝的な見込みどおりの成長です。\n\n'
+        : Math.abs(d)<=2*A.sd ? '目標身長より少しずれていますので、しばらく成長のペースを一緒に見ていきましょう。\n\n'
+        : '目標身長からのずれが大きいため、原因がないかを調べることをおすすめします。\n\n'; }
+    e+='この予想は「今のペースが続けば」という計算です。思春期がいつ始まるかで実際の身長は変わりますので、'
+      +'半年から1年ごとに身長を測って、グラフの線に沿って伸びているかを確認していくことが何より大切です。\n\n'
+      +'学校の身体計測の記録はぜひ残しておいてください。1年間ほとんど伸びない、グラフの線を下向きに横切ってきた、'
+      +'頭痛や吐き気が続く、といったことがあれば、次の予約を待たずにご相談ください。';
+  }
+  document.getElementById('expl').value=e||'（データを入力してください）';
+}
+
+/* ---------- 初期化 ---------- */
+addRow(); addRow();
+calc();
+</script>
+</body>
+</html>

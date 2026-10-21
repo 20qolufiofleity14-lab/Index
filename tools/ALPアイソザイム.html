@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALPアイソザイム 診断支援＆学習ツール</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診断支援と学習">
+<meta name="mini-title" content="ALPアイソザイム">
+
+<style>
+:root{
+  --paper:#F4F6FA; --panel:#FFFFFF; --ink:#1A2233; --sub:#556070;
+  --line:#DCE2EC; --line-soft:#EAEEF5;
+  --hdr1:#3B2F63; --hdr2:#1E5E6B;           /* ヘッダー識別色: 深いプラム→ティール */
+  --a1:#B7791F; --a2:#9C6B3E; --a3:#2563A8;  /* 分画別アクセント */
+  --a4:#C13B7C; --a5:#2F8F5B; --a6:#7A4DA8; --ao:#556070;
+  --warn:#B54848; --good:#2F8F5B; --note:#2563A8;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --jp:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Noto Sans JP","Meiryo",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--jp);line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 80px}
+
+/* ---------- Header ---------- */
+header{background:linear-gradient(115deg,var(--hdr1),var(--hdr2));color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(20,25,45,.18)}
+.hd-inner{max-width:1080px;margin:0 auto;padding:14px 18px 0}
+.hd-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.hd-top h1{font-size:20px;margin:0;letter-spacing:.04em;font-weight:800}
+.hd-top .en{font-family:var(--mono);font-size:12px;opacity:.8;letter-spacing:.14em;text-transform:uppercase}
+.hd-sub{font-size:12.5px;opacity:.9;margin:4px 0 12px}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{appearance:none;border:0;background:rgba(255,255,255,.08);color:#fff;font-family:var(--jp);
+  font-size:13.5px;font-weight:600;padding:10px 16px;border-radius:9px 9px 0 0;cursor:pointer;transition:.15s;border-bottom:3px solid transparent}
+nav button:hover{background:rgba(255,255,255,.18)}
+nav button.on{background:var(--paper);color:var(--ink);border-bottom-color:transparent}
+nav button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+
+/* ---------- Panels ---------- */
+.panel{display:none;padding-top:26px;animation:fade .25s ease}
+.panel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h2.sec{font-size:16px;margin:30px 0 12px;padding-left:11px;border-left:5px solid var(--hdr1);letter-spacing:.03em}
+h2.sec:first-child{margin-top:4px}
+p.lead{color:var(--sub);font-size:14px;margin:0 0 8px}
+
+/* ---------- Cards ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(20,25,45,.05)}
+.card h3{margin:0 0 6px;font-size:15.5px}
+.grid{display:grid;gap:14px}
+@media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:1fr 1fr 1fr}}
+.chip{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+  padding:2px 9px;border-radius:20px;color:#fff;vertical-align:middle}
+.kv{display:flex;gap:10px;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line-soft)}
+.kv:last-child{border-bottom:0}
+.kv b{flex:0 0 96px;color:var(--sub);font-weight:600}
+.tag{font-family:var(--mono);font-size:11px;background:var(--line-soft);color:var(--sub);padding:2px 7px;border-radius:5px;margin:2px 4px 2px 0;display:inline-block}
+.callout{border-left:4px solid var(--note);background:#F0F5FC;border-radius:0 10px 10px 0;padding:11px 15px;margin:12px 0;font-size:13.5px}
+.callout.warn{border-color:var(--warn);background:#FBF0F0}
+.callout.star{border-color:#C79A2E;background:#FBF6E9}
+.callout b{color:var(--ink)}
+
+/* ---------- Electrophoresis lane ---------- */
+.gel-wrap{background:#12161F;border-radius:16px;padding:26px 24px 18px;margin:8px 0 6px;color:#E7ECF5;position:relative;overflow-x:auto}
+.gel-poles{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:#8792A6;margin-bottom:6px}
+.gel-lane{position:relative;height:118px;min-width:640px;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 46px);
+  border-radius:8px}
+.band{position:absolute;top:14px;height:90px;border-radius:6px;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;padding-bottom:8px;transition:.18s;filter:saturate(1.15)}
+.band:hover,.band.hi{transform:translateY(-4px);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.band .bn{font-family:var(--mono);font-weight:800;font-size:14px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.band .bl{font-size:10.5px;color:#fff;opacity:.95;text-shadow:0 1px 3px rgba(0,0,0,.7);margin-top:2px}
+.gel-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:#6C7688;margin-top:10px;letter-spacing:.05em}
+.gel-hint{font-size:11.5px;color:#7C879C;margin-top:8px;text-align:center}
+
+/* ---------- Flow (診断フロー) ---------- */
+.flow-top{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:14px 0}
+@media(max-width:760px){.flow-top{grid-template-columns:repeat(2,1fr)}}
+.fbtn{border:2px solid var(--line);background:#fff;border-radius:11px;padding:12px 6px;text-align:center;cursor:pointer;transition:.15s;font-weight:700;font-size:13px}
+.fbtn .fn{font-family:var(--mono);font-size:15px;display:block}
+.fbtn .fd{font-size:10.5px;color:var(--sub);font-weight:500;margin-top:3px}
+.fbtn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(20,25,45,.12)}
+.fbtn.act{color:#fff;border-color:transparent}
+.flow-detail{min-height:120px}
+.mini{font-size:12.5px}
+table.dx{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+table.dx th,table.dx td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.dx th{background:var(--line-soft);font-size:12px;color:var(--sub);white-space:nowrap}
+table.dx td b{color:var(--ink)}
+
+/* ---------- Quiz ---------- */
+.q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
+.q .qh{font-weight:700;font-size:14.5px;margin-bottom:10px}
+.q .qh .qn{font-family:var(--mono);color:var(--hdr2);margin-right:8px}
+.opt{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:10px;
+  padding:10px 14px;margin:7px 0;cursor:pointer;font-size:13.5px;font-family:var(--jp);transition:.12s}
+.opt:hover{border-color:var(--hdr2);background:#F5F8FC}
+.opt.correct{border-color:var(--good);background:#EEF8F1}
+.opt.wrong{border-color:var(--warn);background:#FBEFEF}
+.opt:disabled{cursor:default}
+.expl{display:none;margin-top:10px;font-size:13px;background:#F0F5FC;border-left:4px solid var(--note);padding:10px 14px;border-radius:0 8px 8px 0}
+.expl.show{display:block}
+.score{position:sticky;bottom:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 18px;margin-top:16px;font-weight:700;text-align:center;box-shadow:0 -2px 12px rgba(20,25,45,.06)}
+footer{color:var(--sub);font-size:11.5px;text-align:center;margin-top:36px;padding-top:16px;border-top:1px solid var(--line)}
+a.jump{color:var(--hdr2);font-weight:600;text-decoration:none;border-bottom:1px dashed}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-inner">
+    <div class="hd-top">
+      <h1>ALPアイソザイム</h1>
+      <span class="en">Alkaline Phosphatase Isozymes · Diagnostic Reference</span>
+    </div>
+    <div class="hd-sub">電気泳動像から鑑別まで — 見直して専門家になるための対話型リファレンス</div>
+    <nav id="nav">
+      <button class="on" data-t="over">総論</button>
+      <button data-t="frac">電気泳動像・各分画</button>
+      <button data-t="flow">診断フロー</button>
+      <button data-t="peds">小児のポイント</button>
+      <button data-t="quiz">セルフチェック</button>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+
+<!-- ================= 総論 ================= -->
+<section class="panel on" id="over">
+  <h2 class="sec">ALPとは何か、なぜ分画するのか</h2>
+  <div class="card">
+    <p>アルカリホスファターゼ（ALP）はアルカリ環境下でリン酸モノエステルを加水分解する酵素で、<b>肝・胆道・骨・小腸・胎盤</b>など全身の細胞膜に広く分布します。総ALPが上がったとき「どの臓器由来か」は総活性だけでは分かりません。そこで<b>アイソザイム分画（電気泳動）</b>で由来を推定し、鑑別を絞り込みます。</p>
+    <div class="callout"><b>臨床の要点：</b>総ALP高値は「肝胆道 vs 骨」がまず二大成因。γ-GTP・LAPが同時に上がれば肝胆道系、骨代謝マーカーやCa/P/PTHが動けば骨系を疑う、という当たりを付けたうえで分画を読むのが実戦的です。</div>
+  </div>
+
+  <h2 class="sec">測定法：JSCC法 → IFCC法（2020年の切り替え）</h2>
+  <div class="card">
+    <p>日本では<b>2020年4月にALP・LDの測定法がJSCC法からIFCC法（国際標準）へ変更</b>されました。ALPはIFCC法で基準値がおおむね<b>1/3程度に低下</b>します（換算の目安：IFCC値 ≒ JSCC値 × 0.35 前後）。過去のカルテ値や教科書の基準値を読むときは「どちらの方法か」を必ず確認します。</p>
+    <div class="grid two">
+      <div class="callout"><b>成人の目安（IFCC法）</b><br>およそ 38–113 U/L 前後（施設差あり）。旧JSCC法では 100–340 U/L 程度でした。</div>
+      <div class="callout star"><b>小児は別枠</b><br>成長期は骨型ALPが生理的に高く、成人基準は使えません。<b>年齢・性別の小児基準値</b>で判断します（→「小児のポイント」タブ）。</div>
+    </div>
+    <div class="callout warn"><b>注意：</b>フローチャート中の「基準値の2倍位／5倍位」という表現も、どの測定法の基準値かで実数が変わります。倍率として理解し、実数は自施設の基準で読み替えます。</div>
+  </div>
+
+  <h2 class="sec">分画のしくみ（電気泳動）</h2>
+  <div class="card">
+    <p>アガロースゲル／セルロースアセテート膜の電気泳動で、陽極(+)側から陰極(−)側へ移動度の順に <b>ALP1〜ALP6</b> に分けます。分子量・糖鎖・結合状態の違いが移動度の差になります。番号が大きいほど陰極寄り、<b>ALP6は原点付近</b>にとどまります。次のタブで実際の泳動像を触って確認できます。</p>
+    <p class="lead">◦ ALP1・ALP2＝肝胆道系 ／ ALP3＝骨 ／ ALP4＝胎盤・腫瘍 ／ ALP5＝小腸 ／ ALP6＝免疫グロブリン結合 ／ その他＝一過性高ALP血症・LP-X など</p>
+    <p><a class="jump" data-goto="frac">→ 電気泳動像・各分画を見る</a></p>
+  </div>
+</section>
+
+<!-- ================= 電気泳動像・各分画 ================= -->
+<section class="panel" id="frac">
+  <h2 class="sec">電気泳動像（バンドを選ぶと解説にジャンプ）</h2>
+  <div class="gel-wrap">
+    <div class="gel-poles"><span>陽極 (+) ／ 移動度 大</span><span>陰極 (−) ／ 原点</span></div>
+    <div class="gel-lane" id="lane"></div>
+    <div class="gel-axis"><span>Alb位</span><span>α1</span><span>α2</span><span>β</span><span>γ</span><span>原点</span></div>
+    <div class="gel-hint">バンドをクリック／タップすると各分画カードにジャンプします</div>
+  </div>
+
+  <h2 class="sec">各分画 — 由来・臨床的意義・随伴所見</h2>
+  <div class="grid two" id="cards"></div>
+
+  <div class="callout"><b>読み方のコツ：</b>単独分画だけでなく<b>優位パターン</b>で読む。肝胆道系ではALP2が主体でALP1（高分子肝型）が加わる／出現、骨系ではALP3優位。小腸型(ALP5)や免疫結合型(ALP6)は「なぜ出ているか」の背景疾患を探すきっかけになります。</div>
+</section>
+
+<!-- ================= 診断フロー ================= -->
+<section class="panel" id="flow">
+  <h2 class="sec">診断支援フロー（アップロード資料を対話型に再構成）</h2>
+  <p class="lead">分画を選ぶと、その分画で考える病態と随伴所見が表示されます。</p>
+  <div class="flow-top" id="flowTop"></div>
+  <div class="card flow-detail" id="flowDetail"></div>
+</section>
+
+<!-- ================= 小児のポイント ================= -->
+<section class="panel" id="peds">
+  <h2 class="sec">小児科・内分泌でのALP — ここが本番</h2>
+  <div class="card">
+    <h3>① 成長期の生理的高値（骨型ALP＝ALP3）</h3>
+    <p>小児では骨芽細胞活性が高く、<b>ALP3（骨型）が生理的に高値</b>です。特に<b>学童期・思春期の成長スパート期</b>にピークを迎え、成人基準値の数倍になることは正常。年齢・性別・成長段階の小児基準で評価し、「高い＝異常」と早合点しないことが第一歩です。</p>
+    <div class="callout star"><b>★ 一過性乳児高ALP血症（Transient hyperphosphatasemia of infancy）</b><br>乳幼児（多くは5歳未満）に、症状なく<b>ALPが著明高値（時に基準の数〜十数倍）</b>となる良性病態。骨型・肝型の糖鎖修飾異常が原因で、骨・肝疾患を伴いません。<b>数週〜数ヶ月で自然正常化</b>し、原則として精査・治療は不要。過剰検査を避けるために知っておくべき代表例です。</div>
+  </div>
+
+  <div class="card">
+    <h3>② ALPが高いとき（骨系）に考える小児疾患</h3>
+    <div class="grid two mini">
+      <div class="callout"><b>くる病 / 骨軟化症</b><br>ビタミンD欠乏性、低リン血症性（FGF23関連・X連鎖性低リン血症など）。ALP高値＋低P（±低Ca）＋PTH・25(OH)D・FGF23・骨X線で鑑別。</div>
+      <div class="callout"><b>副甲状腺機能亢進 / 腎性骨異栄養症</b><br>慢性腎不全・二次性副甲状腺機能亢進で骨代謝亢進。</div>
+      <div class="callout"><b>甲状腺機能亢進症</b><br>骨代謝回転亢進でALP上昇（資料フロー内ALP3の随伴所見）。</div>
+      <div class="callout"><b>骨折治癒期・骨系腫瘍</b><br>治癒過程や骨形成性病変で骨型上昇。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>③ ALPが「低い」とき — 低ホスファターゼ症を見逃さない</h3>
+    <p>高値に目が行きがちですが、<b>年齢に比して低いALP</b>は<b>低ホスファターゼ症（Hypophosphatasia, HPP）</b>の手がかりです。<b>ALPL遺伝子（組織非特異的ALP：TNSALP）</b>の変異で酵素活性が低下し、骨石灰化障害・くる病様変化・乳歯の早期脱落・けいれん（ビタミンB6依存性）などを来します。</p>
+    <div class="callout"><b>基質の蓄積：</b>PLP（ピリドキサール5'-リン酸）、無機ピロリン酸(PPi)、ホスホエタノールアミンが上昇。<b>酵素補充療法（アスホターゼ アルファ）</b>が治療選択肢。年齢別基準で「低ALP」を必ず異常として拾う姿勢が重要です。</div>
+  </div>
+
+  <div class="card">
+    <h3>④ BAP（骨型ALP・免疫測定）と電気泳動ALP3の違い</h3>
+    <p>電気泳動のALP3は<b>分画（由来の推定）</b>のための定性〜半定量。一方<b>BAP（bone-specific ALP）</b>は免疫測定で<b>骨形成マーカー</b>として定量する別検査です。骨代謝を数値で追いたいときはBAP、由来を切り分けたいときは電気泳動、と目的で使い分けます。</p>
+  </div>
+</section>
+
+<!-- ================= セルフチェック ================= -->
+<section class="panel" id="quiz">
+  <h2 class="sec">セルフチェック（全8問）</h2>
+  <p class="lead">選択すると即座に正誤と解説が出ます。専門医試験前の総ざらいにどうぞ。</p>
+  <div id="quizArea"></div>
+  <div class="score" id="score">未回答 0 / 8</div>
+</section>
+
+<footer>
+  ALPアイソザイム 診断支援＆学習ツール ｜ オフライン動作・単一HTML ｜ 教育目的の参考資料です。<br>
+  測定法・基準値は自施設の運用（JSCC法／IFCC法）に合わせて読み替えてください。臨床判断は最新ガイドラインと総合所見に基づき行ってください。
+</footer>
+</div>
+
+<script>
+/* ---------- data ---------- */
+const FRAC=[
+ {id:"ALP1",col:"var(--a1)",pos:6,w:12,zone:"α1域・高分子",name:"高分子肝型（胆道系）",
+  origin:"肝細胞膜（胆汁酸で可溶化された膜結合型）。高分子。",
+  mean:"健常者では通常検出されない。出現＝<b>胆汁うっ滞</b>のサイン。",
+  dz:["肝外閉塞（閉塞性黄疸）","肝内胆汁うっ滞","肝内SOL（腫瘍・膿瘍などの限局性肝病変）"],
+  assoc:["γ-GTP↑","LAP↑","Bil↑（閉塞性）または Bil→"]},
+ {id:"ALP2",col:"var(--a2)",pos:22,w:14,zone:"α2域",name:"肝型",
+  origin:"肝細胞由来。成人で最も主要な分画。",
+  mean:"肝胆道疾患全般で上昇する主力バンド。ALP1を伴えば胆汁うっ滞を強く示唆。",
+  dz:["肝細胞性・胆汁うっ滞性肝障害","薬物誘導性肝障害","各種肝胆道疾患"],
+  assoc:["γ-GTP↑","LAP↑"]},
+ {id:"ALP3",col:"var(--a3)",pos:40,w:15,zone:"β域",name:"骨型",
+  origin:"骨芽細胞由来。骨形成の指標。",
+  mean:"<b>小児・思春期は生理的に高値</b>（成長スパート）。骨代謝亢進で上昇。",
+  dz:["成長期の生理的上昇（学童期・思春期）","くる病・骨軟化症","副甲状腺機能亢進／腎性骨異栄養症","甲状腺機能亢進症","骨折治癒期・骨転移・骨系腫瘍","糖尿病・腎不全に伴う骨代謝異常"],
+  assoc:["Ca・P・PTH・25(OH)D で骨系精査","BAPで定量","骨X線"]},
+ {id:"ALP4",col:"var(--a4)",pos:58,w:13,zone:"β〜γ域",name:"胎盤型",
+  origin:"胎盤由来。妊娠後期に生理的に出現・増加。",
+  mean:"妊娠のほか、胎盤型に類似した<b>腫瘍産生性ALP（Regan isozymeなど）</b>で出現。",
+  dz:["妊娠（後期に増加）","腫瘍産生性（胚細胞腫瘍・一部の癌）"],
+  assoc:["妊娠週数の確認","腫瘍マーカー・画像"]},
+ {id:"ALP5",col:"var(--a5)",pos:74,w:13,zone:"γ域",name:"小腸型",
+  origin:"小腸由来。血液型 B型・O型の分泌型（secretor）で出やすい。",
+  mean:"高脂肪食後に一過性に出現しうる<b>生理的変動</b>。慢性疾患でも出現。",
+  dz:["生理的：血液型B・O型／高脂肪食後に出現","肝硬変・肝細胞障害","慢性腎不全","糖尿病"],
+  assoc:["食事条件・血液型の確認"]},
+ {id:"ALP6",col:"var(--a6)",pos:90,w:11,zone:"原点付近",name:"免疫グロブリン結合型",
+  origin:"ALPが免疫グロブリン（主にIgG）と結合した高分子複合体。原点付近にとどまる。",
+  mean:"<b>酵素結合性免疫グロブリンの存在</b>を示す。活動性の炎症・自己免疫の背景を探る。",
+  dz:["潰瘍性大腸炎など炎症性腸疾患の活動期","自己免疫疾患・悪性腫瘍に伴うことがある"],
+  assoc:["背景疾患の活動性評価"]}
+];
+const OTHERS=[
+ {t:"★ 一過性高ALP血症",d:"乳幼児に無症状で著明高値。良性、数週〜数ヶ月で自然正常化。骨・肝疾患を伴わない糖鎖修飾異常。"},
+ {t:"LP-X",d:"閉塞性黄疸で出現する異常リポ蛋白。ALPそのものではないが電気泳動像の解釈上おさえる。"},
+ {t:"不明バンド",d:"既知分画に一致しない泳動帯。測定条件・複合体・稀な病態を考慮し再検・専門評価へ。"}
+];
+
+/* ---------- tabs ---------- */
+const nav=document.getElementById('nav');
+nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;switchTab(b.dataset.t);});
+function switchTab(t){
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x.dataset.t===t));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===t));
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelectorAll('[data-goto]').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();switchTab(a.dataset.goto);}));
+
+/* ---------- gel lane ---------- */
+const lane=document.getElementById('lane');
+FRAC.forEach(f=>{
+  const b=document.createElement('div');
+  b.className='band';b.style.left=f.pos+'%';b.style.width=f.w+'%';
+  b.style.background='linear-gradient(180deg,'+f.col+',rgba(0,0,0,.35))';
+  b.dataset.id=f.id;
+  b.innerHTML='<span class="bn">'+f.id.replace('ALP','')+'</span><span class="bl">'+f.zone.split('・')[0]+'</span>';
+  b.title=f.id+' '+f.name;
+  b.addEventListener('click',()=>{document.getElementById('c-'+f.id).scrollIntoView({behavior:'smooth',block:'center'});flash('c-'+f.id);});
+  lane.appendChild(b);
+});
+function flash(id){const el=document.getElementById(id);el.style.transition='box-shadow .3s';el.style.boxShadow='0 0 0 3px '+getComputedStyle(el).getPropertyValue('--hi');setTimeout(()=>el.style.boxShadow='',900);}
+
+/* ---------- fraction cards ---------- */
+const cards=document.getElementById('cards');
+FRAC.forEach(f=>{
+  const el=document.createElement('div');el.className='card';el.id='c-'+f.id;el.style.setProperty('--hi',f.col);
+  el.innerHTML=`
+   <h3><span class="chip" style="background:${f.col}">${f.id}</span> &nbsp;${f.name}</h3>
+   <div class="kv"><b>由来</b><span>${f.origin}</span></div>
+   <div class="kv"><b>臨床的意義</b><span>${f.mean}</span></div>
+   <div class="kv"><b>考える病態</b><span>${f.dz.map(x=>'・'+x).join('<br>')}</span></div>
+   <div class="kv"><b>随伴・確認</b><span>${f.assoc.map(x=>'<span class="tag">'+x+'</span>').join('')}</span></div>`;
+  cards.appendChild(el);
+});
+const ot=document.createElement('div');ot.className='card';ot.style.gridColumn='1 / -1';
+ot.innerHTML='<h3><span class="chip" style="background:var(--ao)">その他</span> &nbsp;鑑別上おさえるバンド・病態</h3>'+
+ OTHERS.map(o=>`<div class="kv"><b>${o.t}</b><span>${o.d}</span></div>`).join('');
+cards.appendChild(ot);
+
+/* ---------- flow ---------- */
+const flowTop=document.getElementById('flowTop'),flowDetail=document.getElementById('flowDetail');
+const ALLF=[...FRAC,{id:"その他",col:"var(--ao)",name:"その他",flowOnly:true}];
+ALLF.forEach((f,i)=>{
+  const b=document.createElement('div');b.className='fbtn';b.dataset.i=i;
+  b.innerHTML='<span class="fn">'+f.id+'</span><span class="fd">'+(f.name||'')+'</span>';
+  b.addEventListener('click',()=>selFlow(i));
+  flowTop.appendChild(b);
+});
+function selFlow(i){
+  document.querySelectorAll('#flowTop .fbtn').forEach((x,j)=>{
+    x.classList.toggle('act',j===i);x.style.background=j===i?ALLF[i].col:'';});
+  const f=ALLF[i];
+  if(f.flowOnly){
+    flowDetail.innerHTML='<h3><span class="chip" style="background:var(--ao)">その他</span> 鑑別上のバンド</h3>'+
+     '<table class="dx"><tr><th>項目</th><th>ポイント</th></tr>'+
+     OTHERS.map(o=>'<tr><td><b>'+o.t+'</b></td><td>'+o.d+'</td></tr>').join('')+'</table>';
+    return;
+  }
+  flowDetail.innerHTML=`
+   <h3><span class="chip" style="background:${f.col}">${f.id}</span> &nbsp;${f.name}</h3>
+   <p class="mini" style="color:var(--sub);margin:2px 0 10px">${f.mean}</p>
+   <table class="dx">
+     <tr><th>考える病態</th><td>${f.dz.map(x=>'・'+x).join('<br>')}</td></tr>
+     <tr><th>由来</th><td>${f.origin}</td></tr>
+     <tr><th>随伴・確認所見</th><td>${f.assoc.join(' ／ ')}</td></tr>
+   </table>`;
+}
+selFlow(2); // 骨型を初期表示（小児で最重要）
+
+/* ---------- quiz ---------- */
+const QUIZ=[
+ {q:"ALP測定法が2020年にJSCC法から切り替わった国際標準法は？",
+  o:["IFCC法","ELISA法","Bessey-Lowry法","比濁法"],a:0,
+  e:"2020年4月にIFCC法へ移行。ALP基準値はおおむね1/3に低下（IFCC≒JSCC×0.35前後）。過去値との比較時は測定法を確認します。"},
+ {q:"健常者では通常検出されず、出現すると胆汁うっ滞を示唆する分画は？",
+  o:["ALP1（高分子肝型）","ALP3（骨型）","ALP5（小腸型）","ALP6"],a:0,
+  e:"ALP1（高分子肝型）は肝外閉塞・肝内胆汁うっ滞・肝内SOLで出現。γ-GTP・LAP上昇を伴います。"},
+ {q:"学童期・思春期に生理的に高値となる分画は？",
+  o:["ALP2","ALP3（骨型）","ALP4","ALP6"],a:1,
+  e:"成長期は骨芽細胞活性が高く骨型ALP(ALP3)が生理的に上昇。成人基準ではなく年齢別小児基準で評価します。"},
+ {q:"妊娠後期に増加し、腫瘍産生性ALP（Regan isozymeなど）と関連する分画は？",
+  o:["ALP1","ALP3","ALP4（胎盤型）","ALP5"],a:2,
+  e:"ALP4は胎盤型。妊娠後期の生理的増加のほか、胎盤型類似の腫瘍性ALPで出現します。"},
+ {q:"血液型B・O型で高脂肪食後に出現しうる分画は？",
+  o:["ALP2","ALP4","ALP5（小腸型）","ALP6"],a:2,
+  e:"ALP5（小腸型）は分泌型のB・O型、高脂肪食後に出やすい生理的変動。肝硬変・慢性腎不全・糖尿病でも出現。"},
+ {q:"乳幼児に無症状で著明高値を呈し、数週〜数ヶ月で自然正常化する良性病態は？",
+  o:["低ホスファターゼ症","一過性乳児高ALP血症","くる病","Paget病"],a:1,
+  e:"一過性乳児高ALP血症。骨・肝疾患を伴わず自然軽快。過剰検査を避けるため必ず鑑別に入れます。"},
+ {q:"年齢に比して『低い』ALPで疑うべき遺伝性疾患は？",
+  o:["低ホスファターゼ症（HPP）","骨軟化症","甲状腺機能亢進症","閉塞性黄疸"],a:0,
+  e:"ALPL遺伝子（TNSALP）変異による低ホスファターゼ症。PLP・無機ピロリン酸・ホスホエタノールアミン上昇。アスホターゼ アルファが治療選択肢。"},
+ {q:"免疫グロブリンと結合し原点付近にとどまる分画は？",
+  o:["ALP1","ALP3","ALP5","ALP6（免疫結合型）"],a:3,
+  e:"ALP6は酵素結合性免疫グロブリン。潰瘍性大腸炎の活動期など炎症・自己免疫の背景を探る手がかりです。"}
+];
+const area=document.getElementById('quizArea'),scoreEl=document.getElementById('score');
+let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const box=document.createElement('div');box.className='q';
+  box.innerHTML='<div class="qh"><span class="qn">Q'+(qi+1)+'</span>'+item.q+'</div>';
+  item.o.forEach((opt,oi)=>{
+    const btn=document.createElement('button');btn.className='opt';btn.textContent=opt;
+    btn.addEventListener('click',()=>{
+      if(box.dataset.done)return;box.dataset.done=1;answered++;
+      const isC=oi===item.a;if(isC)correct++;
+      [...box.querySelectorAll('.opt')].forEach((b,bi)=>{b.disabled=true;
+        if(bi===item.a)b.classList.add('correct');
+        if(bi===oi&&!isC)b.classList.add('wrong');});
+      box.querySelector('.expl').classList.add('show');
+      scoreEl.textContent='正解 '+correct+' / '+answered+' 解答（全'+QUIZ.length+'問）';
+    });
+    box.appendChild(btn);
+  });
+  const ex=document.createElement('div');ex.className='expl';ex.innerHTML='<b>解説：</b>'+item.e;
+  box.appendChild(ex);area.appendChild(box);
+});
+</script>
+</body>
+</html>

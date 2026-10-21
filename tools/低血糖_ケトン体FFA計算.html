@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>低血糖 ケトン体・遊離脂肪酸 計算ツール</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="ケトン体・遊離脂肪酸の指標を計算">
+<meta name="mini-title" content="低血糖 ケトン体・FFA計算">
+
+<style>
+:root{
+  --ink:#12263A;
+  --ink-soft:#4A5C70;
+  --paper:#F4F6F8;
+  --card:#FFFFFF;
+  --line:#DDE3EA;
+  --teal:#0E7C86;
+  --teal-bg:#E5F2F3;
+  --amber:#B5651D;
+  --amber-bg:#FBEFE2;
+  --violet:#6A4C93;
+  --violet-bg:#EFEAF6;
+  --red:#B3283C;
+  --red-bg:#FBE9EC;
+  --green:#2C7A4B;
+  --green-bg:#E7F3EC;
+  --radius:12px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Noto Sans JP",Meiryo,sans-serif;
+  line-height:1.7;font-size:15px;padding-bottom:48px;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 14px}
+header{background:var(--ink);color:#fff;padding:16px 0 14px}
+header h1{margin:0;font-size:19px;letter-spacing:.02em}
+header p{margin:4px 0 0;font-size:12.5px;color:#B9C6D4}
+
+nav{position:sticky;top:0;z-index:20;background:var(--ink);border-top:1px solid rgba(255,255,255,.12)}
+.tabs{display:flex;overflow-x:auto;max-width:880px;margin:0 auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:11px 15px;font-size:13.5px;color:#B9C6D4;background:none;border:none;
+  border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;white-space:nowrap}
+.tab.on{color:#fff;border-bottom-color:#4FB3BF;font-weight:700}
+
+section{display:none;padding-top:16px}
+section.on{display:block}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px}
+.card h2{margin:0 0 10px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.card h2::before{content:"";width:4px;height:17px;background:var(--teal);border-radius:2px}
+.card h3{margin:14px 0 6px;font-size:14px;color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:4px;font-weight:600}
+.inrow{display:flex;gap:6px}
+input[type=number]{
+  flex:1;min-width:0;padding:11px 10px;font-size:17px;border:1.5px solid var(--line);border-radius:9px;
+  background:#fff;color:var(--ink);font-family:inherit;font-variant-numeric:tabular-nums}
+input[type=number]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-bg)}
+select{padding:0 6px;font-size:13px;border:1.5px solid var(--line);border-radius:9px;background:#fff;
+  color:var(--ink-soft);font-family:inherit}
+.conv{font-size:12px;color:var(--teal);margin-top:3px;min-height:17px;font-variant-numeric:tabular-nums}
+
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button.act{padding:9px 14px;border-radius:9px;border:1.5px solid var(--line);background:#fff;
+  color:var(--ink);font-size:13px;font-family:inherit;cursor:pointer}
+button.act:hover{border-color:var(--teal);color:var(--teal)}
+
+.res{border-radius:var(--radius);padding:13px;margin-bottom:10px;border:1px solid var(--line);background:#fff}
+.res .lbl{font-size:12.5px;color:var(--ink-soft);font-weight:600}
+.res .val{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.25;margin:2px 0}
+.res .jd{font-size:15px;font-weight:700}
+.res .note{font-size:12.5px;color:var(--ink-soft);margin-top:5px}
+.res .formula{font-size:11.5px;color:#8896A6;font-variant-numeric:tabular-nums}
+.res.ok{background:var(--green-bg);border-color:#B7DCC5}.res.ok .jd{color:var(--green)}
+.res.low{background:var(--amber-bg);border-color:#EBD2B4}.res.low .jd{color:var(--amber)}
+.res.high{background:var(--violet-bg);border-color:#D5C9E6}.res.high .jd{color:var(--violet)}
+.res.alert{background:var(--red-bg);border-color:#EFC5CD}.res.alert .jd{color:var(--red)}
+.res.mute{background:#F1F3F5;border-color:var(--line)}.res.mute .jd{color:var(--ink-soft)}
+
+.warn{background:var(--amber-bg);border:1px solid #EBD2B4;border-left:4px solid var(--amber);
+  border-radius:9px;padding:10px 12px;font-size:13px;margin-bottom:10px}
+.warn b{color:var(--amber)}
+.tip{background:var(--teal-bg);border-left:4px solid var(--teal);border-radius:9px;padding:10px 12px;font-size:13px;margin:10px 0}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#EEF2F5;font-weight:700;font-size:12.5px}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+.c-low{color:var(--amber)}.c-ok{color:var(--green)}.c-high{color:var(--violet)}
+
+ul{margin:6px 0;padding-left:20px}li{margin:3px 0}
+.dx{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;background:#fff}
+.dx .h{font-weight:700;font-size:14px;margin-bottom:3px}
+.dx.low{border-left:4px solid var(--amber)}
+.dx.ok{border-left:4px solid var(--green)}
+.dx.high{border-left:4px solid var(--violet)}
+.pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:99px;background:#EEF2F5;color:var(--ink-soft);margin-left:6px;vertical-align:2px}
+.small{font-size:12.5px;color:var(--ink-soft)}
+footer{text-align:center;font-size:11.5px;color:#94A2B1;padding:18px 0 6px}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>低血糖 ケトン体・遊離脂肪酸 計算</h1>
+  <p>低血糖を見たら必ず ケトン体・遊離脂肪酸（FFA）を測る</p>
+</div></header>
+
+<nav><div class="tabs">
+  <button class="tab on" data-t="calc">計算・判定</button>
+  <button class="tab" data-t="dx">鑑別</button>
+  <button class="tab" data-t="draw">低血糖時 採血セット</button>
+  <button class="tab" data-t="ref">基準・注意点</button>
+  <button class="tab" data-t="fu">フォロー</button>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ========== 計算 ========== -->
+<section id="calc" class="on">
+  <div class="card">
+    <h2>検査値を入力</h2>
+    <div class="grid">
+      <div>
+        <label class="f">血糖</label>
+        <div class="inrow">
+          <input type="number" id="glc" step="any" inputmode="decimal" placeholder="24">
+          <select id="glcU"><option value="mgdl">mg/dL</option><option value="mm">mmol/L</option></select>
+        </div>
+        <div class="conv" id="glcC"></div>
+      </div>
+      <div>
+        <label class="f">総ケトン体</label>
+        <div class="inrow">
+          <input type="number" id="tkb" step="any" inputmode="decimal" placeholder="838">
+          <select id="tkbU"><option value="umol">µmol/L</option><option value="mm">mmol/L</option></select>
+        </div>
+        <div class="conv" id="tkbC"></div>
+      </div>
+      <div>
+        <label class="f">遊離脂肪酸（FFA / NEFA）</label>
+        <div class="inrow">
+          <input type="number" id="ffa" step="any" inputmode="decimal" placeholder="1867">
+          <select id="ffaU"><option value="ueq">µEq/L</option><option value="meq">mEq/L</option></select>
+        </div>
+        <div class="conv" id="ffaC"></div>
+      </div>
+      <div>
+        <label class="f">3-OH酪酸 / アセト酢酸（任意）</label>
+        <div class="inrow">
+          <input type="number" id="bohb" step="any" inputmode="decimal" placeholder="3-OHB µmol/L">
+          <input type="number" id="acac" step="any" inputmode="decimal" placeholder="AcAc µmol/L">
+        </div>
+        <div class="conv" id="ratC"></div>
+      </div>
+    </div>
+    <div class="btns">
+      <button class="act" id="sample">スライドの症例を入れる</button>
+      <button class="act" id="clear">クリア</button>
+    </div>
+  </div>
+
+  <div id="flags"></div>
+  <div id="out"></div>
+</section>
+
+<!-- ========== 鑑別 ========== -->
+<section id="dx">
+  <div class="card">
+    <h2>2つの指標で分ける</h2>
+    <table>
+      <tr><th>血糖(mM) × 総ケトン体(mM)</th><th>判定</th></tr>
+      <tr><td class="num c-low">&lt; 8</td><td>低ケトン性低血糖</td></tr>
+      <tr><td class="num c-ok">8 – 13</td><td>正常（低血糖に見合ったケトン産生）</td></tr>
+      <tr><td class="num c-high">&gt; 13</td><td>ケトン利用障害</td></tr>
+    </table>
+    <table>
+      <tr><th>FFA(mM) ÷ 総ケトン体(mM)</th><th>判定</th></tr>
+      <tr><td class="num c-high">&lt; 0.3</td><td>ケトン体利用障害</td></tr>
+      <tr><td class="num c-ok">0.5 – 2.5</td><td>正常</td></tr>
+      <tr><td class="num c-low">&gt; 3.0</td><td>ケトン体産生異常・脂肪酸代謝異常症</td></tr>
+    </table>
+    <div class="tip">ケトン体と遊離脂肪酸は<b>単位をそろえてから</b>割る（µmol/L も µEq/L も ÷1000 で mM）。</div>
+  </div>
+
+  <div class="card">
+    <h2>低ケトン性低血糖（積 &lt; 8）</h2>
+    <div class="dx low">
+      <div class="h">FFA も低い <span class="pill">FFA/ケトン 正常〜低・FFA 絶対値も低値</span></div>
+      脂肪分解そのものが抑えられている → インスリン作用過剰を第一に考える
+      <ul>
+        <li>高インスリン血症性低血糖（先天性HI、Beckwith-Wiedemann、インスリノーマ、外因性インスリン・SU薬）</li>
+        <li>下垂体機能低下症（GH欠損、ACTH/コルチゾール欠損）、副腎不全</li>
+      </ul>
+      <span class="small">→ 低血糖時のインスリン・C-ペプチド・GH・コルチゾール、グルカゴン負荷での血糖上昇</span>
+    </div>
+    <div class="dx low">
+      <div class="h">FFA は高い（FFA/ケトン &gt; 3.0） <span class="pill">脂肪分解はある／ケトンにできない</span></div>
+      <ul>
+        <li>脂肪酸β酸化異常症：MCAD、VLCAD、LCHAD/TFP、CPT-1/CPT-2、CACT、カルニチントランスポーター異常</li>
+        <li>ケトン体産生異常：HMG-CoA合成酵素欠損症、HMG-CoAリアーゼ欠損症</li>
+      </ul>
+      <span class="small">→ アシルカルニチン分画（血清/濾紙）、遊離カルニチン・総カルニチン、尿中有機酸、CK・AST/ALT・アンモニア</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>ケトン利用障害（積 &gt; 13、FFA/ケトン &lt; 0.3）</h2>
+    <div class="dx high">
+      <div class="h">ケトンは作れるが使えない</div>
+      <ul>
+        <li>SCOT欠損症（OXCT1）— 非発作時も持続性ケトーシス</li>
+        <li>β-ケトチオラーゼ欠損症（ACAT1 / T2）— 反復するケトアシドーシス発作</li>
+      </ul>
+      <span class="small">→ 尿中有機酸（2-メチル-3-ヒドロキシ酪酸、チグリルグリシン）、アシルカルニチン（C5:1, C5-OH）</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>ケトン性低血糖（積 8–13、FFA/ケトン正常）</h2>
+    <div class="dx ok">
+      <div class="h">反応としては正しい。なぜ糖が尽きたかを考える</div>
+      <ul>
+        <li>特発性ケトン性低血糖症（1–5歳、痩せ型、感染・絶食が契機。<b>除外診断</b>）</li>
+        <li>糖原病（GSD 0, I, III, VI, IX）— 肝腫大・乳酸・脂質</li>
+        <li>糖新生異常（FBPase欠損、PC欠損、PEPCK欠損）— 乳酸高値</li>
+        <li>有機酸血症（PA、MMA、IVA など）— アシドーシス・アンモニア・血球減少</li>
+        <li>内分泌欠損（GH欠損、副腎不全、汎下垂体機能低下）</li>
+        <li>飢餓・重症感染・肝不全・薬剤（アルコール、β遮断薬）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 採血 ========== -->
+<section id="draw">
+  <div class="card">
+    <h2>低血糖時に必ず採る（critical sample）</h2>
+    <div class="warn"><b>糖を入れる前に採る。</b>1本でも欠けると診断が振り出しに戻る。ルート確保時に同時採血。</div>
+    <table>
+      <tr><th>系統</th><th>項目</th></tr>
+      <tr><td>糖代謝</td><td>血糖（静脈血で確認）、乳酸、ピルビン酸</td></tr>
+      <tr><td>ケトン・脂質</td><td>総ケトン体、3-OH酪酸、アセト酢酸、遊離脂肪酸、中性脂肪</td></tr>
+      <tr><td>内分泌</td><td>インスリン、C-ペプチド、GH、コルチゾール、ACTH（＋必要ならIGF-1）</td></tr>
+      <tr><td>代謝</td><td>アンモニア、血液ガス、血漿アミノ酸、遊離/総カルニチン、アシルカルニチン分画</td></tr>
+      <tr><td>一般</td><td>血算、AST/ALT、CK、尿酸、電解質、腎機能</td></tr>
+      <tr><td>尿</td><td>尿ケトン、尿中有機酸（第一尿を凍結保存）</td></tr>
+      <tr><td>保存</td><td>血漿・血清を各 1–2 mL 凍結（-20℃以下）＋濾紙血</td></tr>
+    </table>
+    <div class="tip">回復後の追加：グルカゴン負荷（HI では血糖 &gt;30 mg/dL 上昇）、絶食試験は診断が絞れないときのみ入院で。</div>
+  </div>
+  <div class="card">
+    <h2>並行して行う初期対応</h2>
+    <ul>
+      <li>ブドウ糖 0.2–0.5 g/kg（10%糖液 2–5 mL/kg）を静注、その後 GIR 5–8 mg/kg/分で維持</li>
+      <li>GIR &gt; 8–10 mg/kg/分 が必要 → 高インスリン血症性低血糖を強く疑う</li>
+      <li>血糖 70 mg/dL 以上をキープしつつ再検、意識・けいれんの評価</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========== 基準・注意点 ========== -->
+<section id="ref">
+  <div class="card">
+    <h2>換算</h2>
+    <table>
+      <tr><th>項目</th><th>換算</th></tr>
+      <tr><td>血糖</td><td>mM = mg/dL ÷ 18</td></tr>
+      <tr><td>総ケトン体</td><td>mM = µmol/L ÷ 1000</td></tr>
+      <tr><td>遊離脂肪酸</td><td>mM = µEq/L ÷ 1000（＝ mEq/L）</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2>読み違えやすいところ</h2>
+    <div class="warn"><b>糖輸液を始めた後の遊離脂肪酸はアテにならない。</b>インスリン分泌が誘発されて脂肪分解が止まり、FFA が偽性に低下する。指標は「糖を入れる前の検体」で解釈する。</div>
+    <div class="warn"><b>低血糖時の検体でなければ意味がない。</b>血糖が保たれている時点の値でこの指標を計算しない。</div>
+    <div class="warn"><b>低ケトンでも内分泌学的検索を忘れずに。</b>脂肪酸代謝異常症の検索と並行して、インスリン・C-ペプチド・GH・コルチゾールを必ず出す。</div>
+    <ul>
+      <li>3-OH酪酸/アセト酢酸比：通常 1〜2程度。&gt; 2.5 は NADH/NAD⁺ 上昇（呼吸鎖異常症、有機酸血症、遷延する重症低血糖・アシドーシス）を示唆</li>
+      <li>簡易血中ケトン測定器は 3-OH酪酸のみを測る。総ケトン体としては過小評価</li>
+      <li>尿ケトン（アセト酢酸の定性）は陰性でも血中ケトンを否定できない</li>
+      <li>新生児は生理的にケトン産生が低く、この指標の解釈に注意</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>低血糖の目安</h2>
+    <ul>
+      <li>血糖 &lt; 50 mg/dL で精査対象（症状があれば &lt; 60 mg/dL でも検討）</li>
+      <li>生後48時間以降の新生児は &lt; 50 mg/dL、遷延・反復例は内分泌代謝精査へ</li>
+      <li>Whipple の三徴（低血糖値・症状・糖投与での改善）をカルテに残す</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========== フォロー ========== -->
+<section id="fu">
+  <div class="card">
+    <h2>診断がつくまでの外来</h2>
+    <ul>
+      <li>シックデイルール（発熱・嘔吐・食思不振時）を紙で渡す：糖分をこまめに、摂れなければ受診</li>
+      <li>年齢別の最長絶食時間を決めて共有（乳児 8時間、1–2歳 12時間、それ以上 14–16時間 が目安）</li>
+      <li>就寝前補食、朝の様子（起きにくい・ぐったり）を毎回確認</li>
+      <li>脂肪酸代謝異常症を疑う間は、絶食回避・カルニチン評価・運動時の注意を継続</li>
+      <li>身長体重・発達、肝腫大の有無を定期評価</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>フォロー終了（経過観察オフ）の目安</h2>
+    <ul>
+      <li>特発性ケトン性低血糖症：<b>6–8歳以降</b>で 1年以上発作がなく、感染・絶食時も自宅対応で乗り切れている</li>
+      <li>成長（身長SD・体重）と発達が正常で、肝腫大・アシドーシスの所見がない</li>
+      <li>新生児マススクリーニング陰性＋アシルカルニチン・尿中有機酸・血漿アミノ酸に異常がない</li>
+      <li>内分泌学的評価（GH・コルチゾール）が正常で、代替診断が否定されている</li>
+      <li>家族がシックデイ対応と受診基準を説明でき、実際に運用できている</li>
+    </ul>
+    <div class="tip"><b>家族へのセーフティネット（終診時に必ず伝える）</b><br>
+      次のときはフォロー終了後でもすぐ受診：①嘔吐や食思不振が半日以上続く ②朝起きてこない・呼びかけへの反応が鈍い ③けいれん・意識障害（救急要請）④長時間の絶食後にふらつき・冷汗・顔色不良。<br>
+      受診時は「低血糖の既往があり、血糖・ケトン体・遊離脂肪酸を糖投与前に採ってほしい」と伝えるよう説明し、紹介状かサマリーを渡しておく。</div>
+  </div>
+</section>
+
+<footer>院内用クイックリファレンス ver1 ／ 判定は補助であり、臨床像と合わせて判断する</footer>
+</div>
+
+<script>
+// tabs
+document.querySelectorAll('.tab').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+    document.querySelectorAll('section').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    document.getElementById(b.dataset.t).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+var $=function(id){return document.getElementById(id)};
+var ids=['glc','tkb','ffa','bohb','acac','glcU','tkbU','ffaU'];
+ids.forEach(function(i){$(i).addEventListener('input',calc);$(i).addEventListener('change',calc)});
+
+$('sample').addEventListener('click',function(){
+  $('glcU').value='mgdl';$('tkbU').value='umol';$('ffaU').value='ueq';
+  $('glc').value=24;$('tkb').value=838;$('ffa').value=1867;$('bohb').value=557;$('acac').value=281;
+  calc();
+});
+$('clear').addEventListener('click',function(){
+  ['glc','tkb','ffa','bohb','acac'].forEach(function(i){$(i).value=''});calc();
+});
+
+function num(id){var v=parseFloat($(id).value);return isFinite(v)?v:null}
+function f(n,d){return n.toFixed(d===undefined?2:d)}
+
+function calc(){
+  var g=num('glc'), t=num('tkb'), a=num('ffa'), b=num('bohb'), c=num('acac');
+
+  // mM 換算
+  var gM = g===null?null:($('glcU').value==='mgdl'? g/18 : g);
+  var gMg = g===null?null:($('glcU').value==='mgdl'? g : g*18);
+  var tM = t===null?null:($('tkbU').value==='umol'? t/1000 : t);
+  var aM = a===null?null:($('ffaU').value==='ueq'? a/1000 : a);
+
+  $('glcC').textContent = gM===null?'':'= '+f(gM)+' mM（'+f(gMg,0)+' mg/dL）';
+  $('tkbC').textContent = tM===null?'':'= '+f(tM,3)+' mM';
+  $('ffaC').textContent = aM===null?'':'= '+f(aM,3)+' mM';
+  $('ratC').textContent = (b!==null&&c!==null&&c>0)?'3-OHB / AcAc = '+f(b/c):'';
+
+  var flags='', out='';
+
+  if(gMg!==null && gMg>=60){
+    flags+='<div class="warn"><b>低血糖時の検体か確認。</b>血糖 '+f(gMg,0)+' mg/dL は低血糖域ではなく、この指標は解釈できない。</div>';
+  }
+
+  // 指標1
+  if(gM!==null && tM!==null){
+    var i1=gM*tM, cls, jd, note;
+    if(i1<8){cls='low';jd='低ケトン性低血糖';note='低血糖に見合ったケトン産生がない。高インスリン血症性低血糖・脂肪酸β酸化異常症・ケトン体産生異常を鑑別。';}
+    else if(i1<=13){cls='ok';jd='正常範囲（8–13）';note='ケトン産生の反応は保たれている。糖が尽きた理由（糖原病・糖新生異常・内分泌欠損など）を考える。';}
+    else {cls='high';jd='ケトン利用障害';note='ケトンは作れているが利用できていない。SCOT欠損症・β-ケトチオラーゼ欠損症を鑑別。';}
+    out+='<div class="res '+cls+'"><div class="lbl">血糖(mM) × 総ケトン体(mM)</div>'
+       +'<div class="val">'+f(i1)+'</div><div class="jd">'+jd+'</div>'
+       +'<div class="formula">'+f(gM)+' × '+f(tM,3)+'　基準 8–13</div>'
+       +'<div class="note">'+note+'</div></div>';
+  }
+
+  // 指標2
+  var i2=null;
+  if(aM!==null && tM!==null && tM>0){
+    i2=aM/tM; var cls2,jd2,note2;
+    if(i2<0.3){cls2='high';jd2='ケトン体利用障害';note2='ケトン体が消費されず蓄積している。SCOT欠損症・β-ケトチオラーゼ欠損症。';}
+    else if(i2<0.5){cls2='mute';jd2='境界（0.3–0.5）';note2='基準（0.5–2.5）をやや下回る。臨床像と経時変化で判断。';}
+    else if(i2<=2.5){cls2='ok';jd2='正常範囲（0.5–2.5）';note2='脂肪分解とケトン産生のバランスは保たれている。';}
+    else if(i2<=3.0){cls2='mute';jd2='境界（2.5–3.0）';note2='ケトン産生がやや追いついていない。脂肪酸代謝異常症の検索を検討。';}
+    else {cls2='low';jd2='ケトン体産生異常・脂肪酸代謝異常症';note2='脂肪分解は起きているがケトンにできていない。アシルカルニチン分画・尿中有機酸を提出。';}
+    out+='<div class="res '+cls2+'"><div class="lbl">遊離脂肪酸(mM) ÷ 総ケトン体(mM)</div>'
+       +'<div class="val">'+f(i2)+'</div><div class="jd">'+jd2+'</div>'
+       +'<div class="formula">'+f(aM,3)+' ÷ '+f(tM,3)+'　基準 0.5–2.5</div>'
+       +'<div class="note">'+note2+'</div></div>';
+  }
+
+  // 3-OHB/AcAc
+  if(b!==null && c!==null && c>0){
+    var r=b/c, cls3, jd3, note3;
+    if(r>2.5){cls3='high';jd3='上昇（>2.5）';note3='NADH/NAD⁺ 上昇を示唆。呼吸鎖異常症、有機酸血症、遷延する重症低血糖・アシドーシス。';}
+    else {cls3='mute';jd3='おおむね通常域（1〜2程度）';note3='酸化還元状態の大きな偏りは示唆されない。';}
+    out+='<div class="res '+cls3+'"><div class="lbl">3-OH酪酸 / アセト酢酸</div>'
+       +'<div class="val">'+f(r)+'</div><div class="jd">'+jd3+'</div>'
+       +'<div class="note">'+note3+'</div></div>';
+  }
+
+  // 組み合わせの示唆
+  if(gM!==null && tM!==null && aM!==null){
+    var i1b=gM*tM, s='';
+    if(i1b<8 && i2>3.0){
+      s='<b>低ケトン ＋ FFA高値</b> → 脂肪酸β酸化異常症・ケトン体産生異常（HMG-CoA合成酵素/リアーゼ）を優先して検索。アシルカルニチン分画、遊離カルニチン、尿中有機酸、CK・アンモニア。';
+    } else if(i1b<8 && aM<1.0){
+      s='<b>低ケトン ＋ FFA も低値</b> → 脂肪分解そのものが抑制されている。高インスリン血症性低血糖を第一に、副腎不全・GH欠損も。低血糖時のインスリン・C-ペプチド・GH・コルチゾール、グルカゴン負荷。';
+    } else if(i1b<8){
+      s='<b>低ケトン性低血糖</b>。インスリン作用過剰と脂肪酸代謝異常症の<u>両方</u>を並行して検索する。糖を入れる前の検体が残っているか確認。';
+    } else if(i1b>13 || i2<0.3){
+      s='<b>ケトン利用障害パターン</b> → 尿中有機酸（2-メチル-3-ヒドロキシ酪酸、チグリルグリシン）、アシルカルニチン（C5:1、C5-OH）。';
+    } else {
+      s='<b>ケトン反応は保たれている</b> → 糖新生・糖原病・有機酸血症・内分泌欠損（GH、コルチゾール）を検索。';
+    }
+    out+='<div class="card"><h2>次の一手</h2><div style="font-size:14px">'+s+'</div>'
+       +'<div class="warn" style="margin-top:10px"><b>糖輸液開始後の検体なら FFA は評価不能。</b>インスリン分泌により脂肪分解が抑えられ、FFA は偽性に低下する。FFA÷総ケトン体の判定は保留にする。</div>'
+       +'</div>';
+  }
+
+  if(!out){out='<div class="card"><div class="small">血糖・総ケトン体・遊離脂肪酸を入力すると判定を表示します。</div></div>';}
+  $('flags').innerHTML=flags;
+  $('out').innerHTML=out;
+}
+calc();
+</script>
+</body>
+</html>

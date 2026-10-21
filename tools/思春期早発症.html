@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思春期早発症 診療クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診療クイックリファレンス">
+<meta name="mini-title" content="思春期早発症">
+
+<style>
+:root {
+  --bg: #eef2f7;
+  --card: #ffffff;
+  --border: #dde3ec;
+  --text: #1a202c;
+  --text-muted: #64748b;
+  --primary: #1e3a5f;
+  --primary-mid: #254d80;
+  --primary-light: #3468a8;
+  --red: #b91c1c;
+  --red-soft: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --amber: #92400e;
+  --amber-soft: #b45309;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --blue: #1d4ed8;
+  --blue-soft: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --green: #166534;
+  --green-soft: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN', 'Noto Sans JP', 'Meiryo', 'メイリオ', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a9e 60%, #1e4e9e 100%);
+  color: white;
+  padding: 14px 20px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+.header-left .sub {
+  font-size: 10.5px;
+  opacity: 0.75;
+  margin-top: 2px;
+  font-weight: 400;
+}
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.header-tag {
+  font-size: 9.5px;
+  background: rgba(255,255,255,0.18);
+  padding: 2px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+  white-space: nowrap;
+}
+
+/* ─── TAB NAV ─── */
+.tab-nav {
+  background: var(--primary-mid);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  padding: 9px 14px;
+  color: rgba(255,255,255,0.62);
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 11.5px;
+  font-family: inherit;
+  border-bottom: 3px solid transparent;
+  transition: all 0.18s;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+.tab-btn.active {
+  color: white;
+  border-bottom-color: #5ef07a;
+  background: rgba(255,255,255,0.12);
+  font-weight: 700;
+}
+
+/* ─── CONTENT WRAPPER ─── */
+.tab-content { display: none; padding: 14px 16px 24px; max-width: 1280px; margin: 0 auto; }
+.tab-content.active { display: block; }
+
+/* ─── GRIDS ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px; }
+.grid-half { display: grid; grid-template-columns: 1.4fr 1fr; gap: 11px; }
+.mb-3 { margin-bottom: 11px; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--card);
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.card-hd {
+  padding: 7px 11px;
+  font-weight: 700;
+  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.2px;
+}
+.card-hd .icon { font-size: 13px; }
+.card-hd.red    { background: var(--red-bg); color: var(--red); border-bottom: 1px solid var(--red-border); }
+.card-hd.amber  { background: var(--amber-bg); color: var(--amber); border-bottom: 1px solid var(--amber-border); }
+.card-hd.blue   { background: var(--blue-bg); color: var(--blue); border-bottom: 1px solid var(--blue-border); }
+.card-hd.green  { background: var(--green-bg); color: var(--green); border-bottom: 1px solid var(--green-border); }
+.card-hd.purple { background: var(--purple-bg); color: var(--purple); border-bottom: 1px solid var(--purple-border); }
+.card-hd.dark   { background: var(--primary); color: white; }
+.card-hd.navy   { background: var(--primary-mid); color: white; }
+.card-body { padding: 9px 11px; }
+
+/* ─── HIGHLIGHT ROWS ─── */
+.hl { padding: 5px 9px; border-radius: 4px; margin: 3px 0; border-left: 3px solid; }
+.hl-red    { background: var(--red-bg); border-color: var(--red-soft); color: #7f1d1d; }
+.hl-amber  { background: var(--amber-bg); border-color: var(--amber-soft); color: #78350f; }
+.hl-blue   { background: var(--blue-bg); border-color: var(--blue-soft); color: #1e3a8a; }
+.hl-green  { background: var(--green-bg); border-color: var(--green-soft); color: #14532d; }
+.hl-purple { background: var(--purple-bg); border-color: var(--purple); color: #3b0764; }
+
+/* ─── BADGES ─── */
+.badge {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 9.5px;
+  font-weight: 700;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+.b-red    { background: var(--red-soft); color: white; }
+.b-amber  { background: var(--amber-soft); color: white; }
+.b-blue   { background: var(--blue-soft); color: white; }
+.b-green  { background: var(--green-soft); color: white; }
+.b-purple { background: var(--purple); color: white; }
+.b-gray   { background: #64748b; color: white; }
+.b-ev     { background: #374151; color: #e5e7eb; font-family: monospace; }
+
+/* ─── AGE CRITERIA ─── */
+.age-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 8px; margin: 3px 0; border-radius: 5px;
+  background: var(--red-bg); border-left: 3px solid var(--red-soft);
+}
+.age-num { font-weight: 900; font-size: 15px; color: var(--red); min-width: 68px; }
+.age-text { font-size: 12px; color: #7f1d1d; flex: 1; }
+.age-row.boys { background: #eff6ff; border-color: var(--blue-soft); }
+.age-row.boys .age-num { color: var(--blue); }
+.age-row.boys .age-text { color: #1e3a8a; }
+
+/* ─── TABLES ─── */
+.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.tbl th {
+  background: var(--primary);
+  color: white; padding: 5px 7px;
+  text-align: center; font-weight: 600;
+  font-size: 10.5px;
+}
+.tbl td {
+  padding: 4px 7px; border: 1px solid #dde3ec;
+  text-align: center; vertical-align: middle;
+}
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl tr:hover td { background: var(--blue-bg); }
+.tbl .td-lbl { text-align: left; font-weight: 600; background: #f1f5f9 !important; color: #334155; }
+.tbl .td-prepub { background: var(--green-bg) !important; color: #14532d; }
+.tbl .td-pub { background: var(--red-bg) !important; color: #7f1d1d; font-weight: 600; }
+.tbl .td-key { background: #fff7ed !important; color: #7c2d12; font-weight: 700; }
+.tbl .tbl-subhd { background: var(--primary-mid) !important; color: rgba(255,255,255,0.9); font-weight: 600; font-size: 10px; }
+
+/* ─── DOSE BOX ─── */
+.dose-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: white; padding: 12px 14px; border-radius: 7px; margin: 6px 0; text-align: center;
+}
+.dose-num { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+.dose-unit { font-size: 12px; opacity: 0.82; margin-top: 1px; }
+.dose-label { font-size: 10px; opacity: 0.65; margin-bottom: 3px; font-weight: 600; letter-spacing: 0.5px; }
+
+.dose-box-amber {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+  color: white; padding: 10px 14px; border-radius: 7px; text-align: center;
+}
+
+/* ─── MONITORING TABLE ─── */
+.monitor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.monitor-cell { padding: 8px 9px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.monitor-cell:last-child, .monitor-cell:nth-child(4) { border-right: none; }
+.monitor-cell.hd { background: var(--primary); color: white; font-weight: 700; font-size: 11px; text-align: center; }
+.monitor-cell.grp { background: #f1f5f9; font-weight: 700; font-size: 11px; color: var(--primary); }
+.monitor-freq { font-size: 13px; font-weight: 800; color: var(--primary-light); }
+
+/* ─── LIST ─── */
+.cl { list-style: none; padding: 0; }
+.cl li {
+  padding: 4px 0 4px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  position: relative; font-size: 12px;
+}
+.cl li:last-child { border-bottom: none; }
+.cl li::before { content: '▸'; position: absolute; left: 0; color: var(--primary-light); font-size: 9px; top: 6px; }
+
+/* ─── MISC ─── */
+.sep { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+.small { font-size: 10.5px; color: var(--text-muted); }
+.small-note { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; padding-top: 4px; border-top: 1px dashed #cbd5e1; }
+.strong { font-weight: 700; }
+.mt { margin-top: 8px; }
+.mh { background: #f8fafc; border-radius: 4px; padding: 4px 8px; margin: 4px 0; font-size: 11.5px; border-left: 2px solid #94a3b8; }
+.arrow { color: var(--red); font-weight: 700; }
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--primary);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 8px;
+  font-size: 9.5px;
+  margin-top: 20px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 780px) {
+  .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; }
+  .header h1 { font-size: 14px; }
+  .monitor-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<div class="header">
+  <div class="header-left">
+    <h1>🔬 思春期早発症 診療クイックリファレンス</h1>
+    <div class="sub">中枢性思春期早発症（CPP）| Precocious Puberty</div>
+  </div>
+  <div class="header-right">
+    <span class="header-tag">日本内分泌学会 手引き 平成30年度改訂</span>
+    <span class="header-tag">Carel et al. Pediatrics 2009 (ESPE-LWPES)</span>
+    <span class="header-tag">小児内分泌 クイックリファレンス</span>
+  </div>
+</div>
+
+<!-- ══════════ TAB NAV ══════════ -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">① 定義・分類</button>
+  <button class="tab-btn" onclick="switchTab(1)">② 初診検査・診断基準</button>
+  <button class="tab-btn" onclick="switchTab(2)">③ GnRH負荷試験</button>
+  <button class="tab-btn" onclick="switchTab(3)">④ 治療適応・開始基準</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤ 投与・モニタリング</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥ 治療中止・長期予後</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 1: 定義・分類                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-content active" id="tab0">
+  <div class="grid-half mb-3">
+
+    <!-- 発症年齢基準 -->
+    <div class="card">
+      <div class="card-hd red"><span class="icon">📅</span> 発症年齢基準（日本）</div>
+      <div class="card-body">
+        <div class="mh" style="font-weight:700; font-size:11px; color:#7f1d1d; margin-bottom:6px;">🚺 女児</div>
+        <div class="age-row">
+          <div class="age-num">&lt; 7.5歳</div>
+          <div class="age-text">乳房発育（Tanner B2以上）<span class="badge b-red">最重要</span></div>
+        </div>
+        <div class="age-row">
+          <div class="age-num">&lt; 8歳</div>
+          <div class="age-text">陰毛発生・小陰唇色素沈着・外陰部成熟・腋毛発生</div>
+        </div>
+        <div class="age-row">
+          <div class="age-num">&lt; 10.5歳</div>
+          <div class="age-text">初経（月経発来）</div>
+        </div>
+
+        <div class="mh" style="font-weight:700; font-size:11px; color:#1e3a8a; margin: 10px 0 6px;">🚹 男児</div>
+        <div class="age-row boys">
+          <div class="age-num">&lt; 9歳</div>
+          <div class="age-text">精巣・陰茎・陰嚢の明らかな発育<span class="badge b-blue">最重要</span></div>
+        </div>
+        <div class="age-row boys">
+          <div class="age-num">&lt; 10歳</div>
+          <div class="age-text">陰毛発生</div>
+        </div>
+        <div class="age-row boys">
+          <div class="age-num">&lt; 11歳</div>
+          <div class="age-text">腋毛発生・ひげ・声変わり</div>
+        </div>
+        <div class="small-note">※ 疑い例：上記年齢基準を各1歳高くした条件で確実例基準に合致するもの</div>
+        <div class="small-note">※ 国際基準（ESPE-LWPES）: 女児 &lt;8歳、男児 &lt;9歳（Carel et al. 2009）</div>
+      </div>
+    </div>
+
+    <!-- 中枢性 vs 末梢性 -->
+    <div>
+      <div class="card mb-3">
+        <div class="card-hd amber"><span class="icon">⚖️</span> 中枢性 vs 末梢性（鑑別の核心）</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>中枢性（GnRH依存性）</th>
+                <th>末梢性（GnRH非依存性）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-lbl">機序</td><td>HPG軸の早期活性化</td><td>自律的性ステロイド産生</td></tr>
+              <tr><td class="td-lbl">GnRH負荷</td><td class="td-pub">LH反応 ↑（思春期型）</td><td class="td-prepub">LH反応 なし（前思春期型）</td></tr>
+              <tr><td class="td-lbl">LH/FSH比</td><td>高値（LH優位）</td><td>低値（FSH優位または不変）</td></tr>
+              <tr><td class="td-lbl">LH基礎値</td><td>上昇あり</td><td>通常抑制</td></tr>
+              <tr><td class="td-lbl">二次性徴</td><td>等性（isosexual）</td><td>等性または異性</td></tr>
+              <tr><td class="td-lbl">治療</td><td>GnRHアナログ</td><td>原疾患の治療</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 病型分類 -->
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">🗂️</span> 中枢性の病型分類（診断後に必須）</div>
+        <div class="card-body">
+          <div class="hl hl-red">
+            <strong>① 器質性（organic）</strong><br>
+            <span style="font-size:11px;">視床下部過誤腫、脳腫瘍（グリオーマなど）、胚細胞腫、頭蓋咽頭腫、水頭症、髄膜炎後、頭部外傷・放射線照射後</span>
+          </div>
+          <div class="hl hl-purple" style="margin-top:5px;">
+            <strong>② 遺伝子異常</strong><br>
+            <span style="font-size:11px;">MKRN3（最多・父性遺伝）、DLK1（父性遺伝）、GPR54（KISS1R）、KISS1</span>
+          </div>
+          <div class="hl hl-green" style="margin-top:5px;">
+            <strong>③ 特発性（idiopathic）</strong><span class="badge b-green" style="margin-left:6px;">最多（特に女児）</span><br>
+            <span style="font-size:11px;">明らかな器質的病変・遺伝子異常なし</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 末梢性の除外規定 -->
+  <div class="card mb-3">
+    <div class="card-hd amber"><span class="icon">🚫</span> 除外規定（IV）― 中枢性CPP診断前に全て否定すること</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div style="font-weight:700; font-size:11px; color:#92400e; margin-bottom:5px;">内因性ホルモン過剰</div>
+          <ul class="cl">
+            <li>未治療先天性副腎皮質過形成（CAH）<span class="badge b-amber">DHEA-S↑</span></li>
+            <li>副腎腫瘍（副腎性アンドロゲン過剰）</li>
+            <li>性ステロイド産生性腺腫瘍</li>
+            <li>McCune-Albright症候群<span class="badge b-amber">café-au-lait</span></li>
+            <li>テストトキシコーシス（男児・常染色体優性）</li>
+            <li>hCG産生腫瘍（男児：性腺外胚細胞腫など）</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11px; color:#92400e; margin-bottom:5px;">外因性暴露</div>
+          <ul class="cl">
+            <li>性ステロイドホルモン長期投与中（注射・内服・外用）<span class="badge b-red">問診必須</span></li>
+            <li>蛋白同化ステロイドを含む製剤</li>
+            <li>性腺刺激ホルモン投与中（LHRH・hCG・hMG・rFSHを含む）</li>
+            <li>性ステロイド含有量の多い食品の大量長期摂取</li>
+            <li>湿疹用軟膏・養毛剤等の化粧品（性ステロイド含有注意）</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11px; color:#92400e; margin-bottom:5px;">注意事項</div>
+          <div class="hl hl-amber">
+            <strong>CAHの注意：</strong> 未治療CAH例でも年齢によっては中枢性CPPをすでに併発していることがある
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>過去の暴露：</strong> 現在は除外規定に該当しなくても、過去に存在した場合は中枢性CPPを来しやすい
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 責任遺伝子 -->
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🧬</span> 参考所見 V — 責任遺伝子変異</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th>遺伝子</th><th>遺伝形式</th><th>機能</th><th>特徴</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl"><strong>MKRN3</strong></td><td>父性遺伝（インプリンティング）</td><td>GnRH抑制（LOF）</td><td>家族性CPPの最多原因</td></tr>
+          <tr><td class="td-lbl"><strong>DLK1</strong></td><td>父性遺伝（インプリンティング）</td><td>思春期抑制（LOF）</td><td>母性遺伝では発症せず</td></tr>
+          <tr><td class="td-lbl"><strong>GPR54 (KISS1R)</strong></td><td>常染色体優性/劣性</td><td>GnRH受容体共役（GOF）</td><td>稀</td></tr>
+          <tr><td class="td-lbl"><strong>KISS1</strong></td><td>常染色体優性</td><td>キスペプチン（GOF）</td><td>極めて稀</td></tr>
+        </tbody>
+      </table>
+      <div class="small-note">LOF = Loss of Function（機能喪失）、GOF = Gain of Function（機能獲得）</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 2: 初診検査・診断基準                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab1">
+  <div class="grid-2 mb-3">
+
+    <!-- 主症候 -->
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🩺</span> 主症候（I）― 年齢基準による発症判定</div>
+      <div class="card-body">
+        <div style="font-weight:700; font-size:11.5px; color:#7f1d1d; margin-bottom:6px;">🚺 女児</div>
+        <div class="hl hl-red"><strong>7歳6ヶ月未満：</strong> 乳房発育の始まり（Tanner B2以上）<span class="badge b-red">診断の起点</span></div>
+        <div class="hl hl-red" style="margin-top:3px;"><strong>8歳未満：</strong> 陰毛発生 / 小陰唇色素沈着 / 外陰部成熟 / 腋毛発生</div>
+        <div class="hl hl-red" style="margin-top:3px;"><strong>10歳6ヶ月未満：</strong> 初経（月経発来）</div>
+
+        <div style="font-weight:700; font-size:11.5px; color:#1e3a8a; margin: 10px 0 6px;">🚹 男児</div>
+        <div class="hl hl-blue"><strong>9歳未満：</strong> 精巣（Tanner G2、精巣容量 ≥4 mL）・陰茎・陰嚢の明らかな発育</div>
+        <div class="hl hl-blue" style="margin-top:3px;"><strong>10歳未満：</strong> 陰毛発生</div>
+        <div class="hl hl-blue" style="margin-top:3px;"><strong>11歳未満：</strong> 腋毛・ひげ発生・声変わり</div>
+      </div>
+    </div>
+
+    <!-- 副症候 + 検査所見 -->
+    <div>
+      <div class="card mb-3">
+        <div class="card-hd amber"><span class="icon">📈</span> 副症候（II）― 発育途上で認める場合</div>
+        <div class="card-body">
+          <div class="hl hl-amber">
+            <strong>1. 身長促進現象</strong><br>
+            身長 ≥ 標準の <strong>+2.0 SD</strong>、または年間成長速度 ≥ 標準値の <strong>+1.5 SD</strong>
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>2. 骨成熟促進現象</strong><br>
+            骨年齢（BA）－暦年齢（CA） ≥ <strong>2歳6ヶ月</strong><br>
+            <span class="small">または 暦年齢 <strong>5歳未満</strong>：BA/CA ≥ 1.6</span>
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>3. 骨年齢/身長年齢 ≥ 1.5</strong>
+          </div>
+          <div class="small-note">※ 発病初期には必ずしも認めるとは限らない</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd red"><span class="icon">🔬</span> 検査所見（III）</div>
+        <div class="card-body">
+          <div class="hl hl-red">
+            <strong>下垂体性ゴナドトロピン分泌亢進</strong> かつ <strong>性ステロイドホルモン分泌亢進</strong> の両者が明らかに認められる
+          </div>
+          <div class="small-note">※ 各施設の思春期正常値を基準として判定（手引き別表1参照 → Tab③参照）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 診断基準 -->
+  <div class="card mb-3">
+    <div class="card-hd dark"><span class="icon">✅</span> 診断基準まとめ（日本内分泌学会手引き 平成30年度改訂）</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div style="font-weight:700; font-size:12px; color:var(--primary); margin-bottom:6px; border-bottom:2px solid var(--primary); padding-bottom:3px;">【確実例】</div>
+          <div class="hl hl-red">
+            <strong>パターン①：</strong> 主症候（I）の <strong>2項目以上</strong> ＋ 検査所見（III）＋ 除外規定（IV）を満たす
+          </div>
+          <div class="hl hl-red" style="margin-top:5px;">
+            <strong>パターン②：</strong> 主症候（I）の <strong>1項目</strong> ＋ 副症候（II）の <strong>1項目以上</strong> ＋ 検査所見（III）＋ 除外規定（IV）を満たす
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:12px; color:#92400e; margin-bottom:6px; border-bottom:2px solid #b45309; padding-bottom:3px;">【疑い例】</div>
+          <div class="hl hl-amber">
+            Iの<strong>年齢基準を各1歳高くした条件</strong>で、上記確実例基準に該当するもの
+          </div>
+          <div class="hl hl-green" style="margin-top:5px;">
+            <strong>重要：</strong> 疑い例でも、<strong>主症状発現以前の身長が標準身長の −1 SD 以下</strong> の場合は、治療上確実例と同等に扱うことができる
+          </div>
+          <div class="hl hl-blue" style="margin-top:5px;">
+            <strong>病型分類は診断確定後に：</strong> 頭部MRI等で<strong>器質性 / 遺伝子異常 / 特発性</strong>を鑑別すること
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 初診時検査 -->
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📋</span> 初診時検査オーダーチェックリスト</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:#1d4ed8; margin-bottom:5px;">🩸 血液検査（必須）</div>
+          <ul class="cl">
+            <li>LH（基礎値）<span class="badge b-blue">最重要</span></li>
+            <li>FSH（基礎値）</li>
+            <li>LH/FSH比算出</li>
+            <li>エストラジオール（E₂）（女児）</li>
+            <li>テストステロン（男児）</li>
+            <li>DHEA-S（副腎性アンドロゲン）<span class="badge b-amber">CAH除外</span></li>
+            <li>17-OHP（CAH除外）<span class="badge b-amber">必要時</span></li>
+            <li>hCG（男児・hCG産生腫瘍除外）</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:#1d4ed8; margin-bottom:5px;">📐 身体計測・骨格</div>
+          <ul class="cl">
+            <li>身長・体重・BMI（SDS算出）</li>
+            <li>成長速度（cm/年）の評価</li>
+            <li>Tanner分類（B/PH/A）</li>
+            <li>骨年齢（BA）— 左手根骨X線<span class="badge b-red">必須</span></li>
+            <li>予測成人身長（PAH）算出</li>
+            <li>精巣容積（Prader orchidometer）</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:#1d4ed8; margin-bottom:5px;">🖼️ 画像検査</div>
+          <ul class="cl">
+            <li>骨盤超音波（女児）<span class="badge b-blue">必須</span><br>
+            <span class="small">子宮長・子宮容積・子宮内膜エコー・卵巣容積</span></li>
+            <li>頭部MRI（適応判断 → Tab④参照）</li>
+          </ul>
+          <div class="hl hl-blue" style="margin-top:8px; font-size:11px;">
+            <strong>骨盤超音波基準値（思春期反応）</strong><br>
+            子宮長 ≥ 3.4–4.0 cm<br>
+            子宮内膜エコー（特異度 ~100%・感度 42–87%）<br>
+            卵巣容積 ≥ 1–3 mL（L×W×H×0.523）
+          </div>
+          <div class="small-note" style="margin-top:5px;"><strong>GnRH負荷試験 → Tab③参照</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 3: GnRH負荷試験                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab2">
+  <div class="grid-2 mb-3">
+
+    <!-- プロトコル -->
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💉</span> リュープロレリン負荷試験プロトコル（当院採用）</div>
+      <div class="card-body">
+        <div class="dose-box">
+          <div class="dose-label">用量（診断用・水溶液製剤）</div>
+          <div class="dose-num">10 μg/kg</div>
+          <div class="dose-unit">皮下注射（リュープリン注® 水溶液）　最大 500 μg</div>
+        </div>
+        <div class="hl hl-blue" style="margin-top:8px;">
+          <strong>採血スケジュール</strong><br>
+          0分（投与直前） → 30分 → <strong>60分</strong>（LH頂値）<br>
+          <span class="small">各ポイントで LH・FSH を測定</span>
+        </div>
+        <div class="hl hl-green" style="margin-top:5px;">
+          <strong>簡便法（スクリーニング）：0分・60分の2点採血</strong><br>
+          LH頂値は60分で出現することが多い（Carel et al. 2009）
+        </div>
+        <div class="hl hl-amber" style="margin-top:5px;">
+          <strong>⚠️ 注意：</strong> 診断用水溶液製剤（速放性）と治療用デポ製剤（徐放性・30 μg/kg/4週）は<strong>別製剤</strong>。混同しないこと。
+        </div>
+        <div class="small-note">※ 伝統的GnRH試験（ブセレリン100 μg/リュープロレリン10 μg/kg SC）で結果に差があることに注意<br>
+        ※ 手引き別表1の基準値はGnRH（100 μg IV）試験に基づく参考値。アッセイ差に注意。</div>
+      </div>
+    </div>
+
+    <!-- 判定ポイント -->
+    <div>
+      <div class="card mb-3">
+        <div class="card-hd amber"><span class="icon">📊</span> 判定の重要ポイント</div>
+        <div class="card-body">
+          <div class="hl hl-red">
+            <strong>LH頂値</strong>（60分） <span class="arrow">→</span> 最重要指標<br>
+            <span class="badge b-red">CPP示唆</span> <strong>LH頂値 &gt; 5 IU/L</strong>（assay依存）<br>
+            <span class="small">前思春期基準 3.3–5.0 IU/L（アッセイ特異的；施設基準値を優先）</span>
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>LH/FSH頂値比</strong><br>
+            <span class="badge b-amber">進行性CPP示唆</span> LH/FSH比 &gt; 0.66–1.0<br>
+            <span class="small">比が高い → 進行性CPP（治療が必要な可能性↑）<br>
+            比が低い（FSH優位）→ 非進行性 or 早期思春期</span>
+          </div>
+          <div class="hl hl-green" style="margin-top:5px;">
+            <strong>FSH：</strong> LHより情報価値は低いが、LH/FSH比算出に必須。FSH優位は末梢性や乳腺早期発育を示唆
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">💡</span> 解釈の注意点</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li><strong>アッセイ依存性：</strong> 使用測定キットにより基準値が大きく異なる。自施設の小児基準値で判定する</li>
+            <li><strong>非進行性CPP：</strong> LH頂値低値でも二次性徴がある場合は、3–6ヶ月の経過観察で進行を確認</li>
+            <li><strong>偽陰性に注意：</strong> 非常に早期の段階では反応が低い場合あり → 臨床所見との総合評価</li>
+            <li><strong>早期乳腺発育との鑑別：</strong> FSH優位 + 骨成熟なし + 超音波正常 → 注意深く経過観察</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 別表1 参考値テーブル -->
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">📋</span> 血清ゴナドトロピン基準値 ―「別表1」（日本内分泌学会手引き、GnRH 100 μg IV試験に基づく）</div>
+    <div class="card-body">
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
+        ⚠️ 以下はGnRH（100 μg IV）試験に基づく参考値。リュープロレリン試験では頂値のタイミング・絶対値が異なる場合あり。各施設の基準値を優先すること。
+      </div>
+      <div class="grid-2">
+        <!-- 女児 -->
+        <div>
+          <table class="tbl">
+            <thead>
+              <tr><th colspan="7" style="background:#7f1d1d;">🚺 女児　（mIU/mL）</th></tr>
+              <tr>
+                <th>指標</th>
+                <th style="background:#166534;">前思春期<br>&lt;10歳</th>
+                <th style="background:#14532d;">前思春期<br>10歳以上</th>
+                <th style="background:#b91c1c;">思春期<br>Tanner 2–3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-lbl">LH基礎値</td><td class="td-prepub">0.01–0.09</td><td class="td-prepub">0.02–0.11</td><td class="td-pub">0.05–2.44</td></tr>
+              <tr><td class="td-lbl">LH頂値</td><td class="td-prepub">1.93–4.73</td><td class="td-prepub">2.14–7.82</td><td class="td-pub">5.70–18.5</td></tr>
+              <tr><td class="td-lbl">FSH基礎値</td><td class="td-prepub">0.54–2.47</td><td class="td-prepub">1.16–3.65</td><td>1.49–5.95</td></tr>
+              <tr><td class="td-lbl">FSH頂値</td><td>10.7–38.1</td><td>13.2–21.1</td><td>6.98–14.3</td></tr>
+              <tr><td class="td-lbl">基礎LH/FSH</td><td>0.01–0.08</td><td>0.02–0.03</td><td class="td-key">0.03–0.42</td></tr>
+              <tr><td class="td-lbl">頂値LH/FSH</td><td class="td-prepub">0.09–0.25</td><td class="td-prepub">0.15–0.41</td><td class="td-key">0.74–1.4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 男児 -->
+        <div>
+          <table class="tbl">
+            <thead>
+              <tr><th colspan="7" style="background:#1e3a8a;">🚹 男児　（mIU/mL）</th></tr>
+              <tr>
+                <th>指標</th>
+                <th style="background:#166534;">前思春期<br>&lt;10歳</th>
+                <th style="background:#14532d;">前思春期<br>10歳以上</th>
+                <th style="background:#1e3a8a;">思春期<br>Tanner 2–3</th>
+                <th style="background:#1e40af;">思春期<br>Tanner 4–5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-lbl">LH基礎値</td><td class="td-prepub">0.02–0.15</td><td class="td-prepub">0.04–0.25</td><td class="td-pub">0.44–1.63</td><td class="td-pub">1.61–3.53</td></tr>
+              <tr><td class="td-lbl">LH頂値</td><td class="td-prepub">1.70–3.77</td><td class="td-prepub">2.03–11.8</td><td class="td-pub">10.9–20.6</td><td class="td-pub">21.7–39.5</td></tr>
+              <tr><td class="td-lbl">FSH基礎値</td><td class="td-prepub">0.38–1.11</td><td class="td-prepub">0.95–3.57</td><td>1.73–4.27</td><td>4.21–8.22</td></tr>
+              <tr><td class="td-lbl">FSH頂値</td><td>4.38–9.48</td><td>5.69–16.6</td><td>4.68–10.8</td><td>11.2–17.3</td></tr>
+              <tr><td class="td-lbl">基礎LH/FSH</td><td>0.03–0.24</td><td>0.03–0.08</td><td class="td-key">0.16–0.63</td><td class="td-key">0.24–0.70</td></tr>
+              <tr><td class="td-lbl">頂値LH/FSH</td><td class="td-prepub">0.28–0.55</td><td class="td-prepub">0.26–0.99</td><td class="td-key">1.4–3.4</td><td class="td-key">1.3–3.3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="small-note" style="margin-top:6px;">
+        出典：日本内分泌学会手引き 平成30年度改訂「別表1」。ゴナドトロピン基礎値が低い（前思春期域）でも臨床的CPPの場合あり → GnRH/GnRHa試験で頂値を評価。緑＝前思春期正常域、赤＝思春期反応、橙＝LH/FSH比。
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 4: 治療適応・開始基準                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab3">
+  <div class="grid-2 mb-3">
+
+    <!-- 治療適応判断 -->
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🎯</span> 治療適応の判断フロー</div>
+      <div class="card-body">
+        <div class="hl hl-red">
+          <strong>Step 1：診断基準（確実例）に合致しているか？</strong><br>
+          <span class="small">主症候・検査所見・除外規定を満たすこと（→ Tab②参照）</span>
+        </div>
+        <div style="text-align:center; font-size:16px; color:var(--primary-light); margin: 4px 0;">↓</div>
+        <div class="hl hl-amber">
+          <strong>Step 2：治療目的にかなう症例か？</strong><br>
+          以下のいずれかを満たす場合に治療対象：<br>
+          ① <strong>成人身長の低下が懸念される</strong>（予測身長予後不良）<br>
+          ② <strong>心理社会的問題がある</strong>（早期発症・精神的負担）<br>
+          ③ <strong>急速進行型</strong>（Tanner分類が短期間で進行）
+        </div>
+        <div style="text-align:center; font-size:16px; color:#16a34a; margin: 4px 0;">↓</div>
+        <div class="hl hl-green">
+          <strong>治療不要 → 経過観察</strong>：以下の場合<br>
+          ・予測成人身長予後が良好<br>
+          ・心理社会的問題なし<br>
+          ・<strong>緩徐進行型（nonprogressive/slowly progressive CPP）</strong><br>
+          <span class="small">緩徐進行型は介入なしでも正常成人身長に達することがある（BII）</span>
+        </div>
+        <div class="small-note">
+          <strong>女児の特発性CPP：</strong> 乳房腫大開始が6歳以降、または進行が緩徐な場合は、GnRHa治療による成人身長の明らかな改善は認められないことが多い（手引き）<br>
+          <strong>治療が最も有効な群：</strong> 女児6歳未満発症（平均 +9–10 cm）<span class="badge b-evidence">EvidenceⅡ-BII</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 頭部MRI適応 -->
+    <div>
+      <div class="card mb-3">
+        <div class="card-hd amber"><span class="icon">🧠</span> 頭部MRI適応基準</div>
+        <div class="card-body">
+          <div class="hl hl-red">
+            <strong>必須（全例施行）：</strong><br>
+            ① <strong>男児全例</strong>（器質的病変の頻度が高い：約40%）<span class="badge b-red">BII</span><br>
+            ② <strong>女児 6歳未満</strong>（器質的病変 ~8–10%）<span class="badge b-red">BII</span>
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>推奨（以下に1つでも該当する場合）：</strong><br>
+            ・急速な思春期進行<br>
+            ・神経学的所見あり（頭痛・嘔吐・視野障害・痙攣など）<br>
+            ・初経から8歳未満<br>
+            ・既知の神経疾患・頭蓋内病変の既往
+          </div>
+          <div class="hl hl-blue" style="margin-top:5px;">
+            <strong>議論あり：</strong> 女児 6–8歳<span class="badge b-gray">BII</span><br>
+            <span class="small">この年齢群の器質的病変頻度: 2–7%（腫瘍は ~1%）</span>
+          </div>
+          <div class="hl hl-green" style="margin-top:5px;">
+            <strong>女児での病変を減らす因子：</strong><br>
+            人種・民族的背景、CPPの家族歴、国際養子（adoption）
+          </div>
+          <div class="small-note">出典：Carel et al. Pediatrics 2009</div>
+        </div>
+      </div>
+
+      <!-- 特殊病型 -->
+      <div class="card">
+        <div class="card-hd purple"><span class="icon">⚡</span> 特殊病型の対応</div>
+        <div class="card-body">
+          <div class="hl hl-purple">
+            <strong>視床下部過誤腫：</strong><br>
+            ・脳外科的治療は通常不要<br>
+            ・適応：重症笑い発作 または 腫瘍増大による障害がある場合のみ
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>脳腫瘍の放射線照射後CPP：</strong><br>
+            ・一過性にCPPを来すが長期的にはゴナドトロピン分泌不全が生じることが多い<br>
+            ・<strong>治療開始時に家族へ十分な説明が必要</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 身長予後・Bayley-Pinneau法 -->
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📏</span> 身長予後予測と治療効果の目安</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:#1d4ed8; margin-bottom:5px;">発症年齢別の身長改善効果</div>
+          <table class="tbl">
+            <thead><tr><th>発症年齢</th><th>平均改善量</th><th>エビデンス</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">&lt; 6歳</td><td class="td-pub">+9–10 cm</td><td><span class="badge b-evidence">BII</span></td></tr>
+              <tr><td class="td-lbl">6–8歳（女児）</td><td class="td-key">+4.5–7.2 cm<br><span class="small">（個人差大）</span></td><td><span class="badge b-gray">BII</span></td></tr>
+              <tr><td class="td-lbl">男児</td><td style="font-size:10.5px;">データ不十分</td><td><span class="badge b-gray">CIII</span></td></tr>
+            </tbody>
+          </table>
+          <div class="small-note">Carel et al. Pediatrics 2009</div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:#1d4ed8; margin-bottom:5px;">予測成人身長（PAH）算出</div>
+          <div class="hl hl-blue">
+            <strong>Bayley-Pinneau法（BP法）：</strong><br>
+            現在最も使用されるが、数 cm 過大評価する場合がある<br>
+            <span class="small">（Bar et al. 1995, Kauli et al. 1997）</span>
+          </div>
+          <div class="hl hl-amber" style="margin-top:5px;">
+            <strong>治療中の評価：</strong> BA更新のたびにPAHを再計算。BP法による治療中のPAH更新は過大評価に注意
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:#1d4ed8; margin-bottom:5px;">治療開始決定の総合評価</div>
+          <ul class="cl">
+            <li>予測成人身長（PAH）と遺伝的身長予測（MPH）の差</li>
+            <li>骨年齢の進行速度（暦年齢との乖離）</li>
+            <li>Tanner分類の進行速度</li>
+            <li>心理社会的問題の有無</li>
+            <li>患者・家族の希望</li>
+            <li>発症年齢（6歳未満 vs 6–8歳）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 5: 投与・モニタリング（リュープロレリン）          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab4">
+  <div class="grid-2 mb-3">
+
+    <!-- 投与量・投与法 -->
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💊</span> リュープロレリン酢酸塩（リュープリン注®）投与法</div>
+      <div class="card-body">
+        <div class="dose-box">
+          <div class="dose-label">開始用量</div>
+          <div class="dose-num">30 μg/kg</div>
+          <div class="dose-unit">4週ごと 皮下注射（マイクロカプセル化デポ製剤）</div>
+        </div>
+        <div class="dose-box-amber" style="margin-top:6px;">
+          <div class="dose-label">増量（効果不十分時）</div>
+          <div class="dose-num" style="font-size:20px;">最大 180 μg/kg</div>
+          <div class="dose-unit">1回投与量の上限 → 臨床症状・ゴナドトロピン・性ホルモン値で判断</div>
+        </div>
+        <div class="hl hl-blue" style="margin-top:8px;">
+          <strong>初期フレア（flare）反応について：</strong><br>
+          初回投与直後はGnRHa刺激によりゴナドトロピン分泌が<strong>一過性に増加</strong>する。その後デスセンシタイゼーションにより分泌が<strong>抑制</strong>され、治療開始後早期より二次性徴の進行停止・消退が認められる。
+        </div>
+        <div class="small-note" style="margin-top:6px;">
+          ※ ブセレリン酢酸塩（スプレキュア®）点鼻液も存在するが、効果が不安定になりやすいため近年は使用頻度が低い
+        </div>
+        <div class="hl hl-green" style="margin-top:6px;">
+          <strong>長期投与の報告：</strong> 多くの例で臨床症状の消退または進行停止が認められ、安全性・有効性が確立されている（BII）
+        </div>
+      </div>
+    </div>
+
+    <!-- 副作用 -->
+    <div class="card">
+      <div class="card-hd amber"><span class="icon">⚠️</span> 副作用と事前説明のポイント</div>
+      <div class="card-body">
+        <div class="hl hl-red">
+          <strong>① 性器出血（初回投与後）</strong> <span class="badge b-red">事前説明必須</span><br>
+          女児でエストロゲン上昇がある場合、初回投与後<strong>1週間前後</strong>にフレア効果により月経様の性器出血が起こる可能性がある。<br>
+          <span class="small">「月経が起こる可能性があること」を患児・保護者に必ず説明する。2回目以降の出血は治療効果不十分を示唆する。</span>
+        </div>
+        <div class="hl hl-amber" style="margin-top:5px;">
+          <strong>② 注射部位反応（約10–15%）</strong><br>
+          発疹・硬結（sterile abscess 一部）<br>
+          <span class="small">持続する場合は製剤変更を考慮（Carel et al. 2009）</span>
+        </div>
+        <div class="hl hl-amber" style="margin-top:5px;">
+          <strong>③ BMI増大</strong><br>
+          治療中の肥満度増大の報告あり。ただし治療そのものが肥満を引き起こす証拠は乏しい（BII）。<br>
+          <span class="small">CPP診断時のBMI SDSは平均以上であることが多い。</span>
+        </div>
+        <div class="hl hl-amber" style="margin-top:5px;">
+          <strong>④ 骨密度（BMD）低下</strong><br>
+          治療中に一過性低下あり。しかし成人後のピーク骨量は正常範囲内に回復（BII）。
+        </div>
+        <div class="hl hl-blue" style="margin-top:5px;">
+          <strong>⑤ 稀な副作用：</strong> アナフィラキシー（極めて稀）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- モニタリング -->
+  <div class="card mb-3">
+    <div class="card-hd blue"><span class="icon">📅</span> 治療中モニタリングスケジュール</div>
+    <div class="card-body">
+      <div class="monitor-grid">
+        <div class="monitor-cell hd">評価項目</div>
+        <div class="monitor-cell hd">毎回（注射時）</div>
+        <div class="monitor-cell hd">3–6ヶ月ごと</div>
+        <div class="monitor-cell hd">6–12ヶ月ごと</div>
+
+        <div class="monitor-cell grp">身体計測</div>
+        <div class="monitor-cell">身長・体重</div>
+        <div class="monitor-cell" style="background:#eff6ff;"><strong>Tanner分類</strong><br>身長・GV</div>
+        <div class="monitor-cell">骨年齢（BA）<br><span class="small">PAH更新</span></div>
+
+        <div class="monitor-cell grp">ホルモン</div>
+        <div class="monitor-cell"><span class="small">注射日程の記録</span></div>
+        <div class="monitor-cell" style="background:#fff7ed;">LH・FSH<br>E₂/T<br><span class="small">（抑制確認が必要な場合）</span></div>
+        <div class="monitor-cell">必要時 →<br>LH・FSH</div>
+
+        <div class="monitor-cell grp">効果判定</div>
+        <div class="monitor-cell"><span class="small">注射間隔の遵守確認</span></div>
+        <div class="monitor-cell" style="background:#f0fdf4;">二次性徴の<br>進行停止確認</div>
+        <div class="monitor-cell">骨成熟速度<br>予測成人身長</div>
+      </div>
+
+      <div class="hl hl-red" style="margin-top:10px;">
+        <strong>治療効果不十分のサイン — 再評価・増量を検討：</strong><br>
+        ・乳房・精巣発育の進行継続（最重要）<br>
+        ・治療中の性器出血（初回以降）<br>
+        ・成長速度の過度な低下（≤ −2 SD）<br>
+        ・急速な骨年齢進行の継続<br>
+        ・LH・性ステロイドが前思春期域まで下がらない<span class="badge b-red">増量適応</span>
+      </div>
+      <div class="hl hl-amber" style="margin-top:5px;">
+        <strong>陰毛の進行：</strong> 治療効果不十分ではなく、<strong>正常アドレナーキー</strong>の可能性がある → 血清DHEA-S測定で鑑別
+      </div>
+    </div>
+  </div>
+
+  <!-- 注射部位・注意事項 -->
+  <div class="card">
+    <div class="card-hd green"><span class="icon">✅</span> 実施・管理の注意事項</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <ul class="cl">
+            <li><strong>注射間隔の記録：</strong> 必ず注射日を記録し、4週間隔を遵守する（BII）</li>
+            <li><strong>注射部位：</strong> 腹壁皮下（上腕や大腿でも可）。同一部位への繰り返し注射を避ける</li>
+            <li><strong>デポ製剤の管理：</strong> 調製後は速やかに使用。振盪して懸濁してから注射</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="cl">
+            <li><strong>治療開始前の説明：</strong> 初回投与後の性器出血・副作用について</li>
+            <li><strong>家族への説明：</strong> 治療の目的・期間・中止時期の考え方</li>
+            <li><strong>GH合併検討：</strong> 成長速度が著しく低下する場合（≤−2 SD）はGH追加を検討（CIII）。ルーチンには推奨されない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 6: 治療中止・長期予後                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab5">
+  <div class="grid-2 mb-3">
+
+    <!-- 中止時期 -->
+    <div class="card">
+      <div class="card-hd amber"><span class="icon">⏹️</span> 治療中止時期の判断（統一見解なし）</div>
+      <div class="card-body">
+        <div class="hl hl-amber">
+          <strong>現状：</strong> いつ治療を中止するかについて統一的な見解は得られていない（CIII）。個々の症例で患者・家族とよく相談しながら決定する。
+        </div>
+        <div style="font-weight:700; font-size:11.5px; margin:8px 0 5px;">目安となる指標（複数を組み合わせて判断）</div>
+        <table class="tbl">
+          <thead><tr><th>指標</th><th>女児</th><th>男児</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">暦年齢（CA）目安</td><td class="td-pub">~11.0歳</td><td class="td-pub">~12–13歳頃</td></tr>
+            <tr><td class="td-lbl">骨年齢（BA）目安</td><td class="td-key">~12.0歳</td><td class="td-key">~15歳頃</td></tr>
+            <tr><td class="td-lbl">骨年齢上限</td><td>13歳以降は身長の伸び乏しい</td><td>15歳以降は身長の伸び乏しい</td></tr>
+          </tbody>
+        </table>
+        <div class="hl hl-blue" style="margin-top:8px;">
+          <strong>BAは単独変数としては不十分：</strong> 同じBAでも暦年齢が異なるため、BA単独での中止判断は避ける（CIII）
+        </div>
+        <div class="hl hl-green" style="margin-top:5px;">
+          <strong>中止後の身長獲得：</strong> 治療中止後から成人身長に至るまでの期間も身長 SDS は低下することが多い。治療中止時の身長が高いほど最終身長は高い傾向。
+        </div>
+        <div class="hl hl-red" style="margin-top:5px;">
+          <strong>早期中止の弊害：</strong> 治療開始後1–2年以上の遅延や早期中止は成人身長を損なう可能性がある。
+        </div>
+        <div class="small-note">
+          <strong>考慮すべき因子（Carel et al. 2009 CIII）：</strong> 暦年齢・治療期間・骨年齢・身長・目標身長・成長速度・patient/family preference（同期との思春期同調への希望）
+        </div>
+      </div>
+    </div>
+
+    <!-- 性腺機能回復 -->
+    <div>
+      <div class="card mb-3">
+        <div class="card-hd green"><span class="icon">🔄</span> 治療終了後の性腺機能回復</div>
+        <div class="card-body">
+          <div class="hl hl-green">
+            <strong>GnRHa治療終了後の性腺機能回復はおおむね良好</strong> （BII）
+          </div>
+          <table class="tbl" style="margin-top:8px;">
+            <thead><tr><th>条件</th><th>月経発来の目安</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">治療前に性器出血あり</td><td class="td-pub"><strong>3–6ヶ月以内</strong></td></tr>
+              <tr><td class="td-lbl">治療前に性器出血なし</td><td class="td-key"><strong>2年以内</strong>にほぼ全例で月経発来</td></tr>
+            </tbody>
+          </table>
+          <div class="hl hl-blue" style="margin-top:6px;">
+            ・LHサージの確認可能（BII）<br>
+            ・正常卵巣周期：60–96%（一般人口との差なし）<br>
+            ・<strong>不妊の報告なし</strong>（28例の妊娠中21例が健常児出産 Carel et al. 2009）
+          </div>
+          <div class="small-note">男児の3つの小規模研究でも15–18歳時点での性腺機能は対照と差なし</div>
+        </div>
+      </div>
+
+      <!-- 長期予後まとめ -->
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">📈</span> 長期予後サマリー</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>項目</th><th>予後</th><th>エビデンス</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">骨密度（BMD）</td><td class="td-key">治療中一過性低下→成人後 <strong>正常範囲</strong> に回復</td><td><span class="badge b-evidence">BII</span></td></tr>
+              <tr><td class="td-lbl">BMI・体重</td><td class="td-prepub">GnRHa治療による <strong>肥満増加なし</strong></td><td><span class="badge b-evidence">BII</span></td></tr>
+              <tr><td class="td-lbl">生殖機能</td><td class="td-prepub">正常 / 不妊の報告なし</td><td><span class="badge b-evidence">BII</span></td></tr>
+              <tr><td class="td-lbl">PCOS発症率</td><td>一般人口と <strong>有意差なし</strong>（0–12%）</td><td><span class="badge b-evidence">BII</span></td></tr>
+              <tr><td class="td-lbl">心理社会的予後</td><td>GnRHa治療の心理的改善効果：<strong>エビデンス不十分</strong></td><td><span class="badge b-gray">CIII</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 再評価とフォローアップ -->
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">🔍</span> 治療中止後フォローアップ計画</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:white; background:var(--primary); padding:4px 8px; border-radius:4px; margin-bottom:6px;">中止後 ～ 1年</div>
+          <ul class="cl">
+            <li>月経発来の確認（女児）</li>
+            <li>思春期進行の再確認（Tanner分類）</li>
+            <li>成長速度の回復確認</li>
+            <li>骨年齢の再評価</li>
+            <li>予測成人身長の更新</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:white; background:var(--primary-light); padding:4px 8px; border-radius:4px; margin-bottom:6px;">1–3年</div>
+          <ul class="cl">
+            <li>月経周期の規則性確認</li>
+            <li>最終身長達成の確認</li>
+            <li>骨密度（必要時）</li>
+            <li>BMI・代謝指標</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:11.5px; color:white; background:#374151; padding:4px 8px; border-radius:4px; margin-bottom:6px;">長期（思春期〜成人）</div>
+          <ul class="cl">
+            <li>PCOS症状の監視（月経不順・多毛・ざ瘡）</li>
+            <li>骨粗鬆症リスク（特に低BMD例）</li>
+            <li>心理社会的適応の確認</li>
+            <li>必要時：成人内分泌科へのトランジション</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hl hl-amber" style="margin-top:10px;">
+        <strong>BMD最適化のために：</strong> 治療中も治療後も十分なカルシウム・ビタミンD摂取を指導する（BII）<br>
+        BA ≤11.5歳での中止はBMDの回復が良好である可能性がある（Bertelloni et al. 1998）
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<div class="footer">
+  参考資料：日本内分泌学会「間脳下垂体機能障害の診断と治療の手引き（平成30年度改訂）」中枢性思春期早発症 pp.25–28　／　Carel JC et al. Pediatrics 2009;123:e752-62 (ESPE-LWPES GnRH Analogs Consensus)　／　本リファレンスは診療補助目的であり、最終判断は患者個別の臨床状況と主治医の判断に基づくこと。
+</div>
+
+<script>
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>

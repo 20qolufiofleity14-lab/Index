@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>脂肪酸代謝異常症（VLCAD・MCAD）診療クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="新生児スクリーニング後の診療クイックリファレンス">
+<meta name="mini-title" content="脂肪酸代謝異常症（VLCAD・MCAD）">
+
+<style>
+:root {
+  --bg: #eef2f7; --card: #ffffff; --border: #dde3ec;
+  --text: #1a202c; --text-muted: #64748b;
+  --primary: #1e3a5f; --primary-mid: #254d80; --primary-light: #3468a8;
+  --red: #b91c1c; --red-soft: #dc2626; --red-bg: #fef2f2; --red-border: #fca5a5;
+  --amber: #92400e; --amber-soft: #b45309; --amber-bg: #fffbeb; --amber-border: #fcd34d;
+  --blue: #1d4ed8; --blue-soft: #2563eb; --blue-bg: #eff6ff; --blue-border: #93c5fd;
+  --green: #166534; --green-soft: #16a34a; --green-bg: #f0fdf4; --green-border: #86efac;
+  --purple: #5b21b6; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
+  --navy-bg: #eef4fb; --navy-border: #b9d3ec;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo','メイリオ',sans-serif;
+  background:var(--bg); color:var(--text); font-size:12.5px; line-height:1.55;
+}
+.header {
+  background:linear-gradient(135deg,#1e3a5f 0%,#2d5a9e 60%,#1e4e9e 100%);
+  color:white; padding:14px 20px 12px;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  box-shadow:0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 { font-size:17px; font-weight:800; letter-spacing:0.3px; }
+.header-left .sub { font-size:10.5px; opacity:0.75; margin-top:2px; }
+.header-right { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
+.header-tag {
+  font-size:9.5px; background:rgba(255,255,255,0.18);
+  padding:2px 9px; border-radius:12px;
+  border:1px solid rgba(255,255,255,0.3); white-space:nowrap;
+}
+.tab-nav {
+  background:var(--primary-mid);
+  display:flex; overflow-x:auto; scrollbar-width:none;
+  border-bottom:2px solid rgba(255,255,255,0.1);
+  position:sticky; top:0; z-index:50;
+}
+.tab-nav::-webkit-scrollbar { display:none; }
+.tab-btn {
+  padding:9px 14px; color:rgba(255,255,255,0.62);
+  background:none; border:none; cursor:pointer;
+  white-space:nowrap; font-size:11.5px; font-family:inherit;
+  border-bottom:3px solid transparent; transition:all 0.18s;
+  font-weight:500; flex-shrink:0;
+}
+.tab-btn:hover { color:rgba(255,255,255,0.9); background:rgba(255,255,255,0.08); }
+.tab-btn.active { color:white; border-bottom-color:#5ef07a; background:rgba(255,255,255,0.12); font-weight:700; }
+.tab-content { display:none; padding:14px; max-width:1200px; margin:0 auto; }
+.tab-content.active { display:block; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.mb-3 { margin-bottom:12px; }
+@media (max-width:760px){ .grid-2, .grid-3 { grid-template-columns:1fr; } }
+.card { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; box-shadow:var(--shadow); margin-bottom:12px; }
+.card.wide { grid-column:1 / -1; }
+.card-hd { padding:8px 12px; font-size:12px; font-weight:700; color:white; display:flex; align-items:center; gap:6px; }
+.card-hd .icon { font-size:13px; }
+.card-hd.red { background:linear-gradient(135deg,#b91c1c,#dc2626); }
+.card-hd.amber { background:linear-gradient(135deg,#92400e,#b45309); }
+.card-hd.blue { background:linear-gradient(135deg,#1d4ed8,#2563eb); }
+.card-hd.green { background:linear-gradient(135deg,#166534,#16a34a); }
+.card-hd.purple { background:linear-gradient(135deg,#5b21b6,#7c3aed); }
+.card-hd.dark { background:linear-gradient(135deg,#1e293b,#334155); }
+.card-hd.navy { background:linear-gradient(135deg,#1e3a5f,#2d5a9e); }
+.card-body { padding:12px; }
+.hl { padding:8px 10px; border-radius:6px; border-left:4px solid; font-size:11.8px; margin-bottom:7px; }
+.hl:last-child { margin-bottom:0; }
+.hl-red { background:var(--red-bg); border-color:var(--red-soft); color:#7f1d1d; }
+.hl-amber { background:var(--amber-bg); border-color:var(--amber-soft); color:#78350f; }
+.hl-blue { background:var(--blue-bg); border-color:var(--blue-soft); color:#1e3a8a; }
+.hl-green { background:var(--green-bg); border-color:var(--green-soft); color:#14532d; }
+.hl-purple { background:var(--purple-bg); border-color:#7c3aed; color:#4c1d95; }
+.badge { display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; }
+.b-red { background:var(--red-bg); color:var(--red); border:1px solid var(--red-border); }
+.b-amber { background:var(--amber-bg); color:var(--amber); border:1px solid var(--amber-border); }
+.b-blue { background:var(--blue-bg); color:var(--blue); border:1px solid var(--blue-border); }
+.b-green { background:var(--green-bg); color:var(--green); border:1px solid var(--green-border); }
+.b-purple { background:var(--purple-bg); color:var(--purple); border:1px solid var(--purple-border); }
+.b-gray { background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; }
+.dose-box, .dose-box-blue, .dose-box-red, .dose-box-amber {
+  border-radius:7px; padding:10px 12px; text-align:center; border:1.5px solid;
+}
+.dose-box { background:var(--green-bg); border-color:var(--green-border); }
+.dose-box-blue { background:var(--blue-bg); border-color:var(--blue-border); }
+.dose-box-red { background:var(--red-bg); border-color:var(--red-border); }
+.dose-box-amber { background:var(--amber-bg); border-color:var(--amber-border); }
+.dose-label { font-size:10px; color:var(--text-muted); font-weight:600; margin-bottom:2px; }
+.dose-num { font-size:17px; font-weight:800; color:var(--primary); }
+.dose-unit { font-size:10px; color:var(--text-muted); margin-top:2px; line-height:1.4; }
+table.tbl { width:100%; border-collapse:collapse; font-size:11.3px; }
+table.tbl th { background:#f1f5f9; color:#334155; font-weight:700; padding:6px 8px; text-align:center; border:1px solid var(--border); white-space:nowrap; }
+table.tbl td { padding:6px 8px; border:1px solid var(--border); text-align:center; }
+table.tbl td.td-lbl { text-align:left; font-weight:700; background:#f8fafc; white-space:nowrap; }
+table.tbl td.td-key { background:var(--amber-bg); font-weight:700; color:var(--amber); }
+table.tbl td.td-warn { background:var(--red-bg); font-weight:700; color:var(--red); }
+table.tbl td.td-ok { background:var(--green-bg); color:var(--green); font-weight:700; }
+.monitor-grid { display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; font-size:10.8px; }
+.monitor-cell { background:white; padding:6px 7px; }
+.monitor-cell.hd { background:var(--primary); color:white; font-weight:700; text-align:center; }
+.monitor-cell.grp { background:#f1f5f9; font-weight:700; grid-column:1 / -1; }
+.small-note { font-size:10px; color:var(--text-muted); margin-top:6px; line-height:1.5; }
+.cl { list-style:none; }
+.cl li { padding:3px 0 3px 16px; position:relative; }
+.cl li::before { content:'▸'; position:absolute; left:0; color:var(--primary-light); font-weight:700; }
+.mh { font-weight:700; color:var(--primary); }
+.footer { text-align:center; padding:14px; font-size:10px; color:var(--text-muted); background:#e2e8f0; }
+.phase-flow { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.phase-step { flex:1; min-width:140px; padding:9px 10px; border-radius:7px; border:1.5px solid; text-align:center; font-size:11px; font-weight:600; }
+.phase-arrow { font-size:16px; color:var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>脂肪酸代謝異常症 診療クイックリファレンス</h1>
+    <div class="sub">VLCAD欠損症・MCAD欠損症を中心に　新生児マススクリーニング〜慢性期管理</div>
+  </div>
+  <div class="header-right">
+    <div class="header-tag">日本先天代謝異常学会 移行期医療GL／NBS対象疾患診療GL 準拠</div>
+    <div class="header-tag">小児内分泌・代謝　診療補助ツール</div>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">①疾患分類・NBS判定</button>
+  <button class="tab-btn" onclick="switchTab(1)">②VLCAD欠損症</button>
+  <button class="tab-btn" onclick="switchTab(2)">③MCAD欠損症</button>
+  <button class="tab-btn" onclick="switchTab(3)">④急性期対応</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤慢性期管理・食事</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥フォローアップ</button>
+</div>
+
+<!-- ════════════════ TAB 1: 疾患分類・NBS判定 ════════════════ -->
+<div class="tab-content active" id="tab0">
+
+  <div class="card wide">
+    <div class="card-hd navy"><span class="icon">🧬</span>脂肪酸β酸化の概要</div>
+    <div class="card-body">
+      <div class="hl hl-blue">長鎖脂肪酸はカルニチン経由でミトコンドリア内に取り込まれ（CTD→CPT-Ⅰ→CACT→CPT-Ⅱ）、鎖長別の脱水素酵素（VLCAD→長鎖／MTP・LCHAD→中間→MCAD→中鎖→SCAD→短鎖）で2炭素ずつ短縮されアセチルCoAとなりTCA回路でエネルギー産生される。空腹・発熱・運動などエネルギー需要増大時にβ酸化依存度が上がるため、酵素欠損があると低血糖・横紋筋融解・心筋症などを来す。</div>
+      <div class="hl hl-amber">エネルギー需要の高い臓器（脳・心臓・肝臓・骨格筋）が障害されやすい。NBSで異常を認めなくても臨床的に脂肪酸代謝異常症を示唆する所見があれば鑑別から除外しない（軽症型・遅発型はNBSをすり抜けることがある）。</div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <div class="card-hd dark"><span class="icon">📋</span>新生児マススクリーニング　対象脂肪酸代謝異常症とカットオフ値</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th style="width:18%;">疾患</th><th>指標</th><th>再採血を依頼する基準値</th><th>直接精密検査を依頼する基準値</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl">MCAD欠損症</td><td>C8／C8/C10</td><td class="td-key">C8&gt;0.30 nmol/mL かつ C8/C10&gt;1.00</td><td class="td-warn">C8&gt;0.60 nmol/mL かつ C8/C10&gt;1.40</td></tr>
+          <tr><td class="td-lbl">VLCAD欠損症</td><td>C14:1／C14:1/C2</td><td class="td-key">C14:1&gt;0.40 nmol/mL かつ C14:1/C2&gt;0.013</td><td class="td-warn">C14:1&gt;0.40 nmol/mL かつ C14:1/C2&gt;0.020</td></tr>
+          <tr><td class="td-lbl">CPT-Ⅰ欠損症</td><td>C0/(C16+C18)</td><td class="td-key">&gt;100</td><td class="td-warn">&gt;100 かつ C0&gt;100 かつ C16&lt;1.0</td></tr>
+          <tr><td class="td-lbl">CPT-Ⅱ欠損症</td><td>(C16+C18:1)/C2、C14/C3</td><td class="td-key">&gt;0.40 かつ &gt;0.41</td><td class="td-warn">同左</td></tr>
+          <tr><td class="td-lbl">TFP/LCHAD欠損症</td><td>C16-OH／C18:1-OH</td><td class="td-key">C16-OH&gt;0.050 かつ C18:1-OH&gt;0.050</td><td>（未定）</td></tr>
+          <tr><td class="td-lbl">CTD（2次対象）</td><td>遊離カルニチン C0</td><td class="td-key">C0&lt;8.00 nmol/mL</td><td class="td-warn">C0&lt;6.00 nmol/mL</td></tr>
+          <tr><td class="td-lbl">GA-Ⅱ（2次対象）</td><td>C8／C10</td><td class="td-key">C8&gt;0.30 かつ C10&gt;0.50</td><td class="td-warn">C8&gt;0.30 かつ C10&gt;1.00、C4〜C18全般上昇</td></tr>
+        </tbody>
+      </table>
+      <div class="small-note">出典：東京都予防医学協会 2021年度実施基準。カットオフは検査施設・機器により若干変動するため自施設の基準値で確認すること。VLCAD・MCADとも、十分な哺乳後は濾紙血アシルカルニチンが正常化し偽陰性となり得るため、疑診時は血清アシルカルニチン分析が有用（提供施設例：福井大学・島根大学小児科、NPOタンデムマス・スクリーニング普及協会）。</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">📊</span>発見頻度（タンデムマス1次対象）</div>
+      <div class="card-body">
+        <table class="tbl">
+          <thead><tr><th>疾患</th><th>発見頻度</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">VLCAD欠損症</td><td>約1/4.2万〜1/16万（地域差あり）</td></tr>
+            <tr><td class="td-lbl">MCAD欠損症</td><td>約1/13万〜1/19万</td></tr>
+            <tr><td class="td-lbl">CPT-Ⅱ欠損症</td><td>約1/18万</td></tr>
+            <tr><td class="td-lbl">TFP/LCHAD欠損症</td><td>約1/97万（稀）</td></tr>
+          </tbody>
+        </table>
+        <div class="small-note">脂肪酸代謝異常症の中ではVLCAD欠損症が最も発見頻度が高い。欧米と比較し日本人MCAD欠損症はACADM c.985A&gt;G変異の頻度が低く（アジア人での同変異保有率は文献上0%との報告）、遺伝子変異スペクトラムが異なる点に留意。</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd purple"><span class="icon">🧪</span>確定診断の手段（共通）</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>血中（血清推奨）アシルカルニチン分析　— 急性期検体が最も診断価値が高い</li>
+          <li>尿中有機酸分析　— 非ケトン性ジカルボン酸尿パターン</li>
+          <li>末梢血リンパ球／培養皮膚線維芽細胞での酵素活性測定</li>
+          <li>遺伝子解析　— VLCAD: <b>ACADVL</b>、MCAD: <b>ACADM</b>（確定診断の有力な手段）</li>
+          <li>in vitro probe assay（β酸化能評価）／イムノブロッティング（施設限定）</li>
+        </ul>
+        <div class="hl hl-amber" style="margin-top:8px;">検体は治療開始前（急性期）に確保し、即日検査不能なら冷凍保存。治療後検体での異常なしは疾患を否定しない。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ TAB 2: VLCAD欠損症 ════════════════ -->
+<div class="tab-content" id="tab1">
+
+  <div class="card wide">
+    <div class="card-hd navy"><span class="icon">🫀</span>病型分類と臨床像</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th style="width:16%;">病型</th><th>発症時期</th><th>主な臨床像</th><th>遺伝子型</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl td-warn">新生児期発症型</td><td>新生児期〜乳児期早期</td><td>重度心筋症（肥大型／拡張型）、不整脈、低血糖、肝腫大。生命予後の改善が困難な例も</td><td>残存活性のない変異が多い</td></tr>
+          <tr><td class="td-lbl td-key">乳幼児期発症型</td><td>哺乳間隔が空く乳幼児期</td><td>低ケトン性低血糖、肝腫大、Reye様症候群。心筋症は伴わない</td><td>残存活性のある変異が多い</td></tr>
+          <tr><td class="td-lbl td-ok">遅発型（骨格筋型）</td><td>学童期〜成人期</td><td>運動・飢餓誘発の横紋筋融解症、筋痛、筋力低下</td><td>残存活性のある変異が多い</td></tr>
+        </tbody>
+      </table>
+      <div class="small-note">遺伝子型－表現型相関が強い疾患。NBS発見例には発症後診断では見つからなかった軽症変異例も多く含まれ、将来の発症様式・時期は不明な点が多い。</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">🚩</span>急性期に高頻度の主要症状・所見</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li><b>意識障害・けいれん</b>　— 低血糖による。急性脳症様／ライ様症候群として臨床診断されることも多い</li>
+          <li><b>心筋症</b>　— 新生児期発症例で見られ、治療に難渋しやすい</li>
+          <li><b>不整脈</b>　— 心筋症に伴うことが多い</li>
+          <li><b>肝腫大</b>　— 増悪時に著明化、間欠期は不明瞭なことも</li>
+          <li><b>骨格筋症状</b>　— ミオパチー・筋痛・易疲労性、しばしば横紋筋融解症</li>
+          <li><b>消化器症状</b>　— 乳幼児期発症型で低血糖時の嘔吐が主訴になりうる</li>
+          <li><b>発達遅滞</b>　— 未診断の急性発作・反復低血糖発作後に来しうる</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🔬</span>診断の根拠となる特殊検査</div>
+      <div class="card-body">
+        <div class="dose-box-red" style="margin-bottom:8px;">
+          <div class="dose-label">血中アシルカルニチン分析（最重要所見）</div>
+          <div class="dose-num" style="font-size:16px;">C14:1 上昇（cut off &lt; 0.4 nmol/mL）</div>
+          <div class="dose-unit">C14:1/C2比 上昇（cut off &lt; 0.013）／C12〜C16鎖長の長鎖アシルカルニチン上昇を伴うこともあるが、その中でもC14:1が最も目立って上昇</div>
+        </div>
+        <div class="hl hl-amber">急性期を過ぎると濾紙血では異常を同定できないことがあり、血清アシルカルニチン分析が有用。<b>二次性カルニチン欠乏</b>（哺乳不良・栄養障害など）ではC14:1自体を含め全般に低値となるため、絶対値よりC14:1/C2やC14:1/C16比での評価が有用</div>
+        <div class="hl hl-blue" style="margin-top:6px;">尿中有機酸分析：非ケトン性ジカルボン酸尿（本症特異的所見ではない）／責任遺伝子：<b>ACADVL</b>（OMIM #201475）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <div class="card-hd amber"><span class="icon">⚠️</span>偽陽性・解釈上の注意点</div>
+    <div class="card-body">
+      <div class="hl hl-amber">C14:1高値はVLCAD欠損症患者以外にも、<b>保因者</b>や<b>哺乳不良・栄養障害</b>のある児で上昇しうる。C14:1単独では確定診断できず、絶対値とC14:1/C2比が解離する場合（例：C14:1は基準値未満だがC14:1/C2比のみ陽性基準を超える）は、栄養状態や哺乳状況、出生体重との関連も含めて総合的に評価する。</div>
+      <div class="hl hl-blue">確認方法：①再採血での濾紙血再検、②可能であれば血清アシルカルニチン分析（哺乳の影響を受けにくい）、③尿中有機酸分析、④ACADVL遺伝子解析。NBSで異常を認めなくても典型的な臨床像があれば除外しない。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ TAB 3: MCAD欠損症 ════════════════ -->
+<div class="tab-content" id="tab2">
+
+  <div class="card wide">
+    <div class="card-hd navy"><span class="icon">🫀</span>疾患概念・臨床像</div>
+    <div class="card-body">
+      <div class="hl hl-red">3〜4歳以下の、それまで特徴的所見のなかった小児が、感染や飢餓を契機に急性脳症様／ライ様症候群様の症状（嘔吐・意識障害・けいれん→しばしば昏睡）を呈する。常染色体劣性遺伝。いったん発症すると死亡率が高く、<b>乳幼児突然死症候群（SIDS）の一因</b>としても知られる。稀に成人発症例、生涯無症状の例もある。</div>
+      <div class="grid-3" style="margin-top:8px;">
+        <div class="dose-box-blue"><div class="dose-label">日本での頻度</div><div class="dose-num" style="font-size:15px;">約1/13万人</div></div>
+        <div class="dose-box-blue"><div class="dose-label">欧米での頻度</div><div class="dose-num" style="font-size:15px;">約1/1万人</div></div>
+        <div class="dose-box-blue"><div class="dose-label">責任遺伝子</div><div class="dose-num" style="font-size:15px;">ACADM</div></div>
+      </div>
+      <div class="small-note">ACADM病的バリアント同定率はシークエンスでヨーロッパ100%・北米96%・アジア100%だが、頻度の高い共通変異c.985A&gt;Gの保有率はヨーロッパ50%・北米68%に対しアジアでは0%との報告があり、日本人では変異スペクトラムが異なる（遺伝子診断の解釈に留意）。</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🔬</span>NBS陽性所見・確認検査</div>
+      <div class="card-body">
+        <div class="dose-box-red" style="margin-bottom:8px;">
+          <div class="dose-label">濾紙血アシルカルニチン分析</div>
+          <div class="dose-num" style="font-size:16px;">C8 上昇（参考値 &gt;0.3）</div>
+          <div class="dose-unit">かつ C8/C10比 上昇（参考値 &gt;1.0）</div>
+        </div>
+        <div class="hl hl-amber">十分な哺乳の後は濾紙血タンデムマスでアシルカルニチンが正常化し、疾患がマスクされることがある → 血清を用いたアシルカルニチン分析が有用（提供施設：福井大学・島根大学小児科、NPOタンデムマス・スクリーニング普及協会等）</div>
+        <div class="hl hl-blue" style="margin-top:6px;">尿中有機酸分析：ヘキサノイルグリシン等の増加／カルニチン濃度：低下していることが多い／酵素活性測定（白血球・皮膚線維芽細胞）：25%未満で診断確定</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">📌</span>検体確保の原則</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>急性期（発作時）の濾紙血・血清・尿の確保が最重要</li>
+          <li>治療後の検体で異常なしでも疾患は否定できない</li>
+          <li>即日検査ができない場合は保存検体を冷凍保存</li>
+          <li>診断に筋生検は必須ではないが、組織学的所見が脂肪酸代謝異常症を示唆することがある</li>
+        </ul>
+        <div class="hl hl-green" style="margin-top:8px;">未治療では初回発症で20〜25%が死亡または後遺症残存。スクリーニング発見例では発症前から対策可能なため死亡率・後遺症リスクが大幅に低下する。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ TAB 4: 急性期対応 ════════════════ -->
+<div class="tab-content" id="tab3">
+
+  <div class="card wide">
+    <div class="card-hd red"><span class="icon">🚨</span>代謝クライシスの初期対応（VLCAD・MCAD共通）</div>
+    <div class="card-body">
+      <div class="phase-flow">
+        <div class="phase-step" style="background:var(--red-bg);border-color:var(--red-border);color:var(--red);">①静脈路確保<br>（急性脳症様/ライ様発作は中心静脈ルート）</div>
+        <div class="phase-arrow">→</div>
+        <div class="phase-step" style="background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);">②ブドウ糖投与<br>6-8 mg/kg/min 以上を目安</div>
+        <div class="phase-arrow">→</div>
+        <div class="phase-step" style="background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);">③異化亢進から<br>早期に脱却させる</div>
+        <div class="phase-arrow">→</div>
+        <div class="phase-step" style="background:var(--green-bg);border-color:var(--green-border);color:var(--green);">④対症療法<br>（電解質・呼吸循環管理）</div>
+      </div>
+      <div class="hl hl-red" style="margin-top:10px;">治療開始前に検体確保（血液ガス、血糖、アンモニア、乳酸・ピルビン酸、遊離脂肪酸、血中/尿中ケトン体、血清アシルカルニチン、尿中有機酸、尿中ミオグロビン）。血清アシルカルニチン分析は濾紙血より優先される。</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hd navy"><span class="icon">🫀</span>VLCADで特に注意（心機能評価）</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>心エコー：肥大型・拡張型いずれの心筋症も来しうる → 経過中は評価必須</li>
+          <li>心電図モニタリング：重篤な伝導障害・不整脈が突然出現しうるため必須</li>
+          <li>入念な管理下でも重篤な転帰を防げない場合がある点を念頭に置く</li>
+          <li>腹部評価：脂肪肝・肝腫大の有無を確認</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd amber"><span class="icon">💊</span>L-カルニチン投与に関する注意</div>
+      <div class="card-body">
+        <div class="hl hl-red"><b>VLCAD欠損症：</b>急性期の静注によるL-カルニチン投与は禁忌。海外ではL-カルニチン補充は非推奨。国内統一見解はないが、少なくとも過剰投与は不要とされる。</div>
+        <div class="hl hl-blue" style="margin-top:6px;"><b>MCAD欠損症：</b>カルニチン投与は基本的に不要。ただし栄養状態により低下する場合があり、遊離・アシルカルニチン値をモニターし正常下限程度まで上昇させる投与は推奨される。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <div class="card-hd dark"><span class="icon">🩸</span>横紋筋融解症対応・腎保護</div>
+    <div class="card-body">
+      <ul class="cl">
+        <li>CK・尿中ミオグロビンをモニター、急性腎障害（ミオグロビン尿性）を念頭に十分な輸液を行う</li>
+        <li>遅発型VLCADの横紋筋融解症では非発作時もCKが軽度高値〜間欠的に著明高値（10,000 IU/L超）を示すことがある</li>
+        <li>診断に至らなかった急性発作からの回復後や反復低血糖発作後に発達遅滞を来すことがあるため、急性期離脱後も神経学的フォローを行う</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ TAB 5: 慢性期管理・食事療法 ════════════════ -->
+<div class="tab-content" id="tab4">
+
+  <div class="card wide">
+    <div class="card-hd dark"><span class="icon">🍼</span>VLCAD vs MCAD　慢性期管理の比較</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead><tr><th style="width:18%;">項目</th><th>VLCAD欠損症</th><th>MCAD欠損症</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl">基本方針</td><td colspan="2">食事・哺乳間隔を短く保ち、飢餓による低血糖を防ぐことが最重要。発熱・嘔吐・摂食不良時は糖分を十分に摂らせ、経口摂取不可なら早期に医療機関でブドウ糖含有補液</td></tr>
+          <tr><td class="td-lbl">長鎖脂肪制限</td><td class="td-warn">症状がある場合は脂質制限が必要になることがある</td><td class="td-ok">不要</td></tr>
+          <tr><td class="td-lbl">MCTミルク</td><td class="td-key">症候性で生活指導のみ不十分な場合に必須脂肪酸強化MCTフォーミュラを考慮</td><td class="td-warn">禁忌</td></tr>
+          <tr><td class="td-lbl">非加熱コーンスターチ</td><td colspan="2" class="td-key">夜間低血糖反復時に1-2g/kg/回　※1歳未満は膵アミラーゼ活性不十分のため開始しない</td></tr>
+          <tr><td class="td-lbl">L-カルニチン</td><td>海外は非推奨、国内見解は不統一。過剰投与は不要</td><td class="td-ok">基本不要（必要時のみ遊離カルニチンをモニターし補充）</td></tr>
+          <tr><td class="td-lbl">運動</td><td class="td-warn">運動誘発の横紋筋融解リスクあり。学童期以降の持久運動（運動会・登山・持久走）は要注意。軽症・発症前型では制限不要な例も</td><td>明確な運動制限の記載は乏しい。発熱・飢餓を伴う際の対応が中心</td></tr>
+          <tr><td class="td-lbl">飲酒（成人期）</td><td>脂肪酸代謝能を低下させうるとの報告あり、勧められない</td><td class="td-warn">飲酒後死亡例の報告あり、勧められない</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hd amber"><span class="icon">🌡️</span>シックデイ・異化亢進予防</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>発熱を伴う感染症、嘔吐・口内炎などの消化器症状時は糖分を十分に摂らせる</li>
+          <li>経口摂取不可・哺乳不良時は早期受診し、血糖値をモニターしながらブドウ糖を含む補液を行う</li>
+          <li>家族には病気の存在を「知っていること」自体が最大の予防策であることを説明し、長時間の空腹を避けるよう指導する</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd navy"><span class="icon">🏥</span>周術期・外科手術（成人期も含め共通の考え方）</div>
+      <div class="card-body">
+        <ul class="cl">
+          <li>術前〜術後の絶食時間が長いと代謝不全発作を誘発する可能性 → 十分なブドウ糖輸液が必要</li>
+          <li>揮発性麻酔薬・プロポフォールは長鎖脂肪鎖を含むため回避が望ましいとされてきたが、周術期に十分なブドウ糖輸液＋血糖／CK持続モニタリングを行えば特に禁忌の麻酔薬はないとする近年の考え方もある</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ TAB 6: フォローアップ・モニタリング ════════════════ -->
+<div class="tab-content" id="tab5">
+
+  <div class="card wide">
+    <div class="card-hd navy"><span class="icon">📅</span>定期評価項目</div>
+    <div class="card-body">
+      <div class="monitor-grid">
+        <div class="monitor-cell hd">評価項目</div><div class="monitor-cell hd">乳児期</div><div class="monitor-cell hd">幼児〜学童期</div><div class="monitor-cell hd">備考</div>
+        <div class="monitor-cell grp">身体計測・全身状態</div>
+        <div class="monitor-cell">毎回</div><div class="monitor-cell">毎回</div><div class="monitor-cell">体重増加・発達評価を含む</div>
+        <div class="monitor-cell grp">血液検査</div>
+        <div class="monitor-cell">定期＋発作時</div><div class="monitor-cell">定期＋発作時</div><div class="monitor-cell">AST/ALT、CK、血糖、遊離脂肪酸、血中ケトン体、遊離・アシルカルニチン</div>
+        <div class="monitor-cell grp">心機能評価（VLCAD）</div>
+        <div class="monitor-cell">心エコー・心電図</div><div class="monitor-cell">経過に応じ心エコー・心電図</div><div class="monitor-cell">新生児期発症型は特に重要。MCADでは原則不要</div>
+        <div class="monitor-cell grp">腹部評価</div>
+        <div class="monitor-cell">必要時</div><div class="monitor-cell">必要時</div><div class="monitor-cell">脂肪肝・肝腫大の有無</div>
+        <div class="monitor-cell grp">尿検査</div>
+        <div class="monitor-cell">発作時</div><div class="monitor-cell">発作時</div><div class="monitor-cell">尿中ミオグロビン、尿中有機酸（発作時）</div>
+      </div>
+      <div class="small-note">受診間隔・検査項目は重症度・病型・施設プロトコルにより調整する。NBS発見の無症候例では生化学的指標が経過とともに安定する例もあるが、定期的な家族指導の再確認は継続する。</div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <div class="card-hd red"><span class="icon">🆘</span>緊急受診・即対応が必要な目安（家族への説明事項）</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div class="hl hl-red">哺乳不良・摂食不良が続く（特に半日以上の絶食・欠食）</div>
+        <div class="hl hl-red">嘔吐・下痢で水分や糖分が摂れない</div>
+        <div class="hl hl-red">ぐったりしている・意識がはっきりしない・けいれん</div>
+        <div class="hl hl-amber">発熱があり食欲が低下している（早めの受診で予防）</div>
+        <div class="hl hl-amber">（遅発型）運動後の強い筋痛・赤褐色尿（ミオグロビン尿）</div>
+        <div class="hl hl-amber">体調不良時は自己判断で長時間様子を見ない</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <div class="card-hd dark"><span class="icon">🔚</span>フォロー終了（経過観察オフ）の目安</div>
+    <div class="card-body">
+      <div class="hl hl-red"><b>VLCAD欠損症・MCAD欠損症はいずれも常染色体劣性の生涯にわたる先天代謝異常症であり、無症候であっても完全な経過観察終了（フォローオフ）は原則として行わない。</b>空腹・感染・運動などの誘因で生涯にわたり代謝不全発作（低血糖、横紋筋融解、MCADでは乳幼児突然死様の急変）を来しうるため、症状の有無にかかわらず本人・家族への安全教育（sick day rule）は生涯継続する。</div>
+      <div class="hl hl-amber" style="margin-top:8px;"><b>受診頻度を減らす／低強度モニタリングへ移行する目安：</b>乳幼児期を過ぎ、長期間（目安として数年単位）発作・生化学的異常がなく、家族が空腹回避・シックデイ対応を確実に実践できている場合は、心機能評価（VLCAD）や採血の頻度を段階的に間引くことを検討してよい。ただし学童期の体育・部活動開始、思春期の生活変化、妊娠・周術期などライフイベントごとに再評価のタイミングを設ける。</div>
+      <div class="hl hl-blue" style="margin-top:8px;"><b>成人期への移行：</b>成人診療科に明確なカウンターパートが存在しないため、先天代謝異常症としての専門診療は小児科が継続しつつ、横紋筋融解や心合併症など必要に応じて成人診療科と共診する移行期医療（トランジション）の体制を整える。</div>
+      <div class="hl hl-green" style="margin-top:8px;"><b>家族への safety-net 指導（恒久的に継続）：</b>①長時間の空腹を作らない、②体調不良時は早めに受診しブドウ糖補給を受ける、③症状（意識障害・けいれん・赤褐色尿・哺乳不良）があれば自己判断で様子を見ず救急受診、④緊急時に説明できるよう疾患名・連絡先を記載したカード等を携帯する。</div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <div class="card-hd blue"><span class="icon">💰</span>社会支援・医療費助成</div>
+    <div class="card-body">
+      <div class="hl hl-blue">VLCAD欠損症・MCAD欠損症ともに小児慢性特定疾病の対象。VLCAD欠損症は指定難病344としても対象。MCAD欠損症は現時点で指定難病の対象ではなく、成人期の医療費負担（特殊ミルク・MCTオイル購入費等）が課題となりうる点を家族に説明しておく。</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  参考資料：日本先天代謝異常学会「新生児マススクリーニング対象疾患等診療ガイドライン2019」／日本小児科学会 移行期医療ガイドライン（VLCAD欠損症・MCAD欠損症）／小児慢性特定疾病情報センター／東京都予防医学協会年報2023年版（NBSカットオフ値）／GeneReviews（MGenReviews和訳）／難病情報センター。本リファレンスは診療補助目的であり、カットオフ値・投与量は自施設プロトコルと添付文書で必ず確認し、最終判断は患者個別の臨床状況と主治医の判断に基づくこと。
+</div>
+
+<script>
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>

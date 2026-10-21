@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>血漿アミノ酸分析 読解クイックリファレンス</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="読解クイックリファレンス">
+<meta name="mini-title" content="血漿アミノ酸分析 読解">
+
+<style>
+:root {
+  --bg:#eef2f7; --card:#ffffff; --border:#dde3ec;
+  --text:#1a202c; --text-muted:#64748b;
+  --primary:#1e3a5f; --primary-mid:#254d80; --primary-light:#3468a8;
+  --red:#b91c1c; --red-bg:#fef2f2; --red-border:#fca5a5;
+  --amber:#92400e; --amber-bg:#fffbeb; --amber-border:#fcd34d;
+  --blue:#1d4ed8; --blue-bg:#eff6ff; --blue-border:#93c5fd;
+  --green:#15803d; --green-bg:#f0fdf4; --green-border:#86efac;
+  --purple:#6d28d9; --purple-bg:#f5f3ff; --purple-border:#c4b5fd;
+  --teal:#0f766e; --teal-bg:#f0fdfa; --teal-border:#5eead4;
+  --slate:#334155; --slate-bg:#f8fafc;
+  --shadow:0 1px 3px rgba(15,23,42,.07);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;
+  background:var(--bg); color:var(--text); font-size:12px; line-height:1.6;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
+  color:#fff; padding:13px 16px; display:flex; justify-content:space-between;
+  align-items:center; gap:12px; flex-wrap:wrap;
+}
+.header-left h1 { font-size:17px; font-weight:800; letter-spacing:.02em; }
+.header-left .sub { font-size:10.5px; opacity:.78; margin-top:2px; font-weight:400; }
+.header-right { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
+.header-tag {
+  font-size:9.5px; background:rgba(255,255,255,.18); padding:2px 9px;
+  border-radius:12px; border:1px solid rgba(255,255,255,.3); white-space:nowrap;
+}
+
+/* ─── TAB NAV ─── */
+.tab-nav {
+  background:var(--primary-mid); display:flex; overflow-x:auto;
+  scrollbar-width:none; border-bottom:2px solid rgba(255,255,255,.1);
+  position:sticky; top:0; z-index:10; -webkit-overflow-scrolling:touch;
+}
+.tab-nav::-webkit-scrollbar { display:none; }
+.tab-btn {
+  padding:9px 13px; color:rgba(255,255,255,.62); background:none; border:none;
+  cursor:pointer; white-space:nowrap; font-size:11.5px; font-family:inherit;
+  border-bottom:3px solid transparent; transition:all .18s; font-weight:500; flex-shrink:0;
+}
+.tab-btn:hover { color:rgba(255,255,255,.9); background:rgba(255,255,255,.08); }
+.tab-btn:focus-visible { outline:2px solid #5ef07a; outline-offset:-2px; }
+.tab-btn.active { color:#fff; border-bottom-color:#5ef07a; background:rgba(255,255,255,.12); font-weight:700; }
+
+/* ─── CONTENT ─── */
+.tab-content { display:none; padding:14px 16px 30px; max-width:1300px; margin:0 auto; }
+.tab-content.active { display:block; animation:fadeIn .18s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:none;} }
+@media (prefers-reduced-motion:reduce) { .tab-content.active { animation:none; } }
+
+/* ─── GRIDS ─── */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:11px; }
+.grid-half { display:grid; grid-template-columns:1.4fr 1fr; gap:11px; }
+.mb-3 { margin-bottom:11px; }
+@media (max-width:860px) {
+  .grid-2,.grid-3,.grid-half { grid-template-columns:1fr; }
+}
+
+/* ─── CARDS ─── */
+.card {
+  background:var(--card); border-radius:7px; border:1px solid var(--border);
+  overflow:hidden; box-shadow:var(--shadow); margin-bottom:11px;
+}
+.card-hd {
+  padding:7px 11px; font-weight:700; font-size:11.5px; display:flex;
+  align-items:center; gap:5px; letter-spacing:.2px;
+}
+.card-hd .icon { font-size:13px; }
+.card-hd.red    { background:var(--red-bg);    color:var(--red);    border-bottom:1px solid var(--red-border); }
+.card-hd.amber  { background:var(--amber-bg);  color:var(--amber);  border-bottom:1px solid var(--amber-border); }
+.card-hd.blue   { background:var(--blue-bg);   color:var(--blue);   border-bottom:1px solid var(--blue-border); }
+.card-hd.green  { background:var(--green-bg);  color:var(--green);  border-bottom:1px solid var(--green-border); }
+.card-hd.purple { background:var(--purple-bg); color:var(--purple); border-bottom:1px solid var(--purple-border); }
+.card-hd.teal   { background:var(--teal-bg);   color:var(--teal);   border-bottom:1px solid var(--teal-border); }
+.card-hd.dark   { background:var(--primary);   color:#fff; }
+.card-body { padding:11px; }
+
+/* ─── TEXT UTIL ─── */
+.mh { font-weight:700; color:var(--primary); font-size:11.5px; margin-bottom:5px; }
+.mt { margin-top:12px; }
+.cl { list-style:none; }
+.cl li { padding:3px 0 3px 16px; position:relative; }
+.cl li::before { content:'▸'; position:absolute; left:0; color:var(--primary-light); font-weight:700; }
+.small-note { font-size:10px; color:var(--text-muted); margin-top:6px; line-height:1.5; }
+.small { font-size:10.5px; color:var(--text-muted); }
+code { background:#f1f5f9; padding:1px 4px; border-radius:3px; font-size:10.5px; font-family:ui-monospace,Menlo,Consolas,monospace; }
+
+/* ─── HIGHLIGHT BOXES ─── */
+.hl { border-radius:6px; padding:9px 11px; font-size:11.5px; margin-top:8px; }
+.hl strong { display:block; margin-bottom:3px; }
+.hl-red    { background:var(--red-bg);    border-left:3px solid var(--red);    color:#7f1d1d; }
+.hl-amber  { background:var(--amber-bg);  border-left:3px solid #d97706;       color:#78350f; }
+.hl-blue   { background:var(--blue-bg);   border-left:3px solid var(--blue);   color:#1e3a8a; }
+.hl-green  { background:var(--green-bg);  border-left:3px solid var(--green);  color:#14532d; }
+.hl-purple { background:var(--purple-bg); border-left:3px solid var(--purple); color:#4c1d95; }
+.hl-slate  { background:var(--slate-bg);  border-left:3px solid var(--slate);  color:#1e293b; }
+
+/* ─── TABLES ─── */
+table.tbl { width:100%; border-collapse:collapse; font-size:11.3px; }
+table.tbl th {
+  background:#f1f5f9; color:#334155; font-weight:700; padding:6px 8px;
+  text-align:center; border:1px solid var(--border); white-space:nowrap;
+}
+table.tbl td { padding:6px 8px; border:1px solid var(--border); text-align:center; vertical-align:middle; }
+table.tbl td.td-lbl { text-align:left; font-weight:700; background:#f8fafc; white-space:nowrap; }
+table.tbl td.td-left { text-align:left; }
+table.tbl td.td-key  { background:var(--amber-bg); font-weight:700; color:var(--amber); }
+table.tbl td.td-warn { background:var(--red-bg);   font-weight:700; color:var(--red); }
+table.tbl td.td-ok   { background:var(--green-bg); color:var(--green); font-weight:700; }
+table.tbl td.td-info { background:var(--blue-bg);  color:var(--blue); font-weight:700; }
+.tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+/* ─── MONITOR GRID ─── */
+.monitor-grid {
+  display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:1px;
+  background:var(--border); border:1px solid var(--border);
+  border-radius:6px; overflow:hidden; font-size:10.8px;
+}
+.monitor-cell { background:#fff; padding:6px 7px; }
+.monitor-cell.hd { background:var(--primary); color:#fff; font-weight:700; text-align:center; }
+.monitor-cell.grp { background:#f1f5f9; font-weight:700; grid-column:1 / -1; }
+
+/* ─── STEP FLOW ─── */
+.phase-flow { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.phase-step {
+  flex:1; min-width:130px; padding:9px 10px; border-radius:7px;
+  border:1.5px solid; text-align:center; font-size:11px; font-weight:600;
+}
+.phase-arrow { font-size:16px; color:var(--text-muted); }
+.step-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:19px; height:19px; border-radius:50%; background:var(--primary);
+  color:#fff; font-size:10.5px; font-weight:800; margin-right:6px; flex-shrink:0;
+}
+
+/* ─── ARROW BADGES ─── */
+.up   { color:var(--red);   font-weight:800; }
+.upup { color:var(--red);   font-weight:800; letter-spacing:-1px; }
+.dn   { color:var(--blue);  font-weight:800; }
+.nl   { color:var(--text-muted); font-weight:700; }
+.pill {
+  display:inline-block; padding:1px 7px; border-radius:10px; font-size:10px;
+  font-weight:700; border:1px solid; white-space:nowrap;
+}
+.pill-red   { background:var(--red-bg);    color:var(--red);    border-color:var(--red-border); }
+.pill-blue  { background:var(--blue-bg);   color:var(--blue);   border-color:var(--blue-border); }
+.pill-green { background:var(--green-bg);  color:var(--green);  border-color:var(--green-border); }
+.pill-amber { background:var(--amber-bg);  color:var(--amber);  border-color:var(--amber-border); }
+.pill-purple{ background:var(--purple-bg); color:var(--purple); border-color:var(--purple-border); }
+
+/* ─── CHECKLIST ─── */
+.chk { list-style:none; }
+.chk li { padding:5px 0 5px 22px; position:relative; border-bottom:1px dashed var(--border); }
+.chk li:last-child { border-bottom:none; }
+.chk li::before {
+  content:'☐'; position:absolute; left:2px; top:4px;
+  color:var(--primary-light); font-size:13px; font-weight:700;
+}
+
+.footer { text-align:center; padding:14px; font-size:10px; color:var(--text-muted); background:#e2e8f0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>血漿アミノ酸分析 読解クイックリファレンス</h1>
+    <div class="sub">Critical sample を自力で解釈するための体系 ― パターン認識・比の指標・二次性修飾・再検戦略</div>
+  </div>
+  <div class="header-right">
+    <div class="header-tag">小児内分泌・先天代謝異常 診療補助ツール</div>
+    <div class="header-tag">日本先天代謝異常学会 診療GL／NBS対象疾患GL 準拠</div>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">①読み方5ステップ</button>
+  <button class="tab-btn" onclick="switchTab(1)">②代謝マップと基礎</button>
+  <button class="tab-btn" onclick="switchTab(2)">③上昇パターン辞典</button>
+  <button class="tab-btn" onclick="switchTab(3)">④低下パターン・比の指標</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤疾患別プロファイル</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥二次性・偽性の修飾</button>
+  <button class="tab-btn" onclick="switchTab(6)">⑦病態別アルゴリズム</button>
+  <button class="tab-btn" onclick="switchTab(7)">⑧実践・再検・精査終了</button>
+</div>
+
+<!-- ══════════ TAB 0 ══════════ -->
+<div class="tab-content active">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">🧭</span>この分野の大原則 ― これだけは絶対に忘れない</div>
+    <div class="card-body">
+      <div class="hl hl-red">
+        <strong>原則1：アミノ酸分析は「スナップショット」であり「診断」ではない</strong>
+        血漿アミノ酸は<b>採血した瞬間の代謝状態</b>を映す鏡にすぎません。同じ患者でも、発作時・平時・食後・輸液中で全く違う顔になります。<b>「値」ではなく「値＋採血条件」がセットで初めて情報</b>になります。採血条件が不明な結果は、解釈不能として扱うのが正しい態度です。
+      </div>
+      <div class="hl hl-red mt">
+        <strong>原則2：異化亢進はほぼすべてのアミノ酸を歪める</strong>
+        飢餓・感染・発作・低血糖・アシドーシスの最中は、筋蛋白が分解されて<b>BCAA（Val/Leu/Ile）が上昇</b>し、糖新生基質である<b>Ala・Gln・Gly・Ser・Thr が消費されて低下</b>します。この「異化の指紋」を先天代謝異常の所見と読み違えるのが、最も多く・最も高くつく誤りです。
+      </div>
+      <div class="hl hl-amber mt">
+        <strong>原則3：一次性を疑ったら「平時再検」で必ず答え合わせをする</strong>
+        二次性（異化性）の異常は<b>回復後に正常化</b>します。一次性（酵素欠損）の異常は<b>平時も残存</b>します。この1点だけで大半の鑑別が付きます。急性期の1枚で結論を出さないこと。
+      </div>
+      <div class="hl hl-blue mt">
+        <strong>原則4：「孤立性上昇」だけが一次性を示唆する</strong>
+        1つ（または同一経路の少数）が<b>突出して</b>上がっているときだけ、酵素ブロックを考えます。多数が満遍なく上がる／下がるのは、栄養・異化・肝腎・検体条件の話です。
+      </div>
+      <div class="hl hl-green mt">
+        <strong>原則5：アミノ酸単独で確定する疾患はほぼ無い</strong>
+        必ず<b>尿有機酸・血中アシルカルニチン・アンモニア・乳酸・血糖・ケトン体・血液ガス</b>とセットで読みます。アミノ酸は「どの方向に掘るか」を決める地図であって、掘削機ではありません。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">🔢</span>読解の5ステップ ― 毎回この順番で処理する</div>
+    <div class="card-body">
+      <div class="phase-flow mb-3">
+        <div class="phase-step" style="border-color:var(--slate);background:var(--slate-bg);color:var(--slate);">①採血条件を確認</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--blue);background:var(--blue-bg);color:var(--blue);">②突出値を拾う</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--purple);background:var(--purple-bg);color:var(--purple);">③上下流ペアを見る</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--amber);background:var(--amber-bg);color:var(--amber);">④比を計算</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--green);background:var(--green-bg);color:var(--green);">⑤二次性を差し引く</div>
+      </div>
+
+      <div class="mh mt"><span class="step-num">1</span>採血条件を確認する（ここを飛ばすと全部間違う）</div>
+      <ul class="cl">
+        <li><b>絶食か食後か</b>：食後は全般（特にBCAA・EAA）が上昇。原則<b>4時間以上の絶食</b>、乳児は次回哺乳直前。</li>
+        <li><b>アミノ酸輸液・TPN が入っていないか</b>：入っていれば<b>判定不能</b>。輸液の組成をそのまま測っているだけ。</li>
+        <li><b>異化状態か</b>：発熱・嘔吐・低血糖・アシドーシス・けいれんの最中か。→ 後述の「異化の指紋」で補正して読む。</li>
+        <li><b>検体の取り扱い</b>：溶血、室温放置、抗凝固剤。Gln→Glu 変換、Cystine 低下などのアーチファクトを生む。</li>
+      </ul>
+
+      <div class="mh mt"><span class="step-num">2</span>突出している値を拾う（基準値の「何倍か」で見る）</div>
+      <ul class="cl">
+        <li>基準値上限に対する<b>倍率</b>を暗算する。<b>2倍前後＝非特異的なことが多い／5〜10倍以上＝一次性を強く示唆</b>。</li>
+        <li>「基準値をわずかに外れた項目」を10個並べるより、<b>突出した1個</b>のほうが情報量が桁違いに大きい。</li>
+        <li>低値側も同様に見るが、<b>低値は特異性が低い</b>（栄養・希釈・異化で簡単に下がる）。例外は Cit↓（尿素サイクル近位ブロック）、Lys/Arg/Orn↓（LPI）、Cys↓（CBS欠損）。</li>
+      </ul>
+
+      <div class="mh mt"><span class="step-num">3</span>代謝経路上の「上流／下流ペア」を見る</div>
+      <ul class="cl">
+        <li>酵素ブロックの本質は<b>「上流が溜まり、下流が枯れる」</b>。単独の値ではなく、必ずペアで確認する。</li>
+        <li>Phe↑ ＋ Tyr <span class="nl">→/↓</span> ＝ PAH ブロック（<b>Phe/Tyr比</b>で強調される）</li>
+        <li>Met↑ ＋ Cystine↓ ＝ CBS ブロック（ホモシスチン尿症）</li>
+        <li>Gln↑ ＋ Cit↓ ＝ 尿素サイクル近位ブロック（CPS1/OTC/NAGS）</li>
+        <li>Cit↑↑ ＋ Arg↓ ＝ ASS ブロック（シトルリン血症I型）</li>
+      </ul>
+
+      <div class="mh mt"><span class="step-num">4</span>比の指標を計算する（生の値より雄弁）</div>
+      <ul class="cl">
+        <li>Fischer比、BCAA/AAA、Phe/Tyr、Gln/Cit、EAA/NEAA、Gly（CSF/血漿）。<b>タブ④参照</b>。</li>
+        <li>比は<b>希釈・栄養状態の影響をキャンセル</b>するので、生値より安定して病態を指す。</li>
+      </ul>
+
+      <div class="mh mt"><span class="step-num">5</span>二次性の寄与を差し引いて、残る説明不能分を考える</div>
+      <ul class="cl">
+        <li>「この異化状態なら、どこまでの異常は説明できるか」を先に見積もる。</li>
+        <li>異化で説明できる範囲を<b>超えている</b>分だけが、一次性を疑う根拠になる。</li>
+        <li>それでも残るなら → 追加検査（alloIle、尿有機酸、tHcy、CSF、遺伝子）へ。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🖨️</span>報告書の記号 ― まず用語を正しく読む</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:70px;">記号</th><th style="width:190px;">意味</th><th>解釈上の注意</th></tr>
+        <tr><td class="td-lbl">ND</td><td>測定感度以下</td><td class="td-left"><b>「ゼロ」ではなく「検出限界未満」</b>。Cit の ND は近位尿素サイクル異常の重要所見になりうるが、低値の程度は分からない点に注意。</td></tr>
+        <tr><td class="td-lbl">TR</td><td>痕跡（trace）</td><td class="td-left">定量できない微量。基準値が「TR」の項目（Asp, Hydroxyproline, Sarcosine 等）は<b>元々ほぼ検出されない</b>のが正常。</td></tr>
+        <tr><td class="td-lbl">X</td><td>分離不能のため測定不可</td><td class="td-left">他のピークと重なった。<b>その項目は判定できない</b>ので、必要なら再検・別法。</td></tr>
+        <tr><td class="td-lbl">P</td><td>変動値はプロットされません</td><td class="td-left">グラフ上に印が出ないだけ。<b>数値そのものは有効</b>。プロットが無いから正常、と読まないこと。</td></tr>
+      </table>
+      </div>
+      <div class="hl hl-blue mt">
+        <strong>報告書に載らない最重要項目に注意</strong>
+        標準パネルには <b>alloisoleucine（アロイソロイシン）</b>、<b>argininosuccinic acid（ASA）</b>、<b>homocitrulline</b>、<b>total homocysteine（tHcy）</b> が独立行として無いことが多い。これらは<b>疾患特異的マーカー</b>なので、疑ったら測定機関に peak の有無を照会するか、別法で追加測定する。「表に無い＝陰性」ではない。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 1 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">🗺️</span>4つの経路だけ覚えれば9割読める</div>
+    <div class="card-body">
+      <div class="small-note" style="margin-top:0;">アミノ酸分析で問題になる代謝経路は、実務上ほぼこの4系統に収束します。各経路の「詰まる場所→溜まるもの→枯れるもの」をセットで記憶するのが最短ルートです。</div>
+      <div class="grid-2 mt">
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-hd purple"><span class="icon">Ⅰ</span>尿素サイクル（アンモニア処理）</div>
+          <div class="card-body">
+            <div class="hl hl-slate" style="margin-top:0;font-family:ui-monospace,monospace;font-size:10.5px;line-height:1.9;">
+              NH₃ + HCO₃⁻ <b>─CPS1→</b> カルバミルリン酸<br>
+              　＋Orn <b>─OTC→</b> <b>Citrulline</b><br>
+              　＋Asp <b>─ASS→</b> アルギニノコハク酸(ASA)<br>
+              　<b>─ASL→</b> <b>Arginine</b> ＋ Fumarate<br>
+              　<b>─ARG1→</b> Urea ＋ <b>Ornithine</b>（再循環）<br>
+              <span style="color:var(--text-muted);">※NAGS は CPS1 の活性化因子</span>
+            </div>
+            <div class="mh mt">シトルリンが分岐の座標軸</div>
+            <ul class="cl">
+              <li><b>Cit ↓↓</b> → ブロックは Cit より<b>上流</b>：NAGS / CPS1 / OTC</li>
+              <li><b>Cit ↑↑↑</b>（>1000） → <b>ASS</b>（シトルリン血症I型）</li>
+              <li><b>Cit ↑</b>（中等度） → <b>ASL</b>（＋ASA検出）／ シトリン欠損</li>
+              <li><b>Arg ↑↑</b> → <b>ARG1</b>（アルギニン血症）</li>
+              <li><b>Orn ↑↑</b> ＋ homocitrulline → <b>HHH症候群</b></li>
+            </ul>
+            <div class="hl hl-amber">
+              <strong>Gln は「渋滞のサイン」</strong>
+              処理できないアンモニアは Glu → <b>Gln</b> に押し込まれる。<b>Gln↑ ＋ Ala↑</b> は高アンモニア血症の共通所見で、<b>原因を問わない</b>（一次性でも二次性でも上がる）。
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-hd amber"><span class="icon">Ⅱ</span>分枝鎖アミノ酸（BCAA）</div>
+          <div class="card-body">
+            <div class="hl hl-slate" style="margin-top:0;font-family:ui-monospace,monospace;font-size:10.5px;line-height:1.9;">
+              Leu / Ile / Val<br>
+              　<b>─BCAT→</b> 分枝鎖ケト酸（KIC/KMV/KIV）<br>
+              　<b>─BCKDH→</b> アシルCoA → TCA<br>
+              <span style="color:var(--red);font-weight:700;">↑BCKDH欠損 ＝ MSUD</span><br>
+              <span style="color:var(--text-muted);">その下流の各論的欠損 ＝ 有機酸血症<br>（IVA / PA / MMA など）</span>
+            </div>
+            <div class="mh mt">BCAA上昇の意味は2択</div>
+            <ul class="cl">
+              <li><b>一次性＝MSUD</b>：Leu 突出＋<b>alloIle 陽性</b>が必須要素</li>
+              <li><b>二次性＝異化亢進</b>：3つがほぼ均等に上昇、alloIle 陰性、Ala/Gln 低下を伴う</li>
+            </ul>
+            <div class="hl hl-red">
+              <strong>alloisoleucine が唯一の決定打</strong>
+              Ile の異性体で、<b>MSUD にほぼ特異的</b>（異化では出ない）。BCAA高値を見たら反射的にこれを確認する。標準表に無いので必ず照会。
+            </div>
+            <div class="small-note">BCKDH より下流のブロック（IVA/PA/MMA）では、<b>BCAA自体は上がらず</b>有機酸・アシルカルニチンが動く。アミノ酸分析が正常でも有機酸血症は否定できない。</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-hd blue"><span class="icon">Ⅲ</span>芳香族アミノ酸（Phe → Tyr）</div>
+          <div class="card-body">
+            <div class="hl hl-slate" style="margin-top:0;font-family:ui-monospace,monospace;font-size:10.5px;line-height:1.9;">
+              <b>Phe</b> <b>─PAH（補酵素BH₄）→</b> <b>Tyr</b><br>
+              　<b>─TAT→</b> 4-OH-フェニル酢酸<br>
+              　<b>─HPD→</b> ホモゲンチジン酸<br>
+              　<b>─FAH→</b> フマル酸＋アセト酢酸
+            </div>
+            <div class="mh mt">段の高さで疾患が決まる</div>
+            <ul class="cl">
+              <li><b>Phe↑ ＋ Phe/Tyr比↑</b> → PAH欠損（PKU）または <b>BH₄欠乏症</b>。両者はアミノ酸では区別不能 → <b>プテリン分析・DHPR活性</b>で分ける（治療が全く違うので必須）</li>
+              <li><b>Tyr↑↑ 単独</b>（Met正常・肝正常） → <b>II型</b>（TAT欠損／角膜・掌蹠病変）</li>
+              <li><b>Tyr↑ ＋ Met↑↑ ＋ 肝障害・凝固異常</b> → <b>I型</b>（FAH欠損）。決め手は<b>サクシニルアセトン</b></li>
+              <li><b>Tyr↑ ＋ Phe↑ ＋ Met↑</b>（全部） → 一次性ではなく<b>肝不全</b>を疑う</li>
+            </ul>
+            <div class="hl hl-amber">
+              <strong>新生児一過性高チロシン血症</strong>
+              未熟児・高蛋白栄養で頻繁に見る良性の一過性上昇。ビタミンC投与と経過観察で正常化。<b>小児でTyr単独軽度上昇は、まずこれと肝機能を考える。</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-hd teal"><span class="icon">Ⅳ</span>含硫アミノ酸（Met → Cys）</div>
+          <div class="card-body">
+            <div class="hl hl-slate" style="margin-top:0;font-family:ui-monospace,monospace;font-size:10.5px;line-height:1.9;">
+              <b>Met</b> <b>─MAT→</b> SAM → SAH<br>
+              　→ <b>ホモシステイン(Hcy)</b><br>
+              　├ <b>─CBS（B₆）→</b> シスタチオニン → <b>Cys</b>（トランス硫化）<br>
+              　└ <b>─MS（B₁₂/葉酸）→</b> Met へ再メチル化
+            </div>
+            <div class="mh mt">Met と Hcy の組み合わせで場所が決まる</div>
+            <div class="tbl-wrap">
+            <table class="tbl">
+              <tr><th>Met</th><th>tHcy</th><th>示唆</th></tr>
+              <tr><td class="td-warn">↑</td><td class="td-warn">↑↑</td><td class="td-left"><b>CBS欠損（古典的ホモシスチン尿症）</b>／Cystine↓を伴う</td></tr>
+              <tr><td class="td-info">↓</td><td class="td-warn">↑↑</td><td class="td-left"><b>再メチル化障害</b>：MTHFR欠損、コバラミン代謝異常（cblC等）、B₁₂/葉酸欠乏</td></tr>
+              <tr><td class="td-warn">↑↑</td><td class="td-ok">正常</td><td class="td-left"><b>MAT I/III欠損</b>（多くは良性）／肝障害／高蛋白栄養</td></tr>
+              <tr><td class="td-ok">正常</td><td class="td-ok">正常</td><td class="td-left">シスタチオニン尿症（Cystathionine↑のみ、良性）</td></tr>
+            </table>
+            </div>
+            <div class="hl hl-red">
+              <strong>Cystine 低値は CBS欠損の隠れたサイン</strong>
+              Met↑ を見たら必ず Cystine を見る。<b>Met↑ ＋ Cystine↓</b> はトランス硫化ブロックを示唆。ただし Cystine は<b>検体保存で容易に低下</b>するアーチファクトの常連なので、単独では判断しない。<b>tHcy 測定が本命。</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd green"><span class="icon">📚</span>アミノ酸の性質分類 ― なぜ低下するか／なぜ上昇するかの土台</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr>
+          <th style="width:130px;">分類</th><th>該当</th><th style="width:280px;">読解上の意味</th>
+        </tr>
+        <tr>
+          <td class="td-lbl">必須（EAA）</td>
+          <td class="td-left">Val, Leu, Ile, Thr, Met, Lys, Phe, Trp, His <span class="small">（＋乳児では Arg, His）</span></td>
+          <td class="td-left">食事・輸液・<b>筋蛋白分解</b>のみが供給源。<b>EAA/NEAA↑＝異化 or 蛋白負荷</b>の指標になる。</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">非必須（NEAA）</td>
+          <td class="td-left">Ala, Gly, Ser, Gln, Glu, Asn, Asp, Pro, Tyr, Cys, Arg, Orn, Cit, Tau</td>
+          <td class="td-left">体内合成可能。<b>糖新生・NH₃緩衝の主戦場</b>なので、代謝ストレスで大きく動く。</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">糖新生の主要基質</td>
+          <td class="td-left"><b>Ala</b>（最重要）, Gln, Gly, Ser, Thr, Pro</td>
+          <td class="td-left"><b>これらの低下＝糖新生を回しきった証拠</b>。ケトン性低血糖症の低Ala血症はこの機序。</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">アンモニア緩衝</td>
+          <td class="td-left"><b>Gln</b>（主）, <b>Ala</b>, Glu</td>
+          <td class="td-left">Gln↑＋Ala↑＝NH₃負荷のサイン（原因非特異的）。逆に<b>異化で枯れていると Gln が上がらず</b>、高NH₃を見逃す罠になる。</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">ケト原性</td>
+          <td class="td-left"><b>Leu</b>, Lys（純粋）／ Ile, Phe, Tyr, Trp（混合）</td>
+          <td class="td-left">Leu は糖新生に回らず、MSUD で<b>神経毒性の主犯</b>になるのはこの Leu。治療標的も Leu。</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">筋崩壊マーカー</td>
+          <td class="td-left"><b>3-Methylhistidine</b>, 1-Methylhistidine, Carnosine, Anserine</td>
+          <td class="td-left">3-MeHis↑＝<b>筋蛋白分解の直接証拠</b>。BCAA↑が異化性か判断する補助になる（腎不全でも貯留）。</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">生理的に微量</td>
+          <td class="td-left">Asp, Hydroxyproline, Sarcosine, Cystathionine, β-Ala, GABA, Homocystine, Anserine</td>
+          <td class="td-left">基準値が ND/TR。<b>検出されること自体が異常</b>のことがある（例：Homocystine の検出）。逆に Asp/Glu は<b>溶血で偽上昇</b>する筆頭。</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-blue mt">
+        <strong>Fischer比の生理学 ― なぜ肝不全で下がるのか</strong>
+        <b>BCAA は主に骨格筋</b>で代謝され、<b>AAA（Phe/Tyr/Met）は肝でのみ</b>代謝されます。したがって<b>肝が壊れると AAA が処理できず上昇</b>し、同時に高インスリン・異化で BCAA が筋に取り込まれて低下 → <b>Fischer比＝(Val+Leu+Ile)/(Phe+Tyr) が低下</b>します。この非対称性を理解しておくと、「Fischer比が高い＝肝は関係ない」という判断が自信を持ってできます。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 2 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">🔍</span>上昇パターン辞典 ― 「何が上がっているか」から引く</div>
+    <div class="card-body">
+      <div class="small-note" style="margin-top:0;">実務ではこの表を上から引くのが最速です。<b>左列＝突出している所見</b>、右列＝次の一手。二次性の可能性は常に併記してあるので、必ずセットで検討してください。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">⬆</span>単一・少数アミノ酸の突出上昇（＝一次性を疑う所見）</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr>
+          <th style="width:150px;">上昇パターン</th><th style="width:160px;">第一に疑う疾患</th>
+          <th style="width:220px;">同時に見るべき所見</th><th>確定への次の一手</th>
+        </tr>
+        <tr>
+          <td class="td-warn">Leu・Ile・Val<br>（Leu突出）</td>
+          <td class="td-left"><b>MSUD</b>（メープルシロップ尿症）</td>
+          <td class="td-left">Ala↓、ケトアシドーシス、血糖は<b>正常〜高値</b>、メープル様尿臭、脳症</td>
+          <td class="td-left"><b>alloisoleucine</b>（特異的）／尿有機酸（分枝鎖2-オキソ酸）／<i>BCKDHA/B, DBT</i>遺伝子</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Phe<br>（Tyr正常〜↓）</td>
+          <td class="td-left"><b>PKU / 高Phe血症</b><br>or <b>BH₄欠乏症</b></td>
+          <td class="td-left"><b>Phe/Tyr比↑</b>、NBS歴、色素低下、湿疹、母体PKU</td>
+          <td class="td-left"><b>プテリン分析（尿）＋DHPR活性</b>で BH₄欠乏を必ず除外／<i>PAH</i>遺伝子</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Tyr ＋ Met<br>（Metが著明）</td>
+          <td class="td-left"><b>高チロシン血症I型</b>（FAH）</td>
+          <td class="td-left">肝障害・凝固異常・AFP↑、Fanconi型尿細管障害、くる病</td>
+          <td class="td-left"><b>サクシニルアセトン（尿・血）</b>が決定打／ニチシノン治療</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Tyr 単独↑↑</td>
+          <td class="td-left"><b>高チロシン血症II型</b>（TAT）</td>
+          <td class="td-left">角膜混濁・羞明、掌蹠角化症、肝は正常</td>
+          <td class="td-left">眼科診察／<i>TAT</i>遺伝子。<b>肝正常が I型との分かれ目</b></td>
+        </tr>
+        <tr>
+          <td class="td-warn">Met ＋ Homocystine<br>（Cystine↓）</td>
+          <td class="td-left"><b>ホモシスチン尿症</b>（CBS欠損）</td>
+          <td class="td-left">水晶体亜脱臼、マルファン様体型、血栓症、知的障害、骨粗鬆症</td>
+          <td class="td-left"><b>tHcy（総ホモシステイン）</b>／B₆負荷試験（反応性の判定）／<i>CBS</i>遺伝子</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Citrulline ↑↑↑<br>（>1000）</td>
+          <td class="td-left"><b>シトルリン血症I型</b>（ASS）</td>
+          <td class="td-left"><b>NH₃↑↑</b>、Arg↓、Gln↑、新生児期の脳症</td>
+          <td class="td-left">尿オロト酸↑／<i>ASS1</i>遺伝子／急性期は Arg 投与＋NH₃除去</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Citrulline ↑<br>（中等度）</td>
+          <td class="td-left"><b>ASL欠損</b>／<b>シトリン欠損</b></td>
+          <td class="td-left">ASL：ASA検出、毛髪異常(trichorrhexis)、肝障害<br>シトリン：<b>Thr/Ser比↑</b>、Met↑、Tyr↑、Arg↑、豆・肉嗜好</td>
+          <td class="td-left"><b>ASA（アルギニノコハク酸）</b>測定／<i>SLC25A13</i>遺伝子</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Arginine ↑↑</td>
+          <td class="td-left"><b>アルギニン血症</b>（ARG1）</td>
+          <td class="td-left">痙性対麻痺、<b>NH₃は軽度上昇にとどまる</b>、発達退行</td>
+          <td class="td-left">尿オロト酸↑／赤血球ARG1活性／<i>ARG1</i>遺伝子</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Ornithine ↑↑</td>
+          <td class="td-left"><b>HHH症候群</b> or <b>OAT欠損</b></td>
+          <td class="td-left">HHH：NH₃↑＋<b>ホモシトルリン尿</b><br>OAT：<b>網脈絡膜回転状萎縮</b>、NH₃正常</td>
+          <td class="td-left">尿ホモシトルリン／眼底検査（OATは眼所見が決め手）／<i>SLC25A15</i>, <i>OAT</i></td>
+        </tr>
+        <tr>
+          <td class="td-warn">Glycine ↑↑</td>
+          <td class="td-left"><b>非ケトン性高グリシン血症</b>（NKH）</td>
+          <td class="td-left">新生児期の難治てんかん・ミオクロニー・呼吸抑制、burst suppression</td>
+          <td class="td-left"><b>CSF/血漿 Gly比 &gt;0.08</b>（正常&lt;0.02）が決定打。<b>髄液採取が必須</b></td>
+        </tr>
+        <tr>
+          <td class="td-key">Glycine ↑（中等度）<br>＋ ケトーシス</td>
+          <td class="td-left"><b>ケトン性高グリシン血症</b><br>＝ PA / MMA / IVA</td>
+          <td class="td-left"><b>AG開大性アシドーシス</b>、汎血球減少、NH₃↑、Lac↑</td>
+          <td class="td-left"><b>尿有機酸・血中アシルカルニチン</b>（こちらが本命）。Gly↑はあくまで副次所見</td>
+        </tr>
+        <tr>
+          <td class="td-key">Alanine ↑</td>
+          <td class="td-left"><b>ミトコンドリア病／ピルビン酸代謝異常</b></td>
+          <td class="td-left"><b>Lac↑ と連動</b>、Lac/Pyr比、Pro↑を伴うことあり</td>
+          <td class="td-left">乳酸・ピルビン酸・L/P比／CSF乳酸／ミトコンドリア精査。<b>Ala↑単独でLac正常なら意味は薄い</b></td>
+        </tr>
+        <tr>
+          <td class="td-key">Proline ↑</td>
+          <td class="td-left">高プロリン血症 I / II型</td>
+          <td class="td-left">II型はてんかん。多くは<b>良性</b>で偶発的発見</td>
+          <td class="td-left">Ⅱ型では尿中 P5C↑。Lac↑があればミトコンドリア病の二次性も</td>
+        </tr>
+        <tr>
+          <td class="td-key">Sarcosine ↑</td>
+          <td class="td-left">サルコシン血症</td>
+          <td class="td-left">臨床的意義は乏しい</td>
+          <td class="td-left"><b>良性</b>。追いかけない</td>
+        </tr>
+        <tr>
+          <td class="td-key">Cystathionine ↑</td>
+          <td class="td-left">シスタチオニン尿症</td>
+          <td class="td-left">Met/Hcy 正常</td>
+          <td class="td-left"><b>良性</b>。B₆欠乏や肝疾患でも上昇</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">📈</span>群としての上昇（＝二次性を強く示唆）</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:190px;">パターン</th><th style="width:170px;">最も可能性が高い背景</th><th>見分け方</th></tr>
+        <tr>
+          <td class="td-lbl">BCAA 3つが均等に約2倍<br>＋ Ala/Gln/Gly↓</td>
+          <td class="td-left"><b>異化亢進</b>（飢餓・感染・発作）</td>
+          <td class="td-left"><b>Leu突出が無い</b>／alloIle 陰性／3-MeHis↑／<b>回復後再検で正常化</b>する</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">EAA 全般↑<br>（Fischer比↑、EAA/NEAA↑）</td>
+          <td class="td-left"><b>異化</b> or <b>蛋白負荷・食後採血</b></td>
+          <td class="td-left">採血時刻と食事・輸液歴を確認。TPN中なら判定不能</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Phe・Tyr・Met すべて↑<br>＋ BCAA↓（<b>Fischer比↓</b>）</td>
+          <td class="td-left"><b>肝不全・重症肝障害</b></td>
+          <td class="td-left">AST/ALT・PT-INR・アンモニア。<b>Fischer比↓が肝の指紋</b>。一次性の Phe/Tyr/Met 異常と真逆</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Gln↑ ＋ Ala↑</td>
+          <td class="td-left"><b>高アンモニア血症</b>（原因は問わない）</td>
+          <td class="td-left">NH₃ と Cit を必ず見る。<b>Cit↓なら近位尿素サイクル</b>、Cit正常なら二次性（肝・薬剤・PA/MMA）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Cit↑ ＋ Gly↑ ＋ 3-MeHis↑<br>＋ Val/Leu↓</td>
+          <td class="td-left"><b>腎不全</b></td>
+          <td class="td-left">Cr/eGFR。腎排泄・腎代謝に依存する項目が貯留。<b>Cit↑を尿素サイクル異常と誤読しない</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">全般に高値（規則性なし）</td>
+          <td class="td-left"><b>アミノ酸輸液・TPN 中</b> or 溶血</td>
+          <td class="td-left">輸液歴の確認。<b>該当すれば読まずに再検</b></td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-red mt">
+        <strong>最頻の誤読 ― これだけは避ける</strong>
+        急性代謝ストレス下の <b>BCAA 2倍程度の上昇</b>を MSUD と読むこと。急性期に BCAA が上がるのは<b>生理的反応</b>です。MSUD らしさは「<b>Leu の突出</b>」「<b>alloIle 陽性</b>」「<b>低血糖ではない</b>」の3点で判断し、疑いが残るなら<b>平時再検</b>で決着させます。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 3 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">⬇</span>低下パターン ― 特異性は低いが、効く場面では強力</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:170px;">低下パターン</th><th style="width:200px;">意味</th><th>コメント</th></tr>
+        <tr>
+          <td class="td-warn">Citrulline ↓↓ / ND</td>
+          <td class="td-left"><b>尿素サイクル近位ブロック</b><br>（NAGS / CPS1 / OTC）</td>
+          <td class="td-left"><b>高NH₃血症の文脈でのみ意味を持つ</b>。<b>尿オロト酸で分岐</b>：↑ならOTC、正常〜↓ならCPS1/NAGS。NH₃正常なら異化・栄養で普通に下がるので追わない</td>
+        </tr>
+        <tr>
+          <td class="td-warn">Lys ＋ Arg ＋ Orn の3つ同時↓<br>（血漿）</td>
+          <td class="td-left"><b>リジン尿性蛋白不耐症（LPI）</b></td>
+          <td class="td-left"><b>血漿で低いのに尿中でLys↑</b>という乖離が決め手。Gln↑・Cit↑・Ala↑・NH₃↑・蛋白嫌い・低身長・骨粗鬆症・間質性肺病変・HLH様。<b>見逃されやすい</b></td>
+        </tr>
+        <tr>
+          <td class="td-warn">Cystine ↓（Met↑を伴う）</td>
+          <td class="td-left"><b>CBS欠損</b>のトランス硫化ブロック</td>
+          <td class="td-left">ただし Cystine は<b>保存・酸化で容易に低下</b>する。単独では判断せず tHcy へ</td>
+        </tr>
+        <tr>
+          <td class="td-key">Alanine ↓（低血糖時）</td>
+          <td class="td-left"><b>ケトン性低血糖症の古典的所見</b><br>（糖新生基質の枯渇）</td>
+          <td class="td-left">低血糖＋高ケトン＋低Ala＝KH を支持。逆に<b>低血糖なのに Ala↑・Lac↑</b>なら糖新生系酵素異常（FBPase・PC・GSD I型など）を疑う方向へ</td>
+        </tr>
+        <tr>
+          <td class="td-key">Gln ↓（高NH₃の文脈で）</td>
+          <td class="td-left"><b>重度異化</b>で緩衝能が枯渇</td>
+          <td class="td-left">「Gln が上がっていないから NH₃ は大丈夫」は誤り。<b>Gln は NH₃ の代用にならない</b>。NH₃ は必ず実測</td>
+        </tr>
+        <tr>
+          <td class="td-key">Gly, Ser, Thr, Pro, Gln, Ala が軒並み↓</td>
+          <td class="td-left"><b>異化亢進・飢餓の指紋</b></td>
+          <td class="td-left">これ単体では病名にならないが、<b>「この検体は異化状態で採られた」という証拠</b>として、他の値の補正に使う。極めて重要</td>
+        </tr>
+        <tr>
+          <td class="td-key">BCAA ↓（＋AAA↑）</td>
+          <td class="td-left"><b>肝不全</b>（Fischer比↓）</td>
+          <td class="td-left">タブ②の生理学を参照</td>
+        </tr>
+        <tr>
+          <td class="td-key">全般に低下</td>
+          <td class="td-left">低栄養、蛋白漏出、希釈、重症消耗</td>
+          <td class="td-left">Alb・栄養評価と併せる。診断的価値は低い</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">➗</span>比の指標 ― 生値より雄弁。これを計算できると解釈が一段上がる</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr>
+          <th style="width:130px;">指標</th><th style="width:170px;">計算式</th><th style="width:110px;">基準</th>
+          <th>上昇の意味 / 低下の意味</th>
+        </tr>
+        <tr>
+          <td class="td-lbl">Fischer比</td>
+          <td class="td-left">(Val+Leu+Ile) / (Phe+Tyr)</td>
+          <td>約 2.4–4.4</td>
+          <td class="td-left">
+            <b><span class="up">↑</span></b>：BCAA一次性上昇（MSUD）または<b>異化亢進</b>／筋崩壊<br>
+            <b><span class="dn">↓</span></b>：<b>肝不全・肝性脳症</b>（AAAが肝で処理されず貯留）。<b>肝の関与を一発で判定できる最重要指標</b>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-lbl">BCAA / AAA</td>
+          <td class="td-left">Fischer比とほぼ同義</td>
+          <td>同上</td>
+          <td class="td-left">BTR（BCAA/Tyr比）は肝予備能の指標として成人肝臓領域で汎用</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Phe / Tyr 比</td>
+          <td class="td-left">Phe ÷ Tyr</td>
+          <td>おおむね &lt;1</td>
+          <td class="td-left">
+            <b><span class="up">↑</span></b>（目安 &gt;2–3）：<b>PAHブロックに特異的</b>。NBSの二次指標として標準。<br>
+            Phe↑でも<b>比が上がらない</b>なら、肝障害・蛋白負荷など非特異的上昇を考える
+          </td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Gln / Cit 比</td>
+          <td class="td-left">Gln ÷ Cit</td>
+          <td>（施設依存）</td>
+          <td class="td-left"><b><span class="up">↑↑</span></b>：<b>尿素サイクル近位ブロック</b>（Gln溜まってCit枯れる）。高NH₃の鑑別で有用</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">EAA / NEAA</td>
+          <td class="td-left">必須 ÷ 非必須</td>
+          <td>約 0.40–0.63</td>
+          <td class="td-left"><b><span class="up">↑</span></b>：<b>異化亢進・蛋白負荷・食後</b>。NEAA が糖新生で消費されると自動的に上がる。<b>「異化の指紋」の定量版</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">BCAA / Total AA</td>
+          <td class="td-left">BCAA ÷ 総AA</td>
+          <td>約 0.11–0.18</td>
+          <td class="td-left"><b><span class="up">↑</span></b>：総量が保たれたままBCAAが偏って増えている＝<b>BCAA上昇が本物</b>であることの裏づけ</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Thr / Ser 比</td>
+          <td class="td-left">Thr ÷ Ser</td>
+          <td>—</td>
+          <td class="td-left"><b><span class="up">↑</span></b>：<b>シトリン欠損症</b>に比較的特徴的（Cit↑・Met↑・Tyr↑・Arg↑を伴う）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">CSF / 血漿 Gly比</td>
+          <td class="td-left">髄液Gly ÷ 血漿Gly</td>
+          <td>正常 &lt;0.02</td>
+          <td class="td-left"><b>&gt;0.08 で NKH を強く示唆</b>。<b>NKH診断の決定打</b>。同時採取が必須（血液混入で無効化）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Gly / Ser 比</td>
+          <td class="td-left">Gly ÷ Ser</td>
+          <td>—</td>
+          <td class="td-left">葉酸・一炭素代謝の状態を反映（補助的）</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-purple mt">
+        <strong>Fischer比が「読解の羅針盤」になる理由</strong>
+        BCAA が上がった検体を見たとき、<b>Fischer比が高い</b>なら候補は「MSUD or 異化」に絞られ、肝不全は<b>即座に除外</b>されます。逆に<b>Fischer比が低い</b>なら AAA 優位＝肝の話であり、BCAAの一次性異常は考えなくてよい。1つの計算で探索空間が半分になります。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 4 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">📋</span>疾患別プロファイル一覧 ― 「疾患名」から引く逆引き表</div>
+    <div class="card-body">
+      <div class="small-note" style="margin-top:0;"><b>太字＝その疾患の決め手となる所見。</b> 「確定検査」の列がアミノ酸以外を指している疾患が大半である点に注目してください。アミノ酸分析はスクリーニングであって確定検査ではありません。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">Ⅰ</span>尿素サイクル異常症（UCD）― Cit を軸に整理する</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr>
+          <th style="width:150px;">疾患</th><th>Cit</th><th>Arg</th><th>Orn</th><th>Gln</th><th>NH₃</th>
+          <th style="width:120px;">尿オロト酸</th><th style="width:230px;">決め手・特徴</th>
+        </tr>
+        <tr>
+          <td class="td-lbl">NAGS欠損</td>
+          <td class="td-warn">↓↓</td><td><span class="dn">↓</span></td><td class="nl">→</td><td class="td-warn">↑↑</td><td class="td-warn">↑↑</td>
+          <td class="td-ok">正常〜↓</td>
+          <td class="td-left"><b>N-カルバミルグルタミン酸（カルグルミン酸）が著効</b>。CPS1と生化学が同一 → 遺伝子で区別</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">CPS1欠損</td>
+          <td class="td-warn">↓↓</td><td><span class="dn">↓</span></td><td class="nl">→/↑</td><td class="td-warn">↑↑</td><td class="td-warn">↑↑</td>
+          <td class="td-ok">正常〜↓</td>
+          <td class="td-left">常染色体潜性。新生児期発症が多く重症</td>
+        </tr>
+        <tr>
+          <td class="td-lbl"><b>OTC欠損</b></td>
+          <td class="td-warn">↓↓</td><td><span class="dn">↓</span></td><td class="nl">→/↑</td><td class="td-warn">↑↑</td><td class="td-warn">↑↑</td>
+          <td class="td-warn"><b>↑↑</b></td>
+          <td class="td-left"><b>X連鎖・最頻</b>。<b>尿オロト酸↑がCPS1/NAGSとの分岐点</b>。女性保因者も発症しうる／<b>遅発型は誘因（感染・蛋白負荷・分娩・ステロイド）で初発</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">シトルリン血症I型<br>（ASS欠損）</td>
+          <td class="td-warn"><b>↑↑↑</b><br>(&gt;1000)</td><td><span class="dn">↓</span></td><td class="nl">→</td><td class="td-warn">↑</td><td class="td-warn">↑↑</td>
+          <td class="td-warn">↑</td>
+          <td class="td-left"><b>Cit の極端な上昇が唯一無二</b>。NBS対象</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">ASL欠損<br>（ASA尿症）</td>
+          <td class="td-warn">↑<br>(100–300)</td><td><span class="dn">↓</span></td><td class="nl">→</td><td class="td-warn">↑</td><td class="td-warn">↑</td>
+          <td class="td-warn">↑</td>
+          <td class="td-left"><b>ASA（アルギニノコハク酸）の検出が決め手</b>。毛髪脆弱（trichorrhexis nodosa）、肝線維化、高血圧</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">アルギニン血症<br>（ARG1欠損）</td>
+          <td class="nl">→/↑</td><td class="td-warn"><b>↑↑</b></td><td class="nl">→</td><td class="nl">→/↑</td><td class="td-key">軽度↑</td>
+          <td class="td-warn">↑</td>
+          <td class="td-left"><b>NH₃は目立たず、痙性対麻痺・発達退行で気づく</b>。UCDの中で例外的な臨床像</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">HHH症候群</td>
+          <td class="nl">→/↓</td><td class="nl">→</td><td class="td-warn"><b>↑↑</b></td><td class="td-warn">↑</td><td class="td-warn">↑</td>
+          <td class="td-warn">↑</td>
+          <td class="td-left"><b>ホモシトルリン尿</b>＋高Orn血症＋高NH₃の三徴</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">シトリン欠損<br>（NICCD/CTLN2）</td>
+          <td class="td-warn">↑</td><td class="td-warn">↑</td><td class="nl">→</td><td class="nl">→/↑</td><td class="td-key">↑</td>
+          <td class="td-ok">正常</td>
+          <td class="td-left"><b>Thr/Ser比↑</b>・Met↑・Tyr↑。NICCD＝新生児胆汁うっ滞。<b>豆・肉・卵嗜好／炭水化物嫌い</b>という食嗜好が診断のヒント。日本人に多い</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">LPI</td>
+          <td class="td-warn">↑</td><td class="td-warn"><b>↓</b></td><td class="td-warn"><b>↓</b></td><td class="td-warn">↑</td><td class="td-warn">↑</td>
+          <td class="td-warn">↑</td>
+          <td class="td-left"><b>血漿 Lys/Arg/Orn↓ なのに尿中 Lys↑</b>という乖離。蛋白嫌い、低身長、骨粗鬆症、間質性肺病変、HLH様</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-blue mt">
+        <strong>高NH₃血症でアミノ酸を読む順番</strong>
+        ① <b>Cit</b> を見る（低い→近位／高い→遠位）→ ② 近位なら<b>尿オロト酸</b>で OTC と CPS1/NAGS を分ける → ③ 遠位なら Cit の<b>程度</b>で ASS と ASL/シトリンを分け、ASA を測る → ④ Arg↑↑ なら ARG1、Orn↑↑ なら HHH。この4手で UCD はほぼ座標が決まります。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">Ⅱ</span>その他の主要アミノ酸代謝異常症</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr>
+          <th style="width:160px;">疾患</th><th style="width:230px;">アミノ酸プロファイル</th>
+          <th style="width:190px;">確定検査</th><th>臨床の要点</th>
+        </tr>
+        <tr>
+          <td class="td-lbl">MSUD</td>
+          <td class="td-left"><b>Leu↑↑↑</b>・Ile↑・Val↑、<b>alloIle 陽性</b>、Ala↓</td>
+          <td class="td-left"><b>alloisoleucine</b>／尿有機酸（分枝鎖2-オキソ酸）／<i>BCKDHA/B, DBT</i></td>
+          <td class="td-left">古典型は新生児期に脳症。<b>間欠型・中間型は感染を契機に初発</b>し、平時は正常なこともある。<b>Leu が神経毒性の主犯</b>で治療標的</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">PKU / 高Phe血症</td>
+          <td class="td-left"><b>Phe↑</b>、Tyr正常〜↓、<b>Phe/Tyr比↑</b></td>
+          <td class="td-left"><i>PAH</i>遺伝子／<b>プテリン分析・DHPR活性</b>（BH₄欠乏の除外）</td>
+          <td class="td-left">NBS対象。<b>BH₄欠乏症を外さないと治療方針を誤る</b>。サペロプテリン反応性、セピアプテリン（SEPHIENCE™）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">高チロシン血症I型</td>
+          <td class="td-left">Tyr↑、<b>Met↑↑</b>、Phe↑（肝障害由来）</td>
+          <td class="td-left"><b>サクシニルアセトン</b>（尿・血）</td>
+          <td class="td-left">肝不全・肝細胞癌・尿細管症・くる病・神経クリーゼ。<b>ニチシノン＋食事療法</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">高チロシン血症II型</td>
+          <td class="td-left"><b>Tyr↑↑ 単独</b>（Met正常）</td>
+          <td class="td-left"><i>TAT</i>遺伝子</td>
+          <td class="td-left">角膜混濁・掌蹠角化症。<b>肝は正常</b>。食事療法で改善</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">ホモシスチン尿症<br>（CBS欠損）</td>
+          <td class="td-left"><b>Met↑</b>、<b>Homocystine 検出</b>、<b>Cystine↓</b></td>
+          <td class="td-left"><b>tHcy</b>／B₆負荷試験／<i>CBS</i>遺伝子</td>
+          <td class="td-left">水晶体亜脱臼・血栓症・骨格異常・知的障害。<b>B₆反応性の有無で予後が変わる</b>。ベタイン</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">再メチル化障害<br>（MTHFR / cblC等）</td>
+          <td class="td-left"><b>Met↓</b>、Homocystine 検出、tHcy↑↑</td>
+          <td class="td-left">tHcy／メチルマロン酸（cblCでは↑）／遺伝子</td>
+          <td class="td-left">Met↑ではなく<b>Met↓</b>である点が CBS と真逆。ヒドロキソコバラミン・ベタイン・葉酸</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">NKH（非ケトン性高<br>グリシン血症）</td>
+          <td class="td-left">血漿 <b>Gly↑</b>、<b>CSF Gly↑↑</b></td>
+          <td class="td-left"><b>CSF/血漿 Gly比 &gt;0.08</b>／<i>GLDC, AMT</i></td>
+          <td class="td-left">新生児期の難治てんかん・無呼吸・burst suppression。<b>髄液を採らないと診断できない</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">OAT欠損</td>
+          <td class="td-left"><b>Orn↑↑ 単独</b>（NH₃正常）</td>
+          <td class="td-left">眼底検査／<i>OAT</i>遺伝子</td>
+          <td class="td-left"><b>網脈絡膜回転状萎縮</b>で眼科から紹介されることが多い。Arg制限・B₆</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">高プロリン血症 I / II</td>
+          <td class="td-left">Pro↑</td>
+          <td class="td-left">尿P5C（II型）</td>
+          <td class="td-left">I型はほぼ<b>良性</b>。II型でてんかん。過度に追わない</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">有機酸血症<br>（PA / MMA / IVA）</td>
+          <td class="td-left"><b>Gly↑</b>（ケトン性）、Ala↑、Gln↑。<b>BCAA自体は上がらない</b></td>
+          <td class="td-left"><b>尿有機酸・血中アシルカルニチン</b></td>
+          <td class="td-left"><b>アミノ酸分析は脇役</b>。AG開大性アシドーシス＋高NH₃＋汎血球減少で疑い、有機酸で決める</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-amber mt">
+        <strong>アミノ酸分析では「見えない」疾患を忘れない</strong>
+        <b>脂肪酸酸化異常症（VLCAD/MCAD/CPT等）</b>、<b>有機酸血症の多く</b>、<b>糖原病</b>、<b>糖新生系酵素異常</b>は、アミノ酸分析が正常でも成立します。低血糖・アシドーシス・脳症の精査では、<b>アミノ酸・有機酸・アシルカルニチンの3点セット</b>を必ず同時に走らせてください。アミノ酸が正常だったことは、代謝疾患の除外根拠にはなりません。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 5 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">🎭</span>二次性・偽性の修飾 ― ここを制すると誤診が消える</div>
+    <div class="card-body">
+      <div class="small-note" style="margin-top:0;">臨床で遭遇するアミノ酸異常の<b>圧倒的多数は二次性</b>です。「この所見はこの状況で説明がつくか？」を先に潰すのが、専門家の読み方です。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🔥</span>異化亢進の指紋（最重要・最頻）</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div class="mh">上がるもの</div>
+          <ul class="cl">
+            <li><b>BCAA（Val・Leu・Ile）</b>：筋蛋白由来。<b>Val 優位、または3つがほぼ均等に上昇</b>することが多い</li>
+            <li><b>EAA 全般</b>（EAA/NEAA比↑、Fischer比↑）</li>
+            <li><b>3-Methylhistidine</b>：筋分解の直接指標</li>
+            <li>Phe（軽度、肝が保たれていれば目立たない）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">下がるもの</div>
+          <ul class="cl">
+            <li><b>Alanine</b>（最も鋭敏／糖新生で最初に使い切られる）</li>
+            <li><b>Gln</b>：NH₃緩衝と糖新生で消費</li>
+            <li><b>Gly・Ser・Thr・Pro</b>：糖新生基質</li>
+            <li>Asn、Glu、Tau なども低下しうる</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hl hl-red mt">
+        <strong>認識のコツ ― 「上と下がセットで動く」</strong>
+        <b>BCAA↑ ＋ Ala/Gln/Gly↓</b> の組み合わせを見た瞬間に「この検体は異化の最中に採られた」と確定させてください。ここに気づけば、BCAA の上昇は<b>診断ではなく背景ノイズ</b>として処理できます。逆に、<b>異化の指紋が無いのに BCAA だけが高い</b>なら、一次性の疑いは大幅に上がります。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🩺</span>臓器・病態による修飾</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:150px;">背景</th><th style="width:290px;">プロファイル</th><th>誤読しやすいポイント</th></tr>
+        <tr>
+          <td class="td-lbl">肝不全・重症肝障害</td>
+          <td class="td-left"><b>Phe↑ Tyr↑ Met↑</b>（AAA）、<b>BCAA↓</b>、Gln↑、<b>Fischer比↓</b></td>
+          <td class="td-left">Met↑ を<b>ホモシスチン尿症</b>と、Tyr↑ を<b>高チロシン血症</b>と誤読。<b>Fischer比↓と肝機能で判別</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">腎不全</td>
+          <td class="td-left"><b>Cit↑</b>、Gly↑、<b>3-MeHis↑</b>、Val/Leu↓、含硫AA↓</td>
+          <td class="td-left"><b>Cit↑ を尿素サイクル遠位異常と誤読</b>。腎機能を必ず確認</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">高アンモニア血症（二次性）</td>
+          <td class="td-left"><b>Gln↑ ＋ Ala↑</b>、Cit は正常</td>
+          <td class="td-left">Gln↑ だけで UCD と考えない。<b>Cit が正常なら UCD の可能性は下がる</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">ミトコンドリア病<br>ピルビン酸代謝異常</td>
+          <td class="td-left"><b>Ala↑（Lac↑と連動）</b>、Pro↑、Gly↑</td>
+          <td class="td-left"><b>Ala と Lac の連動</b>を確認。Lac 正常なら Ala↑ の意味はほぼ無い</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">重症感染・侵襲・術後</td>
+          <td class="td-left">異化の指紋そのもの。Gln の低下が顕著</td>
+          <td class="td-left">回復後に必ず再検して答え合わせを</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">透析中</td>
+          <td class="td-left">水溶性AAが除去され全般低下</td>
+          <td class="td-left">透析前後で全く違う値になる。<b>採血タイミングを記録</b></td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">💊</span>栄養・薬剤・医原性</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:180px;">要因</th><th>影響</th></tr>
+        <tr>
+          <td class="td-lbl"><b>アミノ酸輸液・TPN</b></td>
+          <td class="td-left"><b>判定不能</b>。輸液組成をそのまま測っているだけ。原則<b>中止して数時間〜24時間後</b>に再検する。これを見落とすと架空の疾患を追いかけることになる</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">食後採血</td>
+          <td class="td-left">全般↑、特に <b>BCAA・EAA が顕著</b>。<b>4時間以上の絶食</b>（乳児は次回哺乳直前）が原則</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">高蛋白栄養・蛋白負荷</td>
+          <td class="td-left">EAA↑、Phe↑、Met↑、Tyr↑。<b>未熟児・高蛋白ミルクの一過性高Tyr血症</b>は日常的</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">低栄養・蛋白制限中</td>
+          <td class="td-left">全般↓。<b>治療中のPKU患者で Phe が低すぎる</b>のは過剰制限のサイン（成長障害の原因）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">バルプロ酸</td>
+          <td class="td-left"><b>高NH₃血症</b>、Gln↑、カルニチン↓。<b>UCD保因者を顕在化させる誘因</b>にもなる</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">ステロイド・化学療法</td>
+          <td class="td-left">異化亢進を誘導。<b>遅発型OTC欠損の初発誘因</b>としても有名</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">特殊ミルク・BCAA除去乳</td>
+          <td class="td-left">治療中は当該アミノ酸が<b>低くなりすぎる</b>ことがある（Ile/Val 欠乏 → 皮疹・成長障害）。治療モニタリングでは<b>低値側も見る</b></td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🧪</span>検体アーチファクト ― 「値」ではなく「事故」</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:180px;">事象</th><th>結果</th><th style="width:200px;">対策</th></tr>
+        <tr>
+          <td class="td-lbl">溶血</td>
+          <td class="td-left"><b>Asp・Glu・Orn・Tau が偽上昇</b>（赤血球内に高濃度で存在）</td>
+          <td class="td-left">溶血検体は再採血。Asp/Glu の孤立性上昇は<b>まず溶血を疑う</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">室温放置・遠心遅延</td>
+          <td class="td-left"><b>Gln → Glu へ変換</b>（Gln偽低下・Glu偽上昇）。Cystine 低下、Asn→Asp</td>
+          <td class="td-left"><b>速やかに遠心・除蛋白・凍結</b>。Gln 評価が要る時は特に厳格に。<b>Gln+Glu 合算</b>で見ると救えることがある</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Cystine の酸化</td>
+          <td class="td-left">保存で容易に<b>偽低下</b></td>
+          <td class="td-left">Cystine 低値単独で CBS 欠損と考えない。<b>tHcy で確認</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">Homocystine</td>
+          <td class="td-left">遊離型は蛋白結合で<b>偽陰性</b>になりうる</td>
+          <td class="td-left"><b>tHcy（総ホモシステイン）が標準</b>。アミノ酸分析の Homocystine 行に頼らない</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">ピークの重なり（X）</td>
+          <td class="td-left">その項目は<b>判定不能</b></td>
+          <td class="td-left">再検 or LC-MS/MS など別法</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">抗凝固剤・保存液</td>
+          <td class="td-left">ピーク干渉</td>
+          <td class="td-left"><b>施設・測定機関の指定容器を厳守</b></td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-purple mt">
+        <strong>覚え方 ― 「赤血球の中身が漏れる」「時間が経つと Gln が Glu になる」</strong>
+        この2つだけでアーチファクトの大半（Asp/Glu/Orn/Tau 偽上昇、Gln 偽低下）が説明できます。<b>Glu が高く Gln が低い</b>という組み合わせを見たら、疾患ではなく<b>検体の取り扱い</b>を先に疑ってください。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 6 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">🧩</span>病態別アルゴリズム ― 臨床像から入って、アミノ酸で分岐する</div>
+    <div class="card-body">
+      <div class="small-note" style="margin-top:0;">実際の診療では「アミノ酸の表を見る」より前に「目の前の病態」があります。病態から入って、アミノ酸をどう使うかを決めるのが正しい順序です。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🍬</span>低血糖 ― まずケトン体で二分する</div>
+    <div class="card-body">
+      <div class="phase-flow mb-3">
+        <div class="phase-step" style="border-color:var(--red);background:var(--red-bg);color:var(--red);">低血糖<br>Critical sample</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--blue);background:var(--blue-bg);color:var(--blue);">ケトン体<br>（β-OHB / AcAc）</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--amber);background:var(--amber-bg);color:var(--amber);">IRI・GH・コルチゾール<br>NH₃・Lac</div>
+        <span class="phase-arrow">→</span>
+        <div class="phase-step" style="border-color:var(--green);background:var(--green-bg);color:var(--green);">アミノ酸・有機酸<br>アシルカルニチン</div>
+      </div>
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:150px;">ケトン</th><th style="width:170px;">補助所見</th><th style="width:190px;">診断</th><th>アミノ酸分析の役割</th></tr>
+        <tr>
+          <td class="td-ok"><b>高ケトン</b></td>
+          <td class="td-left">IRI抑制、GH/コルチゾール反応良好、NH₃/Lac正常、<b>Ala↓</b></td>
+          <td class="td-left"><b>ケトン性低血糖症（KH）</b></td>
+          <td class="td-left"><b>低Ala血症がKHを支持</b>。BCAA↑は異化性として解釈。<b>平時再検で正常化を確認して確定</b></td>
+        </tr>
+        <tr>
+          <td class="td-key">高ケトン</td>
+          <td class="td-left"><b>AG開大性アシドーシス</b>、NH₃↑、汎血球減少</td>
+          <td class="td-left"><b>有機酸血症</b>（PA/MMA/IVA）</td>
+          <td class="td-left"><b>Gly↑</b>（ケトン性高グリシン血症）が補助所見。決め手は<b>尿有機酸</b></td>
+        </tr>
+        <tr>
+          <td class="td-key">高ケトン</td>
+          <td class="td-left"><b>Lac↑</b>、肝腫大、AG開大</td>
+          <td class="td-left"><b>糖新生系酵素異常</b>（FBPase・PC）／<b>GSD</b></td>
+          <td class="td-left"><b>Ala↑＋Lac↑</b>（KHの低Alaと真逆）。<b>低血糖なのにAlaが高いのは重要なred flag</b></td>
+        </tr>
+        <tr>
+          <td class="td-warn"><b>低ケトン</b></td>
+          <td class="td-left">IRI検出可、遊離脂肪酸↓、GH/コルチゾール正常</td>
+          <td class="td-left"><b>高インスリン血症性低血糖</b></td>
+          <td class="td-left">アミノ酸は原則不要。ただし<b>HI/HA症候群（GLUD1）</b>なら<b>NH₃持続高値</b></td>
+        </tr>
+        <tr>
+          <td class="td-warn"><b>低ケトン</b></td>
+          <td class="td-left"><b>遊離脂肪酸↑</b>（FFA/ケトン解離）、CK↑、肝障害</td>
+          <td class="td-left"><b>脂肪酸酸化異常症</b>（VLCAD/MCAD/CPT）</td>
+          <td class="td-left"><b>アミノ酸は正常</b>で除外できない。<b>血中アシルカルニチンが本命</b></td>
+        </tr>
+        <tr>
+          <td class="td-info">高ケトン</td>
+          <td class="td-left">コルチゾール低値 or GH低値</td>
+          <td class="td-left"><b>副腎不全／GH分泌不全</b></td>
+          <td class="td-left">アミノ酸は補助的。内分泌評価へ</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-green mt">
+        <strong>ケトン性低血糖症（KH）の診断は「除外」＋「典型像」で成立する</strong>
+        ① 適切に強いケトーシス（低ケトン性を除外）／② IRI抑制（HIを除外）／③ GH・コルチゾール反応良好（内分泌を除外）／④ NH₃・Lac 正常（UCD・有機酸・ミトコンドリアを除外）／⑤ <b>低Ala血症</b>（積極的支持所見）／⑥ 1〜5歳の痩せ型、感染・絶食が誘因、⑦ 発達正常・肝腫大なし。<b>この7点が揃えばKHで矛盾しません。</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">💨</span>高アンモニア血症 ― Cit を軸に4手で座標を決める</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:60px;">手順</th><th style="width:190px;">見るもの</th><th>分岐</th></tr>
+        <tr>
+          <td class="td-lbl">1</td>
+          <td class="td-left"><b>アシドーシス・ケトーシスの有無</b></td>
+          <td class="td-left"><b>AG開大＋ケトーシスあり</b> → <b>有機酸血症</b>（PA/MMA/IVA）が最有力 → 尿有機酸・アシルカルニチンへ<br><b>アルカローシス傾向（呼吸性）</b> → <b>UCD らしい</b>（純粋な高NH₃は過換気を招く）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">2</td>
+          <td class="td-left"><b>Citrulline</b></td>
+          <td class="td-left"><b>↓↓/ND</b> → 近位（NAGS/CPS1/OTC）へ<br><b>↑↑↑</b> → ASS<br><b>↑（中等度）</b> → ASL／シトリン<br><b>正常</b> → 二次性（肝・薬剤・LPI・有機酸）を考える</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">3</td>
+          <td class="td-left"><b>尿オロト酸</b></td>
+          <td class="td-left">近位で <b>↑↑ → OTC</b>／<b>正常〜↓ → CPS1 or NAGS</b>（両者は遺伝子で区別、カルグルミン酸反応性が NAGS のヒント）</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">4</td>
+          <td class="td-left"><b>Arg / Orn / ASA</b></td>
+          <td class="td-left"><b>Arg↑↑ → ARG1</b>／<b>Orn↑↑＋ホモシトルリン尿 → HHH</b>／<b>ASA検出 → ASL</b>／<b>Lys・Arg・Orn↓＋尿Lys↑ → LPI</b></td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-red mt">
+        <strong>治療は診断を待たない</strong>
+        高NH₃血症の脳障害は<b>持続時間に比例</b>します。アミノ酸の結果を待つ前に、<b>蛋白中止・高カロリー輸液（異化停止）・NH₃除去薬（フェニル酪酸/安息香酸）・L-アルギニン・カルニチン・血液浄化の準備</b>を並行して進めます。<b>Critical sample を確保したら、あとは走りながら考える。</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🧠</span>原因不明の脳症・けいれん・発達退行</div>
+    <div class="card-body">
+      <div class="monitor-grid">
+        <div class="monitor-cell hd">臨床像</div>
+        <div class="monitor-cell hd">アミノ酸の着眼点</div>
+        <div class="monitor-cell hd">併走させる検査</div>
+        <div class="monitor-cell hd">想起する疾患</div>
+
+        <div class="monitor-cell">新生児期の難治てんかん・無呼吸・burst suppression</div>
+        <div class="monitor-cell"><b>Gly↑</b></div>
+        <div class="monitor-cell"><b>CSF Gly（同時採取）</b>／CSF/血漿Gly比</div>
+        <div class="monitor-cell"><b>NKH</b></div>
+
+        <div class="monitor-cell">感染を契機の急性脳症＋ケトアシドーシス、血糖は保たれる</div>
+        <div class="monitor-cell"><b>Leu突出</b>、alloIle</div>
+        <div class="monitor-cell">尿有機酸、血液ガス、尿臭</div>
+        <div class="monitor-cell"><b>MSUD（間欠型・中間型）</b></div>
+
+        <div class="monitor-cell">誘因（感染・蛋白負荷・ステロイド・術後）後の意識障害・嘔吐</div>
+        <div class="monitor-cell"><b>Cit↓ ＋ Gln↑</b></div>
+        <div class="monitor-cell"><b>NH₃（最優先）</b>、尿オロト酸、血液ガス</div>
+        <div class="monitor-cell"><b>遅発型OTC欠損</b>（女性保因者含む）</div>
+
+        <div class="monitor-cell">発達退行＋痙性対麻痺</div>
+        <div class="monitor-cell"><b>Arg↑↑</b></div>
+        <div class="monitor-cell">NH₃（軽度↑のことが多い）、尿オロト酸</div>
+        <div class="monitor-cell"><b>アルギニン血症</b></div>
+
+        <div class="monitor-cell">血栓症・水晶体亜脱臼・骨格異常</div>
+        <div class="monitor-cell"><b>Met↑ ＋ Cystine↓</b></div>
+        <div class="monitor-cell"><b>tHcy</b>、眼科</div>
+        <div class="monitor-cell"><b>ホモシスチン尿症</b></div>
+
+        <div class="monitor-cell">乳酸アシドーシス・多臓器症状</div>
+        <div class="monitor-cell"><b>Ala↑（Lacと連動）</b>、Pro↑</div>
+        <div class="monitor-cell">Lac/Pyr比、CSF乳酸、MRI/MRS</div>
+        <div class="monitor-cell"><b>ミトコンドリア病</b></div>
+
+        <div class="monitor-cell">新生児胆汁うっ滞・低血糖・脂肪肝／成人期の脳症</div>
+        <div class="monitor-cell"><b>Cit↑ ＋ Thr/Ser比↑</b>、Met↑、Tyr↑</div>
+        <div class="monitor-cell">ガラクトース、AFP、<i>SLC25A13</i></div>
+        <div class="monitor-cell"><b>シトリン欠損（NICCD/CTLN2）</b></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TAB 7 ══════════ -->
+<div class="tab-content">
+
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">🧾</span>Critical sample ― 何を、どう採るか</div>
+    <div class="card-body">
+      <div class="hl hl-red" style="margin-top:0;">
+        <strong>低血糖・脳症の Critical sample は「その1回」しかチャンスがない</strong>
+        ブドウ糖を入れた瞬間に情報は消えます。<b>治療開始前に採る</b>、これが全て。採れなかった場合は、後日の計画的な絶食負荷試験（入院・厳重監視下）が必要になり、患者負担が桁違いに上がります。
+      </div>
+      <div class="grid-2 mt">
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-hd red"><span class="icon">🩸</span>血液（低血糖時・治療開始前）</div>
+          <div class="card-body">
+            <ul class="cl">
+              <li><b>血糖</b>（静脈血で確定）、血液ガス（pH・HCO₃⁻・AG）</li>
+              <li><b>ケトン体分画</b>（β-OHB・AcAc）、遊離脂肪酸（FFA）</li>
+              <li><b>インスリン（IRI）・Cペプチド</b></li>
+              <li><b>GH・コルチゾール</b></li>
+              <li><b>アンモニア</b>（氷冷・速やか）、<b>乳酸・ピルビン酸</b></li>
+              <li><b>血漿アミノ酸</b>、<b>血中アシルカルニチン</b>（ろ紙でも可）</li>
+              <li>遊離カルニチン・総カルニチン、肝機能・CK</li>
+              <li><b>予備の血漿を凍結保存</b>（後から追加測定できる）</li>
+            </ul>
+            <div class="hl hl-amber">
+              <strong>FFA/ケトン比が低ケトン性の判定に効く</strong>
+              FFA が高いのにケトンが出ていない＝<b>脂肪酸酸化異常</b>を強く示唆。ケトン体だけでなく<b>FFA も同時に</b>採ると解釈が一段深くなります。
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-hd blue"><span class="icon">🧫</span>尿（初回排尿・治療開始前後）</div>
+          <div class="card-body">
+            <ul class="cl">
+              <li><b>尿有機酸分析</b>（GC/MS）― 最重要</li>
+              <li><b>尿ケトン</b>、尿糖、尿pH</li>
+              <li><b>尿オロト酸</b>（高NH₃時）</li>
+              <li>尿アミノ酸（LPI・シスチン尿症を疑うとき）</li>
+              <li><b>凍結保存（-20℃以下）で後日追加測定に備える</b></li>
+            </ul>
+            <div class="hl hl-blue">
+              <strong>尿は「捨てないこと」が最大の技術</strong>
+              急性期の初回尿を凍結保存しておくだけで、後から有機酸・オロト酸・サクシニルアセトンを追加できます。<b>採尿バッグの尿でも構わないので確保する。</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd green"><span class="icon">🔁</span>再検の設計 ― 「平時再検」が診断を完成させる</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:170px;">条件</th><th style="width:200px;">具体的な設定</th><th>理由</th></tr>
+        <tr>
+          <td class="td-lbl">タイミング</td>
+          <td class="td-left"><b>回復・経口摂取再開後</b>（急性期から数日〜2週間程度、状態が完全に戻ってから）</td>
+          <td class="td-left">異化の影響が抜けるのを待つ。早すぎると異化の残存で判定できない</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">絶食</td>
+          <td class="td-left"><b>4時間以上の絶食</b>（乳児は次回哺乳直前）</td>
+          <td class="td-left">食後上昇を避ける。ただし<b>低血糖のリスクがある児で無理な絶食はしない</b></td>
+        </tr>
+        <tr>
+          <td class="td-lbl">輸液</td>
+          <td class="td-left"><b>アミノ酸輸液・TPN は中止して数時間〜24時間後</b></td>
+          <td class="td-left">投与中は判定不能</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">検体処理</td>
+          <td class="td-left">速やかに遠心・除蛋白・凍結。溶血を避ける。<b>指定容器を厳守</b></td>
+          <td class="td-left">Gln→Glu 変換、Cystine 酸化を防ぐ</td>
+        </tr>
+        <tr>
+          <td class="td-lbl">同時に依頼する項目</td>
+          <td class="td-left">必要に応じて <b>alloIle・tHcy・尿有機酸・アシルカルニチン</b></td>
+          <td class="td-left">再検の機会に一緒に取ると患者負担が減る</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-green mt">
+        <strong>判定の論理 ― これがすべての結論を出す</strong>
+        <b>平時に正常化 → 二次性（異化性）と確定</b>し、一次性代謝異常の追跡を終了できます。<br>
+        <b>平時も同じパターンが残存 → 一次性を強く疑い</b>、特異的マーカー・酵素・遺伝子検査へ進みます。<br>
+        <b>間欠型が疑わしいが平時正常 → 「発作時に必ず採る」を家族と共有</b>し、次のエピソードで再評価します（安全に絶食負荷ができる状況なら、入院下での負荷試験も選択肢）。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🏁</span>精査終了（フォロー終了・経過観察オフ）の目安</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div class="mh">代謝精査を終了してよい条件</div>
+          <ul class="cl">
+            <li><b>平時のアミノ酸・有機酸・アシルカルニチンがいずれも正常化</b>している</li>
+            <li>急性期の異常が<b>異化・栄養・薬剤・検体条件で完全に説明できる</b></li>
+            <li>疑った疾患の<b>特異的マーカーが陰性</b>（例：alloIle 陰性、サクシニルアセトン陰性、tHcy 正常、ASA 陰性）</li>
+            <li><b>発達・成長が正常</b>で、再発エピソードがない</li>
+            <li>新生児マススクリーニングが正常で、対象疾患としての矛盾がない</li>
+          </ul>
+          <div class="hl hl-blue">
+            <strong>ケトン性低血糖症の場合</strong>
+            典型的には<b>5〜8歳頃までに自然軽快</b>します。以下が揃えばフォロー終了を検討：<b>①1年以上の無発作</b>、<b>②年齢的な軽快期に達している</b>、<b>③発達・成長が正常</b>、<b>④シックデイ対応を家族が確実に実施できる</b>、<b>⑤平時の代謝検査が正常</b>。
+          </div>
+        </div>
+        <div>
+          <div class="mh">終了してはいけない（＝追い続ける）サイン</div>
+          <ul class="cl">
+            <li><b>平時にも異常が残存</b>している</li>
+            <li>低血糖以外の<b>神経症状・発達退行・肝腫大・筋症状</b>がある</li>
+            <li><b>反復するエピソード</b>、または<b>年齢に不相応</b>（&lt;1歳 or &gt;8歳の発症）</li>
+            <li><b>低ケトン性</b>、<b>NH₃/Lac の持続異常</b>、<b>AG開大性アシドーシス</b>の既往</li>
+            <li><b>家族歴</b>（同胞死亡・突然死・原因不明の脳症・近親婚）</li>
+            <li>Critical sample が<b>採れていない</b>（＝除外の根拠がそもそも無い）</li>
+          </ul>
+          <div class="hl hl-red">
+            <strong>家族へのセーフティネット説明（終了時に必ず伝える）</strong>
+            ① <b>シックデイ（発熱・嘔吐・食べられない時）は経口補水＋糖分をこまめに</b>。<br>
+            ② <b>絶食を長引かせない</b>（就寝前の補食、夜間の長時間絶食を避ける）。<br>
+            ③ <b>反応が鈍い・呼びかけに答えない・けいれん・呼吸がおかしい → すぐ受診（救急要請）</b>。<br>
+            ④ 受診時は「<b>低血糖の既往あり。治療前の採血をお願いします</b>」と伝えるようカードを携帯。<br>
+            ⑤ フォロー終了後も、<b>同様のエピソードが起きたら再受診してよい</b>ことを明示する。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd teal"><span class="icon">✅</span>読解チェックリスト ― 結果を手にしたら上から順に潰す</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <ul class="chk">
+            <li><b>採血条件</b>を確認した（絶食／食後／輸液／異化状態／検体処理）</li>
+            <li><b>異化の指紋</b>（BCAA↑＋Ala/Gln/Gly↓）の有無を判定した</li>
+            <li><b>突出値</b>を基準上限の「何倍か」で拾った</li>
+            <li><b>上下流ペア</b>を確認した（Phe/Tyr、Met/Cys、Gln/Cit）</li>
+            <li><b>Fischer比</b>を計算し、肝の関与を判定した</li>
+            <li><b>EAA/NEAA</b> を見て、異化・蛋白負荷の程度を定量した</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="chk">
+            <li><b>ND/TR/X/P</b> の記号の意味を踏まえて読んだ</li>
+            <li><b>表に無いマーカー</b>（alloIle・ASA・tHcy・ホモシトルリン）の要否を判断した</li>
+            <li><b>NH₃・Lac・血糖・ケトン・血液ガス</b>と突き合わせた</li>
+            <li><b>尿有機酸・アシルカルニチン</b>を併走させた（or 検体を確保した）</li>
+            <li><b>二次性で説明できる範囲</b>を見積もり、残差を評価した</li>
+            <li><b>平時再検</b>の計画を立てた（＝結論を先送りする勇気を持った）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd purple"><span class="icon">🎓</span>実例で読む ― 3歳男児・感染契機の低血糖発作</div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th style="width:130px;">所見</th><th style="width:200px;">実測</th><th>読み方</th></tr>
+        <tr>
+          <td class="td-lbl">採血条件</td>
+          <td class="td-left">血糖15、pH 7.24、β-OHB 6228 の<b>異化の極み</b></td>
+          <td class="td-left"><b>ステップ①でこの検体の性格が決まる</b>。すべての値を「異化補正」して読む必要がある</td>
+        </tr>
+        <tr>
+          <td class="td-warn">BCAA↑（Leu 456・Ile 242・Val 652）</td>
+          <td class="td-left">3つとも<b>約2〜2.7倍で均等</b>、Val 優位、Leu 突出なし</td>
+          <td class="td-left">MSUD なら Leu が突出し、しばしば &gt;1000。<b>均等・Val優位は異化性の顔つき</b>。alloIle の確認で決着</td>
+        </tr>
+        <tr>
+          <td class="td-ok">Ala 63.0（基準208.7–522.6）</td>
+          <td class="td-left"><b>著明低値</b></td>
+          <td class="td-left"><b>ケトン性低血糖症の古典的所見</b>（糖新生基質の枯渇）。診断を<b>積極的に支持</b>する</td>
+        </tr>
+        <tr>
+          <td class="td-ok">Gln 311・Gly 63・Ser・Thr↓</td>
+          <td class="td-left">糖新生基質が軒並み低下</td>
+          <td class="td-left"><b>異化の指紋そのもの</b>。BCAA↑と組み合わせて「異化状態の検体」と確定できる</td>
+        </tr>
+        <tr>
+          <td class="td-info">Fischer比 14.33（基準2.43–4.40）</td>
+          <td class="td-left"><b>著明高値</b></td>
+          <td class="td-left"><b>肝不全を即座に除外</b>（肝不全なら真逆に低下）。BCAA上昇が本物であることの裏づけでもある</td>
+        </tr>
+        <tr>
+          <td class="td-info">EAA/NEAA 2.04（基準0.40–0.63）</td>
+          <td class="td-left">著明高値</td>
+          <td class="td-left"><b>異化亢進の定量的証拠</b>。BCAA↑の説明として十分</td>
+        </tr>
+        <tr>
+          <td class="td-ok">NH₃ 52・Lac 1.0</td>
+          <td class="td-left">正常</td>
+          <td class="td-left"><b>UCD・有機酸血症・ミトコンドリア病を否定的にする</b>。Gln/Ala が低いことも UCD と矛盾（UCDなら Gln↑）</td>
+        </tr>
+        <tr>
+          <td class="td-ok">適切に強いケトーシス</td>
+          <td class="td-left">β-OHB 6228・AcAc 2089</td>
+          <td class="td-left"><b>脂肪酸酸化異常（低ケトン性のはず）を否定的に</b>する。IRI&lt;0.6 で HI も否定</td>
+        </tr>
+      </table>
+      </div>
+      <div class="hl hl-green mt">
+        <strong>結論の組み立て</strong>
+        <b>「BCAA高値は Fischer比・EAA/NEAA・低Ala と整合する異化性の変化であり、Leu 突出を欠くため MSUD は積極的に疑わない。ケトン性低血糖症として矛盾しない」</b> ―― ただし完全に閉じるには <b>①alloIle の照会、②尿有機酸（分枝鎖2-オキソ酸）、③回復後アミノ酸の正常化確認</b>の3点を踏む。<b>③が最も重要で、正常化を確認できた時点でKHが確定します。</b>
+      </div>
+      <div class="hl hl-slate mt">
+        <strong>この症例から学ぶ一般化された教訓</strong>
+        ① <b>異化状態の検体では、BCAA↑ は所見ではなく背景</b>である。<br>
+        ② <b>比の指標（Fischer比・EAA/NEAA）は、生値が示唆する疾患を否定する側に強く働く</b>。<br>
+        ③ <b>低Ala は「異常」ではなく「診断の支持所見」</b>として能動的に読む。<br>
+        ④ <b>急性期の1枚では結論を出さず、平時再検で答え合わせをする</b>。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  血漿アミノ酸分析 読解クイックリファレンス ／ 小児内分泌・先天代謝異常 診療補助ツール<br>
+  本ツールは診療の補助を目的とした個人用まとめです。基準値は施設・測定機関により異なります。診断・治療は最新のガイドラインと専門医の判断に基づいて行ってください。
+</div>
+
+<script>
+function switchTab(n) {
+  var btns = document.querySelectorAll('.tab-btn');
+  var tabs = document.querySelectorAll('.tab-content');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle('active', i === n);
+  }
+  for (var j = 0; j < tabs.length; j++) {
+    tabs[j].classList.toggle('active', j === n);
+  }
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+</script>
+
+</body>
+</html>

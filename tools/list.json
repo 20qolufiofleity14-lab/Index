@@ -1,9 +1,135 @@
 [
  {
+  "file": "ALPアイソザイム.html",
+  "title": "ALPアイソザイム",
+  "cat": "clinical",
+  "desc": "診断支援と学習",
+  "v": "02118db8b6"
+ },
+ {
+  "file": "DKA初療あんちょこ.html",
+  "title": "DKA初療あんちょこ",
+  "cat": "clinical",
+  "desc": "ISPAD 2022準拠。体重を入れる輸液・インスリン計算とサマリテンプレ",
+  "v": "6feb905918"
+ },
+ {
+  "file": "IGF-1基準値.html",
+  "title": "ソマトメジンC（IGF-1）基準値",
+  "cat": "clinical",
+  "desc": "年齢・性別の基準範囲と患者値の判定",
+  "v": "18306ad02e"
+ },
+ {
+  "file": "TRH負荷試験.html",
+  "title": "TRH負荷試験 判定チャート",
+  "cat": "clinical",
+  "desc": "TRH負荷試験の判定チャート",
+  "v": "94db7e3978"
+ },
+ {
+  "file": "カルニチン欠乏症.html",
+  "title": "カルニチン欠乏症",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "d1e0cca10d"
+ },
+ {
+  "file": "ソグルーヤ_IGF-I評価.html",
+  "title": "ソグルーヤ® IGF-I SDスコア",
+  "cat": "clinical",
+  "desc": "採血タイミングを補正して週平均IGF-I SDSを推定。年齢別基準値表つき",
+  "v": "1a9c5fb81e"
+ },
+ {
   "file": "ライソゾーム病_仕分け道場.html",
   "title": "ライソゾーム病 仕分け道場",
   "cat": "learn",
   "desc": "指定難病31疾患を蓄積物による8分類へドラッグで仕分け",
   "v": "8598622a63"
+ },
+ {
+  "file": "予測身長_成長曲線.html",
+  "title": "予測身長・成長曲線ビジュアルツール",
+  "cat": "clinical",
+  "desc": "成長曲線と目標身長・予測身長の可視化",
+  "v": "bbe1f9cc67"
+ },
+ {
+  "file": "低血糖_ケトン体FFA計算.html",
+  "title": "低血糖 ケトン体・FFA計算",
+  "cat": "clinical",
+  "desc": "ケトン体・遊離脂肪酸の指標を計算",
+  "v": "483176fb55"
+ },
+ {
+  "file": "先天性甲状腺機能低下症_GL2021.html",
+  "title": "先天性甲状腺機能低下症 GL2021",
+  "cat": "clinical",
+  "desc": "マススクリーニングGL 2021のクイックリファレンス",
+  "v": "2acadfc60a"
+ },
+ {
+  "file": "内分泌初診サマリ_テンプレ.html",
+  "title": "内分泌初診サマリ テンプレ",
+  "cat": "clinical",
+  "desc": "疾患別の初診サマリをコピーしてカルテへ",
+  "v": "3cf8f5574b"
+ },
+ {
+  "file": "小児バセドウ病_2016GL.html",
+  "title": "小児バセドウ病【2016GL】",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "e41522e7f9"
+ },
+ {
+  "file": "小児低血糖_あんちょこ.html",
+  "title": "小児低血糖 あんちょこ",
+  "cat": "clinical",
+  "desc": "初動・鑑別・負荷試験・GIRやケトン体の計算",
+  "v": "ad83450b11"
+ },
+ {
+  "file": "思春期早発症.html",
+  "title": "思春期早発症",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "c23efbcec4"
+ },
+ {
+  "file": "抗がん剤と内分泌.html",
+  "title": "抗がん剤と内分泌 あんちょこ＆ドリル",
+  "cat": "clinical",
+  "desc": "商品名・略号の対応と内分泌の副作用。CCS併診用、ドリルつき",
+  "v": "7b4ad0ea1c"
+ },
+ {
+  "file": "橋本病.html",
+  "title": "橋本病（慢性甲状腺炎）",
+  "cat": "clinical",
+  "desc": "診療クイックリファレンス",
+  "v": "347e8cefbf"
+ },
+ {
+  "file": "男性CPP_治療管理.html",
+  "title": "男性中枢性思春期早発症 治療管理",
+  "cat": "clinical",
+  "desc": "治療管理リファレンス",
+  "v": "863caa5280"
+ },
+ {
+  "file": "脂肪酸代謝異常症_VLCAD_MCAD.html",
+  "title": "脂肪酸代謝異常症（VLCAD・MCAD）",
+  "cat": "clinical",
+  "desc": "新生児スクリーニング後の診療クイックリファレンス",
+  "v": "d12b3ecdb7"
+ },
+ {
+  "file": "血漿アミノ酸分析.html",
+  "title": "血漿アミノ酸分析 読解",
+  "cat": "clinical",
+  "desc": "読解クイックリファレンス",
+  "v": "eb9a86f42b"
  }
 ]

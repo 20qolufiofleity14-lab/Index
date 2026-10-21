@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内分泌初診サマリ テンプレ</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="疾患別の初診サマリをコピーしてカルテへ">
+
+<style>
+:root{
+  --deep:#123f3a; --deep2:#1c5f57; --ink:#16202b; --sub:#5a6b7c;
+  --line:#dde5e3; --bg:#f3f6f5; --card:#fff; --act:#1e6f6a; --actbg:#e7f2f1;
+  --amber:#8a6100; --amberbg:#fdf3dd;
+}
+*{box-sizing:border-box;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
+  font-size:15px;line-height:1.75;padding-bottom:60px}
+header{background:linear-gradient(135deg,var(--deep) 0%,var(--deep2) 100%);color:#fff;padding:16px 16px 14px}
+header h1{margin:0;font-size:19px;font-weight:700}
+header p{margin:4px 0 0;font-size:12px;color:#a8ccc6}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;overflow-x:auto;scrollbar-width:none;box-shadow:0 1px 4px rgba(18,63,58,.08)}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;border:0;background:none;padding:12px 15px;font-size:14px;font-weight:600;
+  color:var(--sub);cursor:pointer;border-bottom:3px solid transparent;font-family:inherit;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--deep);border-bottom-color:var(--deep)}
+nav button:focus-visible{outline:2px solid var(--act);outline-offset:-2px}
+main{padding:14px 12px 0;max-width:820px;margin:0 auto}
+section[hidden]{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 14px;margin:0 0 12px}
+.card h2{margin:0 0 9px;font-size:16px;font-weight:700}
+.card h3{margin:14px 0 6px;font-size:14px;font-weight:700;color:var(--deep)}
+.card h3:first-child{margin-top:0}
+.card p{margin:0 0 8px}
+.card ul{margin:0 0 8px;padding-left:1.25em}
+.card li{margin-bottom:4px}
+.card>*:last-child{margin-bottom:0}
+.tint-act{background:var(--actbg);border-color:#c2ddda}
+.tint-amber{background:var(--amberbg);border-color:#e8d5a3}
+.note{font-size:13px;color:var(--sub);margin:6px 0 0}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--sub);margin-bottom:4px}
+select,textarea{width:100%;font-family:inherit;font-size:16px;padding:9px 10px;
+  border:1px solid #c5d3d1;border-radius:7px;background:#fff;color:var(--ink)}
+textarea{line-height:1.8;font-size:13.5px;resize:vertical;
+  font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",monospace}
+.bar{display:flex;gap:8px;align-items:center;margin:10px 0 8px;flex-wrap:wrap}
+button.act{background:var(--deep);color:#fff;border:0;border-radius:7px;padding:9px 15px;
+  font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+button.act:active{background:var(--deep2)}
+button.ghost{background:#fff;color:var(--deep);border:1px solid #bcd3d0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 8px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#eaf1f0;font-weight:700;color:var(--deep)}
+footer{max-width:820px;margin:16px auto 0;padding:0 12px;font-size:12px;color:var(--sub)}
+@media print{nav,button{display:none!important}section[hidden]{display:block!important}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>内分泌外来・初診サマリ テンプレ</h1>
+  <p>疾患を選んで、コピーしてカルテに貼る</p>
+</header>
+
+<nav role="tablist" id="tabs">
+  <button role="tab" aria-selected="true" data-t="t1">テンプレ</button>
+  <button role="tab" aria-selected="false" data-t="t2">共通の骨格</button>
+  <button role="tab" aria-selected="false" data-t="t3">所見の書き方</button>
+</nav>
+
+<main>
+
+<section id="t1">
+  <div class="card">
+    <label class="f" for="pick">疾患・主訴を選ぶ</label>
+    <select id="pick"></select>
+    <div class="bar">
+      <button class="act" id="copy">コピー</button>
+      <button class="act ghost" id="reset">元に戻す</button>
+      <span class="note" id="msg" style="margin:0"></span>
+    </div>
+    <textarea id="ta" rows="34"></textarea>
+    <p class="note">テキストは編集できます。この画面での変更は保存されないので、書き終えたらコピーしてカルテへ。</p>
+  </div>
+</section>
+
+<section id="t2" hidden>
+  <div class="card tint-act">
+    <h2>初診サマリの骨格</h2>
+    <p>どの疾患でも順番は同じにしておくと、あとで読み返すときと学会用にまとめるときに楽になる。疾患ごとに変わるのは、太字の3か所だけ。</p>
+    <table>
+      <tr><th>項目</th><th>中身</th></tr>
+      <tr><td>主訴</td><td>症状＋紹介元（学校健診／かかりつけ医／保護者が気づき）</td></tr>
+      <tr><td><b>現病歴</b></td><td><b>疾患ごとに聞く項目が変わる。</b>いつから／指摘の経緯／これまでの指摘の有無／経過の速さ</td></tr>
+      <tr><td>周産期</td><td>在胎週数、出生体重・身長、Apgar、分娩様式、黄疸・仮死、新生児マススクリーニング</td></tr>
+      <tr><td>栄養</td><td>哺乳・離乳の経過、現在の食事内容</td></tr>
+      <tr><td>発達</td><td>定頸、独歩、発達上の指摘、就学状況</td></tr>
+      <tr><td>既往歴・内服</td><td>手術歴、放射線、ステロイド・向精神薬などを忘れずに</td></tr>
+      <tr><td><b>家族歴</b></td><td><b>疾患ごとに聞く相手が変わる。</b>身長は必ず両親とも実測値で。思春期の時期・初経年齢も</td></tr>
+      <tr><td>現症</td><td>暦年齢／身長SD／体重／肥満度／血圧・脈拍／全身の視診／二次性徴／dysmorphology</td></tr>
+      <tr><td><b>症状スクリーニング</b></td><td><b>疾患ごとのチェックリスト。</b>陰性所見も残す</td></tr>
+      <tr><td>検査所見</td><td>採血、骨年齢、画像</td></tr>
+      <tr><td>評価</td><td>＃で問題リスト化</td></tr>
+      <tr><td>方針</td><td>次にやる検査、家族への説明内容、フォロー間隔</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>初診で毎回入れておくと後で効くもの</h2>
+    <ul>
+      <li><b>陰性所見を書く</b>：「なし／あり」の形で残しておくと、次の受診時に「聞いていない」のか「なかった」のかが区別できる</li>
+      <li><b>両親の身長は実測</b>：自己申告のままだとTHがずれる。測っていないなら「自己申告」と明記</li>
+      <li><b>成長曲線を貼った日付</b>：母子手帳・学校の記録をどこまで拾ったかを書いておく</li>
+      <li><b>家族への説明内容とフォロー間隔</b>：初診の方針欄に一行入れておくと、次に誰が診ても迷わない</li>
+    </ul>
+  </div>
+</section>
+
+<section id="t3" hidden>
+  <div class="card">
+    <h2>身体所見の共通パーツ</h2>
+    <p>どの疾患でも一通り見る項目。テンプレの【現症】に入っているので、当てはまらないものは削る。</p>
+    <table>
+      <tr><th>見るところ</th><th>書きかた</th></tr>
+      <tr><td>体格</td><td>暦年齢、身長（SD）、体重、肥満度（%）、成長速度</td></tr>
+      <tr><td>顔貌</td><td>特異顔貌の有無、巨舌</td></tr>
+      <tr><td>体型</td><td>四肢のバランス（上節下節比、指極）、翼状頚、外反肘</td></tr>
+      <tr><td>皮膚</td><td>café-au-lait斑、色素沈着（歯肉・手掌皺・乳輪）、皮膚乾燥、黒色表皮腫</td></tr>
+      <tr><td>体毛</td><td>体毛の分布、腋毛、うぶ毛の濃さ</td></tr>
+      <tr><td>甲状腺</td><td>腫大の有無（七條分類 度）、硬さ、圧痛、血管雑音</td></tr>
+      <tr><td>二次性徴</td><td>乳房 Tanner、PH、腋毛、精巣容積（右/左 mL）と硬さ、陰茎長</td></tr>
+      <tr><td>その他</td><td>眼球突出、振戦、腱反射、発達年齢相当か</td></tr>
+    </table>
+  </div>
+
+  <div class="card tint-amber">
+    <h2>七條分類（甲状腺腫の触診）</h2>
+    <table>
+      <tr><th>度</th><th>所見</th></tr>
+      <tr><td>0度</td><td>触知しない</td></tr>
+      <tr><td>I度</td><td>触知するが視診では分からない</td></tr>
+      <tr><td>II度</td><td>頸部を伸展させると視診で分かる</td></tr>
+      <tr><td>III度</td><td>正面から視診で明らかに分かる</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>成長の記載に使う値</h2>
+    <ul>
+      <li>目標身長 TH：男児（父＋母＋13）/2、女児（父＋母−13）/2</li>
+      <li>肥満度(%) ＝（実測体重 − 標準体重）/ 標準体重 × 100</li>
+      <li>骨年齢は必ず<b>判定法（TW2-RUS / Greulich-Pyle など）</b>と<b>暦年齢との差</b>をセットで書く</li>
+      <li>成長速度は<b>期間を明記</b>して cm/年 に換算する（例：直近8か月で6cm → 9.0 cm/年）</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>外来カルテ用の個人テンプレート。評価・方針の内容は症例ごとに判断すること。</p>
+</footer>
+
+<script>
+(function(){
+var T={};
+
+T["共通（汎用・骨格だけ）"]=
+"【内分泌外来・初診】\n"+
+"主訴：（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて指摘され受診\n"+
+"これまでの指摘：なし／あり（　　）\n"+
+"経過：\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"新生児マススクリーニング：異常指摘なし／あり（　　）\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"就学：普通級／支援級／未就学\n"+
+"【既往歴】\n"+
+"【内服】\n"+
+"【家族歴】\n"+
+"父　cm、母　cm、TH　cm\n"+
+"兄弟姉妹（　歳上／下）\n"+
+"内分泌疾患の家族歴：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD\n"+
+"体重：　㎏\n"+
+"肥満度：　％\n"+
+"血圧（脈拍）：　/ （　）\n"+
+"頭頸部：\n"+
+"甲状腺腫大：なし／あり（七條分類　　度）\n"+
+"胸腹部：\n"+
+"外陰部：\n"+
+"　乳房Tanner　／PH-　／testis 　ml/　ml　硬さ　\n"+
+"特異顔貌（　　）　巨舌\n"+
+"四肢のバランス\n"+
+"翼状頚、外反肘　色素斑　色素沈着\n"+
+"体毛\n"+
+"発達年齢相当？\n"+
+"【症状スクリーニング】\n"+
+"＊\n"+
+"＊\n"+
+"【検査所見】\n"+
+"採血：\n"+
+"骨年齢：　歳　か月（　　法、CA　歳相当）→　約　年の進行／遅延\n"+
+"画像：\n"+
+"【評価】\n"+
+"＃\n"+
+"【方針】\n"+
+"次回検査：\n"+
+"家族への説明：\n"+
+"フォロー間隔：";
+
+T["甲状腺腫大・甲状腺機能異常"]=
+"【内分泌外来・初診】\n"+
+"主訴：甲状腺腫大（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて甲状腺腫を指摘され受診\n"+
+"これまでの指摘：なし／あり（　　）\n"+
+"自覚症状の出現時期：\n"+
+"体重の変化：　kg（　か月で）／変化なし\n"+
+"成長・学業成績の変化：あり／なし\n"+
+"ヨード摂取（昆布・イソジン等）：なし／あり（　　）\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"新生児マススクリーニング：異常指摘なし／あり\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"【既往歴】\n"+
+"【内服】\n"+
+"【家族歴】\n"+
+"甲状腺疾患・内分泌疾患の家族歴：なし／あり（　　）\n"+
+"自己免疫疾患（1型糖尿病・関節リウマチ等）：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD\n"+
+"体重：　㎏\n"+
+"肥満度：　％\n"+
+"血圧（脈拍）：　/ （　）\n"+
+"眼球突出：なし／あり（　　）　眼瞼後退・複視：\n"+
+"胸腹部：\n"+
+"甲状腺腫大：なし／あり（七條分類　　度）　硬さ　　圧痛　　血管雑音\n"+
+"外陰部：\n"+
+"　testis 　ml/　ml　軟　　PH-　（/）\n"+
+"振戦：なし／あり\n"+
+"腱反射：正常／亢進／弛緩相遅延\n"+
+"特異顔貌（　　）　巨舌\n"+
+"四肢のバランス\n"+
+"翼状頚、外反肘　色素斑　色素沈着\n"+
+"体毛\n"+
+"発達年齢相当？\n"+
+"【症状スクリーニング】\n"+
+"甲状腺機能低下症様\n"+
+"＊便秘・浮腫・体重増加・倦怠感・徐脈・寒がり・皮膚乾燥：\n"+
+"甲状腺機能亢進症様\n"+
+"＊体重減少・動悸・多汗・易刺激性・手指振戦・暑がり・易疲労：\n"+
+"眼症状\n"+
+"＊なし／あり（　　）\n"+
+"月経（女児）：整／不整／未\n"+
+"【検査所見】\n"+
+"TSH　　FT4　　FT3　\n"+
+"TgAb　　TPOAb　　TRAb　　TSAb　\n"+
+"Tg　　血算・生化：\n"+
+"甲状腺エコー：大きさ　　エコーレベル　　血流　　結節：なし／あり（　　）\n"+
+"骨年齢：　歳　か月（　　法、CA　歳相当）\n"+
+"【評価】\n"+
+"＃\n"+
+"【方針】\n"+
+"治療：経過観察／内服（　　　　mg/日）\n"+
+"家族への説明：\n"+
+"次回採血：　週後\n"+
+"フォロー間隔：";
+
+T["思春期早発症（女児）"]=
+"【内分泌外来・初診】\n"+
+"主訴：思春期早発症／乳房腫大（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて受診\n"+
+"乳房腫大：　歳　か月～\n"+
+"陰毛：　／未\n"+
+"月経：　／未\n"+
+"成長促進の自覚：あり／なし\n"+
+"体格：大きめ／普通／小さめ、　食欲：\n"+
+"外用薬・サプリ・環境ホルモン曝露：なし／あり（　　）\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"SGA：なし／あり\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"【既往歴】\n"+
+"頭部外傷・中枢神経疾患・放射線照射：なし／あり（　　）\n"+
+"【内服】\n"+
+"【家族歴】\n"+
+"父　cm（思春期時期　　）、母　cm（初経　歳）、TH　cm\n"+
+"兄弟姉妹（　歳上／下）\n"+
+"思春期早発・低身長の家族歴：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD\n"+
+"体重：　㎏\n"+
+"肥満度：　％\n"+
+"血圧（脈拍）：　/ （　）\n"+
+"胸腹部：乳房Tanner　　乳腺組織あり、左右差：なし／あり\n"+
+"甲状腺：\n"+
+"外陰部：PH　、色素沈着：なし／あり、帯下：なし／あり\n"+
+"特異顔貌（　　）　巨舌\n"+
+"四肢のバランス\n"+
+"翼状頚、外反肘　色素斑　色素沈着\n"+
+"体毛\n"+
+"発達年齢相当？\n"+
+"【随伴症状】\n"+
+"＊陰毛・腋毛・体臭・ニキビ：\n"+
+"＊成長速度の加速：あり／なし（直近　か月で　cm ＝　cm/年）\n"+
+"＊乳房増大の速度：（サイズ変化：　）\n"+
+"＊性器出血・帯下：なし／あり\n"+
+"＊café-au-lait斑・神経症状：なし／あり\n"+
+"＊頭痛・視野障害・多飲多尿：なし／あり\n"+
+"【検査所見】\n"+
+"LH　　FSH　　E2　　（GnRH負荷：予定／実施済　　）\n"+
+"TSH　　FT4　　DHEA-S　　17-OHP　　IGF-1　\n"+
+"骨年齢：　歳　か月（　　法、CA　歳相当）→　約　年の進行\n"+
+"子宮卵巣エコー：子宮長径　mm、内膜　mm、卵巣容積　/　mL\n"+
+"MRI：\n"+
+"【評価】\n"+
+"＃思春期早発症\n"+
+"【方針】\n"+
+"器質的疾患の可能性：低い／要精査\n"+
+"MRI意向：\n"+
+"GnRHアナログ治療：適応なし／検討／導入\n"+
+"家族への説明：\n"+
+"フォロー間隔：";
+
+T["思春期早発症（男児）"]=
+"【内分泌外来・初診】\n"+
+"主訴：思春期早発症／陰毛発来・精巣腫大（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて受診\n"+
+"精巣腫大の自覚：　歳　か月～／不明\n"+
+"陰毛：　歳　か月～／未\n"+
+"陰茎増大・声変わり・体臭・ニキビ：\n"+
+"成長促進の自覚：あり／なし\n"+
+"体格：大きめ／普通／小さめ、　食欲：\n"+
+"外用薬（テストステロン含有製剤等）曝露：なし／あり（　　）\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"SGA：なし／あり\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"【既往歴】\n"+
+"頭部外傷・中枢神経疾患・放射線照射：なし／あり（　　）\n"+
+"【内服】\n"+
+"【家族歴】\n"+
+"父　cm（思春期時期　　）、母　cm（初経　歳）、TH　cm\n"+
+"兄弟姉妹（　歳上／下）\n"+
+"思春期早発・低身長・CAHの家族歴：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD\n"+
+"体重：　㎏\n"+
+"肥満度：　％\n"+
+"血圧（脈拍）：　/ （　）\n"+
+"胸腹部：女性化乳房：なし／あり\n"+
+"甲状腺：\n"+
+"外陰部：testis 　ml/　ml（左右差：なし／あり）、硬さ　　陰茎長　cm、PH　、色素沈着：なし／あり\n"+
+"特異顔貌（　　）　巨舌\n"+
+"四肢のバランス\n"+
+"翼状頚、外反肘　色素斑　色素沈着\n"+
+"体毛\n"+
+"発達年齢相当？\n"+
+"【随伴症状】\n"+
+"＊陰毛・腋毛・体臭・ニキビ・声変わり：\n"+
+"＊成長速度の加速：あり／なし（直近　か月で　cm ＝　cm/年）\n"+
+"＊café-au-lait斑・神経症状：なし／あり\n"+
+"＊頭痛・視野障害・多飲多尿：なし／あり\n"+
+"＊精巣腫大を伴わない男性化（→末梢性を疑う）：なし／あり\n"+
+"【検査所見】\n"+
+"LH　　FSH　　テストステロン　　（GnRH負荷：予定／実施済　　）\n"+
+"TSH　　FT4　　DHEA-S　　17-OHP　　hCG　　AFP　　IGF-1　\n"+
+"骨年齢：　歳　か月（　　法、CA　歳相当）→　約　年の進行\n"+
+"精巣エコー：\n"+
+"MRI：\n"+
+"【評価】\n"+
+"＃思春期早発症（中枢性／末梢性）\n"+
+"【方針】\n"+
+"器質的疾患の可能性：低い／要精査（男児は中枢性病変の頻度が高く、原則MRIを検討）\n"+
+"MRI意向：\n"+
+"GnRHアナログ治療：適応なし／検討／導入\n"+
+"家族への説明：\n"+
+"フォロー間隔：";
+
+T["早発乳房（premature thelarche）"]=
+"【内分泌外来・初診】\n"+
+"主訴：乳房腫大（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（保護者が気づき／かかりつけ医）にて受診\n"+
+"乳房腫大：　歳　か月～　　増大傾向：あり／なし／変動する\n"+
+"左右差：なし／あり（　側優位）\n"+
+"陰毛・腋毛・体臭・ニキビ：なし／あり\n"+
+"性器出血・帯下：なし／あり\n"+
+"成長促進の自覚：あり／なし\n"+
+"外用薬・サプリ・大豆製品の多量摂取：なし／あり（　　）\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"【既往歴】\n"+
+"【内服】\n"+
+"【家族歴】\n"+
+"父　cm、母　cm（初経　歳）、TH　cm\n"+
+"思春期早発の家族歴：なし／あり\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD（前回　㎝／　　より　cm/年）\n"+
+"体重：　㎏\n"+
+"肥満度：　％\n"+
+"胸腹部：乳房Tanner　　乳腺組織　mm大、左右差：なし／あり\n"+
+"外陰部：PH　、粘膜のエストロゲン化：なし／あり、色素沈着：なし／あり\n"+
+"café-au-lait斑：なし／あり\n"+
+"【鑑別のポイント（記載しておく）】\n"+
+"＊成長速度の加速：あり／なし\n"+
+"＊骨年齢の進行：あり／なし\n"+
+"＊陰毛・腋毛・体臭：あり／なし\n"+
+"＊乳輪の発達・粘膜変化：あり／なし\n"+
+"　→ すべて陰性なら早発乳房らしい。1つでも陽性なら中枢性思春期早発症を疑う\n"+
+"【検査所見】\n"+
+"LH　　FSH　　E2　\n"+
+"骨年齢：　歳　か月（　　法、CA　歳相当）→　進行：なし／約　年\n"+
+"子宮卵巣エコー：子宮長径　mm、内膜　mm、卵巣容積　/　mL\n"+
+"【評価】\n"+
+"＃早発乳房（思春期早発症は現時点で否定的／要経過観察）\n"+
+"【方針】\n"+
+"経過観察とし、増大・随伴症状の出現があれば再評価\n"+
+"家族への説明：多くは自然に軽快すること、受診が必要なサイン（乳房の急な増大、陰毛・体臭、性器出血、身長の伸びの加速）\n"+
+"フォロー間隔：　か月後に身長・乳房を再評価";
+
+T["低身長"]=
+"【内分泌外来・初診】\n"+
+"主訴：低身長（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて指摘され受診\n"+
+"低身長の指摘時期：　歳　か月～\n"+
+"経過：出生時から小さい／途中から伸びが鈍化（　歳頃～）\n"+
+"直近の成長速度：　か月で　cm ＝　cm/年\n"+
+"成長曲線：母子手帳・学校記録を　歳分まで確認\n"+
+"症状：頭痛・視力視野障害・多飲多尿・便秘・易疲労：なし／あり（　　）\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"SGA：なし／あり　　低血糖・遷延性黄疸・小陰茎：なし／あり\n"+
+"新生児マススクリーニング：異常指摘なし／あり\n"+
+"【栄養】\n"+
+"食事量・偏食：　　消化器症状（下痢・腹痛）：なし／あり\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"【既往歴】\n"+
+"慢性疾患・頭部照射・化学療法・ステロイド使用：なし／あり（　　）\n"+
+"【内服】\n"+
+"【家族歴】\n"+
+"父　cm（思春期時期　　）、母　cm（初経　歳）、TH　cm\n"+
+"兄弟姉妹（　歳上／下）　身長　cm\n"+
+"低身長・骨系統疾患の家族歴：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD（TH　cm、　SD）\n"+
+"体重：　㎏　　肥満度：　％\n"+
+"座高／上節下節比：　　指極：　cm\n"+
+"血圧（脈拍）：　/ （　）\n"+
+"頭頸部：甲状腺腫大：なし／あり　　正中部の異常：\n"+
+"胸腹部：\n"+
+"外陰部：乳房Tanner　／PH-　／testis 　ml/　ml、小陰茎：なし／あり\n"+
+"特異顔貌（　　）　巨舌　　前頭部突出・鞍鼻\n"+
+"四肢のバランス（不均衡：なし／あり）\n"+
+"翼状頚、外反肘　色素斑　色素沈着\n"+
+"体毛\n"+
+"発達年齢相当？\n"+
+"【症状スクリーニング】\n"+
+"＊甲状腺機能低下症様（便秘・浮腫・寒がり・徐脈）：\n"+
+"＊GH分泌不全様（低血糖・中心性肥満・幼稚な顔貌）：\n"+
+"＊消化器疾患（下痢・腹痛・体重増加不良）：\n"+
+"＊心理社会的要因（食事・睡眠・家庭環境）：\n"+
+"＊骨系統疾患（四肢短縮・家族歴）：\n"+
+"【検査所見】\n"+
+"血算・生化・IgA/抗TG2抗体　　TSH　FT4　　IGF-1　　IGFBP-3　\n"+
+"（負荷試験：予定／実施済　　）\n"+
+"骨年齢：　歳　か月（　　法、CA　歳相当）→　約　年の遅延\n"+
+"染色体（女児）：　　MRI：\n"+
+"【評価】\n"+
+"＃低身長\n"+
+"【方針】\n"+
+"次回検査：\n"+
+"家族への説明：成長曲線を提示し、現時点での見立てと今後の見通し\n"+
+"フォロー間隔：　か月後に成長速度を再評価";
+
+T["肥満・肥満症"]=
+"【内分泌外来・初診】\n"+
+"主訴：肥満（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて指摘され受診\n"+
+"体重増加の開始時期：　歳　か月～\n"+
+"経過：　歳で　kg →　歳で　kg\n"+
+"身長の伸び：保たれている／鈍化している　　※鈍化があれば内分泌性を疑う\n"+
+"食事：朝食　　間食　　清涼飲料　　夕食時刻　　外食頻度\n"+
+"運動：部活・習い事　　　1日の歩行時間　　\n"+
+"睡眠：就床　時／起床　時　　いびき・無呼吸：なし／あり\n"+
+"スクリーンタイム：　時間/日\n"+
+"本人・家族の受け止め、減量への意欲：\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？\n"+
+"出生時：LGA／AGA／SGA\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　発達上の指摘：なし／あり（　　）\n"+
+"【既往歴】\n"+
+"【内服】ステロイド・向精神薬：なし／あり（　　）\n"+
+"【家族歴】\n"+
+"父　cm（　kg）、母　cm（　kg）、TH　cm\n"+
+"肥満・2型糖尿病・脂質異常症・高血圧の家族歴：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD\n"+
+"体重：　㎏\n"+
+"肥満度：　％（　　度肥満）　BMI：　　腹囲：　cm\n"+
+"血圧（脈拍）：　/ （　）　※年齢・性別・身長基準で判定\n"+
+"頭頸部：甲状腺腫大：なし／あり\n"+
+"皮膚：黒色表皮腫：なし／あり（部位　　）、皮膚線条：なし／あり（色　　）、ざ瘡\n"+
+"胸腹部：女性化乳房：なし／あり\n"+
+"外陰部：乳房Tanner　／PH-　／testis 　ml/　ml、埋没陰茎：なし／あり\n"+
+"四肢：外反膝・扁平足・関節痛：なし／あり\n"+
+"特異顔貌（　　）　多指症　網膜異常　　※症候性肥満のチェック\n"+
+"発達年齢相当？\n"+
+"【症状スクリーニング】\n"+
+"＊多飲多尿・体重減少：\n"+
+"＊いびき・日中の眠気：\n"+
+"＊関節痛・運動時息切れ：\n"+
+"＊月経異常・多毛（女児）：\n"+
+"＊いじめ・不登校・抑うつ：\n"+
+"＊内分泌性を疑う所見（低身長・成長速度低下・満月様顔貌・中心性肥満）：\n"+
+"【検査所見】\n"+
+"血算・生化（AST/ALT/γGTP、脂質、尿酸）　　HbA1c　　空腹時血糖　　インスリン　\n"+
+"TSH　FT4　　（必要に応じ コルチゾール・ACTH）\n"+
+"腹部エコー（脂肪肝）：　　骨年齢：　歳　か月\n"+
+"【評価】\n"+
+"＃単純性肥満／肥満症（合併症：　　）\n"+
+"【方針】\n"+
+"目標：減量ではなく体重維持＋身長の伸びで肥満度を下げる／−　kg\n"+
+"生活指導：食事　　運動　　睡眠　　（本人と決めた具体的な行動：　　）\n"+
+"家族への説明：\n"+
+"フォロー間隔：　か月後";
+
+T["多飲多尿・高血糖（1型糖尿病を疑う）"]=
+"【内分泌外来・初診】\n"+
+"主訴：多飲・多尿／高血糖（　　　　より紹介／紹介なし）\n"+
+"【現病歴】\n"+
+"（学校健診／かかりつけ医／保護者が気づき）にて受診\n"+
+"口渇・多飲：　週間前～　　　1日の飲水量：　L\n"+
+"多尿・夜間尿・夜尿：　週間前～\n"+
+"体重減少：病前　kg →　kg（−　％、　か月で）\n"+
+"全身倦怠感・食欲低下・嘔吐・腹痛：なし／あり（　　）\n"+
+"呼吸の異常・意識の変化：なし／あり\n"+
+"先行感染：なし／あり（　　）\n"+
+"前医での検査：PG　mg/dL、HbA1c　％、尿糖　、尿ケトン　\n"+
+"【周産期】\n"+
+"　週　日　　g,　　cm（Apgar　/　）　第　子/　　　頭位経腟分娩？・黄疸・仮死\n"+
+"【栄養】\n"+
+"【発達】\n"+
+"定頸　か月、独歩　歳　か月　　年齢相当／普通学級通級中\n"+
+"【既往歴】なし／あり（　　）\n"+
+"【内服】なし／あり（　　）\n"+
+"【家族歴】\n"+
+"糖尿病の家族歴：なし／あり（　　）\n"+
+"自己免疫疾患（甲状腺疾患等）の家族歴：なし／あり（　　）\n"+
+"【現症】\n"+
+"暦年齢　　歳　か月\n"+
+"身長：　㎝　　SD\n"+
+"病前体重：　㎏（肥満度　％）→ 受診時体重：　㎏（体重減少　％）\n"+
+"BT　℃、HR　/min、BP　/　mmHg、RR　/min\n"+
+"意識：清明／傾眠／不穏\n"+
+"Kussmaul呼吸：なし／あり　　ケトン臭：なし／あり\n"+
+"口腔内乾燥：なし／あり　　CRT：　秒　　ツルゴール低下：なし／あり\n"+
+"呼吸音清、副雑音なし　　心音リズム整、心雑音なし\n"+
+"腹部平坦軟、圧痛：なし／あり　　腸蠕動音：\n"+
+"甲状腺腫大：なし／あり　　黒色表皮腫：なし／あり\n"+
+"【症状スクリーニング】\n"+
+"＊脱水の程度（軽度／中等度／高度）：\n"+
+"＊DKAを示唆する所見（嘔吐・腹痛・過呼吸・意識障害）：\n"+
+"＊他の自己免疫疾患を示唆する所見：\n"+
+"【検査所見】\n"+
+"VBG：pH　　pCO2　　HCO3　　BE　　AG　　Lac　\n"+
+"PG　mg/dL　　HbA1c　％　　尿糖　　尿ケトン　\n"+
+"3-OHBA　μmol/L　　AcAc　μmol/L　　NEFA　μEq/L\n"+
+"Na　　K　　Cl　　BUN　　Cre　　浸透圧　\n"+
+"抗GAD抗体　　抗IA-2抗体　　C-peptide　　（IAA　　ZnT8　）\n"+
+"TSH　FT4　　TgAb　TPOAb　\n"+
+"【評価】\n"+
+"＃1 新規発症1型糖尿病（疑い）\n"+
+"＃2 糖尿病性ケトアシドーシス：なし／あり（軽症／中等症／重症）\n"+
+"【方針】\n"+
+"入院／外来管理：\n"+
+"初期治療：\n"+
+"家族への説明：\n"+
+"疾病教育・自己管理手技の予定：";
+
+var pick=document.getElementById('pick'), ta=document.getElementById('ta'),
+    msg=document.getElementById('msg'), keys=Object.keys(T);
+keys.forEach(function(k){
+  var o=document.createElement('option'); o.value=k; o.textContent=k; pick.appendChild(o);
+});
+function load(){ ta.value=T[pick.value]; msg.textContent=''; }
+pick.addEventListener('change',load);
+document.getElementById('reset').addEventListener('click',load);
+load();
+
+document.getElementById('copy').addEventListener('click',function(){
+  ta.select(); ta.setSelectionRange(0,999999);
+  var done=false;
+  try{ done=document.execCommand('copy'); }catch(e){}
+  if(navigator.clipboard&&!done){ navigator.clipboard.writeText(ta.value); done=true; }
+  msg.textContent = done ? 'コピーしました' : '全選択しました（手動でコピー）';
+  setTimeout(function(){msg.textContent='';},1600);
+});
+
+var tabs=document.querySelectorAll('#tabs button');
+tabs.forEach(function(b){
+  b.addEventListener('click',function(){
+    tabs.forEach(function(x){
+      x.setAttribute('aria-selected','false');
+      document.getElementById(x.dataset.t).hidden=true;
+    });
+    b.setAttribute('aria-selected','true');
+    document.getElementById(b.dataset.t).hidden=false;
+    window.scrollTo(0,0);
+  });
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小児バセドウ病 クイックリファレンス【2016GL】</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="診療クイックリファレンス">
+<meta name="mini-title" content="小児バセドウ病【2016GL】">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic UI',Meiryo,sans-serif;background:#f0f4f8;color:#1a2332;font-size:14px;line-height:1.5}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#064e3b 0%,#065f46 60%,#047857 100%);color:white;padding:16px 18px 14px}
+.header h1{font-size:18px;font-weight:800;letter-spacing:-0.3px}
+.header p{font-size:11.5px;opacity:.82;margin-top:4px}
+.badges{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:2px 10px;font-size:10.5px;font-weight:600}
+
+/* TABS */
+.tabs{display:flex;background:white;border-bottom:2px solid #e2e8f0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:0;z-index:10}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#64748b;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;user-select:none}
+.tab:hover{color:#065f46;background:#f0fdf4}
+.tab.active{color:#065f46;border-bottom-color:#065f46;background:#f0fdf4}
+
+/* LAYOUT */
+.content{padding:14px 15px 40px;max-width:700px;margin:0 auto}
+.section{display:none}
+.section.active{display:block}
+
+/* CARDS */
+.card{background:white;border-radius:10px;padding:13px 14px;margin-bottom:11px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.card-title{font-size:13px;font-weight:700;margin-bottom:10px;color:#1e293b;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f1f5f9;padding-bottom:8px}
+
+/* DX BOXES */
+.dx-box{border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:4px solid}
+.dx-ok{background:#f0fdf4;border-color:#16a34a}
+.dx-prob{background:#fefce8;border-color:#ca8a04}
+.dx-susp{background:#fff7ed;border-color:#f97316}
+.dx-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.dx-body{font-size:11.5px;color:#374151;line-height:1.7}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.gbox{background:#f8fafc;border-radius:8px;padding:9px 10px}
+.gbox-t{font-size:11px;font-weight:700;color:#475569;margin-bottom:5px}
+.gbox-b{font-size:11.5px;color:#374151;line-height:1.75}
+
+/* FREQUENCY BARS */
+.fbar-wrap{margin-bottom:5px}
+.fbar-label{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px;color:#374151}
+.fbar-bg{background:#e2e8f0;border-radius:4px;height:7px}
+.fbar-fill{height:7px;border-radius:4px;background:#059669}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{background:#f0fdf4;color:#065f46;font-weight:700;padding:6px 8px;text-align:center;border:1px solid #d1fae5;font-size:11px}
+td{padding:5px 8px;border:1px solid #e2e8f0;text-align:center}
+tr:hover td{background:#f8fafc}
+.tdl{text-align:left}
+
+/* DOSE BOX */
+.dose-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.dose-title{font-size:12px;font-weight:700;color:#065f46;margin-bottom:6px}
+.dose-row{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;padding:3px 0;border-bottom:1px dashed #bbf7d0;color:#1e293b}
+.dose-row:last-child{border-bottom:none}
+.dose-val{font-weight:700;color:#065f46;text-align:right;margin-left:8px}
+
+/* CALLOUT BOXES */
+.warn-box{background:#fef9c3;border:1px solid #fde047;border-left:4px solid #eab308;border-radius:8px;padding:9px 11px;margin-bottom:8px;font-size:11.5px;line-height:1.7}
+.danger-box{background:#fff1f2;border:1px solid #fecdd3;border-left:4px solid #dc2626;border-radius:8px;padding:9px 11px;margin-bottom:8px;font-size:11.5px;line-height:1.7}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid #2563eb;border-radius:8px;padding:9px 11px;margin-bottom:8px;font-size:11.5px;line-height:1.7}
+.box-t{font-size:12px;font-weight:700;margin-bottom:5px;color:#1e293b}
+
+/* TAGS */
+.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;vertical-align:middle}
+.tg{background:#dcfce7;color:#166534}
+.ty{background:#fef9c3;color:#854d0e}
+.tr{background:#fee2e2;color:#991b1b}
+.tb{background:#dbeafe;color:#1e40af}
+
+/* PHASE TIMELINE */
+.phase{display:flex;align-items:stretch;margin-bottom:5px}
+.phase-lbl{background:#065f46;color:white;font-size:10.5px;font-weight:700;padding:6px 9px;border-radius:6px 0 0 6px;min-width:72px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.3}
+.phase-body{background:#f0fdf4;font-size:11.5px;padding:6px 10px;border-radius:0 6px 6px 0;flex:1;color:#1e293b;line-height:1.6}
+
+/* STEPS / FLOW */
+.step-flow{display:flex;flex-direction:column}
+.step{display:flex;align-items:flex-start;gap:9px;padding:7px 10px;background:#f8fafc}
+.step:first-child{border-radius:8px 8px 0 0}
+.step:last-child{border-radius:0 0 8px 8px}
+.step+.step{border-top:1px dashed #e2e8f0}
+.step-n{background:#065f46;color:white;font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-n.red{background:#dc2626}
+.step-t{font-size:11.5px;color:#374151;line-height:1.65}
+
+/* SEVERITY */
+.sev{border-radius:8px;padding:9px 12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+.sev-hi{background:#fff1f2;border:1px solid #fecdd3}
+.sev-md{background:#fff7ed;border:1px solid #fed7aa}
+.sev-lo{background:#fefce8;border:1px solid #fde047}
+.sev-ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.sev-nm{font-size:12px;font-weight:700}
+.sev-vl{font-size:11.5px;color:#475569;margin-top:2px}
+.sev-nt{font-size:10.5px;color:#6b7280;margin-top:3px}
+
+/* STAT PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.pill{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:4px 11px;font-size:11px;color:#065f46;font-weight:600}
+
+/* REMISSION GRID */
+.remit-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.remit-ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 10px}
+.remit-ng{background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:8px 10px}
+.remit-t{font-size:11px;font-weight:700;margin-bottom:4px}
+.remit-l{font-size:11.5px;color:#374151;line-height:1.7}
+
+/* FOLLOW-END BOX */
+.fe-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #16a34a;border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.fe-title{font-size:13px;font-weight:800;color:#166534;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.fe-item{display:flex;align-items:flex-start;gap:8px;font-size:11.5px;color:#1e293b;margin-bottom:5px;line-height:1.65}
+.fe-ic{color:#16a34a;flex-shrink:0;font-size:13px;margin-top:1px}
+
+/* STORM SYMPTOMS */
+.storm-list{display:flex;flex-direction:column;gap:5px}
+.storm-item{display:flex;align-items:flex-start;gap:8px;font-size:11.5px}
+.storm-n{background:#dc2626;color:white;border-radius:50%;width:19px;height:19px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* CHECKLIST */
+.chk-list{font-size:11.5px;line-height:1.85;color:#334155}
+.chk-list li{list-style:none;padding:2px 0 2px 20px;position:relative}
+.chk-list li::before{content:'□';position:absolute;left:0;color:#065f46;font-size:13px}
+
+/* SECTION HEADERS */
+.sec-t{font-size:12.5px;font-weight:700;color:#065f46;margin:14px 0 7px;padding-left:8px;border-left:3px solid #065f46}
+
+@media(max-width:400px){
+  .g2,.g3,.remit-g{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🦋 小児バセドウ病 クイックリファレンス</h1>
+  <p>小児期発症バセドウ病診療のガイドライン 2016（JSPE・JTA 合同）</p>
+  <div class="badges">
+    <span class="badge">第一選択：MMI</span>
+    <span class="badge">PTU 小児では原則使用しない</span>
+    <span class="badge">5歳以下 131I 原則禁忌</span>
+    <span class="badge">18歳以下 131I 慎重投与</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('diag',this)">📋 診断</div>
+  <div class="tab" onclick="showTab('sev',this)">⚖️ 重症度</div>
+  <div class="tab" onclick="showTab('drug',this)">💊 薬物療法</div>
+  <div class="tab" onclick="showTab('mgmt',this)">📊 管理</div>
+  <div class="tab" onclick="showTab('ae',this)">⚠️ 副作用</div>
+  <div class="tab" onclick="showTab('stop',this)">✓ 中止・フォロー</div>
+  <div class="tab" onclick="showTab('other',this)">🏥 外科・131I・クリーゼ</div>
+</div>
+
+<div class="content">
+
+<!-- ============================================================ TAB 1: 診断 -->
+<div class="section active" id="diag">
+
+  <div class="card">
+    <div class="card-title">📑 診断基準（日本甲状腺学会 2013 改定）</div>
+    <div class="g2" style="margin-bottom:10px">
+      <div class="gbox">
+        <div class="gbox-t">a）臨床所見</div>
+        <div class="gbox-b">
+          <ol style="margin-left:14px;line-height:1.85">
+            <li>甲状腺中毒症所見<br><span style="color:#64748b;font-size:10.5px">頻脈・体重減少・手指振戦・発汗増加等</span></li>
+            <li>びまん性甲状腺腫大</li>
+            <li>眼球突出 or 特有の眼症状</li>
+          </ol>
+        </div>
+      </div>
+      <div class="gbox">
+        <div class="gbox-t">b）検査所見</div>
+        <div class="gbox-b">
+          <ol style="margin-left:14px;line-height:1.85">
+            <li>FT4 or FT3 高値</li>
+            <li>TSH &lt;0.1 μU/mL</li>
+            <li>TRAb(TBII) or TSAb 陽性</li>
+            <li>放射性ヨウ素摂取率高値 / シンチびまん性</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="dx-box dx-ok">
+      <div class="dx-title">✅ バセドウ病（確定）</div>
+      <div class="dx-body">a) 1項目以上 ＋ b) 全4項目</div>
+    </div>
+    <div class="dx-box dx-prob">
+      <div class="dx-title">🔶 確からしいバセドウ病</div>
+      <div class="dx-body">a) 1項目以上 ＋ b) ①②③ → <strong>実際はこちらで治療開始が多い</strong><br><span style="font-size:11px;color:#92400e">（小児では放射線被曝を避け、シンチは診断困難例のみに限定）</span></div>
+    </div>
+    <div class="dx-box dx-susp">
+      <div class="dx-title">🔸 バセドウ病の疑い</div>
+      <div class="dx-body">a) 1項目以上 ＋ b) ①② かつ FT4/FT3 高値が<strong>3ヶ月以上</strong>持続</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 小児バセドウ病の臨床症状と発現頻度</div>
+    <div class="warn-box">
+      <strong>小児の特徴：</strong>体重減少は多くない（成長期に体重増加しないだけで有意な所見）。学童では落ち着きのなさ・活動性亢進・過剰な成長促進が目立つ。思春期前では非特異的症状が多く、発症から診断まで<strong>6〜12ヶ月</strong>を要することが多い。
+    </div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>甲状腺腫</span><span>68.4%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:68.4%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>多汗</span><span>53.4%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:53.4%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>易疲労感</span><span>50.4%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:50.4%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>落ち着きのなさ</span><span>47.4%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:47.4%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>手の震え</span><span>45.1%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:45.1%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>眼球突出</span><span>38.3%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:38.3%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>体重減少</span><span>36.1%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:36.1%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>食欲亢進</span><span>35.3%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:35.3%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>頻脈</span><span>33.8%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:33.8%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>動悸</span><span>24.8%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:24.8%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>学業成績低下</span><span>24.1%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:24.1%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>運動能力低下</span><span>15.0%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:15%"></div></div></div>
+    <div class="fbar-wrap"><div class="fbar-label"><span>暑がり</span><span>12.0%</span></div><div class="fbar-bg"><div class="fbar-fill" style="width:12%"></div></div></div>
+    <div style="font-size:10.5px;color:#64748b;margin-top:6px">その他：不眠・口渇・夜尿・無月経・微熱。甲状腺中毒性ミオパチー（筋力低下）が2/3に認められるという報告あり。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔬 年齢別甲状腺機能基準値（ECLIA法 ECLusys®）</div>
+    <table>
+      <thead><tr><th>年齢</th><th>FT3 (pg/mL)</th><th>FT4 (ng/dL)</th><th>TSH (μU/mL)</th></tr></thead>
+      <tbody>
+        <tr><td>4〜6歳</td><td>2.91〜4.70</td><td>1.12〜1.67</td><td>0.62〜4.90</td></tr>
+        <tr><td>7〜8歳</td><td>3.10〜5.10</td><td>1.07〜1.61</td><td>0.53〜5.16</td></tr>
+        <tr><td>9〜10歳</td><td>3.10〜4.87</td><td>0.96〜1.60</td><td>0.67〜4.52</td></tr>
+        <tr><td>11〜12歳</td><td>2.78〜4.90</td><td>1.02〜1.52</td><td>0.62〜3.36</td></tr>
+        <tr><td>13〜14歳</td><td>2.77〜4.59</td><td>0.96〜1.52</td><td>0.54〜2.78</td></tr>
+        <tr><td>15歳</td><td>2.50〜4.64</td><td>0.85〜1.53</td><td>0.32〜3.00</td></tr>
+        <tr><td style="color:#64748b">成人</td><td style="color:#64748b">2.20〜4.30</td><td style="color:#64748b">0.80〜1.60</td><td style="color:#64748b">0.20〜4.50</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="margin-top:8px">測定キットにより値は異なる。施設の測定系・試薬に合わせた基準値を参照すること。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 疫学・遺伝的背景</div>
+    <div class="pills">
+      <span class="pill">発症ピーク：高校生</span>
+      <span class="pill">5歳以下：極めてまれ</span>
+      <span class="pill">男女比 1:3〜6</span>
+      <span class="pill">バセドウ病全体の5%以下</span>
+      <span class="pill">有病率 0.02%</span>
+    </div>
+    <div class="g2">
+      <div class="gbox">
+        <div class="gbox-t">家族歴・遺伝</div>
+        <div class="gbox-b">小児の40%が家族歴あり<br>同胞発症率：一般集団の11.6倍<br>一卵性双生児の一致率 35%<br>二卵性双生児 3%</div>
+      </div>
+      <div class="gbox">
+        <div class="gbox-t">主な環境因子</div>
+        <div class="gbox-b">感染症 / 喫煙（再発率↑・効果減弱）<br>ストレス / ヨウ素過剰<br>放射線被曝 / 妊娠・出産<br>アルコール・ダイオキシン類</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /diag -->
+
+<!-- ============================================================ TAB 2: 重症度 -->
+<div class="section" id="sev">
+
+  <div class="card">
+    <div class="card-title">⚖️ 重症度分類（治療前FT4値による目安）</div>
+    <div class="warn-box">測定キットにより値は異なる。重症度FT4値はあくまで目安として参考にする。</div>
+    <div class="sev sev-hi">
+      <div class="sev-ico">🔴</div>
+      <div>
+        <div class="sev-nm">重度</div>
+        <div class="sev-vl">FT4 ≥7 ng/dL（参考例）</div>
+        <div class="sev-nt">心不全症状を伴う例では速やかに機能正常化を。MMI 1.0 mg/kg/日での開始も考慮。</div>
+      </div>
+    </div>
+    <div class="sev sev-md">
+      <div class="sev-ico">🟠</div>
+      <div>
+        <div class="sev-nm">中等度</div>
+        <div class="sev-vl">FT4 5〜7 ng/dL（参考例）</div>
+        <div class="sev-nt">MMI 0.5 mg/kg/日程度から開始。FT4低下不十分なら増量する。</div>
+      </div>
+    </div>
+    <div class="sev sev-lo">
+      <div class="sev-ico">🟡</div>
+      <div>
+        <div class="sev-nm">軽度</div>
+        <div class="sev-vl">FT4 &lt;5 ng/dL（参考例）</div>
+        <div class="sev-nt">MMI 0.2〜0.5 mg/kg/日から開始で十分効果あり。低用量でも寛解率に差なし。</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <strong>総合的重症度評価：</strong>①甲状腺中毒症状の臨床的評価（甲状腺腫の大きさ）②治療前FT4値 ③甲状腺超音波（血流・サイズ）— 以上を組み合わせて判断する。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚨 予後不良因子（寛解しにくい・再発しやすい）</div>
+    <div class="danger-box">
+      <ul style="margin-left:14px;line-height:1.85">
+        <li>低年齢（特に7歳以前は高いMMI量が必要なことが多い）</li>
+        <li>大きな甲状腺腫</li>
+        <li>治療前FT4高値</li>
+        <li>TRAb値が低下しにくい（長期にわたり陽性持続）</li>
+        <li>T3優位型（FT3/FT4比が高い）</li>
+      </ul>
+    </div>
+    <div class="info-box">治療開始前TRAb値で予後の予測は難しい。超音波による下甲状腺動脈最大血流速度（≥100 cm/s）が抗甲状腺薬反応性を予測しうるという報告あり。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 治療法選択の概要</div>
+    <table>
+      <thead><tr><th>治療法</th><th>小児での位置</th><th>特記事項</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tdl"><strong>抗甲状腺薬（MMI）</strong></td>
+          <td><span class="tag tg">第一選択</span></td>
+          <td class="tdl" style="font-size:11px">外来で可能。小児は成人より寛解率低く治療期間が長くなる傾向あり。</td>
+        </tr>
+        <tr>
+          <td class="tdl"><strong>外科的甲状腺切除術</strong></td>
+          <td><span class="tag ty">限定的適応</span></td>
+          <td class="tdl" style="font-size:11px">早くて確実性高。侵襲あり、術後LT4補充が必要。再発が多い小児では全摘・準全摘推奨。</td>
+        </tr>
+        <tr>
+          <td class="tdl"><strong>131I内用療法</strong></td>
+          <td><span class="tag tr">18歳以下 慎重</span></td>
+          <td class="tdl" style="font-size:11px">5歳以下は原則禁忌。他の治療が選択できない場合のみ考慮。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /sev -->
+
+<!-- ============================================================ TAB 3: 薬物療法 -->
+<div class="section" id="drug">
+
+  <div class="card">
+    <div class="card-title">💊 MMI（チアマゾール / メルカゾール®）初期投与量</div>
+
+    <div class="dose-box">
+      <div class="dose-title">体重換算（推奨）</div>
+      <div class="dose-row"><span>軽度〜中等度</span><span class="dose-val">0.2〜0.5 mg/kg/日</span></div>
+      <div class="dose-row"><span>重症例</span><span class="dose-val">最大 1.0 mg/kg/日</span></div>
+      <div class="dose-row"><span>用法</span><span class="dose-val">分1〜2</span></div>
+      <div class="dose-row"><span>体重換算で成人量を超える場合</span><span class="dose-val">原則として成人量とする</span></div>
+      <div class="dose-row"><span>成人量上限（軽度〜中等度）</span><span class="dose-val">15 mg/日</span></div>
+      <div class="dose-row"><span>成人量上限（重症例）</span><span class="dose-val">最大 30 mg/日</span></div>
+    </div>
+
+    <div class="dose-box">
+      <div class="dose-title">年齢別初期投与量の目安（米国GL準拠）</div>
+      <div class="dose-row"><span>乳幼児</span><span class="dose-val">1.25 mg/日</span></div>
+      <div class="dose-row"><span>1〜5歳</span><span class="dose-val">2.5〜5.0 mg/日</span></div>
+      <div class="dose-row"><span>5〜10歳</span><span class="dose-val">5〜10 mg/日</span></div>
+      <div class="dose-row"><span>10〜18歳</span><span class="dose-val">10〜20 mg/日（成人量）</span></div>
+      <div style="font-size:10.5px;color:#475569;padding-top:4px;border-top:1px dashed #bbf7d0;margin-top:4px">重症例では倍量まで増量可。</div>
+    </div>
+
+    <div class="dose-box">
+      <div class="dose-title">別の年齢別目安（国内研究）</div>
+      <div class="dose-row"><span>4歳未満</span><span class="dose-val">2.5〜10 mg/日</span></div>
+      <div class="dose-row"><span>4〜10歳</span><span class="dose-val">10〜20 mg/日</span></div>
+      <div class="dose-row"><span>10歳以上</span><span class="dose-val">15〜30 mg/日（成人量）</span></div>
+    </div>
+
+    <div class="warn-box">
+      大量MMIでも副作用頻度が上昇するだけで治療効果に差はない。投与量依存的に副作用↑（特に<strong>20 mg/日以上</strong>で無顆粒球症リスク↑）。低用量でFT4低下不十分なら増量する方針でよい。
+    </div>
+
+    <div class="info-box">
+      <strong>7歳以前</strong>は平均0.7 mg/kg/日、<strong>7歳以降</strong>は0.5 mg/kg/日の初期量を要し、7歳以前では機能正常化に平均6ヶ月を要するという報告あり。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚫 PTU（プロピルチオウラシル）— 小児では原則使用しない</div>
+    <div class="danger-box">
+      <div class="box-t">⚠️ 小児におけるPTUの重篤肝障害リスク（特に注意）</div>
+      <ul style="margin-left:14px;line-height:1.85">
+        <li>米国：17歳未満での重篤肝障害・肝不全が多数報告（76例中23例が17歳未満）</li>
+        <li>国内でも小児の重症肝炎2例の報告（うち1名死亡）</li>
+        <li>PTU&rarr;MMIへの交差反応性あり。重篤副作用時は両剤とも中止して無機ヨウ素剤へ</li>
+      </ul>
+    </div>
+    <div style="font-size:11.5px;color:#374151;line-height:1.7">
+      <strong>PTU参考投与量（やむを得ない場合）：</strong>2〜7.5 mg/kg/日、分3。成人量上限 300 mg/日。<br>
+      使用する前に重篤肝障害リスクを十分説明し書面同意を得ること。<br>
+      PTU服用中は<strong>定期的な肝機能検査</strong>＋<strong>MPO-ANCA年1回</strong>測定が必要。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">❤️ β遮断薬（甲状腺中毒症状強い場合に併用）</div>
+    <div class="dose-box">
+      <div class="dose-title">使用薬剤と投与量</div>
+      <div class="dose-row"><span>プロプラノロール<br><small style="color:#475569">非選択性（喘息には禁忌）</small></span><span class="dose-val">0.5〜2.0 mg/kg/日<br>分3</span></div>
+      <div class="dose-row"><span>アテノロール<br><small style="color:#475569">β1選択性・1日1回</small></span><span class="dose-val">1〜2 mg/kg/日<br>分1</span></div>
+      <div class="dose-row"><span>メトプロロール<br><small style="color:#475569">β1選択性</small></span><span class="dose-val">1.0〜2.0 mg/kg/日<br>分3</span></div>
+    </div>
+    <div class="info-box">米国GL：脈拍数≥100/分で使用を強く推奨。β1非選択性（プロプラノロール・ナドロール）は喘息に対し国内では禁忌。気管支喘息合併例ではβ1選択性薬を選択する。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧂 無機ヨウ素（抗甲状腺薬が使用できない場合）</div>
+    <div class="dose-box">
+      <div class="dose-title">薬剤・用量</div>
+      <div class="dose-row"><span>ヨウ化カリウム液（12.5 mg/mL）<br>幼児〜学童</span><span class="dose-val">10〜20 mg/日<br>分1</span></div>
+      <div class="dose-row"><span>ルゴール液（1滴=ヨウ素6.3 mg）</span><span class="dose-val">3〜4滴/日</span></div>
+      <div class="dose-row"><span>ヨウ化カリウム丸（38.2 mg/丸）<br>中学生</span><span class="dose-val">1〜2丸/日</span></div>
+    </div>
+    <div class="warn-box">
+      ⚠️ エスケープ現象に注意。中止後に甲状腺中毒症が<strong>急速に再燃</strong>することがある。<br>
+      開始したら早期に甲状腺専門医へ紹介。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">ℹ️ Block &amp; Replacement Therapy（B&amp;R法）</div>
+    <div class="g2">
+      <div class="gbox" style="border-left:3px solid #16a34a">
+        <div class="gbox-t" style="color:#166534">機能安定化目的のB&amp;R（認める）</div>
+        <div class="gbox-b">少量MMI＋LT4の最少量を併用して機能を安定化させる目的に用いることがある（推奨2・コンセンサス）</div>
+      </div>
+      <div class="gbox" style="border-left:3px solid #dc2626">
+        <div class="gbox-t" style="color:#991b1b">寛解率向上目的の大量固定B&amp;R → <span class="tag tr">非推奨</span></div>
+        <div class="gbox-b">寛解率向上のエビデンスなし。副作用頻度が有意に増加するため推奨しない。</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /drug -->
+
+<!-- ============================================================ TAB 4: 管理 -->
+<div class="section" id="mgmt">
+
+  <div class="card">
+    <div class="card-title">📅 受診・検査スケジュール</div>
+    <div class="phase" style="margin-bottom:5px">
+      <div class="phase-lbl">開始〜<br>2ヶ月</div>
+      <div class="phase-body"><strong>2週ごと推奨</strong>（副作用チェック・甲状腺機能・血液・尿検査）</div>
+    </div>
+    <div class="phase" style="margin-bottom:5px">
+      <div class="phase-lbl">2〜3ヶ月</div>
+      <div class="phase-body"><strong>2〜3週ごと</strong>（少なくとも3ヶ月間はこの頻度を維持）</div>
+    </div>
+    <div class="phase">
+      <div class="phase-lbl">維持期<br>（安定後）</div>
+      <div class="phase-body"><strong>3〜4ヶ月ごと</strong>（機能正常を確認しながら継続）</div>
+    </div>
+    <div style="margin-top:10px">
+      <table>
+        <thead><tr><th>カテゴリ</th><th>検査項目</th></tr></thead>
+        <tbody>
+          <tr><td class="tdl">甲状腺機能</td><td class="tdl">FT3、FT4、TSH</td></tr>
+          <tr><td class="tdl">造血系</td><td class="tdl">CBC＋白血球分画</td></tr>
+          <tr><td class="tdl">肝機能</td><td class="tdl">AST、ALT、γGTP、T-Bil、CK</td></tr>
+          <tr><td class="tdl">尿</td><td class="tdl">尿検査（血尿チェック）</td></tr>
+          <tr><td class="tdl">自己抗体</td><td class="tdl">TRAb（定期）</td></tr>
+          <tr><td class="tdl" style="color:#dc2626">PTU投与中のみ</td><td class="tdl" style="color:#dc2626">MPO-ANCA（年1回）＋尿検査</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📉 減量法（titration法）と維持量</div>
+    <div class="step-flow" style="margin-bottom:10px">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-t">FT3・FT4正常化後、<strong>FT4値を指標</strong>に減量を開始する（FT3はFT4より正常化が遅れる）</div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-t">TSHが測定可能になったら、<strong>TSH正常化を目標</strong>に徐々に減量する（TSHの正常化はFT4よりさらに遅れる）</div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-t">維持量に到達後は<strong>3〜4ヶ月ごと</strong>の検査で機能正常を確認しながら継続</div>
+      </div>
+    </div>
+    <div class="dose-box">
+      <div class="dose-title">維持量の目安（個人差大きい）</div>
+      <div class="dose-row"><span>MMI</span><span class="dose-val">5 mg/隔日 〜 5〜10 mg/日</span></div>
+      <div class="dose-row"><span>PTU（参考）</span><span class="dose-val">50 mg/日</span></div>
+      <div style="font-size:10.5px;color:#475569;padding-top:4px;border-top:1px dashed #bbf7d0;margin-top:4px">小児維持量は初期投与量の1/4程度を目安。甲状腺機能安定化にLT4を追加することもある。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ 治療継続期間</div>
+    <div class="info-box" style="margin-bottom:8px">
+      <strong>推奨：少なくとも18〜24ヶ月継続</strong>（推奨2・●○○）<br>
+      <strong>長期継続（5〜10年）で寛解が得られることがある</strong>（推奨1・●●○）
+    </div>
+    <table>
+      <thead><tr><th>根拠・ガイドライン</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td class="tdl">本GL（2016）</td><td class="tdl">18〜24ヶ月以上継続。長期継続（5〜10年）で寛解↑。1〜2年で寛解しなくても必ずしも他治療に変更する必要はない。</td></tr>
+        <tr><td class="tdl">フランス多施設（CBZ）</td><td class="tdl">8〜10年継続で約50%が寛解。10年以上では頭打ち。</td></tr>
+        <tr><td class="tdl">国内1138例（≤18歳）</td><td class="tdl">中央値3.8年で寛解率46.2%。5年まで寛解率が上昇。</td></tr>
+        <tr><td class="tdl">米国GL</td><td class="tdl">12〜18ヶ月（非寛解なら131I or 手術を考慮）</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box" style="margin-top:8px">
+      <strong>中学生・高校生の受験期：</strong>機能が安定していても治療継続が望ましい。受験・新学期・進学など<strong>環境変化の時期は再発しやすい</strong>ため、この時期の中止は避ける。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏃 生活指導</div>
+    <div class="g2">
+      <div class="gbox">
+        <div class="gbox-t">体育・運動</div>
+        <div class="gbox-b">
+          <span style="color:#dc2626;font-weight:600">機能正常化まで：</span><br>体育・運動部活動は控える<br><br>
+          <span style="color:#065f46;font-weight:600">正常化後：</span><br>激しい運動部以外は特に制限不要<br><br>
+          <span style="color:#065f46;font-weight:600">長期正常後：</span><br>激しい運動も問題なし
+        </div>
+      </div>
+      <div class="gbox">
+        <div class="gbox-t">食事・嗜好</div>
+        <div class="gbox-b">
+          <span style="color:#065f46">ヨウ素制限：不要</span><br>（ヨウ素充足地域では治療成績に影響なし・再発にも無関係）<br><br>
+          <span style="color:#dc2626;font-weight:600">禁煙を強く勧める</span><br>患者・家族双方へ。喫煙→発症リスク↑・効果減弱・再発率↑
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /mgmt -->
+
+<!-- ============================================================ TAB 5: 副作用 -->
+<div class="section" id="ae">
+
+  <div class="card">
+    <div class="card-title">⚡ 軽度副作用（頻度 5〜50%）</div>
+    <div class="info-box" style="margin-bottom:8px">
+      皮疹・軽度肝機能障害・発熱・関節痛・筋肉痛など。自然に軽快することがある。MMIの副作用は投与量依存的に増加する。
+    </div>
+    <div class="step-flow">
+      <div class="step"><div class="step-n">1</div><div class="step-t">治療をしばらく継続しながら経過観察</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-t">皮疹には<strong>抗ヒスタミン薬</strong>を追加</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-t">軽快しない場合→<strong>もう一方の薬剤へ変更</strong><br><span style="font-size:11px;color:#dc2626">※MMI⇔PTUは交差反応性あり。変更後も副作用が出現する可能性がある</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚨 無顆粒球症（頻度 0.35%）— 生命の危険</div>
+    <div class="danger-box">
+      <div class="box-t">発症リスクと特徴</div>
+      <ul style="margin-left:14px;line-height:1.85">
+        <li>MMI <strong>20 mg/日以上</strong>で発症リスクが特に高い（投与量依存性）</li>
+        <li>治療開始3ヶ月以内が多いが、数ヶ月後に起こることもある</li>
+        <li>好発症状：<strong>発熱・咽頭痛</strong> → 当日に受診・採血</li>
+      </ul>
+    </div>
+    <div class="step-flow" style="margin-bottom:10px">
+      <div class="step"><div class="step-n">1</div><div class="step-t">発熱・咽頭痛を確認→<strong>当日</strong>CBC＋白血球分画</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-t">好中球 &lt;500/μL → <strong>抗甲状腺薬を即中止</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-t"><strong>無機ヨウ素剤</strong>へ切り替え（甲状腺機能悪化防止）<br><span style="font-size:11px;color:#64748b">交差反応性のため、もう一方の抗甲状腺薬へは変更しない</span></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-t"><strong>G-CSF</strong>を重篤度に応じて投与</div></div>
+      <div class="step"><div class="step-n">5</div><div class="step-t">外科・131I療法が可能な<strong>専門医へ早期紹介</strong></div></div>
+    </div>
+    <div class="warn-box">
+      <strong>【患者・家族への必須指導事項】</strong><br>
+      発熱や咽頭痛があったら<strong>服薬をいったん止めて当日中に受診</strong>すること。電話確認だけではなく来院して採血が必要。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🫀 MPO-ANCA関連血管炎症候群（PTU特有）</div>
+    <div class="warn-box">
+      PTUはMMIより血管炎リスクが約<strong>40倍</strong>。小児でのPTU服用中MPO-ANCA陽性率 <strong>64%</strong>。陽性例の約<strong>20%</strong>が血管炎を発症。
+    </div>
+    <table>
+      <thead><tr><th>項目</th><th>詳細</th></tr></thead>
+      <tbody>
+        <tr><td class="tdl">発症時期</td><td class="tdl">1年以上の治療後が多い（遅発性）</td></tr>
+        <tr><td class="tdl">症状</td><td class="tdl">発熱・発疹・関節痛・筋肉痛・風邪症状・<strong>血尿</strong></td></tr>
+        <tr><td class="tdl">モニタリング</td><td class="tdl">PTU長期服用例：<strong>年1回MPO-ANCA</strong>＋<strong>尿検査</strong></td></tr>
+        <tr><td class="tdl">高値例の対応</td><td class="tdl">薬剤変更を積極的に考慮</td></tr>
+        <tr><td class="tdl">低値・無症状</td><td class="tdl">十分説明・同意のうえPTU継続も選択肢</td></tr>
+        <tr><td class="tdl">血管炎発症時</td><td class="tdl">PTU即中止 → 副腎皮質ホルモン大量・免疫抑制剤・血液透析（重篤度に応じ）</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="margin-top:8px">PTU誘発性MPO-ANCA関連血管炎は原発性ANCA関連血管炎より予後良好と報告されている。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🫁 PTU重症肝障害</div>
+    <div class="danger-box">
+      米国：17歳未満で特に多く報告（重篤例76例中23例が17歳未満）。国内でも2例の小児重症肝炎（うち1名死亡）あり。<br>
+      → PTU投与中は定期的な肝機能測定で早期発見が重要。異常あればPTUを即中止し無機ヨウ素剤へ変更。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤰 MMI embryopathy（思春期女子への注意）</div>
+    <div class="info-box">
+      妊娠<strong>第1三半期</strong>のMMIは新生児の先天異常（頭皮欠損・臍帯ヘルニア・気管食道瘻・食道閉鎖症・後鼻孔閉鎖症等）との関連が示唆される。<br>
+      → この時期のみ<strong>PTUへ変更</strong>（妊娠第1三半期はPTUを選択する唯一の適応）<br>
+      思春期女子には妊娠前に事前に情報提供しておくことが重要。
+    </div>
+  </div>
+
+</div><!-- /ae -->
+
+<!-- ============================================================ TAB 6: 中止・フォロー -->
+<div class="section" id="stop">
+
+  <div class="card">
+    <div class="card-title">✅ 抗甲状腺薬の中止基準</div>
+    <div class="warn-box">明確な中止基準は確立していない。以下の条件を参考に総合判断する。最少量持続期間が長いほど寛解率が高い傾向あり。</div>
+    <ul class="chk-list">
+      <li>維持量（MMI 5 mg/隔日〜5 mg/日程度）で甲状腺機能正常を維持できている</li>
+      <li>甲状腺腫大の改善</li>
+      <li>TRAb持続陰性</li>
+      <li>MMI隔日1錠（2.5 mg）での服用を6ヶ月以上継続しTSH含め機能正常維持</li>
+    </ul>
+    <div class="info-box" style="margin-top:8px">
+      TRAb陰性でも約30%は再発。TRAb陽性でも約30%は寛解する。TRAb単独では正確な予後予測はできない。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔮 寛解・再発リスク</div>
+    <div class="remit-g">
+      <div class="remit-ok">
+        <div class="remit-t" style="color:#166534">✅ 寛解しやすい因子</div>
+        <div class="remit-l">
+          • TRAb陰性化<br>
+          • 甲状腺腫縮小<br>
+          • 年長児（思春期）<br>
+          • 治療前FT4低値（軽症）<br>
+          • TRAb早期低下
+        </div>
+      </div>
+      <div class="remit-ng">
+        <div class="remit-t" style="color:#991b1b">⚠️ 再発しやすい因子</div>
+        <div class="remit-l">
+          • 低年齢<br>
+          • 大きな甲状腺腫<br>
+          • 治療前FT4高値<br>
+          • TRAb持続陽性<br>
+          • T3優位型（FT3/FT4↑）<br>
+          • 受験・進学などの環境変化
+        </div>
+      </div>
+    </div>
+    <div class="pills">
+      <span class="pill">小児寛解率：約30%（18〜65%と差あり）</span>
+      <span class="pill">再発は中止後1年以内が多い</span>
+    </div>
+    <div class="info-box">
+      中止後も再発の可能性は続く。寛解中も定期的な管理が必要。
+    </div>
+  </div>
+
+  <div class="fe-box">
+    <div class="fe-title">🎯 フォロー終了（経過観察オフ）の目安</div>
+    <div class="fe-item">
+      <span class="fe-ic">✓</span>
+      <span><strong>薬物療法中止後の安定確認：</strong>中止後少なくとも1〜2年間は3〜6ヶ月ごとにTSH・FT4・TRAbを確認。TRAb陰性化＋機能正常が続く場合は年1回程度に移行可。</span>
+    </div>
+    <div class="fe-item">
+      <span class="fe-ic">✓</span>
+      <span><strong>経過観察終了の条件：</strong>TRAb陰性化後2〜3年以上にわたり甲状腺機能正常、自覚症状なし → 十分に説明したうえで経過観察終了を検討。ただし再燃の可能性は残る。</span>
+    </div>
+    <div class="fe-item">
+      <span class="fe-ic">⚠️</span>
+      <span><strong>外科・131I後：</strong>永続的甲状腺機能低下→LT4補充継続のため<strong>終生フォロー必要</strong>（経過観察オフにならない）</span>
+    </div>
+    <div style="background:white;border-radius:8px;padding:10px 12px;margin-top:10px">
+      <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:7px">📢 家族への安全網メッセージ（治療終了後）</div>
+      <div style="font-size:11.5px;color:#374151;line-height:1.8">
+        「治療が終わっても、次のような症状が出たら早めに受診してください：<br>
+        ・<strong>脈が速い、どきどきする</strong>（頻脈・動悸）<br>
+        ・<strong>汗が多い、体重が減ってきた</strong><br>
+        ・<strong>落ち着きがない、疲れやすい、学校の成績が下がった</strong><br>
+        ・<strong>目が出てきた気がする、見え方が変わった</strong><br>
+        再発した場合も治療で対応できます。受験・進学など環境が変わる時期は特に注意し、症状が出たら遠慮なく受診してください。」
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 服薬アドヒアランスへの配慮</div>
+    <div class="info-box">
+      小児は病識が低く、症状が消えると怠薬しやすい。治療開始時に「<strong>なぜ長期間飲み続けるか</strong>」を患者・家族に丁寧に説明する。TRAb値を見せながら説明することで治療への参加意識を高められる。
+    </div>
+    <div class="g2">
+      <div class="gbox">
+        <div class="gbox-t">怠薬を疑う状況</div>
+        <div class="gbox-b">開始6ヶ月以上経過しても機能改善なし、または一旦改善後に悪化した場合</div>
+      </div>
+      <div class="gbox">
+        <div class="gbox-t">まれな鑑別</div>
+        <div class="gbox-b">甲状腺阻害型抗体の出現によりTRAbとTSHが急に高値となることがある（怠薬と混同しないよう注意）</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /stop -->
+
+<!-- ============================================================ TAB 7: 外科・131I・クリーゼ -->
+<div class="section" id="other">
+
+  <div class="card">
+    <div class="card-title">🔪 外科療法（甲状腺切除術）</div>
+    <div class="sec-t">適応</div>
+    <ol style="font-size:11.5px;line-height:1.85;margin-left:16px;color:#374151;margin-bottom:10px">
+      <li>甲状腺癌などの腫瘍合併</li>
+      <li>副作用で抗甲状腺薬使用不可 ＋ 131I希望しない</li>
+      <li>甲状腺腫が大きく（80g以上等）抗甲状腺薬で難治</li>
+      <li>服薬不規則で甲状腺機能が安定しない（アドヒアランス不良）</li>
+      <li>社会生活上、早期確実な寛解が必要な場合</li>
+      <li>5歳以下で確実な機能正常化が必要な場合</li>
+    </ol>
+    <table style="margin-bottom:8px">
+      <thead><tr><th>項目</th><th>詳細</th></tr></thead>
+      <tbody>
+        <tr><td class="tdl">推奨術式</td><td class="tdl"><strong>全摘術 or 準全摘術</strong>（残置量3g未満）<br><span style="font-size:11px;color:#475569">小児は活動性高く再発率高いため残置量を極力減らす</span></td></tr>
+        <tr><td class="tdl">術後</td><td class="tdl">甲状腺機能低下 → <strong>LT4補充療法が必要</strong>（終生継続）</td></tr>
+        <tr><td class="tdl">術前準備</td><td class="tdl">MMI＋無機ヨウ素剤＋β遮断薬で機能正常化（緊急時：デキサメサゾン追加）</td></tr>
+        <tr><td class="tdl">実施者</td><td class="tdl"><strong>熟練した甲状腺外科専門医が必須</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box">
+      <strong>小児の成績（15歳以下）：</strong>残置量4g未満での術後5年再発率 18%（成人の2倍超）。嗄声（反回神経麻痺）・低カルシウム血症（副甲状腺機能低下）の合併症も多い。熟練術者による永続性合併症：副甲状腺機能低下2%以下、反回神経麻痺1%以下。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">☢️ 131I内用療法</div>
+    <div class="g2" style="margin-bottom:8px">
+      <div class="danger-box" style="margin-bottom:0">
+        <div class="box-t">年齢制限</div>
+        <div style="font-size:11.5px;line-height:1.75">
+          <strong>18歳以下：「慎重投与」</strong><br>
+          <strong>5歳以下：「原則禁忌」</strong><br>
+          10歳未満で10 mCi超：禁忌
+        </div>
+      </div>
+      <div class="info-box" style="margin-bottom:0">
+        <div class="box-t">絶対的適応</div>
+        <div style="font-size:11.5px;line-height:1.75">
+          ①重大副作用があり手術を希望しない<br>
+          ②2剤とも副作用があり手術を希望しない
+        </div>
+      </div>
+    </div>
+    <table style="margin-bottom:8px">
+      <thead><tr><th>年齢層</th><th>131I投与量の目安</th></tr></thead>
+      <tbody>
+        <tr><td class="tdl">5〜10歳</td><td class="tdl">&lt;10 mCi（米国GL）</td></tr>
+        <tr><td class="tdl">10歳以上</td><td class="tdl">≥150 μCi/甲状腺重量(g)を目安<br><span style="font-size:11px;color:#475569">（一部文献：220〜275 μCi/g推奨）</span></td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box">
+      投与後6ヶ月以内はTRAb上昇・機能が著しく変動することがある。定期的な機能評価が必要。バセドウ眼症の悪化に留意。長期的にはほぼ全例が甲状腺機能低下→LT4補充が必要になる。
+    </div>
+    <div class="info-box">1回の内用療法で機能低下が起きる十分量を投与する（分割は避ける）。1年後に抗甲状腺薬中止できなければ再治療を検討。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 甲状腺クリーゼ（Thyroid storm）</div>
+
+    <div class="danger-box" style="margin-bottom:10px">
+      <div class="box-t">🚨 必須項目</div>
+      <div style="font-size:11.5px">甲状腺中毒症の存在：<strong>FT3 or FT4の少なくとも一方が高値</strong></div>
+    </div>
+
+    <div class="sec-t">症状（1〜5）</div>
+    <div class="storm-list" style="background:#fff1f2;border-radius:8px;padding:10px 12px;margin-bottom:10px">
+      <div class="storm-item"><div class="storm-n">1</div><div><strong>中枢神経症状</strong>（JCS≥1 or GCS≤14）<br><span style="color:#64748b;font-size:11px">不穏・せん妄・精神異常・傾眠・けいれん・昏睡</span></div></div>
+      <div class="storm-item"><div class="storm-n">2</div><div><strong>発熱（≥38℃）</strong></div></div>
+      <div class="storm-item"><div class="storm-n">3</div><div><strong>頻脈（≥130/分）</strong><br><span style="color:#64748b;font-size:11px">不整脈では心拍数で評価</span></div></div>
+      <div class="storm-item"><div class="storm-n">4</div><div><strong>心不全症状</strong>（NYHA4度 or Killip III度以上）<br><span style="color:#64748b;font-size:11px">肺水腫・肺野50%以上の湿性ラ音・心原性ショック等</span></div></div>
+      <div class="storm-item"><div class="storm-n">5</div><div><strong>消化器症状</strong><br><span style="color:#64748b;font-size:11px">嘔気・嘔吐・下痢・黄疸（T-Bil&gt;3 mg/dL）</span></div></div>
+    </div>
+
+    <div class="g2" style="margin-bottom:10px">
+      <div class="gbox" style="border-left:3px solid #dc2626">
+        <div class="gbox-t" style="color:#dc2626">確実例</div>
+        <div class="gbox-b">a. ①＋他症状1つ以上<br>または<br>b. ①以外の症状3つ以上</div>
+      </div>
+      <div class="gbox" style="border-left:3px solid #f97316">
+        <div class="gbox-t" style="color:#c2410c">疑い例</div>
+        <div class="gbox-b">a. ①以外の症状2つ<br>または<br>b. 必須項目不明確だが甲状腺疾患既往あり＋確実例条件を満たす</div>
+      </div>
+    </div>
+
+    <div class="sec-t">治療（ICU管理下）</div>
+    <div class="step-flow">
+      <div class="step">
+        <div class="step-n red">1</div>
+        <div class="step-t">
+          <strong>大量輸液：</strong>10〜20 mL/kg/時<br>
+          <strong>解熱：</strong>アセトアミノフェン 10 mg/kg/回（最大500 mg）×3〜4回/日<br>
+          <span style="font-size:11px;color:#dc2626">※NSAIDs/アスピリンは禁忌（甲状腺ホルモンを遊離させる）</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n red">2</div>
+        <div class="step-t">
+          <strong>抗甲状腺薬（大量）：</strong><br>
+          PTU: 15〜30 mg/kg（成人800〜1200 mg、分3〜4）<br>
+          または MMI: 1.0〜2.0 mg/kg（成人60〜80 mg、分3〜4）
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n red">3</div>
+        <div class="step-t">
+          <strong>無機ヨウ素：</strong>125〜250 mg、分3〜4（ヨウ化カリウム丸3〜6錠）<br>
+          <span style="font-size:11px;color:#64748b">※抗甲状腺薬投与の<strong>1時間後</strong>に投与（先に有機化を阻害してから）</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n red">4</div>
+        <div class="step-t">
+          <strong>β遮断薬：</strong>プロプラノロール静注 10 μg/kgで開始
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n red">5</div>
+        <div class="step-t">
+          <strong>副腎皮質ホルモン（T4→T3変換抑制）：</strong><br>
+          デキサメサゾン 0.2 mg/kg、またはハイドロコーチゾン 5 mg/kg ×3回/日
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n red">6</div>
+        <div class="step-t">
+          感染症が誘因 → <strong>抗菌薬</strong>を追加<br>
+          症状改善なし → <strong>血漿交換</strong>
+        </div>
+      </div>
+    </div>
+    <div class="warn-box" style="margin-top:8px">
+      <strong>小児救急での落とし穴：</strong>発熱を伴う中枢神経症状を急性脳症と誤診し、甲状腺クリーゼが見逃される可能性がある。甲状腺疾患既往・眼球突出・甲状腺腫の有無を必ず確認する。<br><br>
+      <strong>主な誘因：</strong>感染症 / 抗甲状腺薬の中断 / 外科手術 / 副腎皮質機能不全 / DKA / ヨード造影剤 / 強いストレス
+    </div>
+  </div>
+
+</div><!-- /other -->
+
+</div><!-- /content -->
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

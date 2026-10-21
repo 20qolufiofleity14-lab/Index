@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ソグルーヤ® IGF-I SDスコア 評価ツール</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="採血タイミングを補正して週平均IGF-I SDSを推定。年齢別基準値表つき">
+<meta name="mini-title" content="ソグルーヤ® IGF-I SDスコア">
+
+<style>
+:root{
+  --ink:#1c1630;
+  --ink-2:#4a4166;
+  --muted:#7c7594;
+  --line:#e4e0ee;
+  --bg:#f6f4fa;
+  --card:#ffffff;
+  --plum:#5b2a86;
+  --plum-2:#8e44ad;
+  --teal:#0f7b8a;
+  --ok:#1a7f5a;
+  --ok-bg:#e8f6f0;
+  --warn:#b06a00;
+  --warn-bg:#fdf3e2;
+  --alert:#b3261e;
+  --alert-bg:#fdeceb;
+  --info-bg:#eef0fa;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.65;
+  -webkit-text-size-adjust:100%;
+}
+header{
+  background:linear-gradient(135deg,#2d1b4e 0%,#5b2a86 55%,#8e44ad 100%);
+  color:#fff;
+  padding:26px 20px 22px;
+}
+.wrap{max-width:880px;margin:0 auto}
+header h1{margin:0 0 6px;font-size:1.32rem;letter-spacing:.01em}
+header p{margin:0;font-size:.84rem;opacity:.85}
+nav{
+  background:#fff;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:20;
+}
+nav .wrap{display:flex;gap:2px;overflow-x:auto}
+nav button{
+  flex:1 0 auto;background:none;border:none;padding:13px 14px;
+  font:inherit;font-size:.9rem;font-weight:600;color:var(--muted);
+  cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
+}
+nav button[aria-selected="true"]{color:var(--plum);border-bottom-color:var(--plum)}
+nav button:focus-visible,input:focus-visible,select:focus-visible,.seg button:focus-visible,.btn:focus-visible{
+  outline:3px solid #b39ddb;outline-offset:2px
+}
+main{padding:20px 16px 60px}
+section[role="tabpanel"][hidden]{display:none}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;margin-bottom:16px;
+}
+.card h2{
+  margin:0 0 14px;font-size:1rem;color:var(--plum);
+  padding-left:10px;border-left:4px solid var(--plum-2);
+}
+.card h3{margin:18px 0 8px;font-size:.92rem;color:var(--ink-2)}
+.card h3:first-child{margin-top:0}
+label{display:block;font-size:.82rem;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+input,select{
+  width:100%;padding:10px 11px;font:inherit;font-size:.95rem;
+  border:1px solid #cfc9de;border-radius:8px;background:#fff;color:var(--ink);
+}
+.grid{display:grid;gap:13px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr}}
+.seg{display:flex;gap:0;border:1px solid #cfc9de;border-radius:8px;overflow:hidden}
+.seg button{
+  flex:1;padding:9px 6px;background:#fff;border:none;font:inherit;font-size:.85rem;
+  font-weight:600;color:var(--muted);cursor:pointer;
+}
+.seg button+button{border-left:1px solid #cfc9de}
+.seg button[aria-pressed="true"]{background:var(--plum);color:#fff}
+.hint{font-size:.76rem;color:var(--muted);margin:6px 0 0}
+.verdict{border-radius:var(--radius);padding:16px;margin-bottom:14px;border:1px solid}
+.verdict .tag{font-size:.74rem;font-weight:700;letter-spacing:.06em;opacity:.8}
+.verdict .head{font-size:1.15rem;font-weight:700;margin:2px 0 6px}
+.verdict p{margin:0;font-size:.86rem}
+.v-ok{background:var(--ok-bg);border-color:#b8e0cf;color:var(--ok)}
+.v-warn{background:var(--warn-bg);border-color:#f0d6a8;color:var(--warn)}
+.v-alert{background:var(--alert-bg);border-color:#f3c4c1;color:var(--alert)}
+.v-info{background:var(--info-bg);border-color:#ccd2ee;color:#3a3f80}
+.verdict p{color:var(--ink-2)}
+.res{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-bottom:14px}
+@media(max-width:560px){.res{grid-template-columns:1fr}}
+.res div{background:#faf9fd;border:1px solid var(--line);border-radius:10px;padding:12px}
+.res .k{font-size:.75rem;color:var(--muted);font-weight:600}
+.res .v{font-size:1.35rem;font-weight:700;color:var(--plum);font-variant-numeric:tabular-nums}
+.res .s{font-size:.76rem;color:var(--muted)}
+.scale{margin:6px 0 4px;padding:22px 6px 6px;position:relative}
+.track{position:relative;height:16px;border-radius:8px;background:linear-gradient(90deg,#dfe7f5 0%,#e7f3ec 28%,#e7f3ec 72%,#fdece9 100%);border:1px solid var(--line)}
+.zone2{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--alert);opacity:.55}
+.zoneL{position:absolute;top:-6px;bottom:-6px;width:2px;background:#3a5ea8;opacity:.45}
+.pi{position:absolute;top:3px;height:10px;background:rgba(91,42,134,.28);border-radius:5px}
+.pt{position:absolute;top:-4px;width:3px;height:24px;background:var(--plum);border-radius:2px}
+.ticks{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:.8rem;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--line);padding:7px 6px;text-align:center}
+thead th{background:#f0ecf8;color:var(--ink-2);font-size:.76rem}
+tbody th{background:#f7f5fb;font-weight:600;color:var(--ink-2)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.note{background:#faf9fd;border-left:3px solid var(--plum-2);padding:11px 13px;border-radius:0 8px 8px 0;font-size:.84rem;margin:12px 0}
+.note strong{color:var(--plum)}
+.warnbox{background:var(--warn-bg);border-left:3px solid var(--warn);padding:11px 13px;border-radius:0 8px 8px 0;font-size:.84rem;margin:12px 0}
+ul{margin:8px 0;padding-left:1.2em;font-size:.85rem}
+li{margin-bottom:5px}
+.btn{
+  display:inline-block;padding:10px 18px;background:var(--plum);color:#fff;border:none;
+  border-radius:8px;font:inherit;font-size:.87rem;font-weight:600;cursor:pointer;
+}
+.btn.ghost{background:#fff;color:var(--plum);border:1px solid var(--plum)}
+.chart{background:#faf9fd;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.83rem;white-space:pre-wrap;font-family:ui-monospace,"SF Mono",Menlo,monospace;line-height:1.7}
+footer{font-size:.74rem;color:var(--muted);text-align:center;padding:0 16px 40px}
+@media(prefers-reduced-motion:no-preference){
+  .pt,.pi{transition:left .25s ease,width .25s ease}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>ソグルーヤ<sup>®</sup> IGF-I SDスコア 評価ツール</h1>
+    <p>採血タイミングを補正して、1週間平均 IGF-I<sub>avg</sub> SDスコアを推定します</p>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap" role="tablist">
+    <button role="tab" id="t1" aria-controls="p1" aria-selected="true">計算</button>
+    <button role="tab" id="t2" aria-controls="p2" aria-selected="false">基準値表</button>
+    <button role="tab" id="t3" aria-controls="p3" aria-selected="false">解説・注意</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ TAB 1 ============ -->
+<section role="tabpanel" id="p1" aria-labelledby="t1">
+
+  <div class="card">
+    <h2>1. 患者情報</h2>
+    <div class="grid g3">
+      <div>
+        <label for="sex">性別</label>
+        <select id="sex">
+          <option value="male">男性</option>
+          <option value="female">女性</option>
+        </select>
+      </div>
+      <div>
+        <label for="age">年齢（歳）</label>
+        <input type="number" id="age" min="0" max="18" step="0.1" placeholder="例：8.5">
+      </div>
+      <div>
+        <label for="dose">投与量（mg/kg/週・任意）</label>
+        <input type="number" id="dose" step="0.01" placeholder="0.16">
+      </div>
+    </div>
+    <p class="hint">年齢は小数入力可（0〜18歳）。基準値は整数年齢間を線形補間します。</p>
+  </div>
+
+  <div class="card">
+    <h2>2. IGF-I 実測値の入力</h2>
+    <div class="seg" id="segMode" style="margin-bottom:13px">
+      <button type="button" data-mode="sds" aria-pressed="true">SDスコアを入力</button>
+      <button type="button" data-mode="conc" aria-pressed="false">濃度から換算</button>
+    </div>
+
+    <div id="modeSDS">
+      <label for="sdsIn">IGF-I SDスコア（検査報告値）</label>
+      <input type="number" id="sdsIn" step="0.1" placeholder="例：1.1">
+      <p class="hint">検査会社が報告した SDスコアをそのまま入力してください（推奨）。</p>
+    </div>
+
+    <div id="modeConc" hidden>
+      <label for="concIn">IGF-I 濃度（ng/mL）</label>
+      <input type="number" id="concIn" step="1" placeholder="例：420">
+      <p class="hint">「第一」キットの中央値・+2SD（Isojima 2012）から近似計算します。低値側は誤差が大きくなります。</p>
+      <div id="concOut" class="note" hidden></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. 採血タイミング</h2>
+    <div class="seg" id="segTime" style="margin-bottom:13px">
+      <button type="button" data-tmode="dt" aria-pressed="true">日時から計算</button>
+      <button type="button" data-tmode="hr" aria-pressed="false">経過時間を直接入力</button>
+    </div>
+
+    <div id="modeDT" class="grid g2">
+      <div>
+        <label for="injDT">前回投与（注射）日時</label>
+        <input type="datetime-local" id="injDT">
+      </div>
+      <div>
+        <label for="drawDT">採血日時</label>
+        <input type="datetime-local" id="drawDT">
+      </div>
+    </div>
+
+    <div id="modeHR" hidden>
+      <label for="hrIn">投与後経過時間（時間）</label>
+      <input type="number" id="hrIn" step="1" min="0" max="200" placeholder="例：61">
+    </div>
+    <p class="hint" id="hrEcho"></p>
+  </div>
+
+  <div class="card">
+    <h2>4. 判定</h2>
+    <div id="result"><p class="hint">上の項目を入力すると、ここに推定 IGF-I<sub>avg</sub> SDスコアと判定が表示されます。</p></div>
+  </div>
+
+  <div class="card" id="cardChart" hidden>
+    <h2>5. カルテ記載用テキスト</h2>
+    <div class="chart" id="chartText"></div>
+    <p style="margin-top:12px">
+      <button class="btn" type="button" id="copyBtn">コピー</button>
+      <button class="btn ghost" type="button" id="clearBtn">入力をクリア</button>
+    </p>
+  </div>
+
+</section>
+
+<!-- ============ TAB 2 ============ -->
+<section role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+
+  <div class="card">
+    <h2>日本人小児 血清IGF-I濃度 基準範囲（ng/mL）</h2>
+    <p class="hint" style="margin-bottom:10px">Isojima T et al. Endocr J 2012;59(9):771-780／「第一」キットによる。中央値および +2SD。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>年齢</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr></thead>
+        <tbody id="tbl1"></tbody>
+      </table>
+    </div>
+    <div class="tblwrap" style="margin-top:14px">
+      <table>
+        <thead><tr><th>年齢</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th></tr></thead>
+        <tbody id="tbl2"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>投与後時間区分別の補正係数</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>投与後の時間</th><th>実測SDスコアからの調整</th><th>90%予測区間</th></tr></thead>
+        <tbody>
+          <tr><td>25〜48時間</td><td>SDスコア −0.8</td><td>±0.5</td></tr>
+          <tr><td>49〜72時間</td><td>SDスコア −1.0</td><td>±0.6</td></tr>
+          <tr><td>73〜96時間</td><td>SDスコア −0.5</td><td>±0.4</td></tr>
+          <tr><td>97〜120時間</td><td>調整不要 <sup>※</sup></td><td>なし</td></tr>
+          <tr><td>121〜144時間</td><td>SDスコア +0.7</td><td>±0.4</td></tr>
+          <tr><td>145〜168時間</td><td>SDスコア +1.1</td><td>±0.6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint" style="margin-top:10px">※ 97〜120時間の観測値に対する調整［+0.1（90%予測区間 ±0.3）］は不要と考えられる、とされています。</p>
+    <p class="hint">出典：Kildemoes RJ et al. J Endocr Soc 2023;7(11):bvad115／社内資料（小児GHD患者の母集団PK/PD解析、REAL 3・REAL 4試験でソグルーヤ® 0.16 mg/kg/週投与を受けた146例）。</p>
+  </div>
+
+</section>
+
+<!-- ============ TAB 3 ============ -->
+<section role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+
+  <div class="card">
+    <h2>なぜ補正が必要か</h2>
+    <p style="font-size:.87rem;margin:0">
+      ソグルーヤ<sup>®</sup>（ソマプシタン）は週1回投与のため、血清IGF-Iは投与後2日目にピークとなり、7日目（次回投与直前）にかけて底値まで低下します。
+      連日投与のソマトロピンと違い、<strong>同じ患者でも採血した曜日・時刻によって実測SDスコアが 2SD近く変動</strong>します。
+      そこで、投与後の経過時間に応じた補正を加えて「1週間の平均 IGF-I SDスコア（IGF-I<sub>avg</sub>）」を推定し、これをモニタリング指標とします。
+    </p>
+    <div class="note">
+      <strong>採血の最適タイミング</strong><br>
+      投与後 <strong>97〜120時間（約4〜5日後）</strong>に採血すると補正が不要で、予測区間もつきません。
+      定期モニタリングはこの時間帯に固定すると、経時比較がもっとも安定します。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>判定の考え方</h2>
+    <ul>
+      <li><strong>添付文書 8.9</strong>：本剤の投与中は、血清IGF-I濃度が基準範囲上限を超えないよう定期的に検査を実施し、必要な場合は投与量の減量を考慮すること。</li>
+      <li>「基準範囲上限」は本資料の基準値表では <strong>+2SD</strong> に相当します。本ツールでは推定 IGF-I<sub>avg</sub> SDスコアが +2 を超えた場合に減量検討として表示します。</li>
+      <li>点推定が +2以下でも <strong>90%予測区間の上限が +2を超える</strong>場合は、実際には上限を超えている可能性が残ります。次回は 97〜120時間の窓で再検すると判断しやすくなります。</li>
+      <li>推定値が <strong>−2未満</strong>のときは、アドヒアランス、注射手技・注射部位、保管状況、体重変化に対する用量の追随、そして診断自体の再確認を検討します。</li>
+      <li>本ツールの判定は添付文書上の上限（+2SD）を基準にしたものです。目標域を「0〜+2SD」等に設定する運用は施設・症例ごとの判断になります。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>使用上の注意・限界</h2>
+    <div class="warnbox">
+      本ツールは臨床判断の補助であり、診療上の決定を代替するものではありません。数値は必ず実際の検査報告書と照合してください。
+    </div>
+    <ul>
+      <li><strong>キット依存</strong>：基準値は「第一」キットによる値です。他のアッセイでは基準範囲が異なるため、検査会社が報告するSDスコアの使用を推奨します。</li>
+      <li><strong>濃度→SDスコアの換算は近似</strong>です。中央値と+2SDから SD=(+2SD−中央値)/2 として線形算出しているため、分布が右に歪む低年齢・低値側では誤差が大きくなります（低値の絶対値が小さめに出る傾向）。</li>
+      <li><strong>投与後24時間以内</strong>は補正式が設定されていないため、推定できません。</li>
+      <li><strong>168時間（7日）を超える</strong>場合は、投与間隔の逸脱・投与忘れの可能性を確認してください（添付文書 7.2：投与を忘れた場合は、あらかじめ定めた投与日から3日以内であれば気づいた時点で投与し、その後は次回の予定日に投与する）。</li>
+      <li>補正係数は 0.16 mg/kg/週投与例の母集団解析に基づきます。</li>
+      <li>年齢18歳超のデータは基準値表にありません。18歳の値で近似表示します。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>出典</h2>
+    <ul style="font-size:.8rem">
+      <li>Isojima T et al. Endocr J 2012;59(9):771-780.</li>
+      <li>Kildemoes RJ et al. J Endocr Soc 2023;7(11):bvad115.</li>
+      <li>ソグルーヤ<sup>®</sup>皮下注 電子添文（2023年6月改訂 第3版）</li>
+      <li>ノボ ノルディスク ファーマ株式会社 資材 JP24SOM00150（2025年1月作成）</li>
+    </ul>
+    <p class="hint">※ 上記文献には、ノボ ノルディスク社の研究助成金を受けた著者が含まれる／同社のスポンサーシップのもと実施された旨が記載されています。</p>
+  </div>
+
+</section>
+</main>
+
+<footer>院内参考用・オフライン単一ファイルツール／最終判断は主治医が行ってください</footer>
+
+<script>
+"use strict";
+
+const REF = {
+  male:{
+    med:[67,69,74,82,93,108,124,142,165,195,233,272,301,315,315,310,307,306,301],
+    sd2:[149,148,154,164,176,193,215,247,292,350,423,499,557,579,570,552,543,540,526]
+  },
+  female:{
+    med:[69,85,99,108,116,126,147,183,224,264,302,333,348,349,344,341,340,335,326],
+    sd2:[154,186,213,227,238,252,287,357,438,517,588,638,654,643,625,614,611,599,574]
+  }
+};
+
+const BANDS=[
+  {lo:24,hi:48,adj:-0.8,pi:0.5,label:"25〜48時間"},
+  {lo:48,hi:72,adj:-1.0,pi:0.6,label:"49〜72時間"},
+  {lo:72,hi:96,adj:-0.5,pi:0.4,label:"73〜96時間"},
+  {lo:96,hi:120,adj:0,  pi:0,  label:"97〜120時間",flat:true},
+  {lo:120,hi:144,adj:0.7,pi:0.4,label:"121〜144時間"},
+  {lo:144,hi:168,adj:1.1,pi:0.6,label:"145〜168時間"}
+];
+
+const $ = id => document.getElementById(id);
+let mode="sds", tmode="dt";
+
+/* ---- tabs ---- */
+document.querySelectorAll('[role="tab"]').forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll('[role="tab"]').forEach(t=>{
+      const on = t===tab;
+      t.setAttribute("aria-selected",on);
+      $(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    window.scrollTo({top:0});
+  });
+});
+
+/* ---- segmented controls ---- */
+$("segMode").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  mode=b.dataset.mode;
+  [...$("segMode").children].forEach(x=>x.setAttribute("aria-pressed",x===b));
+  $("modeSDS").hidden = mode!=="sds";
+  $("modeConc").hidden = mode!=="conc";
+  calc();
+});
+$("segTime").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  tmode=b.dataset.tmode;
+  [...$("segTime").children].forEach(x=>x.setAttribute("aria-pressed",x===b));
+  $("modeDT").hidden = tmode!=="dt";
+  $("modeHR").hidden = tmode!=="hr";
+  calc();
+});
+
+/* ---- reference lookup with linear interpolation ---- */
+function refAt(sex,age){
+  if(!isFinite(age)) return null;
+  const a=Math.min(18,Math.max(0,age));
+  const i=Math.min(17,Math.floor(a)), f=a-i;
+  const R=REF[sex];
+  const med=R.med[i]+(R.med[i+1]-R.med[i])*f;
+  const sd2=R.sd2[i]+(R.sd2[i+1]-R.sd2[i])*f;
+  return {med, sd2, sd:(sd2-med)/2};
+}
+
+function hours(){
+  if(tmode==="hr"){
+    const v=parseFloat($("hrIn").value);
+    return isFinite(v)?v:null;
+  }
+  const a=$("injDT").value,b=$("drawDT").value;
+  if(!a||!b) return null;
+  const d=(new Date(b)-new Date(a))/3600000;
+  return isFinite(d)?d:null;
+}
+
+function bandFor(h){
+  if(h===null) return null;
+  for(const b of BANDS){ if(h>b.lo && h<=b.hi) return b; }
+  return null;
+}
+
+function fmt(n,d=1){ return (n>=0?"+":"")+n.toFixed(d); }
+
+function calc(){
+  const sex=$("sex").value;
+  const age=parseFloat($("age").value);
+  const R=refAt(sex,age);
+
+  /* --- observed SDS --- */
+  let sds=null, sdsSrc="";
+  if(mode==="sds"){
+    const v=parseFloat($("sdsIn").value);
+    if(isFinite(v)){ sds=v; sdsSrc="検査報告値"; }
+  }else{
+    const c=parseFloat($("concIn").value);
+    if(isFinite(c) && R){
+      sds=(c-R.med)/R.sd;
+      sdsSrc="濃度からの近似換算";
+      $("concOut").hidden=false;
+      $("concOut").innerHTML =
+        "<strong>換算結果：SDスコア "+fmt(sds,2)+"</strong><br>"+
+        "この年齢・性別の中央値 "+R.med.toFixed(0)+" ng/mL ／ +2SD "+R.sd2.toFixed(0)+" ng/mL"+
+        (sds<0 ? "<br><span style='color:#b06a00'>低値側は近似誤差が大きくなります。報告値のSDスコアがあればそちらを使用してください。</span>" : "");
+    }else{
+      $("concOut").hidden=true;
+    }
+  }
+
+  const h=hours();
+  const b=bandFor(h);
+
+  /* --- echo elapsed hours --- */
+  $("hrEcho").textContent = (h===null) ? "" :
+    "投与後 "+h.toFixed(1)+" 時間（約"+(h/24).toFixed(1)+"日）"+(b?" → "+b.label+"の区分":"");
+
+  const out=$("result");
+  const cc=$("cardChart");
+
+  if(sds===null || h===null || !isFinite(age)){
+    out.innerHTML='<p class="hint">性別・年齢、IGF-I値、採血タイミングをすべて入力してください。</p>';
+    cc.hidden=true; return;
+  }
+
+  if(h<=0){
+    out.innerHTML='<div class="verdict v-info"><div class="head">時間が不正です</div><p>採血日時が投与日時より前になっています。入力を確認してください。</p></div>';
+    cc.hidden=true; return;
+  }
+  if(h<=24){
+    out.innerHTML='<div class="verdict v-info"><div class="tag">算出不可</div><div class="head">投与後24時間以内</div>'+
+      '<p>この時間帯の補正式は設定されていません。IGF-Iは投与後2日目に頂値となるため、この時点の実測値は週平均より高く出ます。'+
+      '評価には投与後 97〜120時間（4〜5日後）での再検をご検討ください。</p></div>';
+    cc.hidden=true; return;
+  }
+  if(h>168){
+    out.innerHTML='<div class="verdict v-warn"><div class="tag">算出不可</div><div class="head">投与後168時間（7日）超</div>'+
+      '<p>投与間隔が7日を超えています。投与忘れ・投与日のずれがないかご確認ください。'+
+      '週1回の投与サイクルが保たれた状態で採血し直すと評価できます。</p></div>';
+    cc.hidden=true; return;
+  }
+
+  const avg = sds + b.adj;
+  const lo = avg - b.pi, hi = avg + b.pi;
+  const obsCap = 2 - b.adj;   /* 実測SDSがこの値以下なら avg ≤ +2 */
+
+  /* --- verdict --- */
+  let cls,tag,head,msg;
+  if(avg>2){
+    cls="v-alert"; tag="基準範囲上限 超過"; head="減量を検討";
+    msg="推定 IGF-I<sub>avg</sub> SDスコアが +2（基準範囲上限）を超えています。添付文書 8.9 に従い、投与量の減量を考慮してください。";
+  }else if(avg<-2){
+    cls="v-info"; tag="低値"; head="用量・アドヒアランスの確認";
+    msg="推定 IGF-I<sub>avg</sub> SDスコアが −2 を下回っています。注射手技・注射部位・保管、投与忘れ、体重増加に対する用量の追随、診断の妥当性をご確認ください。";
+  }else if(hi>2){
+    cls="v-warn"; tag="上限に接近"; head="経過に注意";
+    msg="点推定は基準範囲内ですが、90%予測区間の上限が +2 を超えています。次回は投与後 97〜120時間（補正不要の窓）で採血すると、より確実に判断できます。";
+  }else{
+    cls="v-ok"; tag="基準範囲内"; head="現行用量で経過観察";
+    msg="推定 IGF-I<sub>avg</sub> SDスコアは基準範囲内です。予測区間の上限も +2 を超えていません。";
+  }
+
+  const pos = x => Math.min(100,Math.max(0,(x+3)/7*100));  /* scale −3 … +4 */
+
+  out.innerHTML =
+  '<div class="verdict '+cls+'"><div class="tag">'+tag+'</div><div class="head">'+head+'</div><p>'+msg+'</p></div>'+
+  '<div class="res">'+
+    '<div><div class="k">推定 IGF-I<sub>avg</sub> SDスコア</div><div class="v">'+fmt(avg,1)+'</div>'+
+      '<div class="s">'+(b.flat?"補正不要（調整なし）":"90%予測区間 "+fmt(lo,1)+" 〜 "+fmt(hi,1))+'</div></div>'+
+    '<div><div class="k">実測 SDスコア</div><div class="v">'+fmt(sds,1)+'</div>'+
+      '<div class="s">'+sdsSrc+' ／ '+b.label+' → 調整 '+(b.flat?"なし":fmt(b.adj,1))+'</div></div>'+
+    '<div><div class="k">この年齢・性別の基準値</div><div class="v" style="font-size:1.05rem">'+R.med.toFixed(0)+' / '+R.sd2.toFixed(0)+'</div>'+
+      '<div class="s">中央値 / +2SD（ng/mL・「第一」キット）</div></div>'+
+    '<div><div class="k">このタイミングでの実測SDSの目安上限</div><div class="v" style="font-size:1.05rem">'+fmt(obsCap,1)+'</div>'+
+      '<div class="s">実測がこれ以下なら推定平均は +2 以下</div></div>'+
+  '</div>'+
+  '<div class="scale"><div class="track">'+
+    '<div class="zoneL" style="left:'+pos(-2)+'%"></div>'+
+    '<div class="zone2" style="left:'+pos(2)+'%"></div>'+
+    (b.flat?'':'<div class="pi" style="left:'+pos(lo)+'%;width:'+(pos(hi)-pos(lo))+'%"></div>')+
+    '<div class="pt" style="left:'+pos(avg)+'%"></div>'+
+  '</div><div class="ticks"><span>−3</span><span>−2</span><span>−1</span><span>0</span><span>+1</span><span>+2</span><span>+3</span><span>+4</span></div></div>'+
+  '<p class="hint">縦線：左＝−2SD、右＝+2SD（基準範囲上限）。太い紫の線が推定平均、淡い帯が90%予測区間。</p>';
+
+  /* --- chart text --- */
+  const dose=$("dose").value.trim();
+  const lines=[
+    "【ソグルーヤ® IGF-I モニタリング】",
+    (sex==="male"?"男児":"女児")+" "+age+"歳"+(dose?"／"+dose+" mg/kg/週":""),
+    "採血：前回投与から "+h.toFixed(0)+" 時間後（"+b.label+"）",
+    "IGF-I SDスコア（実測）："+fmt(sds,1)+(mode==="conc"?"（"+$("concIn").value+" ng/mL より換算）":""),
+    "推定 IGF-Iavg SDスコア："+fmt(avg,1)+(b.flat?"（補正不要）":"（90%予測区間 "+fmt(lo,1)+"〜"+fmt(hi,1)+"）"),
+    "同年齢・性別 基準：中央値 "+R.med.toFixed(0)+" ng/mL、+2SD "+R.sd2.toFixed(0)+" ng/mL",
+    "評価："+head+"（"+tag+"）"
+  ];
+  $("chartText").textContent=lines.join("\n");
+  cc.hidden=false;
+}
+
+/* ---- events ---- */
+["sex","age","dose","sdsIn","concIn","hrIn","injDT","drawDT"].forEach(id=>{
+  $(id).addEventListener("input",calc);
+  $(id).addEventListener("change",calc);
+});
+
+$("copyBtn").addEventListener("click",async e=>{
+  const t=$("chartText").textContent;
+  try{ await navigator.clipboard.writeText(t); e.target.textContent="コピーしました"; }
+  catch{ 
+    const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); ta.remove(); e.target.textContent="コピーしました";
+  }
+  setTimeout(()=>{e.target.textContent="コピー";},1600);
+});
+
+$("clearBtn").addEventListener("click",()=>{
+  ["age","dose","sdsIn","concIn","hrIn","injDT","drawDT"].forEach(id=>$(id).value="");
+  $("concOut").hidden=true;
+  calc();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ---- build reference tables ---- */
+(function(){
+  const rows=[
+    ["male","sd2","男性","+2SD"],["male","med","男性","中央値"],
+    ["female","sd2","女性","+2SD"],["female","med","女性","中央値"]
+  ];
+  const t1=$("tbl1"), t2=$("tbl2");
+  rows.forEach(([sex,key,jp,lab])=>{
+    const mk=(from,to)=>{
+      const tr=document.createElement("tr");
+      const th=document.createElement("th"); th.textContent=jp+" "+lab; tr.appendChild(th);
+      for(let i=from;i<=to;i++){
+        const td=document.createElement("td"); td.textContent=REF[sex][key][i];
+        if(key==="sd2") td.style.background="#f0ecf8";
+        tr.appendChild(td);
+      }
+      return tr;
+    };
+    t1.appendChild(mk(0,9));
+    t2.appendChild(mk(10,18));
+  });
+})();
+
+calc();
+</script>
+</body>
+</html>

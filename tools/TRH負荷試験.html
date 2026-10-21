@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRH負荷試験 判定チャート</title>
+<meta name="mini-category" content="clinical">
+<meta name="mini-desc" content="TRH負荷試験の判定チャート">
+
+<style>
+  :root{
+    --ink:#12333a; --sub:#4d6a70; --line:#d9e4e5; --bg:#f2f6f6; --card:#ffffff;
+    --teal:#0f5c63; --teal-d:#0a4046; --teal-l:#e3f0f0;
+    /* pattern colors */
+    --normal:#2f9e5b; --normal-l:#e6f5ec;
+    --low:#2f6fb0;    --low-l:#e6eff8;      /* 下垂体性 */
+    --high:#c94a3b;   --high-l:#fbe9e6;     /* 原発性 */
+    --hypo:#7d54b8;   --hypo-l:#efe8f8;     /* 視床下部性(遅延/遷延) */
+    --amber:#b5741a;  --amber-l:#faf0dd;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+    line-height:1.7; -webkit-text-size-adjust:100%;
+  }
+  header{
+    background:linear-gradient(135deg,var(--teal) 0%,var(--teal-d) 100%);
+    color:#fff; padding:22px 20px 18px;
+  }
+  header .eyebrow{font-size:12px; letter-spacing:.18em; opacity:.8; margin-bottom:4px}
+  header h1{margin:0; font-size:24px; font-weight:800; letter-spacing:.02em}
+  header .src{font-size:12px; opacity:.82; margin-top:6px}
+  .wrap{max-width:860px; margin:0 auto; padding:0 14px 60px}
+  /* tabs */
+  nav.tabs{
+    position:sticky; top:0; z-index:20; background:var(--bg);
+    display:flex; gap:4px; padding:10px 0 8px; overflow-x:auto; border-bottom:1px solid var(--line);
+  }
+  nav.tabs button{
+    flex:0 0 auto; border:1px solid var(--line); background:var(--card); color:var(--sub);
+    padding:8px 14px; border-radius:999px; font-size:13.5px; font-weight:700; cursor:pointer;
+    white-space:nowrap; transition:.15s;
+  }
+  nav.tabs button.active{background:var(--teal); color:#fff; border-color:var(--teal)}
+  section.tab{display:none; padding-top:18px}
+  section.tab.active{display:block; animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:16px 16px 14px; margin-bottom:14px;
+  }
+  .card h2{font-size:16px; margin:0 0 10px; display:flex; align-items:center; gap:8px}
+  .card h3{font-size:14px; margin:14px 0 6px; color:var(--teal-d)}
+  .tag{font-size:11px; font-weight:800; padding:2px 8px; border-radius:6px; color:#fff}
+  small.note{color:var(--sub); font-size:12.5px}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  @media(max-width:620px){.grid2{grid-template-columns:1fr}}
+
+  /* interpreter */
+  .inputs{display:grid; grid-template-columns:repeat(6,1fr); gap:8px}
+  @media(max-width:620px){.inputs{grid-template-columns:repeat(3,1fr)}}
+  .inp{display:flex; flex-direction:column; gap:3px}
+  .inp label{font-size:11.5px; color:var(--sub); font-weight:700; text-align:center}
+  .inp input{
+    width:100%; padding:9px 4px; border:1.5px solid var(--line); border-radius:9px;
+    text-align:center; font-size:15px; font-weight:700; color:var(--ink); background:#fbfdfd;
+  }
+  .inp input:focus{outline:none; border-color:var(--teal)}
+  .btnrow{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap}
+  button.act{
+    border:none; background:var(--teal); color:#fff; font-weight:800; font-size:14px;
+    padding:10px 20px; border-radius:10px; cursor:pointer;
+  }
+  button.ghost{background:#fff; color:var(--teal); border:1.5px solid var(--teal)}
+  .ex{font-size:12px; color:var(--sub); cursor:pointer; text-decoration:underline dotted; background:none;border:none;padding:0}
+
+  #result{display:none}
+  .verdict{font-size:18px; font-weight:800; margin:2px 0 4px}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin:8px 0}
+  .chip{font-size:12.5px; font-weight:800; padding:4px 10px; border-radius:999px; border:1.5px solid}
+  .calc{font-size:12.5px; color:var(--sub); background:var(--bg); border-radius:10px; padding:10px 12px; margin-top:10px}
+  .calc b{color:var(--ink)}
+  .dx{margin-top:10px; padding:11px 13px; border-radius:10px; font-size:13.5px}
+  .warnbox{background:var(--amber-l); border:1px solid #ecd9b0; color:#6b4a12; border-radius:10px; padding:10px 12px; font-size:12.5px; margin-top:10px}
+
+  /* svg chart holders */
+  .chart{width:100%; height:auto; display:block}
+  .patterncard{border-left:5px solid}
+  .legend{font-size:11.5px; color:var(--sub); margin-top:6px; display:flex; gap:12px; flex-wrap:wrap}
+  .legend span{display:inline-flex; align-items:center; gap:5px}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  table{width:100%; border-collapse:collapse; font-size:13px}
+  th,td{border:1px solid var(--line); padding:7px 9px; text-align:left}
+  th{background:var(--teal-l); color:var(--teal-d); font-weight:800}
+  td.r,th.r{text-align:right}
+  ul.tight{margin:6px 0; padding-left:20px}
+  ul.tight li{margin:3px 0}
+  .keybox{background:var(--teal-l); border-radius:10px; padding:12px 14px; font-size:13.5px}
+  .vs{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media(max-width:620px){.vs{grid-template-columns:1fr}}
+  .pill{font-size:11px;font-weight:800;padding:2px 9px;border-radius:6px;background:var(--hypo);color:#fff;display:inline-block}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">甲状腺系機能検査 ・ 小児内分泌クイックリファレンス</div>
+  <h1>TRH負荷試験 判定チャート</h1>
+  <div class="src">プロチレリン 5〜7 µg/kg（最大500µg）静注／採血：前・15・30・60・90・120分（TSH, 必要時PRL）</div>
+</header>
+
+<div class="wrap">
+<nav class="tabs" id="tabs">
+  <button class="active" data-t="judge">クイック判定</button>
+  <button data-t="pattern">4つの反応パターン</button>
+  <button data-t="vs">遅延 vs 遷延</button>
+  <button data-t="ref">基準値</button>
+  <button data-t="method">適応・方法</button>
+  <button data-t="ae">副作用・薬剤</button>
+</nav>
+
+<!-- ============ 判定 ============ -->
+<section class="tab active" id="judge">
+  <div class="card">
+    <h2>① 3軸で読むのがコツ</h2>
+    <div class="keybox">
+      GHは「頂値 ≧ 6 で正常」の<b>一点勝負</b>。TRHは曲線の<b>形</b>を読みます。<br>
+      <b>① 頂値の高さ</b>（&lt;5 / 正常 / &gt;30）　<b>② 頂点のタイミング</b>（15〜30分 / 60分以降）　<b>③ 下がり方</b>（120分で前値近くに戻る / 下がらない）
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>② TSH値を入力（µIU/mL）</h2>
+    <div class="inputs">
+      <div class="inp"><label>前値</label><input id="t0" type="number" inputmode="decimal" step="0.1"></div>
+      <div class="inp"><label>15分</label><input id="t15" type="number" inputmode="decimal" step="0.1"></div>
+      <div class="inp"><label>30分</label><input id="t30" type="number" inputmode="decimal" step="0.1"></div>
+      <div class="inp"><label>60分</label><input id="t60" type="number" inputmode="decimal" step="0.1"></div>
+      <div class="inp"><label>90分</label><input id="t90" type="number" inputmode="decimal" step="0.1"></div>
+      <div class="inp"><label>120分</label><input id="t120" type="number" inputmode="decimal" step="0.1"></div>
+    </div>
+    <div class="btnrow">
+      <button class="act" onclick="judge()">判定する</button>
+      <button class="act ghost" onclick="clearAll()">クリア</button>
+    </div>
+    <div class="btnrow" style="margin-top:8px;gap:14px">
+      <button class="ex" onclick="loadEx('normal')">例：正常</button>
+      <button class="ex" onclick="loadEx('low')">例：低反応</button>
+      <button class="ex" onclick="loadEx('high')">例：過大反応</button>
+      <button class="ex" onclick="loadEx('delay')">例：遅延反応</button>
+      <button class="ex" onclick="loadEx('sustain')">例：遷延反応</button>
+    </div>
+  </div>
+
+  <div class="card" id="result">
+    <h2>判定結果</h2>
+    <div class="verdict" id="verdict"></div>
+    <div class="chips" id="chips"></div>
+    <svg class="chart" id="userChart" viewBox="0 0 340 210" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="calc" id="calc"></div>
+    <div id="dxbox"></div>
+    <div class="warnbox">
+      正常反応でも中枢性甲状腺機能低下症は否定できません（中枢性54例中 <b>23.3%</b> が正常反応との報告）。診断は経時的な甲状腺機能評価などを併用して総合的に。
+    </div>
+  </div>
+</section>
+
+<!-- ============ パターン ============ -->
+<section class="tab" id="pattern">
+  <div class="card">
+    <h2>4つの反応パターンと病態</h2>
+    <small class="note">赤破線＝低反応の境界(5) / 過大反応の境界(30)、灰破線＝頂点タイミングの境界(30分・60分)。各パターンの"形"を目で覚えるのが近道です。</small>
+  </div>
+  <div id="patternCards"></div>
+</section>
+
+<!-- ============ 遅延 vs 遷延 ============ -->
+<section class="tab" id="vs">
+  <div class="card">
+    <h2>いちばん混同しやすい2つ <span class="pill">両方とも視床下部性で特徴的</span></h2>
+    <div class="vs">
+      <div class="card patterncard" style="border-color:var(--hypo);margin:0">
+        <h3 style="color:var(--hypo)">遅延反応 ＝ 頂点が「遅い」</h3>
+        <svg class="chart" id="vsDelay" viewBox="0 0 340 200"></svg>
+        <ul class="tight">
+          <li><b>着目点：頂点のタイミング</b></li>
+          <li>定義：TSH頂値が<b>60分以降</b>に出現</li>
+          <li>正常は15〜30分で頂点 → それより後ろにずれる</li>
+        </ul>
+      </div>
+      <div class="card patterncard" style="border-color:var(--hypo);margin:0">
+        <h3 style="color:var(--hypo)">遷延反応 ＝ 「下がらない」</h3>
+        <svg class="chart" id="vsSustain" viewBox="0 0 340 200"></svg>
+        <ul class="tight">
+          <li><b>着目点：頂点後の下降</b></li>
+          <li>定義：頂値到達から<b>60分後でも頂値の40%以下に低下しない</b></li>
+          <li>頂点は正常な時刻でもよい。その後が下がらず高止まり</li>
+        </ul>
+      </div>
+    </div>
+    <div class="keybox" style="margin-top:12px">
+      <b>覚え方：</b>「<b>遅</b>延」＝<b>おそい</b>（横軸・タイミングの話）／「<b>遷</b>延」＝<b>ながびく</b>（下降の話）。<br>
+      両方 <b>視床下部性</b>甲状腺機能低下症で特徴的。実臨床では合併することも多い。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>中枢性の内訳（低反応 vs 遅延・遷延）</h2>
+    <table>
+      <tr><th>反応</th><th>示唆する局在</th></tr>
+      <tr><td>低反応（頂値&lt;5）</td><td>下垂体性 寄り</td></tr>
+      <tr><td>遅延反応・遷延反応</td><td>視床下部性</td></tr>
+    </table>
+    <small class="note">※ 中枢性は視床下部性／下垂体性に分類されるが、両者の厳密な区別は困難。低反応・遅延・遷延いずれかを認めたら中枢性甲状腺機能低下症を考慮する。</small>
+  </div>
+</section>
+
+<!-- ============ 基準値 ============ -->
+<section class="tab" id="ref">
+  <div class="card">
+    <h2>正常反応の目安</h2>
+    <ul class="tight">
+      <li>TSHは投与後 <b>15〜30分で頂値</b>、<b>120分後にはほぼ前値</b>まで低下</li>
+      <li>1990年代以降は高感度測定系。第1世代の報告とは区別して解釈する</li>
+    </ul>
+    <h3>報告されている分布域</h3>
+    <table>
+      <tr><th>測定法（対象）</th><th class="r">前値</th><th class="r">頂値</th><th class="r">120分</th></tr>
+      <tr><td>IRMA（低身長児100例）</td><td class="r">0.2〜5.4</td><td class="r">3.6〜26.8<br><small>(15分)</small></td><td class="r">—</td></tr>
+      <tr><td>ECLIA（正常低身長児39例）<br><small>5〜95%ile</small></td><td class="r">0.8〜4.2</td><td class="r">5.3〜26.1<br><small>(全例30分以内)</small></td><td class="r">2.8〜10.8</td></tr>
+    </table>
+    <div class="calc" style="margin-top:10px">
+      <b>ΔTSH（頂値−基礎値）</b>：正常小児30人（平均9.9±3.0歳）で 10〜90%ile ＝ <b>4.5〜17.8 µIU/mL</b>
+    </div>
+    <small class="note">単位はすべて µIU/mL。施設の測定系・基準を優先してください。</small>
+  </div>
+</section>
+
+<!-- ============ 適応・方法 ============ -->
+<section class="tab" id="method">
+  <div class="card">
+    <h2>適応疾患</h2>
+    <ul class="tight">
+      <li><b>中枢性甲状腺機能低下症</b>：FT4正常下限の軽症例の診断に有用。コントロール不良バセドウ病母体児の一過性 vs 要治療の鑑別にも</li>
+      <li><b>原発性甲状腺機能低下症</b>：新生児マススクリーニング精査で、TSH軽度上昇＋FT4正常〜正常下限例の鑑別。病型診断にも（欧米ガイドラインには記載なし）</li>
+      <li><b>潜在性甲状腺機能低下症</b>：基礎TSH正常でも過大反応 → 診断に有用。産科の不妊原因としても</li>
+      <li><b>TSH産生下垂体腺腫と甲状腺ホルモン不応症の鑑別</b>（小児では非常にまれ、主に内科領域）</li>
+      <li>その他：<b>PRL分泌能</b>評価、成長ホルモン分泌亢進症でのGH奇異的上昇の確認</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>方法</h2>
+    <ul class="tight">
+      <li>製剤：プロチレリン〔TRH注0.5mg「タナベ」〕／プロチレリン酒石酸塩水和物〔ヒルトニン0.5mg注射液〕</li>
+      <li>負荷量：<b>5〜7 µg/kg（最大500µg）</b>を生食5〜10mLに混ぜてゆっくり静注</li>
+      <li>採血：TSH＝前・15・30・60・90・120分。必要時PRLも同タイミング</li>
+      <li>食事の影響は受けないが、他の下垂体前葉負荷試験と同時実施が多く<b>早朝空腹時</b>が一般的</li>
+      <li>前値と120分後にFT3・FT4を測定し、TSHに対する甲状腺ホルモン合成能をみる場合あり</li>
+    </ul>
+    <small class="note">高感度TSH測定法の登場後、適応疾患は減少傾向。副作用頻度も高く検査の必要性を熟慮する。</small>
+  </div>
+</section>
+
+<!-- ============ 副作用 ============ -->
+<section class="tab" id="ae">
+  <div class="card">
+    <h2>副作用・注意</h2>
+    <ul class="tight">
+      <li><b>重大（0.1%未満）</b>：下垂体腺腫患者で頭痛・視力視野障害を伴う下垂体卒中。酒石酸塩水和物では一過性の血圧低下・意識喪失などショック様症状、けいれん、血小板減少</li>
+      <li><b>高頻度</b>：悪心・嘔吐・心窩部不快感（数分で自然消失が多い）。尿意・陰部違和感・熱感も多い</li>
+      <li>本人・保護者に<b>事前に十分説明</b>。食直後の検査は避け、<b>検査前に排尿</b>させておく</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>TSH反応に影響する薬剤</h2>
+    <div class="grid2">
+      <div class="dx" style="background:var(--low-l)">
+        <b style="color:var(--low)">反応を減弱</b><br>
+        リスリド、L-Dopa、シプロヘプタジン、メチセルジド、カルバマゼピン、サリチル酸製剤 など
+      </div>
+      <div class="dx" style="background:var(--high-l)">
+        <b style="color:var(--high)">反応を増強</b><br>
+        メトクロプラミド、クロルプロマジン、ビペリデン、ハロペリドール、シメチジン、ヨード製剤、アミオダロン、リチウム、スピロノラクトン、テオフィリン など
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>出典</h2>
+    <small class="note">沼倉周彦：TRH負荷試験．小児内科 Vol.51 No.4, 2019-4（特集 小児の負荷試験2019）. 図は松浦, 2010 より改変。判定基準・数値は本総説に基づく個人用まとめ。実運用は原著・施設基準を確認のこと。</small>
+  </div>
+</section>
+</div>
+
+<script>
+/* ---------- 判定ロジック ---------- */
+const TIMES=[0,15,30,60,90,120];
+function readInputs(){
+  const ids=['t0','t15','t30','t60','t90','t120'];
+  return ids.map(id=>{const v=document.getElementById(id).value.trim();return v===''?null:parseFloat(v);});
+}
+function classify(vals){
+  // vals: [0,15,30,60,90,120]
+  const post=[];
+  for(let i=1;i<6;i++){ if(vals[i]!=null) post.push({t:TIMES[i],v:vals[i]}); }
+  if(post.length===0) return {error:'15分以降の値を1つ以上入力してください。'};
+  const baseline = vals[0];
+  // peak = max post value
+  let peak=post[0];
+  post.forEach(p=>{ if(p.v>peak.v) peak=p; });
+  const dTSH = (baseline!=null)? +(peak.v-baseline).toFixed(2) : null;
+  const flags=[];
+  const isLow  = peak.v<5;                       // 低反応（無反応）
+  const isHigh = (peak.t<=30 && peak.v>30);      // 過大反応
+  const thr40=+(peak.v*0.4).toFixed(2);
+  let declPoint=null, sustain=false, declNote='—';
+
+  if(isLow){
+    flags.push('low');
+    declNote='低反応のため遅延・遷延は評価対象外（視床下部性マーカーは実質的な頂値がある場合に判定）';
+  } else if(isHigh){
+    flags.push('high');
+    declNote='過大反応（原発性寄り）のため遅延・遷延は評価対象外';
+  } else {
+    // 遅延・遷延は「実質的な頂値がある中枢性評価」の文脈で判定
+    if(peak.t>=60) flags.push('delay');          // 遅延：頂点60分以降
+    // 遷延：頂値到達から60分後でも頂値の40%以下に低下しない
+    const target=peak.t+60;
+    const later=post.filter(p=>p.t>=target);
+    if(later.length>0){
+      declPoint=later[0];
+      sustain = declPoint.v > thr40;
+      declNote = `${declPoint.t}分値 ${declPoint.v} を評価（頂点${peak.t}分+60=${target}分に最も近い測定点）→ 頂値40%(${thr40})を${sustain?'上回る＝遷延':'下回る＝非遷延'}`;
+    } else {
+      const after=post.filter(p=>p.t>peak.t);
+      if(after.length>0){ declPoint=after[after.length-1]; declNote=`${target}分の測定なし → 下降評価は不十分（参考：${declPoint.t}分値 ${declPoint.v}）`; }
+      else declNote='頂点が最終測定点のため下降評価不能';
+    }
+    if(sustain) flags.push('sustain');
+    if(flags.length===0) flags.push('normal');
+  }
+  return {baseline,peak,dTSH,thr40,flags,declPoint,declNote,post,vals};
+}
+
+const META={
+  normal:{label:'正常反応', color:'var(--normal)', bg:'var(--normal-l)',
+    dx:'正常反応。ただし中枢性甲状腺機能低下症を完全には否定できない。'},
+  low:{label:'低反応（無反応）', color:'var(--low)', bg:'var(--low-l)',
+    dx:'頂値&lt;5 → 中枢性（下垂体性）甲状腺機能低下症を考慮。〔鑑別〕潜在性甲状腺機能亢進症・TSH産生下垂体腺腫 など。'},
+  high:{label:'過大反応', color:'var(--high)', bg:'var(--high-l)',
+    dx:'頂点30分以内かつ&gt;30 → 原発性甲状腺機能低下症／潜在性甲状腺機能低下症。〔新生児・乳児〕30分値&gt;35で原発性を疑う報告あり（&gt;30を採用する施設が多い）。'},
+  delay:{label:'遅延反応', color:'var(--hypo)', bg:'var(--hypo-l)',
+    dx:'頂値が60分以降 → 中枢性（視床下部性）甲状腺機能低下症で特徴的。'},
+  sustain:{label:'遷延反応', color:'var(--hypo)', bg:'var(--hypo-l)',
+    dx:'頂値到達後60分でも40%以下に低下しない → 中枢性（視床下部性）甲状腺機能低下症で特徴的。'}
+};
+
+function judge(){
+  const vals=readInputs();
+  const r=classify(vals);
+  const box=document.getElementById('result');
+  box.style.display='block';
+  if(r.error){
+    document.getElementById('verdict').textContent='入力エラー';
+    document.getElementById('chips').innerHTML='';
+    document.getElementById('calc').textContent=r.error;
+    document.getElementById('dxbox').innerHTML='';
+    document.getElementById('userChart').innerHTML='';
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  // verdict
+  const primary = r.flags.includes('normal')?'normal':r.flags[0];
+  document.getElementById('verdict').style.color=META[primary].color;
+  document.getElementById('verdict').textContent = r.flags.map(f=>META[f].label).join(' ＋ ');
+  // chips
+  document.getElementById('chips').innerHTML = r.flags.map(f=>
+    `<span class="chip" style="color:${META[f].color};border-color:${META[f].color};background:${META[f].bg}">${META[f].label}</span>`).join('');
+  // calc
+  document.getElementById('calc').innerHTML =
+    `前値 <b>${r.baseline??'—'}</b> ／ 頂値 <b>${r.peak.v}</b>（<b>${r.peak.t}分</b>）`+
+    ` ／ ΔTSH <b>${r.dTSH??'—'}</b> ／ 頂値の40% = <b>${r.thr40}</b><br>`+
+    `<span style="color:var(--sub)">下降チェック：${r.declNote}</span>`;
+  // dx
+  const seen=new Set();
+  const dxItems=r.flags.filter(f=>{if(seen.has(META[f].dx))return false;seen.add(META[f].dx);return true;});
+  document.getElementById('dxbox').innerHTML = dxItems.map(f=>
+    `<div class="dx" style="background:${META[f].bg};color:${META[f].color}"><b>${META[f].label}</b> — <span style="color:var(--ink)">${META[f].dx}</span></div>`).join('');
+  drawUser(r);
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function clearAll(){
+  ['t0','t15','t30','t60','t90','t120'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('result').style.display='none';
+}
+const EX={
+  normal:[3,18,12,6,4,3], low:[1.5,3.5,4,3.5,3,2.5], high:[6,34,38,28,20,15],
+  delay:[3,6,9,16,10,6], sustain:[3,15,14,14,13,12]
+};
+function loadEx(k){
+  const v=EX[k]; const ids=['t0','t15','t30','t60','t90','t120'];
+  ids.forEach((id,i)=>document.getElementById(id).value=v[i]);
+  judge();
+}
+
+/* ---------- SVG 描画 ---------- */
+// plot area for 340x210 (user chart) / 340x200 (patterns)
+function plot(w,h){
+  const L=42,R=w-14,T=18,B=h-30;
+  const TMAX=120, YMAX=35;
+  return {
+    x:t=>L+(t/TMAX)*(R-L),
+    y:v=>B-(Math.min(v,YMAX)/YMAX)*(B-T),
+    L,R,T,B
+  };
+}
+function axes(p,w,h,opts={}){
+  let s=`<rect x="0" y="0" width="${w}" height="${h}" fill="#fff"/>`;
+  // y gridlines at 5,10,20,30
+  [5,10,20,30].forEach(v=>{
+    const yy=p.y(v);
+    const dash = (v===5||v===30)?'stroke="#e0463a" stroke-dasharray="4 3" stroke-width="1"':'stroke="#eef3f3" stroke-width="1"';
+    s+=`<line x1="${p.L}" y1="${yy}" x2="${p.R}" y2="${yy}" ${dash}/>`;
+    s+=`<text x="${p.L-5}" y="${yy+3}" text-anchor="end" font-size="9" fill="${(v===5||v===30)?'#c94a3b':'#8aa'}">${v}</text>`;
+  });
+  // x ticks
+  TIMES.forEach(t=>{
+    const xx=p.x(t);
+    if(t===30||t===60){ s+=`<line x1="${xx}" y1="${p.T}" x2="${xx}" y2="${p.B}" stroke="#c9d6d6" stroke-dasharray="3 3" stroke-width="1"/>`; }
+    s+=`<text x="${xx}" y="${p.B+14}" text-anchor="middle" font-size="9" fill="#8aa">${t}</text>`;
+  });
+  s+=`<text x="${p.L-30}" y="${p.T+2}" font-size="9" fill="#8aa">TSH</text>`;
+  s+=`<text x="${(p.L+p.R)/2}" y="${h-3}" text-anchor="middle" font-size="9" fill="#8aa">TRH負荷後（分）</text>`;
+  return s;
+}
+function curve(p,data,color){
+  // data: array of [t,v]
+  const pts=data.map(d=>`${p.x(d[0]).toFixed(1)},${p.y(d[1]).toFixed(1)}`).join(' ');
+  let s=`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>`;
+  data.forEach(d=>{ s+=`<circle cx="${p.x(d[0]).toFixed(1)}" cy="${p.y(d[1]).toFixed(1)}" r="3" fill="${color}"/>`; });
+  return s;
+}
+function resolveColor(c){
+  const map={'var(--normal)':'#2f9e5b','var(--low)':'#2f6fb0','var(--high)':'#c94a3b','var(--hypo)':'#7d54b8','var(--teal)':'#0f5c63'};
+  return map[c]||c;
+}
+function renderChart(svgEl,dataObj,colorVar,w,h,mark){
+  const p=plot(w,h);
+  const col=resolveColor(colorVar);
+  let s=axes(p,w,h);
+  s+=curve(p,dataObj,col);
+  if(mark){ // mark peak
+    let peak=dataObj[0]; dataObj.forEach(d=>{if(d[1]>peak[1])peak=d;});
+    s+=`<circle cx="${p.x(peak[0]).toFixed(1)}" cy="${p.y(peak[1]).toFixed(1)}" r="5.5" fill="none" stroke="${col}" stroke-width="2"/>`;
+    s+=`<text x="${p.x(peak[0]).toFixed(1)}" y="${(p.y(peak[1])-9).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${col}">頂 ${peak[1]} / ${peak[0]}分</text>`;
+  }
+  svgEl.innerHTML=s;
+}
+function drawUser(r){
+  const data=[]; r.vals.forEach((v,i)=>{ if(v!=null) data.push([TIMES[i],v]); });
+  const primary = r.flags.includes('normal')?'normal':r.flags[0];
+  renderChart(document.getElementById('userChart'),data,META[primary].color,340,210,true);
+}
+
+/* ---------- パターン & vs 図の初期描画 ---------- */
+const PATTERNS=[
+  {key:'normal',title:'正常反応',sub:'頂点15〜30分・120分で前値へ',dx:'—',
+   data:[[0,3],[15,18],[30,12],[60,6],[90,4],[120,3]]},
+  {key:'low',title:'低反応（無反応）',sub:'頂値 &lt; 5 µIU/mL',dx:'中枢性（下垂体性）／潜在性甲状腺機能亢進症／TSH産生下垂体腺腫 など',
+   data:[[0,1.5],[15,3.5],[30,4],[60,3.5],[90,3],[120,2.5]]},
+  {key:'high',title:'過大反応',sub:'頂点30分以内 かつ &gt; 30 µIU/mL',dx:'原発性甲状腺機能低下症／潜在性甲状腺機能低下症',
+   data:[[0,6],[15,34],[30,38],[60,28],[90,20],[120,15]]},
+  {key:'delay',title:'遅延反応',sub:'頂値が60分以降に出現',dx:'中枢性（視床下部性）で特徴的',
+   data:[[0,3],[15,6],[30,9],[60,16],[90,10],[120,6]]},
+  {key:'sustain',title:'遷延反応',sub:'頂値到達後60分でも40%以下に下がらない',dx:'中枢性（視床下部性）で特徴的',
+   data:[[0,3],[15,15],[30,14],[60,14],[90,13],[120,12]]}
+];
+function buildPatterns(){
+  const wrap=document.getElementById('patternCards');
+  PATTERNS.forEach((pt,i)=>{
+    const c=META[pt.key];
+    const div=document.createElement('div');
+    div.className='card patterncard';
+    div.style.borderColor=c.color;
+    div.innerHTML=
+      `<h2 style="justify-content:space-between">
+         <span style="display:flex;align-items:center;gap:8px"><span class="tag" style="background:${c.color}">${pt.title}</span></span>
+       </h2>
+       <div style="font-size:13px;color:var(--sub);margin:-4px 0 6px">条件：${pt.sub}</div>
+       <svg class="chart" id="pc${i}" viewBox="0 0 340 200"></svg>
+       <div class="dx" style="background:${c.bg};color:${c.color};margin-top:8px"><b>示唆する病態：</b><span style="color:var(--ink)">${pt.dx}</span></div>`;
+    wrap.appendChild(div);
+    renderChart(document.getElementById('pc'+i),pt.data,c.color,340,200,true);
+  });
+}
+function buildVs(){
+  renderChart(document.getElementById('vsDelay'),
+    [[0,3],[15,6],[30,9],[60,16],[90,10],[120,6]],'var(--hypo)',340,200,true);
+  renderChart(document.getElementById('vsSustain'),
+    [[0,3],[15,15],[30,14],[60,14],[90,13],[120,12]],'var(--hypo)',340,200,true);
+}
+
+/* ---------- タブ ---------- */
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.t).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+buildPatterns();
+buildVs();
+</script>
+</body>
+</html>

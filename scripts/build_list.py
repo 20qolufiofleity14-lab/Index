@@ -9,7 +9,7 @@ for f in sorted(root.glob("*.htm*")):
     m = lambda n: (re.search(r'<meta\s+name=["\']%s["\']\s+content=["\']([^"\']*)' % n, s, re.I) or [None, ""])[1].strip()
     t = re.search(r"<title[^>]*>(.*?)</title>", s, re.I | re.S)
     out.append({"file": f.name,
-                "title": re.sub(r"\s+", " ", t.group(1)).strip() if t else f.stem,
+                "title": m("mini-title") or (re.sub(r"\s+", " ", t.group(1)).strip() if t else f.stem),
                 "cat": m("mini-category") or "other",
                 "desc": m("mini-desc"),
                 "v": hashlib.sha1(s.encode()).hexdigest()[:10]})
