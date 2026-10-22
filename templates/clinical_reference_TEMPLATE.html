@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【テンプレート】小児内分泌 診療クイックリファレンス</title>
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║  小児内分泌 診療クイックリファレンス ― デザインシステム           ║
+║  Design System Template v1.0                                     ║
+║                                                                  ║
+║  【使い方】                                                       ║
+║  このファイルをアップロードして以下を伝えるだけで               ║
+║  同じデザインの新しいリファレンスが作れます：                    ║
+║                                                                  ║
+║  「テンプレート（添付）と同じデザインで                          ║
+║   [疾患名]のクイックリファレンスを作ってください。               ║
+║   資料：[PDF添付]                                                ║
+║   タブ構成：①〜⑥（省略時はClaudeが提案）                       ║
+║   ファイル名：[name]_quick_reference.html」                      ║
+║                                                                  ║
+║  【カラーコード（共通ルール）】                                   ║
+║  🔴 赤 = 即対応・治療開始・診断基準必須項目                       ║
+║  🟡 アンバー = 要注意・borderline・副作用                        ║
+║  🔵 青 = 情報・検査・参考値                                      ║
+║  🟢 緑 = 正常・安全・良好な予後                                  ║
+║  🟣 紫 = 遺伝子・特殊情報                                        ║
+║  ⬛ ダーク = 必須手順・プロトコル                                 ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
+<style>
+/* ════════════════════════════════════════
+   DESIGN SYSTEM — CSS VARIABLES
+   ════════════════════════════════════════ */
+:root {
+  --bg: #eef2f7;
+  --card: #ffffff;
+  --border: #dde3ec;
+  --text: #1a202c;
+  --text-muted: #64748b;
+  --primary: #1e3a5f;
+  --primary-mid: #254d80;
+  --primary-light: #3468a8;
+  --red: #b91c1c;
+  --red-soft: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --amber: #92400e;
+  --amber-soft: #b45309;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --blue: #1d4ed8;
+  --blue-soft: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --green: #166534;
+  --green-soft: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+/* ════════════════════════════════════════
+   BASE
+   ════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo','メイリオ',sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* ════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a9e 60%, #1e4e9e 100%);
+  color: white;
+  padding: 14px 20px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; }
+.header-left .sub { font-size: 10.5px; opacity: 0.75; margin-top: 2px; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.header-tag {
+  font-size: 9.5px; background: rgba(255,255,255,0.18);
+  padding: 2px 9px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3); white-space: nowrap;
+}
+
+/* ════════════════════════════════════════
+   TAB NAVIGATION
+   ════════════════════════════════════════ */
+.tab-nav {
+  background: var(--primary-mid);
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 9px 14px; color: rgba(255,255,255,0.62);
+  background: none; border: none; cursor: pointer;
+  white-space: nowrap; font-size: 11.5px; font-family: inherit;
+  border-bottom: 3px solid transparent; transition: all 0.18s;
+  font-weight: 500; flex-shrink: 0;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+.tab-btn.active { color: white; border-bottom-color: #5ef07a; background: rgba(255,255,255,0.12); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════ */
+.tab-content { display: none; padding: 14px 16px 24px; max-width: 1280px; margin: 0 auto; }
+.tab-content.active { display: block; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px; }
+.grid-half { display: grid; grid-template-columns: 1.4fr 1fr; gap: 11px; }
+.mb-3 { margin-bottom: 11px; }
+@media (max-width: 780px) {
+  .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   CARDS
+   ════════════════════════════════════════ */
+.card {
+  background: var(--card); border-radius: 7px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+/* Card header variants */
+.card-hd {
+  padding: 7px 11px; font-weight: 700; font-size: 11.5px;
+  display: flex; align-items: center; gap: 5px; letter-spacing: 0.2px;
+}
+.card-hd .icon { font-size: 13px; }
+.card-hd.red    { background: var(--red-bg);    color: var(--red);    border-bottom: 1px solid var(--red-border); }
+.card-hd.amber  { background: var(--amber-bg);  color: var(--amber);  border-bottom: 1px solid var(--amber-border); }
+.card-hd.blue   { background: var(--blue-bg);   color: var(--blue);   border-bottom: 1px solid var(--blue-border); }
+.card-hd.green  { background: var(--green-bg);  color: var(--green);  border-bottom: 1px solid var(--green-border); }
+.card-hd.purple { background: var(--purple-bg); color: var(--purple); border-bottom: 1px solid var(--purple-border); }
+.card-hd.dark   { background: var(--primary);   color: white; }
+.card-hd.navy   { background: var(--primary-mid); color: white; }
+.card-body { padding: 9px 11px; }
+
+/* ════════════════════════════════════════
+   HIGHLIGHT BOXES (hl-*)
+   使い方: <div class="hl hl-red">...</div>
+   ════════════════════════════════════════ */
+.hl {
+  padding: 5px 9px; border-radius: 4px; margin: 3px 0; border-left: 3px solid;
+}
+.hl-red    { background: var(--red-bg);    border-color: var(--red-soft);   color: #7f1d1d; }
+.hl-amber  { background: var(--amber-bg);  border-color: var(--amber-soft); color: #78350f; }
+.hl-blue   { background: var(--blue-bg);   border-color: var(--blue-soft);  color: #1e3a8a; }
+.hl-green  { background: var(--green-bg);  border-color: var(--green-soft); color: #14532d; }
+.hl-purple { background: var(--purple-bg); border-color: var(--purple);     color: #3b0764; }
+
+/* ════════════════════════════════════════
+   BADGES (b-*)
+   使い方: <span class="badge b-red">テキスト</span>
+   ════════════════════════════════════════ */
+.badge {
+  display: inline-block; padding: 1px 5px; border-radius: 3px;
+  font-size: 9.5px; font-weight: 700; vertical-align: middle; line-height: 1.4;
+}
+.b-red    { background: var(--red-soft);   color: white; }
+.b-amber  { background: var(--amber-soft); color: white; }
+.b-blue   { background: var(--blue-soft);  color: white; }
+.b-green  { background: var(--green-soft); color: white; }
+.b-purple { background: var(--purple);     color: white; }
+.b-gray   { background: #64748b;           color: white; }
+.b-ev     { background: #374151; color: #e5e7eb; font-family: monospace; }
+
+/* ════════════════════════════════════════
+   AGE CRITERION ROWS
+   使い方: <div class="age-row [boys]">
+           <div class="age-num">7.5歳</div>
+           <div class="age-text">説明</div></div>
+   ════════════════════════════════════════ */
+.age-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 8px; margin: 3px 0; border-radius: 5px;
+  background: var(--red-bg); border-left: 3px solid var(--red-soft);
+}
+.age-num { font-weight: 900; font-size: 15px; color: var(--red); min-width: 68px; }
+.age-text { font-size: 12px; color: #7f1d1d; flex: 1; }
+.age-row.boys { background: var(--blue-bg); border-color: var(--blue-soft); }
+.age-row.boys .age-num { color: var(--blue); }
+.age-row.boys .age-text { color: #1e3a8a; }
+
+/* ════════════════════════════════════════
+   TABLES
+   ════════════════════════════════════════ */
+.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.tbl th {
+  background: var(--primary); color: white;
+  padding: 5px 7px; text-align: center; font-weight: 600; font-size: 10.5px;
+}
+.tbl td { padding: 4px 7px; border: 1px solid #dde3ec; text-align: center; vertical-align: middle; }
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl tr:hover td { background: var(--blue-bg); }
+/* Table cell modifiers */
+.td-lbl     { text-align: left !important; font-weight: 600; background: #f1f5f9 !important; color: #334155; }
+.td-prepub  { background: var(--green-bg) !important; color: #14532d; }
+.td-pub     { background: var(--red-bg)   !important; color: #7f1d1d; font-weight: 600; }
+.td-key     { background: #fff7ed        !important; color: #7c2d12; font-weight: 700; }
+
+/* ════════════════════════════════════════
+   DOSE BOXES
+   ════════════════════════════════════════ */
+.dose-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: white; padding: 12px 14px; border-radius: 7px; margin: 6px 0; text-align: center;
+}
+.dose-box-amber {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+  color: white; padding: 10px 14px; border-radius: 7px; text-align: center;
+}
+.dose-label { font-size: 10px; opacity: 0.65; margin-bottom: 3px; font-weight: 600; letter-spacing: 0.5px; }
+.dose-num   { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+.dose-unit  { font-size: 12px; opacity: 0.82; margin-top: 1px; }
+
+/* ════════════════════════════════════════
+   MONITORING GRID (4-column)
+   使い方: <div class="monitor-grid">
+           <div class="monitor-cell hd">見出し</div>...
+   ════════════════════════════════════════ */
+.monitor-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+.monitor-cell {
+  padding: 8px 9px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.monitor-cell:nth-child(4n) { border-right: none; }
+.monitor-cell.hd  { background: var(--primary); color: white; font-weight: 700; font-size: 11px; text-align: center; }
+.monitor-cell.grp { background: #f1f5f9; font-weight: 700; font-size: 11px; color: var(--primary); }
+
+/* ════════════════════════════════════════
+   CLINICAL LIST
+   使い方: <ul class="cl"><li>内容</li></ul>
+   ════════════════════════════════════════ */
+.cl { list-style: none; padding: 0; }
+.cl li {
+  padding: 4px 0 4px 15px; border-bottom: 1px solid #f1f5f9;
+  position: relative; font-size: 12px;
+}
+.cl li:last-child { border-bottom: none; }
+.cl li::before { content: '▸'; position: absolute; left: 0; color: var(--primary-light); font-size: 9px; top: 6px; }
+
+/* ════════════════════════════════════════
+   UTILITY
+   ════════════════════════════════════════ */
+.mh { background: #f8fafc; border-radius: 4px; padding: 4px 8px; margin: 4px 0; font-size: 11.5px; border-left: 2px solid #94a3b8; }
+.small      { font-size: 10.5px; color: var(--text-muted); }
+.small-note { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; padding-top: 4px; border-top: 1px dashed #cbd5e1; }
+.mt { margin-top: 8px; }
+.arrow { color: var(--red); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════ */
+.footer {
+  background: var(--primary); color: rgba(255,255,255,0.5);
+  text-align: center; padding: 8px; font-size: 9.5px; margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════
+     h1: 疾患名
+     sub: 英語名/略称
+     header-tag: 参考ガイドライン（複数可）
+-->
+<div class="header">
+  <div class="header-left">
+    <h1>🔬 【疾患名】診療クイックリファレンス</h1>
+    <div class="sub">Disease Name (Abbreviation)</div>
+  </div>
+  <div class="header-right">
+    <span class="header-tag">参考ガイドライン 年度</span>
+    <span class="header-tag">参考文献</span>
+  </div>
+</div>
+
+<!-- ══════════ TAB NAV ══════════
+     タブ名は疾患に応じて変更する
+     標準構成: ①定義・分類 ②初診検査・診断基準 ③特殊検査/負荷試験 ④治療適応 ⑤投与・管理 ⑥長期予後
+-->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">① タブ名</button>
+  <button class="tab-btn" onclick="switchTab(1)">② タブ名</button>
+  <button class="tab-btn" onclick="switchTab(2)">③ タブ名</button>
+  <button class="tab-btn" onclick="switchTab(3)">④ タブ名</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤ タブ名</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥ タブ名</button>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     コンポーネント一覧タブ（Tab 1）
+     ※ 実際の疾患リファレンスでは、このタブを臨床内容に置き換える
+     ════════════════════════════════════════════════════════ -->
+<div class="tab-content active" id="tab0">
+  <div class="grid-2 mb-3">
+
+    <!-- COMPONENT: Card header variants -->
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">📖</span> カードヘッダー（.card-hd）バリエーション</div>
+      <div class="card-body">
+        <div class="card-hd red"   style="border-radius:4px;margin-bottom:4px;"><span class="icon">🔴</span>.card-hd.red — 即対応・治療開始・必須項目</div>
+        <div class="card-hd amber" style="border-radius:4px;margin-bottom:4px;"><span class="icon">🟡</span>.card-hd.amber — 要注意・副作用・borderline</div>
+        <div class="card-hd blue"  style="border-radius:4px;margin-bottom:4px;"><span class="icon">🔵</span>.card-hd.blue — 情報・検査・参考値</div>
+        <div class="card-hd green" style="border-radius:4px;margin-bottom:4px;"><span class="icon">🟢</span>.card-hd.green — 正常・安全・良好な予後</div>
+        <div class="card-hd purple"style="border-radius:4px;margin-bottom:4px;"><span class="icon">🟣</span>.card-hd.purple — 遺伝子・特殊情報</div>
+        <div class="card-hd dark"  style="border-radius:4px;margin-bottom:4px;"><span class="icon">⬛</span>.card-hd.dark — 必須手順・プロトコル</div>
+        <div class="card-hd navy"  style="border-radius:4px;"><span class="icon">🌊</span>.card-hd.navy — フォローアップ・管理</div>
+      </div>
+    </div>
+
+    <!-- COMPONENT: Highlight boxes -->
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">🎨</span> ハイライトボックス（.hl .hl-*）</div>
+      <div class="card-body">
+        <div class="hl hl-red">.hl-red — 即対応・診断基準・重要警告</div>
+        <div class="hl hl-amber">.hl-amber — 注意・borderline・副作用説明</div>
+        <div class="hl hl-blue">.hl-blue — 情報提供・参考値・プロトコル詳細</div>
+        <div class="hl hl-green">.hl-green — 正常値・良好な経過・安全情報</div>
+        <div class="hl hl-purple">.hl-purple — 遺伝子・特殊メカニズム</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3 mb-3">
+
+    <!-- COMPONENT: Badges -->
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">🏷️</span> バッジ（.badge .b-*）</div>
+      <div class="card-body" style="line-height:2.2;">
+        <span class="badge b-red">b-red 即治療</span>　
+        <span class="badge b-amber">b-amber 要注意</span>　
+        <span class="badge b-blue">b-blue 参考</span>　
+        <span class="badge b-green">b-green 正常</span><br>
+        <span class="badge b-purple">b-purple 遺伝子</span>　
+        <span class="badge b-gray">b-gray 補足</span>　
+        <span class="badge b-ev">CIII</span> <span class="badge b-ev">BII</span> <span class="badge b-ev">AI</span>（エビデンスレベル）
+        <div class="small-note">エビデンスレベル: A/B/C/D/E（推奨強度）+ Ⅰ/Ⅱ/Ⅲ（エビデンス質）</div>
+      </div>
+    </div>
+
+    <!-- COMPONENT: Age rows -->
+    <div class="card">
+      <div class="card-hd red"><span class="icon">📅</span> 年齢基準行（.age-row）</div>
+      <div class="card-body">
+        <div class="mh" style="font-size:10.5px; margin-bottom:5px;">🚺 女児（デフォルト赤）</div>
+        <div class="age-row">
+          <div class="age-num">&lt; 7.5歳</div>
+          <div class="age-text">発症基準の説明テキスト</div>
+        </div>
+        <div class="mh" style="font-size:10.5px; margin: 8px 0 5px;">🚹 男児（.age-row.boys）</div>
+        <div class="age-row boys">
+          <div class="age-num">&lt; 9歳</div>
+          <div class="age-text">発症基準の説明テキスト</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPONENT: Dose boxes -->
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💊</span> 投与量ボックス</div>
+      <div class="card-body">
+        <div class="dose-box">
+          <div class="dose-label">開始用量（.dose-box）</div>
+          <div class="dose-num">30 μg/kg</div>
+          <div class="dose-unit">投与経路・投与間隔の説明</div>
+        </div>
+        <div class="dose-box-amber" style="margin-top:6px;">
+          <div class="dose-label">増量用量（.dose-box-amber）</div>
+          <div class="dose-num" style="font-size:20px;">最大 180 μg/kg</div>
+          <div class="dose-unit">条件・注意事項</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-3">
+
+    <!-- COMPONENT: Table -->
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">📋</span> テーブル（.tbl）セルバリエーション</div>
+      <div class="card-body">
+        <table class="tbl">
+          <thead>
+            <tr><th>項目</th><th>正常（.td-prepub）</th><th>異常（.td-pub）</th><th>重要（.td-key）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="td-lbl">.td-lbl ラベル列</td><td class="td-prepub">0.01–0.09</td><td class="td-pub">5.70–18.5</td><td class="td-key">0.74–1.4</td></tr>
+            <tr><td class="td-lbl">通常行</td><td>通常値</td><td>通常値</td><td>通常値</td></tr>
+          </tbody>
+        </table>
+        <div class="small-note">緑=前思春期/正常域、赤=思春期反応/異常、橙=重要値</div>
+      </div>
+    </div>
+
+    <!-- COMPONENT: Monitor grid -->
+    <div class="card">
+      <div class="card-hd navy"><span class="icon">📅</span> モニタリンググリッド（.monitor-grid）</div>
+      <div class="card-body">
+        <div class="monitor-grid">
+          <div class="monitor-cell hd">評価項目</div>
+          <div class="monitor-cell hd">毎回</div>
+          <div class="monitor-cell hd">3–6ヶ月</div>
+          <div class="monitor-cell hd">12ヶ月</div>
+          <div class="monitor-cell grp">身体計測</div>
+          <div class="monitor-cell">身長・体重</div>
+          <div class="monitor-cell" style="background:#eff6ff;"><strong>Tanner</strong></div>
+          <div class="monitor-cell">骨年齢</div>
+          <div class="monitor-cell grp">ホルモン</div>
+          <div class="monitor-cell">接種記録</div>
+          <div class="monitor-cell" style="background:#fff7ed;">LH・FSH</div>
+          <div class="monitor-cell">必要時</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENT: Clinical list + Grid layouts -->
+  <div class="card mb-3">
+    <div class="card-hd green"><span class="icon">📐</span> グリッドレイアウトと箇条書き（.cl）</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh" style="font-size:10.5px; margin-bottom:5px;">.grid-2（2カラム）</div>
+          <div class="small">grid-template-columns: 1fr 1fr</div>
+          <div class="mh" style="font-size:10.5px; margin: 5px 0;">.grid-3（3カラム）</div>
+          <div class="small">grid-template-columns: 1fr 1fr 1fr</div>
+          <div class="mh" style="font-size:10.5px; margin: 5px 0;">.grid-half（1.4:1）</div>
+          <div class="small">主コンテンツ + サイドバーに</div>
+        </div>
+        <div>
+          <div class="mh" style="font-size:10.5px; margin-bottom:5px;">.cl — 臨床箇条書きリスト</div>
+          <ul class="cl">
+            <li>箇条書き項目1 <span class="badge b-red">重要</span></li>
+            <li>箇条書き項目2 <span class="badge b-blue">参考</span></li>
+            <li>箇条書き項目3（ネスト可）<br><span class="small">補足テキストはsmallクラスで</span></li>
+            <li>箇条書き項目4</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh" style="font-size:10.5px; margin-bottom:5px;">.small-note — 注釈テキスト</div>
+          <div class="small-note">出典・注釈・補足情報はこのスタイルで表示。グレーテキスト＋上部破線区切り。</div>
+          <div class="mh" style="font-size:10.5px; margin: 8px 0 5px;">.mh — 小見出しボックス</div>
+          <div class="mh">セクション内の小見出しに使用</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">📌</span> 新しい疾患リファレンスの作り方（Claude への指示例）</div>
+    <div class="card-body">
+      <div class="hl hl-blue" style="font-size:12px; line-height:1.8;">
+        <strong>新しいトークに貼り付けるプロンプト（最短バージョン）：</strong><br><br>
+        「このHTMLテンプレート（添付）と同じデザインシステムを使って<br>
+        <strong>[疾患名]</strong>の診療クイックリファレンスを作ってください。<br><br>
+        資料：[PDF を添付]<br>
+        タブ構成（省略時はClaudeが提案）：<br>
+        ① 定義・分類<br>
+        ② 初診検査・診断基準<br>
+        ③ [疾患特有の検査]<br>
+        ④ 治療適応・開始基準<br>
+        ⑤ 投与・モニタリング<br>
+        ⑥ 長期予後・フォローアップ<br><br>
+        ファイル名：[疾患名略称]_quick_reference.html」
+      </div>
+      <div class="hl hl-green" style="margin-top:8px;">
+        <strong>Claudeが自動で引き継ぐもの：</strong> CSS全体・カラーシステム・コンポーネント・タブ切り替えJS・ヘッダー・フッターのデザイン
+      </div>
+      <div class="hl hl-amber" style="margin-top:5px;">
+        <strong>毎回指定が必要なもの：</strong> 疾患名・タブ構成・参考資料（PDF）・ファイル名・日本固有の特記事項（保険適応・用量など）
+      </div>
+      <div class="small-note">推奨ガイドライン資料：日本内分泌学会「手引き」（95_1.pdf等）+ 国際コンセンサス文書。95_1.pdfには GHD・Turner・CAH・クッシング病・下垂体機能低下症 等の手引きが収録されています。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ TAB 2-6: 疾患コンテンツを記入 ════════ -->
+<div class="tab-content" id="tab1">
+  <!-- Tab 2 コンテンツをここに記入 -->
+  <div class="card">
+    <div class="card-hd blue"><span class="icon">📋</span> Tab 2 — コンテンツをここに記入</div>
+    <div class="card-body">
+      <div class="hl hl-blue">ガイドラインから抽出した臨床内容を grid-2 / grid-3 + card コンポーネントで構成する</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab2">
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">💉</span> Tab 3 — 特殊検査・負荷試験プロトコル</div>
+    <div class="card-body">
+      <div class="hl hl-blue">dose-box + tbl + hl-red/amber で構成する</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab3">
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🎯</span> Tab 4 — 治療適応・開始基準</div>
+    <div class="card-body">
+      <div class="hl hl-red">ステップフロー（hl-red → hl-amber → hl-green）＋ 頭部MRI等の適応表</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab4">
+  <div class="card">
+    <div class="card-hd dark"><span class="icon">💊</span> Tab 5 — 投与・モニタリング</div>
+    <div class="card-body">
+      <div class="hl hl-blue">dose-box（用量） + monitor-grid（スケジュール） + hl-amber（副作用）</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab5">
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">📈</span> Tab 6 — 長期予後・フォローアップ</div>
+    <div class="card-body">
+      <div class="hl hl-green">tbl（予後サマリー） + grid-3（フォローアップ計画）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<div class="footer">
+  参考資料：[ガイドライン名・出典] ／ 本リファレンスは診療補助目的であり、最終判断は患者個別の臨床状況と主治医の判断に基づくこと。
+</div>
+
+<script>
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el, i) {
+    el.classList.toggle('active', i === n);
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>

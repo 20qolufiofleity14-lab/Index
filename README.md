@@ -6,3 +6,5 @@
 1. HTMLの `<head>` に `<meta name="mini-category" content="clinical|learn">` と `<meta name="mini-desc" content="ひとこと">` を入れる
 2. `tools/` に置く
 3. `python3 scripts/build_list.py` で `tools/list.json` を作り直してpush
+
+`templates/` は新しいツールを作るときの見本（棚には出ない）。

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>注射針・デバイス クイックリファレンス｜小児内分泌</title>
+<meta name="mini-category" content="other">
+<meta name="mini-desc" content="インスリン用ペン針とGH製剤の注入器・針、規格・互換性、メーカー連絡先">
+<meta name="mini-title" content="注射針・デバイス">
+
+<style>
+  :root{
+    --ink:#1b2733; --sub:#5a6b7b; --line:#e2e8ee; --bg:#f4f7fa; --card:#ffffff;
+    --teal:#0e7c7b; --teal-d:#0a5b5a; --teal-soft:#e3f1f0;
+    --amber:#b4690e; --amber-soft:#fdf1e0;
+    --rose:#a83246; --rose-soft:#fbe8ec;
+    --indigo:#3b4ea8; --indigo-soft:#e8ebf8;
+    /* メーカーカラー */
+    --m-terumo:#0f9d8f;   /* テルモ */
+    --m-bd:#2f6fb0;       /* BD */
+    --m-novo:#c0392b;     /* ノボ */
+    --m-pfizer:#1f6fb2;   /* ファイザー */
+    --m-jcr:#6a3fa0;      /* JCR */
+    --m-lilly:#c0392b;    /* リリー */
+    --m-fuji:#117a4d;     /* 富士フイルム */
+    --m-sandoz:#b4690e;   /* サンド */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 14px 60px}
+
+  header{padding:22px 4px 14px}
+  header .kicker{font-size:12px;letter-spacing:.14em;color:var(--teal);font-weight:700}
+  header h1{font-size:21px;margin-top:4px;letter-spacing:.01em}
+  header p{font-size:13px;color:var(--sub);margin-top:6px}
+
+  /* タブ */
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 2px;position:sticky;top:0;background:var(--bg);z-index:20;-webkit-overflow-scrolling:touch}
+  .tab{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--sub);
+    padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.15s}
+  .tab.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(14,124,123,.25)}
+
+  .panel{display:none;animation:fade .25s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px;margin-top:12px;
+    box-shadow:0 1px 2px rgba(20,40,60,.04)}
+  .card h2{font-size:15px;margin-bottom:2px}
+  .card .lead{font-size:12.5px;color:var(--sub);margin-bottom:8px}
+
+  /* 凡例・ゲージルーラー */
+  .ruler{display:flex;align-items:flex-end;gap:10px;padding:12px 6px 6px;flex-wrap:wrap}
+  .ruler .g{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:50px}
+  .ruler .bar{background:linear-gradient(180deg,#0e7c7b,#0a5b5a);border-radius:3px;width:var(--w);height:26px}
+  .ruler .gl{font-size:12px;font-weight:700}
+  .ruler .gd{font-size:10.5px;color:var(--sub)}
+
+  /* ペン針リスト */
+  .needle{display:grid;grid-template-columns:8px 1fr auto;gap:0 11px;align-items:center;
+    border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-top:9px;background:#fff}
+  .needle .stripe{grid-row:1/3;width:5px;height:100%;border-radius:4px;align-self:stretch}
+  .needle .nm{font-size:14px;font-weight:700}
+  .needle .mk{font-size:11.5px;color:var(--sub);margin-top:1px}
+  .needle .feat{font-size:11.5px;color:var(--sub);margin-top:4px;grid-column:2/4}
+  .spec{display:flex;align-items:center;gap:8px;justify-self:end}
+  .gtag{font-weight:800;font-size:14px;color:var(--teal-d);background:var(--teal-soft);padding:3px 9px;border-radius:8px;white-space:nowrap}
+  .ltag{font-size:12px;color:var(--sub);font-weight:600}
+  .thick{height:24px;display:flex;align-items:center}
+  .thick i{display:block;background:#33586b;border-radius:2px;width:34px}
+
+  /* GH トライアド */
+  .gh{border:1px solid var(--line);border-radius:13px;margin-top:12px;overflow:hidden}
+  .gh .top{padding:11px 13px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;border-left:6px solid var(--teal)}
+  .gh .top .drug{font-size:15px;font-weight:800}
+  .gh .top .co{font-size:11.5px;color:var(--sub)}
+  .badge{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .b-liquid{background:var(--teal-soft);color:var(--teal-d)}
+  .b-lyo{background:var(--amber-soft);color:var(--amber)}
+  .b-allin{background:var(--indigo-soft);color:var(--indigo)}
+  .b-new{background:var(--rose-soft);color:var(--rose)}
+  .gh .flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+  .gh .cell{background:#fff;padding:9px 11px}
+  .gh .cell .lab{font-size:10px;letter-spacing:.08em;color:var(--sub);font-weight:700;margin-bottom:3px}
+  .gh .cell .val{font-size:13px;font-weight:600;line-height:1.45}
+  .gh .cell .val small{display:block;font-weight:400;color:var(--sub);font-size:11px}
+  @media(max-width:560px){.gh .flow{grid-template-columns:1fr}}
+
+  /* 規格テーブル */
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+  th{background:var(--teal-soft);color:var(--teal-d);font-size:12px}
+  td.l{text-align:left}
+
+  .note{border-radius:11px;padding:11px 13px;margin-top:12px;font-size:12.5px;line-height:1.6}
+  .note.tip{background:var(--teal-soft);border:1px solid #bfe0de;color:#0a4d4c}
+  .note.warn{background:var(--amber-soft);border:1px solid #f0d6a8;color:#7a4708}
+  .note b{font-weight:800}
+  .chk{list-style:none;margin-top:6px}
+  .chk li{padding-left:20px;position:relative;margin-top:5px}
+  .chk li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.6}
+
+  /* 連絡先 */
+  .contact{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-top:9px;background:#fff}
+  .contact .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+  .contact .info{flex:1;min-width:0}
+  .contact .co{font-size:13.5px;font-weight:700}
+  .contact .hr{font-size:11px;color:var(--sub)}
+  .contact a{font-size:15px;font-weight:800;color:var(--teal-d);text-decoration:none;white-space:nowrap}
+
+  footer{margin-top:22px;font-size:11px;color:var(--sub);text-align:center;line-height:1.7;padding:0 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">小児内分泌 ｜ 自己注射</div>
+    <h1>注射針・デバイス クイックリファレンス</h1>
+    <p>インスリン用ペン針／成長ホルモン製剤のデバイス・専用針を、メーカー横断で一覧化。「製剤 → 注入器 → 針」で覚える。</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-t="pen">💉 インスリン・ペン針</button>
+    <button class="tab" data-t="gh">📈 成長ホルモン（製剤→針）</button>
+    <button class="tab" data-t="spec">📐 規格・互換性</button>
+    <button class="tab" data-t="tel">☎️ メーカー連絡先</button>
+  </div>
+
+  <!-- ============ ペン針 ============ -->
+  <section class="panel active" id="pen">
+    <div class="card">
+      <h2>ゲージの見方（太さ＝外径）</h2>
+      <p class="lead">数字が大きいほど細い。インスリン・GHともペン針は基本この5サイズ。</p>
+      <div class="ruler">
+        <div class="g"><div class="bar" style="--w:18px"></div><div class="gl">30G</div><div class="gd">0.30mm</div></div>
+        <div class="g"><div class="bar" style="--w:15px"></div><div class="gl">31G</div><div class="gd">0.25mm</div></div>
+        <div class="g"><div class="bar" style="--w:13px"></div><div class="gl">32G</div><div class="gd">0.23mm</div></div>
+        <div class="g"><div class="bar" style="--w:11px"></div><div class="gl">33G</div><div class="gd">0.20mm</div></div>
+        <div class="g"><div class="bar" style="--w:9px"></div><div class="gl">34G</div><div class="gd">0.18mm</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>ペン型注入器用 注射針（JIS A型）</h2>
+      <p class="lead">いずれも JIS T3226-2「A型」規格。A型対応のペン型注入器なら<b>メーカーを問わず流用可</b>。細い順に表示。</p>
+
+      <!-- テルモ -->
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-terumo)"></span>
+        <div><div class="nm">ナノパスJr.</div><div class="mk">テルモ ｜ 愛称ナノパス34</div></div>
+        <div class="spec"><span class="thick"><i style="height:5px"></i></span><span class="gtag">34G</span><span class="ltag">3mm</span></div>
+        <div class="feat">世界最細クラス・最短。ダブルテーパー＋アシンメトリーエッジで疼痛最小。小児に好適。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-terumo)"></span>
+        <div><div class="nm">ナノパスニードルII</div><div class="mk">テルモ ｜ 愛称ナノパス34</div></div>
+        <div class="spec"><span class="thick"><i style="height:5px"></i></span><span class="gtag">34G</span><span class="ltag">4mm</span></div>
+        <div class="feat">先端外径0.18mmの世界最細。標準的な34Gのスタンダード。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-terumo)"></span>
+        <div><div class="nm">ナノパスニードル</div><div class="mk">テルモ ｜ 愛称ナノパス33（旧世代）</div></div>
+        <div class="spec"><span class="thick"><i style="height:7px"></i></span><span class="gtag">33G</span><span class="ltag">5mm</span></div>
+        <div class="feat">初代ナノパス。現在は34Gが主流。</div>
+      </div>
+
+      <!-- BD -->
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-bd)"></span>
+        <div><div class="nm">BDマイクロファイン プロ</div><div class="mk">BD（ベクトン・ディッキンソン）</div></div>
+        <div class="spec"><span class="thick"><i style="height:8px"></i></span><span class="gtag">32G</span><span class="ltag">4mm</span></div>
+        <div class="feat">新デザインの32G。装着・廃棄のしやすさを改良。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-bd)"></span>
+        <div><div class="nm">BDマイクロファインプラス</div><div class="mk">BD ｜ Thin Wall（薄壁で内径広め）</div></div>
+        <div class="spec"><span class="thick"><i style="height:8px"></i></span><span class="gtag">32G</span><span class="ltag">4mm</span></div>
+        <div class="feat">31G×5mm / 31G×8mm の長さ違いもあり。手技に合わせて選択。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-bd)"></span>
+        <div><div class="nm">BDマイクロファインプラス</div><div class="mk">BD ｜ 31G ライン</div></div>
+        <div class="spec"><span class="thick"><i style="height:11px"></i></span><span class="gtag">31G</span><span class="ltag">5/8mm</span></div>
+        <div class="feat">ヒューマトローペンの推奨針（31G×8mm）としても使用。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-bd)"></span>
+        <div><div class="nm">BDオートシールド デュオ</div><div class="mk">BD ｜ 針刺し防止機構付き</div></div>
+        <div class="spec"><span class="thick"><i style="height:14px"></i></span><span class="gtag">30G</span><span class="ltag">8mm</span></div>
+        <div class="feat">両端が自動カバーされ、医療従事者の針刺し・曝露を防止。施設での介助投与に。</div>
+      </div>
+
+      <!-- ノボ -->
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-novo)"></span>
+        <div><div class="nm">ペンニードル プラス</div><div class="mk">ノボ ノルディスク ｜ 安全機構付き</div></div>
+        <div class="spec"><span class="thick"><i style="height:8px"></i></span><span class="gtag">32G</span><span class="ltag">4mm</span></div>
+        <div class="feat">テーパー針。インスリン・GLP-1・成長ホルモンに対応。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-novo)"></span>
+        <div><div class="nm">ペンニードル 32Gテーパー</div><div class="mk">ノボ ノルディスク</div></div>
+        <div class="spec"><span class="thick"><i style="height:8px"></i></span><span class="gtag">32G</span><span class="ltag">4/6mm</span></div>
+        <div class="feat">先端0.23/基部0.25mmのテーパー構造。長さ4mm・6mmあり。</div>
+      </div>
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-novo)"></span>
+        <div><div class="nm">ペンニードル 30G</div><div class="mk">ノボ ノルディスク</div></div>
+        <div class="spec"><span class="thick"><i style="height:14px"></i></span><span class="gtag">30G</span><span class="ltag">8mm</span></div>
+        <div class="feat">太め・長め。粘稠な薬液や深部投与向け。</div>
+      </div>
+
+      <!-- 富士フイルム -->
+      <div class="needle">
+        <span class="stripe" style="background:var(--m-fuji)"></span>
+        <div><div class="nm">セロファイン</div><div class="mk">富士フイルムファーマ ｜ イージーポッド™専用</div></div>
+        <div class="spec"><span class="thick"><i style="height:14px"></i></span><span class="gtag">30G</span><span class="ltag">8mm</span></div>
+        <div class="feat">電動注入器イージーポッド™（サイゼン／グロウジェクト）の専用針。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 成長ホルモン ============ -->
+  <section class="panel" id="gh">
+    <div class="note tip">
+      <b>読み方：</b> 各製剤を「<b>製剤 → 専用注入器 → 針</b>」の3点で覚える。バッジは
+      <span class="badge b-liquid">液状</span>=溶解不要、
+      <span class="badge b-lyo">凍結乾燥</span>=溶解必要、
+      <span class="badge b-allin">一体型</span>=注入器不要、
+      <span class="badge b-new">週1回</span>=最新。
+    </div>
+
+    <!-- ノルディトロピン -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-novo)">
+        <span class="drug">ノルディトロピン</span><span class="co">ノボ ノルディスク</span>
+        <span class="badge b-liquid">液状（使用後35日）</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">S注 10mg<small>フレックスプロ注 5/10/15mg</small></div></div>
+        <div class="cell"><div class="lab">注入器</div><div class="val">ノルディペン®10<small>フレックスプロは<b>一体型</b>（注入器不要）／補助具：フレックスプロペンメイト</small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">JIS A型<small>市販ペン針が使用可</small></div></div>
+      </div>
+    </div>
+
+    <!-- ジェノトロピン -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-pfizer)">
+        <span class="drug">ジェノトロピン</span><span class="co">ファイザー</span>
+        <span class="badge b-lyo">凍結乾燥（溶解後4週）</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">TC 5.3/12mg<small>ゴークイック 5.3/12mg</small></div></div>
+        <div class="cell"><div class="lab">注入器</div><div class="val">ジェノトロピンペン®G<small>電池内蔵・耐用3年／ゴークイックは<b>一体型</b></small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">JIS A型</div></div>
+      </div>
+    </div>
+
+    <!-- エヌジェンラ -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-pfizer)">
+        <span class="drug">エヌジェンラ</span><span class="co">ファイザー</span>
+        <span class="badge b-new">週1回・2022〜</span>
+        <span class="badge b-allin">一体型</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">皮下注 24/60mgペン<small>ソムアトロゴン（長時間作用型）</small></div></div>
+        <div class="cell"><div class="lab">注入器</div><div class="val">プレフィルドペン<small>0.66mg/kg を週1回・同一曜日に皮下注</small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">JIS A型<small>適応はGHD低身長症のみ</small></div></div>
+      </div>
+    </div>
+
+    <!-- グロウジェクト -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-jcr)">
+        <span class="drug">グロウジェクト</span><span class="co">JCRファーマ</span>
+        <span class="badge b-lyo">凍結乾燥</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">注射用 1.33/8mg</div></div>
+        <div class="cell"><div class="lab">注入器（選択肢が多い）</div><div class="val">ツインジェクター®EZ II<small>グロウジェクター®L（電動）／Duo（セミオート電動）／イージーポッド™</small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">EZ II は<b>無針</b><small>イージーポッド™はセロファイン 30G8mm</small></div></div>
+      </div>
+    </div>
+
+    <!-- ヒューマトロープ -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-lilly)">
+        <span class="drug">ヒューマトロープ</span><span class="co">日本イーライリリー</span>
+        <span class="badge b-lyo">凍結乾燥（溶解後38日）</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">注射用 6/12mg</div></div>
+        <div class="cell"><div class="lab">注入器</div><div class="val">ヒューマトローペン®<small>／ ワンクリック™</small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">BDマイクロファインプラス<small>31G×8mm（JIS A型）</small></div></div>
+      </div>
+    </div>
+
+    <!-- サイゼン -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-fuji)">
+        <span class="drug">サイゼン</span><span class="co">富士フイルムファーマ</span>
+        <span class="badge b-liquid">皮下注射液 12mg（液状）</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">皮下注射液 12mg<small>皮下注 8mg（凍結乾燥）</small></div></div>
+        <div class="cell"><div class="lab">注入器</div><div class="val">イージーポッド™<small>電動・単4電池×4本</small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">セロファイン 30G8mm<small>イージーポッド専用</small></div></div>
+      </div>
+    </div>
+
+    <!-- ソマトロピンBS -->
+    <div class="gh">
+      <div class="top" style="border-color:var(--m-sandoz)">
+        <span class="drug">ソマトロピンBS「サンド」</span><span class="co">サンド（バイオシミラー）</span>
+        <span class="badge b-liquid">液状（使用後28日）</span>
+      </div>
+      <div class="flow">
+        <div class="cell"><div class="lab">製剤</div><div class="val">皮下注 5/10mg<small>＋ シュアパル 5/10mg</small></div></div>
+        <div class="cell"><div class="lab">注入器</div><div class="val">オムニトロープ®ペン<small>シュアパル製剤は シュアパル®</small></div></div>
+        <div class="cell"><div class="lab">針</div><div class="val">JIS A型</div></div>
+      </div>
+    </div>
+
+    <div class="note tip">
+      <b>覚え方の軸</b>
+      <ul class="chk">
+        <li><b>針が「JIS A型」</b>のものは、ペンニードル／マイクロファインプラス／ナノパス等の<b>市販ペン針が流用可</b>。「GH専用針」と思い込まなくてよい。</li>
+        <li><b>専用品・例外</b>：グロウジェクト ツインジェクターEZ II＝<b>無針</b>／イージーポッド（サイゼン・グロウジェクト）＝セロファイン30G8mm／ヒューマトローペン＝BDマイクロファインプラス31G8mm。</li>
+        <li><b>溶解不要（液状）</b>＝ノルディトロピン・サイゼン液・ソマトロピンBS。<b>溶解必要（凍結乾燥）</b>＝ジェノトロピン・グロウジェクト・ヒューマトロープ。</li>
+        <li><b>注入器不要（薬剤一体型）</b>＝フレックスプロ・ゴークイック・エヌジェンラ。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 規格・互換性 ============ -->
+  <section class="panel" id="spec">
+    <div class="card">
+      <h2>ゲージ ↔ 外径 早見表</h2>
+      <table>
+        <tr><th>ゲージ</th><th>外径</th><th>太さの目安</th><th>主な製品</th></tr>
+        <tr><td><b>30G</b></td><td>0.30mm</td><td class="l">太め</td><td class="l">ペンニードル30G・セロファイン</td></tr>
+        <tr><td><b>31G</b></td><td>0.25mm</td><td class="l">やや太</td><td class="l">マイクロファインプラス31G</td></tr>
+        <tr><td><b>32G</b></td><td>0.23mm</td><td class="l">標準</td><td class="l">マイクロファイン プロ／プラス・ペンニードル</td></tr>
+        <tr><td><b>33G</b></td><td>0.20mm</td><td class="l">細</td><td class="l">ナノパスニードル（旧）</td></tr>
+        <tr><td><b>34G</b></td><td>0.18mm</td><td class="l">最細</td><td class="l">ナノパスII・ナノパスJr.</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>長さのバリエーション</h2>
+      <table>
+        <tr><th>長さ</th><th>代表製品</th><th>位置づけ</th></tr>
+        <tr><td><b>3mm</b></td><td class="l">ナノパスJr.</td><td class="l">最短・小児／痛み軽減</td></tr>
+        <tr><td><b>4mm</b></td><td class="l">ナノパスII・マイクロファインプラス32G・ペンニードルプラス</td><td class="l">現在の標準</td></tr>
+        <tr><td><b>5mm</b></td><td class="l">ナノパス33・マイクロファインプラス31G</td><td class="l">やや長</td></tr>
+        <tr><td><b>6mm</b></td><td class="l">ペンニードル32Gテーパー</td><td class="l">—</td></tr>
+        <tr><td><b>8mm</b></td><td class="l">マイクロファインプラス31G・ペンニードル30G・セロファイン</td><td class="l">長め・GH注入器の一部</td></tr>
+      </table>
+    </div>
+
+    <div class="note tip">
+      <b>JIS A型（JIS T3226-2 A型）とは</b><br>
+      ペン型注入器用注射針の共通規格。<b>A型対応の注入器どうしなら、メーカーが違っても針を流用できる</b>。
+      GH製剤の多くも「専用注射針＝JIS A型」なので、実質は市販のインスリン用ペン針が使える。
+    </div>
+    <div class="note warn">
+      <b>互換にならない・確認が要るもの</b>
+      <ul class="chk">
+        <li>イージーポッド™（サイゼン・グロウジェクト）→ <b>セロファイン30G8mm 専用</b>。</li>
+        <li>グロウジェクト ツインジェクターEZ II → <b>無針シリンジ</b>（針自体が不要）。</li>
+        <li>使用前に各注入器の添付文書で「A型対応」を必ず確認。迷ったらメーカー窓口へ。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 連絡先 ============ -->
+  <section class="panel" id="tel">
+    <div class="note tip">GH製剤の自己注射トラブル（注入器の不具合・針の入手・操作）は各社コールセンターが早い。番号は JSPE 一覧（2016作成）ベース。</div>
+
+    <div class="contact"><span class="dot" style="background:var(--m-pfizer)"></span>
+      <div class="info"><div class="co">ファイザー</div><div class="hr">24時間365日 ｜ ジェノトロピン・エヌジェンラ</div></div>
+      <a href="tel:0120303415">0120-303-415</a></div>
+
+    <div class="contact"><span class="dot" style="background:var(--m-novo)"></span>
+      <div class="info"><div class="co">ノボ ノルディスク ファーマ</div><div class="hr">平日9–18時（夜間休日：0120-359-516）</div></div>
+      <a href="tel:0120180363">0120-180-363</a></div>
+
+    <div class="contact"><span class="dot" style="background:var(--m-fuji)"></span>
+      <div class="info"><div class="co">富士フイルムファーマ</div><div class="hr">7–23時・365日 ｜ サイゼン</div></div>
+      <a href="tel:0120198714">0120-198-714</a></div>
+
+    <div class="contact"><span class="dot" style="background:var(--m-jcr)"></span>
+      <div class="info"><div class="co">JCRファーマ</div><div class="hr">平日9–17時 ｜ グロウジェクト</div></div>
+      <a href="tel:0120999393">0120-999-393</a></div>
+
+    <div class="contact"><span class="dot" style="background:var(--m-lilly)"></span>
+      <div class="info"><div class="co">日本イーライリリー</div><div class="hr">月–土 8:45–22時 ｜ ヒューマトロープ</div></div>
+      <a href="tel:0120245970">0120-245-970</a></div>
+
+    <div class="contact"><span class="dot" style="background:var(--m-sandoz)"></span>
+      <div class="info"><div class="co">サンド</div><div class="hr">平日8:30–22:30 ｜ ソマトロピンBS</div></div>
+      <a href="tel:0120062256">0120-062-256</a></div>
+  </section>
+
+  <footer>
+    出典：日本小児内分泌学会「ヒト成長ホルモン剤・特徴一覧」（2016作成）、各社製品情報・PMDA電子添文、糖尿病リソースガイドほか。<br>
+    製品ラインナップ・連絡先・規格は改訂されることがあります。実際の選択・処方時は最新の添付文書／メーカー情報を確認してください。
+  </footer>
+</div>
+
+<script>
+  const tabs=document.querySelectorAll('.tab');
+  const panels=document.querySelectorAll('.panel');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.t).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+</script>
+</body>
+</html>
