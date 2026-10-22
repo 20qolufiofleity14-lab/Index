@@ -103,7 +103,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 </head>
 <body>
 <header><div class="hd gut">
-  <div class="row1"><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button><button class="ic pri" id="addBtn">＋ 追加</button></div>
+  <div class="row1"><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button></div>
   <input type="file" id="addFile" accept=".html,.htm,text/html" multiple hidden>
   <input type="file" id="restoreFile" accept=".json,application/json" hidden>
   <input type="file" id="replFile" accept=".html,.htm,text/html" hidden>
@@ -179,11 +179,11 @@ function render(){
   const byOrd=(a,b)=>(a.ord??1e15)-(b.ord??1e15)||(b.opened||b.added||0)-(a.opened||a.added||0);
   const pins=list.filter(t=>t.pinned).sort(byOrd);
   const rest=list.filter(t=>!t.pinned).sort(byOrd);
-  if(!tools.length){main.innerHTML=`<div class="empty"><b>まだ何もありません</b><br>右上の「＋ 追加」から、作ったHTMLファイルを選んでください。<br>複数まとめて選べます。</div>${footnote()}`;return}
+  if(!tools.length){main.innerHTML=`<div class="empty"><b>まだ何もありません</b><br>Claudeとのトークでツールを渡して「棚に入れて」と頼むと、ここに並びます。</div>${footnote()}`;return}
   main.innerHTML=`<div class="sec${pins.length?'':' dim'}" data-zone="pin">ピン留め${pins.length?'':'（ここにカードを置くとピン留め）'}</div><div class="pins" data-zone="pin">${pins.map(t=>`<button class="pin item" data-id="${t.id}" data-open="${t.id}" style="--c:${CATS[t.cat].c}">${esc(t.title)}<span class="grip" data-grip="${t.id}">≡</span></button>`).join('')}</div>`+
    `<div class="sec" data-zone="list">${pins.length?'そのほか':'一覧'}（${rest.length}）</div>`+
    (rest.length?`<div class="list" data-zone="list">${rest.map(t=>`<div class="card item" data-id="${t.id}" style="--c:${CATS[t.cat].c}"><span class="grip" data-grip="${t.id}">≡</span><button class="t" data-open="${t.id}"><b>${esc(t.title)}</b><small><span class="badge">${CATS[t.cat].n}</span>${esc(t.desc||'')||(t.opened?'最後に開いた日 '+new Date(t.opened).toLocaleDateString('ja-JP'):'まだ開いていない')}</small></button><button class="m" data-menu="${t.id}" aria-label="メニュー">⋯</button></div>`).join('')}</div>`:`<div class="list empty" data-zone="list">該当なし</div>`)+
-   `<p class="hint">≡ をつかんで並び替え。上の分類タブに落とすと移動。タブ右端の＋で分類を追加。PCならHTMLファイルをこの画面に落として追加できます。</p>`+footnote();
+   `<p class="hint">≡ をつかんで並び替え。上の分類タブに落とすと移動。タブ右端の＋で分類を追加。</p>`+footnote();
   main.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>open(b.dataset.open));
   main.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>menu(b.dataset.menu));
   main.querySelectorAll('[data-grip]').forEach(g=>dragItem(g));
@@ -224,15 +224,15 @@ function dragItem(grip){
 
 /* ---------- drop files from the desktop ---------- */
 const dz=document.getElementById('dropzone');let dragDepth=0;
-addEventListener('dragenter',e=>{if(e.dataTransfer&&[...e.dataTransfer.types].includes('Files')){dragDepth++;dz.classList.add('on')}});
+
 addEventListener('dragleave',()=>{if(--dragDepth<=0){dragDepth=0;dz.classList.remove('on')}});
 addEventListener('dragover',e=>{if(dz.classList.contains('on'))e.preventDefault()});
 addEventListener('drop',async e=>{if(!dz.classList.contains('on'))return;e.preventDefault();dragDepth=0;dz.classList.remove('on');await importFiles(e.dataTransfer.files)});
-function footnote(){const n=tools.length,sz=tools.reduce((a,t)=>a+(t.size||0),0);return `<p class="note">${n}個・合計 ${kb(sz)}。共通の棚にあるものは全端末に自動で届きます。「＋ 追加」したものと進捗の記録はこの端末だけなので、機種変更の前やたまに「バックアップ」で書き出しておいてください。</p>`}
+function footnote(){const n=tools.length,sz=tools.reduce((a,t)=>a+(t.size||0),0);return `<p class="note">${n}個・合計 ${kb(sz)}。ツールはClaudeに頼んで共通の棚に入れると、全端末に自動で届きます。進捗の記録はこの端末だけなので、機種変更の前などに「バックアップ」で書き出しておいてください。</p>`}
 
 /* ---------- add / replace ---------- */
 const addFile=document.getElementById('addFile'),replFile=document.getElementById('replFile'),restoreFile=document.getElementById('restoreFile');
-document.getElementById('addBtn').onclick=()=>addFile.click();
+
 async function importFiles(files){let n=0;for(const f of files){if(!/\.html?$/i.test(f.name)&&f.type!=='text/html'){toast(f.name+' はHTMLではありません');continue}
   const html=await f.text();if(!/<(html|body|title|div|script)/i.test(html)){toast(f.name+' はHTMLではないようです');continue}
   const p=parseHTML(html,f.name);const dup=tools.find(t=>t.title===p.title);
@@ -267,11 +267,11 @@ function menu(id){const t=tools.find(x=>x.id===id);if(!t)return;
   <div class="fld"><label>表示名</label><input id="eTitle" value="${esc(t.title)}"></div>
   <div class="fld"><label>ひとこと（検索にも使われます）</label><input id="eDesc" value="${esc(t.desc||'')}" placeholder="例：年齢別IGF-1基準値の早見"></div>
   <div class="fld"><label>分類</label><div class="seg" id="seg">${cats.map(k=>`<button data-k="${k.id}" aria-pressed="${t.cat===k.id}" style="--c:var(--k${k.k})">${esc(k.n)}</button>`).join('')}</div></div>
-  <div class="acts"><button class="btn pri" id="eSave">保存</button><button class="btn" id="ePin">${t.pinned?'ピンを外す':'ピン留め'}</button><button class="btn" id="eRepl">新しい版に差し替え</button><button class="btn danger" id="eDel">削除</button></div>`,CATS[t.cat].c);
+  <div class="acts"><button class="btn pri" id="eSave">保存</button><button class="btn" id="ePin">${t.pinned?'ピンを外す':'ピン留め'}</button><button class="btn danger" id="eDel">削除</button></div>`,CATS[t.cat].c);
   let c=t.cat;sheetIn.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{c=b.dataset.k;sheetIn.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.k===c));sheet.style.setProperty('--c',CATS[c].c)});
   sheetIn.querySelector('#eSave').onclick=async()=>{t.title=sheetIn.querySelector('#eTitle').value.trim()||t.title;t.desc=sheetIn.querySelector('#eDesc').value.trim();if(t.cat!==c)t.catByUser=true;t.cat=c;await put(t);closeSheet();load();toast('保存しました')};
   sheetIn.querySelector('#ePin').onclick=async()=>{t.pinned=!t.pinned;await put(t);closeSheet();load()};
-  sheetIn.querySelector('#eRepl').onclick=()=>{replTarget=id;replFile.click()};
+  
   sheetIn.querySelector('#eDel').onclick=()=>{openSheet(`<h2>「${esc(t.title)}」を削除しますか？</h2><p style="font-size:.85rem;color:var(--muted)">このミニコンテンツは置き場から消えます。ミニの中で保存していた記録は残るので、同じものをまた追加すれば続きから使えます。</p><div class="acts"><button class="btn danger fill" id="yes">削除する</button><button class="btn" id="no">やめる</button></div>`,'var(--ng)');
     sheetIn.querySelector('#yes').onclick=async()=>{if(t.shelf){const h=ls.get('mini.hidden',[]);if(!h.includes(t.shelf))h.push(t.shelf);ls.set('mini.hidden',h)}await del(id);closeSheet();load();toast('削除しました')};sheetIn.querySelector('#no').onclick=closeSheet};
 }
