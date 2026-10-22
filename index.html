@@ -12,11 +12,11 @@
 /* Layout: phone-first list app. Sticky header with category tabs + search; pinned row of big buttons; card list; full-screen viewer with a slim top bar. */
 :root{
   --bg:#eef1f3; --surface:#fff; --surface2:#f5f7f8; --fg:#17313f; --muted:#607380; --line:#d4dce1;
-  --accent:#17313f; --clin:#c0531f; --learn:#2f6f9f; --other:#7a8a95; --ng:#b3362f; --ok:#1d7a4a;
+  --accent:#17313f; --k0:#2f6f9f; --k1:#2e8a4e; --k2:#c0531f; --k3:#b03a6e; --k4:#7a4fc0; --k5:#a77a0a; --k6:#1f8a8a; --k7:#7a8a95; --clin:#c0531f; --learn:#2f6f9f; --other:#7a8a95; --ng:#b3362f; --ok:#1d7a4a;
   --tint:11%;
   --f:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
 }
-@media(prefers-color-scheme:dark){:root{--bg:#10171c;--surface:#1a2329;--surface2:#141c21;--fg:#e4ebf0;--muted:#93a3ae;--line:#2b3942;--accent:#cfe0ea;--clin:#f2905f;--learn:#7fb7e6;--other:#8d9ca6;--ng:#ff8a80;--ok:#5fcf8f;--tint:18%;color-scheme:dark}}
+@media(prefers-color-scheme:dark){:root{--bg:#10171c;--surface:#1a2329;--surface2:#141c21;--fg:#e4ebf0;--muted:#93a3ae;--line:#2b3942;--accent:#cfe0ea;--k0:#7fb7e6;--k1:#74cf92;--k2:#f2905f;--k3:#ec8fb9;--k4:#b79af0;--k5:#e3c25b;--k6:#6fd0d0;--k7:#a5b2bb;--clin:#f2905f;--learn:#7fb7e6;--other:#8d9ca6;--ng:#ff8a80;--ok:#5fcf8f;--tint:18%;color-scheme:dark}}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f);font-size:15px;line-height:1.55}
 body{padding-top:env(safe-area-inset-top,0px);-webkit-tap-highlight-color:transparent}
@@ -32,8 +32,8 @@ h1{font-size:1.15rem;font-weight:900;margin:0;letter-spacing:.04em;flex:1}
 .search{display:flex;align-items:center;gap:6px;margin-top:8px;background:var(--surface2);border:1.5px solid var(--line);border-radius:8px;padding:0 10px}
 .search input{flex:1;min-width:0;border:0;background:none;padding:7px 0;outline:none;color:var(--fg)}
 .search input::placeholder{color:var(--muted)}
-.tabs{display:flex;margin-top:6px}
-.tabs button{flex:1;appearance:none;border:0;background:none;font-weight:700;color:var(--muted);padding:8px 2px 9px;border-bottom:3px solid transparent}
+.tabs{display:flex;margin-top:6px;overflow-x:auto;scrollbar-width:none;gap:2px}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;white-space:nowrap;padding-inline:12px!important;appearance:none;border:0;background:none;font-weight:700;color:var(--muted);padding:8px 2px 9px;border-bottom:3px solid transparent}
 .tabs button[aria-selected="true"]{color:var(--c,var(--accent));border-bottom-color:var(--c,var(--accent))}
 main{max-width:720px;margin:0 auto;padding-block:12px 80px}
 .sec{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:14px 0 6px}
@@ -86,6 +86,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 .dragging{opacity:.35}
 .ghost{position:fixed;z-index:70;pointer-events:none;transform:translate(-20px,-50%) rotate(-2deg);box-shadow:0 12px 28px rgb(0 0 0/.3);width:min(320px,80vw)}
 .ph{border:2px dashed var(--muted);border-radius:8px;min-height:44px;background:transparent}
+.tabs .addtab{position:sticky;right:0;background:var(--surface);box-shadow:-8px 0 8px var(--surface);color:var(--muted);font-size:1.1rem;padding-inline:14px!important}
+.catrow{display:flex;gap:6px;align-items:center;margin:6px 0}.catrow i{width:12px;height:12px;border-radius:50%;flex:none;background:var(--c)}.catrow input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface2);color:var(--fg)}.catrow button{appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 8px;font-size:.8rem}
+.seg{flex-wrap:wrap}.seg button{flex:1 1 30%}
 .tabs button.over{background:color-mix(in srgb,var(--c,var(--accent)) 18%,transparent);border-radius:8px 8px 0 0}
 .sec.over{color:var(--fg)}
 #dropzone{position:fixed;inset:0;z-index:80;background:color-mix(in srgb,var(--learn) 20%,var(--bg));border:4px dashed var(--learn);display:none;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:var(--learn)}
@@ -102,9 +105,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
   <input type="file" id="replFile" accept=".html,.htm,text/html" hidden>
   <div class="search">🔍<input id="q" placeholder="検索（IGF、低血糖、ドリル…）" autocomplete="off"></div>
   <div class="tabs" role="tablist">
-    <button role="tab" data-cat="clinical" style="--c:var(--clin)">臨床で使う</button>
-    <button role="tab" data-cat="learn" style="--c:var(--learn)">覚える</button>
-    <button role="tab" data-cat="all">すべて</button>
   </div>
 </div></header>
 <main class="gut" id="main"></main>
@@ -126,15 +126,19 @@ const del=id=>tx('readwrite',s=>s.delete(id));
 const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 /* ---------- categorize ---------- */
-const CATS={clinical:{n:'臨床',c:'var(--clin)'},learn:{n:'学習',c:'var(--learn)'},other:{n:'未分類',c:'var(--other)'}};
-const KW_C=/あんちょこ|計算|早見|テンプレ|サマリ|基準|判定|曲線|リファレンス|ツール|換算|併診|記録|チェック/;
-const KW_L=/ドリル|巻物|仕分け|クイズ|暗記|道場|問題|アカデミー|修行|カード|練習/;
+const DEFAULT_CATS=[{id:'thyroid',n:'甲状腺',k:0},{id:'growth',n:'成長・骨',k:1},{id:'puberty',n:'思春期',k:3},{id:'glucose',n:'糖・低血糖',k:2},{id:'metab',n:'代謝',k:4},{id:'other',n:'共通・その他',k:7}];
+let cats=ls.get('mini.cats',null);if(!Array.isArray(cats)||!cats.length){cats=DEFAULT_CATS.map(c=>({...c}));ls.set('mini.cats',cats)}
+if(!cats.find(c=>c.id==='other')){cats.push({id:'other',n:'共通・その他',k:7});ls.set('mini.cats',cats)}
+const catOf=id=>cats.find(c=>c.id===id)||cats.find(c=>c.id==='other');
+const CATS=new Proxy({},{get:(_,id)=>{const c=catOf(id);return {n:c.n,c:`var(--k${c.k})`}}});
+const KW=[['thyroid',/甲状腺|橋本|バセドウ|TSH|TRH|CH /i],['puberty',/思春期|CPP|乳房|性腺/],['growth',/身長|成長|IGF|GH|ソマト|ALP|骨|カルシウム/],['glucose',/糖|DKA|低血糖|インスリン|ケトン/],['metab',/代謝|アミノ酸|PKU|OTC|カルニチン|脂肪酸|FAOD|ライソゾーム|尿素|有機酸/]];
+const guessCat=title=>{for(const [id,re] of KW)if(re.test(title)&&cats.find(c=>c.id===id))return id;return 'other'};
 function parseHTML(html,fname){
   const meta=(n)=>{const m=html.match(new RegExp('<meta\\s+name=["\']'+n+'["\']\\s+content=["\']([^"\']*)["\']','i'))||html.match(new RegExp('<meta\\s+content=["\']([^"\']*)["\']\\s+name=["\']'+n+'["\']','i'));return m?m[1].trim():''};
   const tm=html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   const title=(tm?tm[1].replace(/\s+/g,' ').trim():'')||fname.replace(/\.html?$/i,'');
   let cat=meta('mini-category');
-  if(!/^(clinical|learn)$/.test(cat))cat=KW_C.test(title)?'clinical':KW_L.test(title)?'learn':'other';
+  if(!cats.find(c=>c.id===cat))cat=guessCat(title);
   return {title,cat,desc:meta('mini-desc')};
 }
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
@@ -143,26 +147,30 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&g
 const kb=n=>n>1048576?(n/1048576).toFixed(1)+'MB':Math.round(n/1024)+'KB';
 
 /* ---------- state & render ---------- */
-let tools=[],cat=ls.get('mini.tab','clinical'),q='';
+let tools=[],cat=ls.get('mini.tab','all'),q='';if(cat!=='all'&&!cats.find(c=>c.id===cat))cat='all';
 const main=document.getElementById('main');
-async function load(){tools=await getAll();render()}
+async function load(){tools=await getAll();
+  for(const t of tools){if(!cats.find(c=>c.id===t.cat)){t.cat=guessCat(t.title);await put(t)}}
+  render()}
 /* ---------- shared shelf (tools/list.json in the repo) ---------- */
-async function syncShelf(){
+let syncing=false;
+async function syncShelf(){if(syncing)return;syncing=true;try{await syncShelfInner()}finally{syncing=false}}
+async function syncShelfInner(){
   let list;try{const r=await fetch('tools/list.json',{cache:'no-store'});if(!r.ok)return;list=await r.json()}catch(e){return}
   const hidden=ls.get('mini.hidden',[]);let changed=0;tools=await getAll();
   for(const e of list){if(hidden.includes(e.file))continue;
     const t=tools.find(x=>x.shelf===e.file);
     if(t&&t.v===e.v)continue;
     let html;try{const r=await fetch('tools/'+encodeURIComponent(e.file),{cache:'no-store'});if(!r.ok)continue;html=await r.text()}catch(_){continue}
-    if(t){await put({...t,html,size:html.length,v:e.v})}
-    else{await put({id:uid(),shelf:e.file,v:e.v,title:e.title,cat:e.cat||'other',desc:e.desc||'',html,size:html.length,added:Date.now(),opened:0,pinned:false,ord:-Date.now()})}
+    if(t){await put({...t,html,size:html.length,v:e.v,cat:t.catByUser?t.cat:(cats.find(c=>c.id===e.cat)?e.cat:guessCat(t.title))})}
+    else{await put({id:uid(),shelf:e.file,v:e.v,title:e.title,cat:cats.find(c=>c.id===e.cat)?e.cat:guessCat(e.title),desc:e.desc||'',html,size:html.length,added:Date.now(),opened:0,pinned:false,ord:-Date.now()})}
     changed++}
   if(changed){await load();toast(changed+'個 棚から届きました')}
 }
 function render(){
-  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.cat===cat));
+  renderTabs();
   const ql=q.trim().toLowerCase();
-  let list=tools.filter(t=>(cat==='all'||t.cat===cat||(cat==='learn'&&t.cat==='other'))&&(!ql||(t.title+' '+(t.desc||'')).toLowerCase().includes(ql)));
+  let list=tools.filter(t=>(cat==='all'||t.cat===cat)&&(!ql||(t.title+' '+(t.desc||'')).toLowerCase().includes(ql)));
   const byOrd=(a,b)=>(a.ord??1e15)-(b.ord??1e15)||(b.opened||b.added||0)-(a.opened||a.added||0);
   const pins=list.filter(t=>t.pinned).sort(byOrd);
   const rest=list.filter(t=>!t.pinned).sort(byOrd);
@@ -170,7 +178,7 @@ function render(){
   main.innerHTML=`<div class="sec${pins.length?'':' dim'}" data-zone="pin">ピン留め${pins.length?'':'（ここにカードを置くとピン留め）'}</div><div class="pins" data-zone="pin">${pins.map(t=>`<button class="pin item" data-id="${t.id}" data-open="${t.id}" style="--c:${CATS[t.cat].c}">${esc(t.title)}<span class="grip" data-grip="${t.id}">≡</span></button>`).join('')}</div>`+
    `<div class="sec" data-zone="list">${pins.length?'そのほか':'一覧'}（${rest.length}）</div>`+
    (rest.length?`<div class="list" data-zone="list">${rest.map(t=>`<div class="card item" data-id="${t.id}" style="--c:${CATS[t.cat].c}"><span class="grip" data-grip="${t.id}">≡</span><button class="t" data-open="${t.id}"><b>${esc(t.title)}</b><small><span class="badge">${CATS[t.cat].n}</span>${esc(t.desc||'')||(t.opened?'最後に開いた日 '+new Date(t.opened).toLocaleDateString('ja-JP'):'まだ開いていない')}</small></button><button class="m" data-menu="${t.id}" aria-label="メニュー">⋯</button></div>`).join('')}</div>`:`<div class="list empty" data-zone="list">該当なし</div>`)+
-   `<p class="hint">≡ をつかんで並び替え。上のタブに落とすと分類を移動。PCならHTMLファイルをこの画面に落として追加できます。</p>`+footnote();
+   `<p class="hint">≡ をつかんで並び替え。上の分類タブに落とすと移動。タブ右端の＋で分類を追加。PCならHTMLファイルをこの画面に落として追加できます。</p>`+footnote();
   main.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>open(b.dataset.open));
   main.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>menu(b.dataset.menu));
   main.querySelectorAll('[data-grip]').forEach(g=>dragItem(g));
@@ -187,7 +195,7 @@ function dragItem(grip){
     ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';
     const el=document.elementFromPoint(e.clientX,e.clientY);
     const tab=el&&el.closest('.tabs button');
-    if(tab!==overTab){overTab&&overTab.classList.remove('over');overTab=tab&&tab.dataset.cat!=='all'?tab:null;overTab&&overTab.classList.add('over')}
+    if(tab!==overTab){overTab&&overTab.classList.remove('over');overTab=tab&&tab.dataset.cat&&tab.dataset.cat!=='all'?tab:null;overTab&&overTab.classList.add('over')}
     if(overTab){ph.remove();return}
     const zone=el&&el.closest('[data-zone]');
     if(zone){overZone=zone.dataset.zone;const tgt=el.closest('.item');
@@ -198,7 +206,7 @@ function dragItem(grip){
   const end=async e=>{if(e.pointerId!==pid)return;pid=null;if(!ghost)return;
     ghost.remove();ghost=null;item.classList.remove('dragging');
     const t=tools.find(x=>x.id===id);
-    if(overTab){const c=overTab.dataset.cat;overTab.classList.remove('over');ph.remove();if(t.cat!==c){t.cat=c;await put(t);toast(`「${t.title}」を${c==='clinical'?'臨床で使う':'覚える'}へ移動`)}load();return}
+    if(overTab){const c=overTab.dataset.cat;overTab.classList.remove('over');ph.remove();if(t.cat!==c){t.cat=c;await put(t);t.catByUser=true;await put(t);toast(`「${t.title}」を${CATS[c].n}へ移動`)}load();return}
     if(ph.parentNode){ph.parentNode.insertBefore(item,ph);ph.remove();
       const nowPinned=overZone==='pin';if(t.pinned!==nowPinned){t.pinned=nowPinned}
       const ids=[...main.querySelectorAll('.item')].map(x=>x.dataset.id);let i=0;
@@ -253,10 +261,10 @@ function menu(id){const t=tools.find(x=>x.id===id);if(!t)return;
   openSheet(`<h2>${esc(t.title)}</h2><div class="sub">${kb(t.size||0)}・追加 ${new Date(t.added).toLocaleDateString('ja-JP')}${t.shelf?'・共通の棚から（更新は自動で届きます）':'・この端末だけ'}</div>
   <div class="fld"><label>表示名</label><input id="eTitle" value="${esc(t.title)}"></div>
   <div class="fld"><label>ひとこと（検索にも使われます）</label><input id="eDesc" value="${esc(t.desc||'')}" placeholder="例：年齢別IGF-1基準値の早見"></div>
-  <div class="fld"><label>分類</label><div class="seg" id="seg">${['clinical','learn'].map(k=>`<button data-k="${k}" aria-pressed="${t.cat===k}" style="--c:${CATS[k].c}">${k==='clinical'?'臨床で使う':'覚える'}</button>`).join('')}</div></div>
+  <div class="fld"><label>分類</label><div class="seg" id="seg">${cats.map(k=>`<button data-k="${k.id}" aria-pressed="${t.cat===k.id}" style="--c:var(--k${k.k})">${esc(k.n)}</button>`).join('')}</div></div>
   <div class="acts"><button class="btn pri" id="eSave">保存</button><button class="btn" id="ePin">${t.pinned?'ピンを外す':'ピン留め'}</button><button class="btn" id="eRepl">新しい版に差し替え</button><button class="btn danger" id="eDel">削除</button></div>`,CATS[t.cat].c);
   let c=t.cat;sheetIn.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{c=b.dataset.k;sheetIn.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.k===c));sheet.style.setProperty('--c',CATS[c].c)});
-  sheetIn.querySelector('#eSave').onclick=async()=>{t.title=sheetIn.querySelector('#eTitle').value.trim()||t.title;t.desc=sheetIn.querySelector('#eDesc').value.trim();t.cat=c;await put(t);closeSheet();load();toast('保存しました')};
+  sheetIn.querySelector('#eSave').onclick=async()=>{t.title=sheetIn.querySelector('#eTitle').value.trim()||t.title;t.desc=sheetIn.querySelector('#eDesc').value.trim();if(t.cat!==c)t.catByUser=true;t.cat=c;await put(t);closeSheet();load();toast('保存しました')};
   sheetIn.querySelector('#ePin').onclick=async()=>{t.pinned=!t.pinned;await put(t);closeSheet();load()};
   sheetIn.querySelector('#eRepl').onclick=()=>{replTarget=id;replFile.click()};
   sheetIn.querySelector('#eDel').onclick=()=>{openSheet(`<h2>「${esc(t.title)}」を削除しますか？</h2><p style="font-size:.85rem;color:var(--muted)">このミニコンテンツは置き場から消えます。ミニの中で保存していた記録は残るので、同じものをまた追加すれば続きから使えます。</p><div class="acts"><button class="btn danger fill" id="yes">削除する</button><button class="btn" id="no">やめる</button></div>`,'var(--ng)');
@@ -279,7 +287,32 @@ restoreFile.onchange=async()=>{const f=restoreFile.files[0];restoreFile.value=''
   closeSheet();await load();toast(j.tools.length+'個 復元しました')};
 
 /* ---------- tabs / search / toast ---------- */
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;ls.set('mini.tab',cat);render()});
+function renderTabs(){const box=document.querySelector('.tabs');
+  const n=id=>tools.filter(t=>id==='all'||t.cat===id).length;
+  box.innerHTML=`<button role="tab" data-cat="all" aria-selected="${cat==='all'}">すべて <small>${n('all')}</small></button>`+
+   cats.map(c=>`<button role="tab" data-cat="${c.id}" style="--c:var(--k${c.k})" aria-selected="${cat===c.id}">${esc(c.n)} <small>${n(c.id)}</small></button>`).join('')+
+   `<button class="addtab" id="catEdit" aria-label="分類を追加・編集">＋</button>`;
+  box.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;ls.set('mini.tab',cat);render()});
+  box.querySelector('#catEdit').onclick=catSheet;
+  const sel=box.querySelector('[aria-selected="true"]');sel&&sel.scrollIntoView({inline:'nearest',block:'nearest'});
+}
+function saveCats(){ls.set('mini.cats',cats)}
+function catSheet(){
+  const used=new Set(cats.map(c=>c.k));
+  openSheet(`<h2>分類</h2><div class="sub">名前を変える・並べ替える・増やす</div>
+  ${cats.map((c,i)=>`<div class="catrow" style="--c:var(--k${c.k})"><i></i><input id="cn${i}" value="${esc(c.n)}"><button data-up="${i}" ${i?'':'disabled'}>↑</button>${c.id==='other'?'':`<button data-rm="${i}">削除</button>`}</div>`).join('')}
+  <div class="fld"><label>新しい分類</label><input id="newCat" placeholder="例：副腎、糖尿病、学会準備…"></div>
+  <div class="acts"><button class="btn pri" id="catSave">保存</button><button class="btn" id="catAdd">＋ 追加</button></div>
+  <p style="font-size:.74rem;color:var(--muted)">削除した分類のツールは「共通・その他」へ移ります。</p>`);
+  const commit=()=>cats.forEach((c,i)=>{const v=sheetIn.querySelector('#cn'+i).value.trim();if(v)c.n=v});
+  sheetIn.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{commit();const i=+b.dataset.up;[cats[i-1],cats[i]]=[cats[i],cats[i-1]];saveCats();catSheet();render()});
+  sheetIn.querySelectorAll('[data-rm]').forEach(b=>b.onclick=async()=>{commit();const c=cats[+b.dataset.rm];cats.splice(+b.dataset.rm,1);saveCats();
+    for(const t of tools)if(t.cat===c.id){t.cat='other';await put(t)}if(cat===c.id)cat='all';catSheet();load()});
+  sheetIn.querySelector('#catAdd').onclick=()=>{commit();const v=sheetIn.querySelector('#newCat').value.trim();if(!v){sheetIn.querySelector('#newCat').focus();return}
+    let k=0;while(used.has(k)&&k<7)k++;if(used.has(k))k=cats.length%8;
+    const id='c'+Date.now().toString(36);cats.splice(cats.findIndex(c=>c.id==='other'),0,{id,n:v,k});saveCats();cat=id;ls.set('mini.tab',cat);catSheet();render();toast(`「${v}」を追加しました`)};
+  sheetIn.querySelector('#catSave').onclick=()=>{commit();saveCats();closeSheet();render()};
+}
 document.getElementById('q').oninput=e=>{q=e.target.value;render()};
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
 load().then(syncShelf);
