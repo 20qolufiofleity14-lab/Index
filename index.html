@@ -29,6 +29,8 @@ header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:
 h1{font-size:1.15rem;font-weight:900;margin:0;letter-spacing:.04em;flex:1}
 .ic{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:700}
 .ic.pri{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.ic.home{text-decoration:none;color:var(--fg);white-space:nowrap}
+@media(max-width:380px){.row1 h1{font-size:1rem}.row1 .ic{padding:5px 9px}}
 .search{display:flex;align-items:center;gap:6px;margin-top:8px;background:var(--surface2);border:1.5px solid var(--line);border-radius:8px;padding:0 10px}
 .search input{flex:1;min-width:0;border:0;background:none;padding:7px 0;outline:none;color:var(--fg)}
 .search input::placeholder{color:var(--muted)}
@@ -99,7 +101,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 </head>
 <body>
 <header><div class="hd gut">
-  <div class="row1"><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button><button class="ic pri" id="addBtn">＋ 追加</button></div>
+  <div class="row1"><a class="ic home" id="homeBtn" href="https://20qolufiofleity14-lab.github.io/Academylab/">‹ アカデミー</a><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button><button class="ic pri" id="addBtn">＋ 追加</button></div>
   <input type="file" id="addFile" accept=".html,.htm,text/html" multiple hidden>
   <input type="file" id="restoreFile" accept=".json,application/json" hidden>
   <input type="file" id="replFile" accept=".html,.htm,text/html" hidden>
@@ -315,6 +317,7 @@ function catSheet(){
 }
 document.getElementById('q').oninput=e=>{q=e.target.value;render()};
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+try{const h=localStorage.getItem('hub_home_url');if(h&&/^https?:/.test(h))document.getElementById('homeBtn').href=h}catch(e){}
 load().then(syncShelf);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&viewer.hidden)syncShelf()});
 </script>
