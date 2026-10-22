@@ -29,15 +29,16 @@ header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:
 h1{font-size:1.15rem;font-weight:900;margin:0;letter-spacing:.04em;flex:1}
 .ic{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:700}
 .ic.pri{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.ic.home{text-decoration:none;color:var(--fg);white-space:nowrap}
-@media(max-width:380px){.row1 h1{font-size:1rem}.row1 .ic{padding:5px 9px}}
+.fab{position:fixed;z-index:38;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:6px;height:48px;padding:0 16px 0 12px;border-radius:999px;background:var(--accent);color:var(--bg);font-weight:700;font-size:.85rem;text-decoration:none;box-shadow:0 6px 18px rgb(0 0 0/.25)}
+.fab svg{width:20px;height:20px;flex:none}
+.fab:active{transform:scale(.96)}
 .search{display:flex;align-items:center;gap:6px;margin-top:8px;background:var(--surface2);border:1.5px solid var(--line);border-radius:8px;padding:0 10px}
 .search input{flex:1;min-width:0;border:0;background:none;padding:7px 0;outline:none;color:var(--fg)}
 .search input::placeholder{color:var(--muted)}
 .tabs{display:flex;margin-top:6px;overflow-x:auto;scrollbar-width:none;gap:2px}.tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:none;white-space:nowrap;padding-inline:12px!important;appearance:none;border:0;background:none;font-weight:700;color:var(--muted);padding:8px 2px 9px;border-bottom:3px solid transparent}
 .tabs button[aria-selected="true"]{color:var(--c,var(--accent));border-bottom-color:var(--c,var(--accent))}
-main{max-width:720px;margin:0 auto;padding-block:12px 80px}
+main{max-width:720px;margin:0 auto;padding-block:12px 96px}
 .sec{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:14px 0 6px}
 .pins{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .pin{appearance:none;text-align:left;border:1.5px solid color-mix(in srgb,var(--c) 50%,transparent);border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) var(--tint),var(--surface));border-radius:8px;padding:12px 12px;min-height:64px;font-weight:700;line-height:1.3;display:flex;align-items:center}
@@ -88,7 +89,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 .dragging{opacity:.35}
 .ghost{position:fixed;z-index:70;pointer-events:none;transform:translate(-20px,-50%) rotate(-2deg);box-shadow:0 12px 28px rgb(0 0 0/.3);width:min(320px,80vw)}
 .ph{border:2px dashed var(--muted);border-radius:8px;min-height:44px;background:transparent}
-.tabs .addtab{position:sticky;right:0;background:var(--surface);box-shadow:-8px 0 8px var(--surface);color:var(--muted);font-size:1.1rem;padding-inline:14px!important}
+.tabrow{display:flex;align-items:stretch;margin-top:6px}.tabrow .tabs{flex:1;min-width:0;margin-top:0}
+.addtab{appearance:none;border:0;border-left:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:1.1rem;padding-inline:14px!important}
 .catrow{display:flex;gap:6px;align-items:center;margin:6px 0}.catrow i{width:12px;height:12px;border-radius:50%;flex:none;background:var(--c)}.catrow input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface2);color:var(--fg)}.catrow button{appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 8px;font-size:.8rem}
 .seg{flex-wrap:wrap}.seg button{flex:1 1 30%}
 .tabs button.over{background:color-mix(in srgb,var(--c,var(--accent)) 18%,transparent);border-radius:8px 8px 0 0}
@@ -101,19 +103,20 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 </head>
 <body>
 <header><div class="hd gut">
-  <div class="row1"><a class="ic home" id="homeBtn" href="https://20qolufiofleity14-lab.github.io/Academylab/">‹ アカデミー</a><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button><button class="ic pri" id="addBtn">＋ 追加</button></div>
+  <div class="row1"><h1>ミニ置き場</h1><button class="ic" id="bkBtn">バックアップ</button><button class="ic pri" id="addBtn">＋ 追加</button></div>
   <input type="file" id="addFile" accept=".html,.htm,text/html" multiple hidden>
   <input type="file" id="restoreFile" accept=".json,application/json" hidden>
   <input type="file" id="replFile" accept=".html,.htm,text/html" hidden>
   <div class="search">🔍<input id="q" placeholder="検索（IGF、低血糖、ドリル…）" autocomplete="off"></div>
-  <div class="tabs" role="tablist">
-  </div>
+  <div class="tabrow"><div class="tabs" role="tablist">
+  </div><button class="addtab" id="catEdit" aria-label="分類を追加・編集">＋</button></div>
 </div></header>
 <main class="gut" id="main"></main>
 
 <div class="scrim" id="scrim"></div>
 <div class="sheet gut" id="sheet"><div class="in" id="sheetIn"></div></div>
 <div id="viewer" hidden><div class="vbar gut"><button class="ic" id="back">‹ 戻る</button><b id="vtitle"></b><button class="ic" id="reload">↻</button></div><iframe id="frame" title="ミニコンテンツ"></iframe></div>
+<a class="fab" id="homeBtn" href="https://20qolufiofleity14-lab.github.io/Academylab/" aria-label="アカデミーに戻る"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>アカデミー</a>
 <div class="toast" id="toast"></div>
 <div id="dropzone">ここに置いて追加</div>
 
@@ -293,9 +296,9 @@ function renderTabs(){const box=document.querySelector('.tabs');
   const n=id=>tools.filter(t=>id==='all'||t.cat===id).length;
   box.innerHTML=`<button role="tab" data-cat="all" aria-selected="${cat==='all'}">すべて <small>${n('all')}</small></button>`+
    cats.map(c=>`<button role="tab" data-cat="${c.id}" style="--c:var(--k${c.k})" aria-selected="${cat===c.id}">${esc(c.n)} <small>${n(c.id)}</small></button>`).join('')+
-   `<button class="addtab" id="catEdit" aria-label="分類を追加・編集">＋</button>`;
+   '';
   box.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;ls.set('mini.tab',cat);render()});
-  box.querySelector('#catEdit').onclick=catSheet;
+  document.getElementById('catEdit').onclick=catSheet;
   const sel=box.querySelector('[aria-selected="true"]');sel&&sel.scrollIntoView({inline:'nearest',block:'nearest'});
 }
 function saveCats(){ls.set('mini.cats',cats)}
