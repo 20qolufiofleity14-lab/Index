@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>早発乳房 診療クイックリファレンス</title>
+<meta name="mini-category" content="puberty">
+<meta name="mini-desc" content="乳幼児の孤立性乳房発育 — 初診評価・鑑別・段階的ワークアップ・フォロー">
+<meta name="mini-title" content="早発乳房">
+
+<style>
+/* ════════════════════════════════════════
+   DESIGN SYSTEM — CSS VARIABLES
+   ════════════════════════════════════════ */
+:root {
+  --bg: #f3eef2;
+  --card: #ffffff;
+  --border: #e7dde4;
+  --text: #1f1a1d;
+  --text-muted: #6b5f66;
+  --primary: #7c2d54;
+  --primary-mid: #a23e6e;
+  --primary-light: #c05f8a;
+  --primary-bg: #fbf2f6;
+  --red: #b91c1c;
+  --red-soft: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --amber: #92400e;
+  --amber-soft: #b45309;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --blue: #1d4ed8;
+  --blue-soft: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --green: #166534;
+  --green-soft: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo',sans-serif;
+  background: var(--bg); color: var(--text); font-size: 12.5px; line-height: 1.55;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #7c2d54 0%, #a23e6e 60%, #b5527e 100%);
+  color: white; padding: 15px 20px 13px;
+}
+.header h1 { font-size: 18px; font-weight: 800; letter-spacing: 0.2px; }
+.header p { font-size: 11px; opacity: 0.82; margin-top: 3px; }
+
+/* TABS */
+.tabs {
+  display: flex; background: white; border-bottom: 2px solid var(--border);
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  position: sticky; top: 0; z-index: 10;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 10px 13px; cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--text-muted); white-space: nowrap; border-bottom: 3px solid transparent;
+  transition: all 0.18s; user-select: none;
+}
+.tab:hover { color: var(--primary); background: var(--primary-bg); }
+.tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--primary-bg); }
+
+/* LAYOUT */
+.content { padding: 14px 16px 40px; max-width: 660px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; animation: fade 0.2s; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* CARDS */
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 13px 14px; margin-bottom: 11px; box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 13.5px; font-weight: 700; margin-bottom: 10px; color: var(--primary);
+  display: flex; align-items: center; gap: 6px;
+}
+.card-title .ico {
+  width: 20px; height: 20px; border-radius: 6px; background: var(--primary-bg);
+  color: var(--primary); display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.lead { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.65; }
+
+/* CALLOUT BOXES */
+.box { border-radius: 8px; padding: 10px 12px; margin-bottom: 9px; border-left: 4px solid; font-size: 11.8px; line-height: 1.7; }
+.box-title { font-weight: 700; margin-bottom: 4px; font-size: 12px; }
+.box.red    { background: var(--red-bg); border-color: var(--red-soft); }
+.box.red .box-title { color: var(--red); }
+.box.amber  { background: var(--amber-bg); border-color: var(--amber-soft); }
+.box.amber .box-title { color: var(--amber); }
+.box.blue   { background: var(--blue-bg); border-color: var(--blue-soft); }
+.box.blue .box-title { color: var(--blue); }
+.box.green  { background: var(--green-bg); border-color: var(--green-soft); }
+.box.green .box-title { color: var(--green); }
+.box.purple { background: var(--purple-bg); border-color: var(--purple); }
+.box.purple .box-title { color: var(--purple); }
+
+/* LIST */
+ul.clean { list-style: none; }
+ul.clean li { position: relative; padding-left: 16px; margin-bottom: 5px; font-size: 11.8px; line-height: 1.65; }
+ul.clean li::before { content: "▸"; position: absolute; left: 0; color: var(--primary-light); font-weight: 700; }
+ul.check li::before { content: "☐"; color: var(--primary-mid); font-size: 13px; }
+
+/* TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 11.3px; margin: 4px 0 2px; }
+th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--primary-bg); color: var(--primary); font-weight: 700; font-size: 11px; }
+td.c, th.c { text-align: center; }
+tr:last-child td { border-bottom: none; }
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 9px; }
+
+/* COMPARISON GRID */
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 9px; }
+.cmp-col { border-radius: 8px; padding: 10px 11px; }
+.cmp-col.benign { background: var(--green-bg); border: 1px solid var(--green-border); }
+.cmp-col.alarm  { background: var(--red-bg); border: 1px solid var(--red-border); }
+.cmp-col h4 { font-size: 12px; font-weight: 700; margin-bottom: 7px; }
+.cmp-col.benign h4 { color: var(--green); }
+.cmp-col.alarm h4 { color: var(--red); }
+.cmp-col ul { list-style: none; }
+.cmp-col li { font-size: 11px; padding-left: 13px; position: relative; margin-bottom: 5px; line-height: 1.55; }
+.cmp-col.benign li::before { content: "✓"; position: absolute; left: 0; color: var(--green-soft); font-weight: 700; }
+.cmp-col.alarm li::before { content: "!"; position: absolute; left: 0; color: var(--red-soft); font-weight: 800; }
+
+/* STEP FLOW */
+.step { display: flex; gap: 10px; margin-bottom: 10px; }
+.step-num {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--primary); color: white; font-weight: 700; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-body { flex: 1; }
+.step-body h4 { font-size: 12.5px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.step-body p { font-size: 11.5px; color: var(--text-muted); line-height: 1.6; }
+.step-line { position: relative; }
+.step-line::before {
+  content: ""; position: absolute; left: 11px; top: 26px; bottom: -10px;
+  width: 2px; background: var(--border);
+}
+
+/* PILL */
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; margin-left: 4px; }
+.pill.must { background: var(--red-bg); color: var(--red); }
+.pill.opt  { background: var(--blue-bg); color: var(--blue); }
+.pill.first{ background: var(--green-bg); color: var(--green); }
+
+/* MINI NOTE */
+.note { font-size: 10.8px; color: var(--text-muted); margin-top: 6px; padding-left: 4px; border-left: 2px solid var(--border); padding-left: 8px; line-height: 1.6; }
+
+/* FREQUENCY BAR */
+.freq { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.freq-label { width: 120px; font-size: 11px; flex-shrink: 0; }
+.freq-bar { flex: 1; height: 14px; background: var(--border); border-radius: 7px; overflow: hidden; }
+.freq-fill { height: 100%; background: linear-gradient(90deg, var(--primary-mid), var(--primary-light)); border-radius: 7px; }
+.freq-val { width: 42px; text-align: right; font-size: 10.5px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
+
+.footer { text-align: center; font-size: 10px; color: var(--text-muted); padding: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>早発乳房 診療クイックリファレンス</h1>
+  <p>乳児・幼児の孤立性乳房発育 — 初診評価・鑑別・フォロー（1歳半 初診を想定）</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="overview">概要・分類</div>
+  <div class="tab" data-tab="initial">初診評価</div>
+  <div class="tab" data-tab="ddx">鑑別疾患</div>
+  <div class="tab" data-tab="workup">検査の進め方</div>
+  <div class="tab" data-tab="followup">フォロー</div>
+  <div class="tab" data-tab="quick">早見表</div>
+</div>
+
+<div class="content">
+
+<!-- ══════════ 概要・分類 ══════════ -->
+<div class="section active" id="overview">
+  <div class="card">
+    <div class="card-title"><span class="ico">①</span>早発乳房症（premature thelarche）とは</div>
+    <p class="lead">他の思春期兆候（陰毛・成長加速・性器出血・骨年齢前進）を伴わない、<b>孤立性の乳房発育</b>。乳児〜幼児期に多く、大多数は良性・自然軽快する。本月齢の早発乳房はまずこれを念頭に置く。</p>
+    <div class="box green">
+      <div class="box-title">📌 病態背景（なぜ起こるか）</div>
+      mini-puberty（出生後の視床下部-下垂体-性腺軸の一過性活性化）の遷延・残存活動が背景。<b>FSH優位</b>で、卵巣に微小嚢胞を伴い少量のエストロゲンが間欠的に分泌される。LHは前思春期値にとどまる。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">②</span>発症年齢のピーク</div>
+    <ul class="clean">
+      <li><b>2歳未満（特に生後6か月〜2歳）</b>に最多 — mini-puberty由来。本症例（1歳半）はここに該当</li>
+      <li>生後早期から持続する例（mini-puberty持続型）もある</li>
+      <li>6〜8歳で発症する例は「slowly progressive variant（中間型）」やCPPへの移行に注意</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">③</span>思春期早発症の枠組み（鑑別の地図）</div>
+    <div class="box blue">
+      <div class="box-title">中枢性（GnRH依存性／CPP）</div>
+      視床下部-下垂体-性腺軸の早期活性化。LH優位。成長加速・骨年齢前進を伴う。低年齢ほど器質性（過誤腫・神経膠腫等）の頻度↑ → MRI必須。
+    </div>
+    <div class="box amber">
+      <div class="box-title">末梢性（GnRH非依存性）</div>
+      ゴナドトロピン非依存のエストロゲン産生。McCune-Albright、卵巣・副腎腫瘍、外因性エストロゲン、重症甲状腺機能低下（Van Wyk-Grumbach）。
+    </div>
+    <div class="box green">
+      <div class="box-title">孤立性・良性（早発乳房症）</div>
+      上記いずれにも進展しない自然軽快型。乳房発育のみで成長速度正常・骨年齢相応。<b>本月齢で最多</b>。
+    </div>
+    <div class="note">参考：日本の思春期早発症の目安（女児）— 乳房発育7歳6か月未満／陰毛・腋毛8歳未満／初経10歳6か月未満。本症例は年齢が大きく下回るため、「孤立性良性か、稀な器質性か」の見極めが軸になる。</div>
+  </div>
+</div>
+
+<!-- ══════════ 初診評価 ══════════ -->
+<div class="section" id="initial">
+  <div class="card">
+    <div class="card-title"><span class="ico">📝</span>問診チェックリスト</div>
+    <ul class="clean check">
+      <li><b>発症時期と経過</b>：いつ気づいたか／増大・横ばい・変動のいずれか</li>
+      <li><b>片側 / 両側</b>、左右差の有無</li>
+      <li><b>他の思春期兆候</b>：陰毛・腋毛、体臭、ニキビ、帯下、性器出血</li>
+      <li><b>成長の自覚</b>：最近の身長の伸び・体重増加の加速</li>
+      <li><b>出生歴・成長歴</b>：SGAか、出生体重、これまでの成長曲線</li>
+      <li><b>エストロゲン曝露</b>：外用クリーム・サプリ・経口避妊薬の誤飲、ラベンダー/ティーツリー製品、家族の薬剤</li>
+      <li><b>神経症状</b>：頭痛、視覚異常、痙攣、発達退行（中枢性示唆）</li>
+      <li><b>甲状腺症状</b>：便秘・活気低下・成長停滞（Van Wyk-Grumbach念頭）</li>
+      <li><b>家族歴</b>：近親者の思春期のタイミング、思春期早発、遺伝性疾患</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">🩺</span>身体診察</div>
+    <div class="box red">
+      <div class="box-title">⭐ 最重要 — 成長曲線と成長速度</div>
+      身長・体重・BMIを既存の成長曲線にプロット。<b>成長速度の加速が最初のアラーム</b>。良性早発乳房では成長速度は正常。
+    </div>
+    <ul class="clean">
+      <li><b>Tanner分類</b>：乳房（B）と陰毛（PH）を<u>別々に</u>評価</li>
+      <li><b>乳房触診</b>：真の乳腺組織か脂肪（lipomastia）かを区別。乳輪・乳頭のエストロゲン化の有無</li>
+      <li><b>外陰部</b>：粘膜のエストロゲン化、帯下、陰核肥大の有無</li>
+      <li><b>皮膚</b>：café-au-lait斑（辺縁不整 “coast of Maine” → McCune-Albright）</li>
+      <li><b>甲状腺触診、腹部腫瘤、簡単な神経学的所見</b></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">🎯</span>初診の方針（1歳半・孤立性の場合）</div>
+    <div class="box green">
+      <div class="box-title">基本姿勢</div>
+      孤立性乳房発育で<b>成長速度が正常</b>なら、初診で広範な検査は不要。経過観察が基本。気になる所見があれば段階的に検査（→「検査の進め方」タブ）。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 鑑別疾患 ══════════ -->
+<div class="section" id="ddx">
+  <div class="card">
+    <div class="card-title"><span class="ico">🔍</span>鑑別の核心 — 良性 vs 要注意</div>
+    <div class="cmp">
+      <div class="cmp-col benign">
+        <h4>良性を支持</h4>
+        <ul>
+          <li>乳房発育のみ（孤立性）</li>
+          <li>成長速度 正常</li>
+          <li>骨年齢 = 暦年齢</li>
+          <li>横ばい〜変動・自然軽快</li>
+          <li>LH前思春期値・FSH優位</li>
+          <li>子宮 前思春期サイズ</li>
+        </ul>
+      </div>
+      <div class="cmp-col alarm">
+        <h4>要精査（red flag）</h4>
+        <ul>
+          <li>陰毛・腋毛・体臭・ニキビ</li>
+          <li>成長速度の加速</li>
+          <li>骨年齢の前進</li>
+          <li>性器出血・帯下</li>
+          <li>急速進行する乳房増大</li>
+          <li>café-au-lait斑・神経症状</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">📋</span>鑑別疾患リスト</div>
+    <div class="box green">
+      <div class="box-title">1. 早発乳房症（premature thelarche）</div>
+      孤立性・良性。最多。経過観察。
+    </div>
+    <div class="box blue">
+      <div class="box-title">2. 中枢性思春期早発症（CPP / GnRH依存性）</div>
+      特発性が多いが、この月齢で確定すれば<b>器質性の除外（頭部MRI）が必須</b>。成長加速・骨年齢前進・LH優位反応。
+    </div>
+    <div class="box amber">
+      <div class="box-title">3. 末梢性（GnRH非依存性）</div>
+      <ul class="clean" style="margin-top:4px;">
+        <li><b>McCune-Albright症候群</b>：自律性卵巣嚢胞＋café-au-lait（coast of Maine）＋線維性骨異形成</li>
+        <li><b>卵巣腫瘍</b>（顆粒膜細胞腫など）・<b>副腎腫瘍</b></li>
+        <li><b>外因性エストロゲン</b></li>
+        <li><b>重症原発性甲状腺機能低下症</b>（Van Wyk-Grumbach）：成長停滞・多嚢胞卵巣を伴う</li>
+      </ul>
+    </div>
+    <div class="box purple">
+      <div class="box-title">4. slowly progressive variant（中間型）</div>
+      経過観察中に顕在化しうるため、follow-upでの再評価が重要。
+    </div>
+    <div class="box">
+      <div class="box-title" style="color:var(--text-muted)">5. 乳房脂肪 / 左右差（lipomastia）</div>
+      触診で乳腺組織でないことを確認。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 検査の進め方 ══════════ -->
+<div class="section" id="workup">
+  <div class="card">
+    <div class="card-title"><span class="ico">🧪</span>段階的ワークアップ</div>
+    <p class="lead">孤立性・成長速度正常なら段階1で止めてよい。所見が気になる、または進行する場合に段階を進める。</p>
+
+    <div class="step-line">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>骨年齢（左手X線）<span class="pill first">第一選択</span></h4>
+          <p>暦年齢相応 → 早発乳房を支持。前進 → エストロゲン効果あり、精査へ。最も簡便で有用な分岐点。</p>
+        </div>
+      </div>
+    </div>
+    <div class="step-line">
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>基礎ホルモン：LH・FSH・E2</h4>
+          <p>早発乳房ではLH前思春期値・<b>FSH優位</b>・E2低値が典型。LH優位ならCPP示唆。</p>
+        </div>
+      </div>
+    </div>
+    <div class="step-line">
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>骨盤超音波</h4>
+          <p>子宮長・卵巣容積・嚢胞を評価。早発乳房では子宮は前思春期サイズ（&lt;約3.5cm）。微小卵巣嚢胞は本症でもみられる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="step-line">
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>TSH・FT4 <span class="pill opt">疑い時</span></h4>
+          <p>成長停滞・甲状腺症状があればVan Wyk-Grumbachを除外。</p>
+        </div>
+      </div>
+    </div>
+    <div class="step-line">
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>GnRH負荷試験 <span class="pill opt">進行例</span></h4>
+          <p>CPP確定に。LH優位反応（LHピーク上昇・LH/FSH比上昇）= 中枢性。</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>頭部MRI <span class="pill must">CPP確定時</span></h4>
+        <p>特に低年齢のCPPでは器質性病変の頻度が高く、強く推奨。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">📊</span>所見パターンの読み方</div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>項目</th><th>早発乳房症</th><th>CPP（中枢性）</th></tr>
+      <tr><td>骨年齢</td><td>暦年齢相応</td><td>前進</td></tr>
+      <tr><td>成長速度</td><td>正常</td><td>加速</td></tr>
+      <tr><td>基礎LH</td><td>前思春期値</td><td>上昇傾向</td></tr>
+      <tr><td>LH/FSH</td><td>FSH優位</td><td>LH優位</td></tr>
+      <tr><td>GnRH反応</td><td>FSH優位</td><td>LH優位</td></tr>
+      <tr><td>子宮サイズ</td><td>前思春期</td><td>増大</td></tr>
+    </table>
+    </div>
+    <div class="note">数値カットオフは施設・測定系で異なるため、自施設基準で解釈。判断に迷う場合は樋口先生へコンサルト。</div>
+  </div>
+</div>
+
+<!-- ══════════ フォロー ══════════ -->
+<div class="section" id="followup">
+  <div class="card">
+    <div class="card-title"><span class="ico">📅</span>フォローアップの基本</div>
+    <div class="box green">
+      <div class="box-title">経過観察が原則</div>
+      多くは横ばい〜自然消退で無治療。ご家族には<b>良性であること</b>を説明し安心を提供する。
+    </div>
+    <ul class="clean">
+      <li><b>3〜6か月ごとの再診</b>で経時評価</li>
+      <li>毎回チェック：<b>成長速度</b>・Tanner stage（B / PH）・体重</li>
+      <li>必要時：骨年齢の再評価で進行を確認</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">🚨</span>再精査を考えるred flag</div>
+    <div class="box red">
+      <div class="box-title">以下が出現したら段階的ワークアップを再開</div>
+      <ul class="clean" style="margin-top:5px;">
+        <li>乳房のさらなる増大・急速進行</li>
+        <li>陰毛・腋毛の出現、体臭・ニキビ</li>
+        <li><b>身長加速</b>（成長曲線でパーセンタイルを上向きに横切る）</li>
+        <li>骨年齢の前進</li>
+        <li>性器出血・帯下</li>
+        <li>頭痛・視覚異常などの神経症状</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">🧭</span>フォローの軸（ひとことで）</div>
+    <div class="box blue">
+      成長曲線が正常で骨年齢が暦年齢相応なら<b>慌てず観察</b>。<b>成長速度の加速</b>が最初のアラーム。これを基準に再精査のタイミングを判断する。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 早見表 ══════════ -->
+<div class="section" id="quick">
+  <div class="card">
+    <div class="card-title"><span class="ico">⚡</span>早発乳房症 vs CPP — 一覧</div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>鑑別点</th><th>早発乳房症</th><th>中枢性思春期早発（CPP）</th></tr>
+      <tr><td>機序</td><td>mini-puberty残存</td><td>HPG軸の早期活性化</td></tr>
+      <tr><td>他の兆候</td><td>なし（孤立性）</td><td>陰毛・成長加速など合併</td></tr>
+      <tr><td>成長速度</td><td>正常</td><td>加速</td></tr>
+      <tr><td>骨年齢</td><td>相応</td><td>前進</td></tr>
+      <tr><td>ホルモン</td><td>FSH優位・LH低値</td><td>LH優位</td></tr>
+      <tr><td>子宮</td><td>前思春期</td><td>増大</td></tr>
+      <tr><td>画像</td><td>不要（基本）</td><td>頭部MRI必須</td></tr>
+      <tr><td>治療</td><td>経過観察</td><td>GnRHアナログ等</td></tr>
+      <tr><td>予後</td><td>自然軽快</td><td>原因により異なる</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">✅</span>初診ToDo（1歳半・孤立性）</div>
+    <ul class="clean check">
+      <li>成長曲線プロット（身長・体重・BMI・成長速度）</li>
+      <li>Tanner（B / PH を別評価）・乳腺組織か脂肪か触診</li>
+      <li>外陰のエストロゲン化・皮膚café-au-lait斑チェック</li>
+      <li>エストロゲン曝露歴・家族歴の聴取</li>
+      <li>孤立性＋成長正常なら → 経過観察、3〜6か月後再診</li>
+      <li>所見が気になれば → 骨年齢から段階的に精査</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ico">💡</span>覚え書き</div>
+    <div class="box amber">
+      <div class="box-title">本月齢で最も多いのは良性の早発乳房症</div>
+      しかし「孤立性であること」「成長速度が正常であること」を確認して初めて言える。陰毛・成長加速・骨年齢前進が一つでもあれば、CPPや末梢性を能動的に除外する。
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">早発乳房 診療クイックリファレンス｜診療補助用メモ・最新ガイドラインと自施設基準で確認のこと</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>
