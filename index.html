@@ -253,7 +253,7 @@ async function open(id){const t=tools.find(x=>x.id===id);if(!t)return;openId=id;
   history.pushState({open:id},'','#open');
 }
 function closeViewer(){if(viewer.hidden)return;viewer.hidden=true;frame.srcdoc='';document.body.style.overflow='';openId=null;load()}
-document.getElementById('back').onclick=()=>{if(history.state&&history.state.open)history.back();else closeViewer()};
+document.getElementById('back').onclick=()=>{closeViewer();try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}};
 document.getElementById('reload').onclick=()=>{const t=tools.find(x=>x.id===openId);if(t)frame.srcdoc=t.html};
 window.addEventListener('popstate',()=>closeViewer());
 
