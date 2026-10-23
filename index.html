@@ -131,12 +131,13 @@ const del=id=>tx('readwrite',s=>s.delete(id));
 const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 /* ---------- categorize ---------- */
-const DEFAULT_CATS=[{id:'thyroid',n:'甲状腺',k:0},{id:'growth',n:'成長・骨',k:1},{id:'puberty',n:'思春期',k:3},{id:'glucose',n:'糖・低血糖',k:2},{id:'metab',n:'代謝',k:4},{id:'other',n:'共通・その他',k:7}];
+const DEFAULT_CATS=[{id:'thyroid',n:'甲状腺',k:0},{id:'growth',n:'成長・骨',k:1},{id:'puberty',n:'思春期',k:3},{id:'glucose',n:'糖・低血糖',k:2},{id:'metab',n:'代謝',k:4},{id:'conf',n:'学会関連',k:6},{id:'other',n:'共通・その他',k:7}];
 let cats=ls.get('mini.cats',null);if(!Array.isArray(cats)||!cats.length){cats=DEFAULT_CATS.map(c=>({...c}));ls.set('mini.cats',cats)}
 if(!cats.find(c=>c.id==='other')){cats.push({id:'other',n:'共通・その他',k:7});ls.set('mini.cats',cats)}
+if(!ls.get('mini.conf.added',false)){if(!cats.find(c=>c.id==='conf')){const i=cats.findIndex(c=>c.id==='other');cats.splice(i<0?cats.length:i,0,{id:'conf',n:'学会関連',k:6});ls.set('mini.cats',cats)}ls.set('mini.conf.added',true)}
 const catOf=id=>cats.find(c=>c.id===id)||cats.find(c=>c.id==='other');
 const CATS=new Proxy({},{get:(_,id)=>{const c=catOf(id);return {n:c.n,c:`var(--k${c.k})`}}});
-const KW=[['thyroid',/甲状腺|橋本|バセドウ|TSH|TRH|CH /i],['puberty',/思春期|CPP|乳房|性腺/],['growth',/身長|成長|IGF|GH|ソマト|ALP|骨|カルシウム/],['glucose',/糖|DKA|低血糖|インスリン|ケトン/],['metab',/代謝|アミノ酸|PKU|OTC|カルニチン|脂肪酸|FAOD|ライソゾーム|尿素|有機酸/]];
+const KW=[['conf',/学会|JSPE|抄録|日程/i],['thyroid',/甲状腺|橋本|バセドウ|TSH|TRH|CH /i],['puberty',/思春期|CPP|乳房|性腺/],['growth',/身長|成長|IGF|GH|ソマト|ALP|骨|カルシウム/],['glucose',/糖|DKA|低血糖|インスリン|ケトン/],['metab',/代謝|アミノ酸|PKU|OTC|カルニチン|脂肪酸|FAOD|ライソゾーム|尿素|有機酸/]];
 const guessCat=title=>{for(const [id,re] of KW)if(re.test(title)&&cats.find(c=>c.id===id))return id;return 'other'};
 function parseHTML(html,fname){
   const meta=(n)=>{const m=html.match(new RegExp('<meta\\s+name=["\']'+n+'["\']\\s+content=["\']([^"\']*)["\']','i'))||html.match(new RegExp('<meta\\s+content=["\']([^"\']*)["\']\\s+name=["\']'+n+'["\']','i'));return m?m[1].trim():''};
