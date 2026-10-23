@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>負荷試験あんちょこ</title>
+<meta name="mini-category" content="other">
+<meta name="mini-desc" content="体重・身長を入れると薬剤量（上限込み）が出る。採血時間と判定の早見つき">
+<style>
+:root{
+  --navy:#122b45; --navy2:#1d4266; --ink:#16202b; --sub:#5a6b7c;
+  --line:#dbe3ec; --bg:#f2f5f8; --card:#ffffff;
+  --act:#1e6f8c; --actbg:#e8f3f7;
+  --ok:#2e7d55; --okbg:#e8f5ee;
+  --warn:#8e2b2b; --warnbg:#fdeaea;
+  --amb:#8a5a00; --ambbg:#fff7e3;
+  --pur:#5b3a8c; --purbg:#f3eefb;
+}
+*{box-sizing:border-box;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
+  font-size:15px;line-height:1.7;padding-bottom:60px}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:14px 16px 12px}
+header h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.02em}
+header p{margin:3px 0 0;font-size:12px;color:#a9c4dd}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 4px rgba(18,43,69,.08)}
+.inbar{display:flex;gap:6px 8px;align-items:center;padding:8px 12px 6px;max-width:760px;margin:0 auto;flex-wrap:wrap}
+.inbar label{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--sub);font-weight:600}
+.inbar input{width:54px;font:inherit;font-size:16px;font-weight:700;padding:5px 7px;border:1.5px solid #b9c7d6;border-radius:7px;text-align:right;font-variant-numeric:tabular-nums;color:var(--navy)}
+.inbar input:focus{outline:none;border-color:var(--act);box-shadow:0 0 0 3px #d3e8ef}
+.bsa{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums}
+.bsa b{color:var(--navy);font-size:15px}
+.clr{margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:7px;padding:3px 9px;font:inherit;font-size:13px;color:var(--sub);cursor:pointer}
+nav.views{display:flex;max-width:760px;margin:0 auto;padding:0 8px}
+nav.views button{flex:1;border:0;background:none;padding:9px 6px;font:inherit;font-size:14px;font-weight:700;color:var(--sub);border-bottom:3px solid transparent;cursor:pointer}
+nav.views button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 12px;max-width:760px;margin:0 auto}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 11px;font:inherit;font-size:13px;color:var(--sub);cursor:pointer;white-space:nowrap}
+.chips button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700}
+main{padding:12px 12px 0;max-width:760px;margin:0 auto}
+.search{width:100%;font:inherit;font-size:15px;padding:8px 11px;border:1px solid var(--line);border-radius:9px;margin:0 0 10px;background:#fff}
+.t{background:var(--card);border:1px solid var(--line);border-radius:11px;margin:0 0 10px;overflow:hidden}
+.t>summary{list-style:none;cursor:pointer;padding:11px 13px 10px;display:block}
+.t>summary::-webkit-details-marker{display:none}
+.t .hd{display:flex;align-items:baseline;gap:8px}
+.t .nm{font-size:16px;font-weight:700;color:var(--navy);flex:1}
+.t .sys{font-size:11px;font-weight:700;padding:1px 7px;border-radius:9px;background:var(--actbg);color:var(--act);white-space:nowrap}
+.t .peek{margin-top:3px;font-size:13.5px;color:var(--sub)}
+.t .peek .v{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.t[open]>summary{border-bottom:1px solid var(--line);background:#fafcfd}
+.bd{padding:11px 13px 12px}
+.bd h3{margin:12px 0 5px;font-size:13.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:6px}
+.bd h3:first-child{margin-top:0}
+.bd h3::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--act)}
+.bd h3.j::before{background:var(--ok)}
+.bd h3.c::before{background:#c0272d}
+.bd p{margin:0 0 7px}
+.bd ul{margin:0 0 7px;padding-left:1.2em}
+.bd li{margin-bottom:3px}
+.dose{border:1.5px solid #bcdbe6;background:var(--actbg);border-radius:9px;padding:8px 11px;margin:0 0 7px}
+.dose .dn{font-size:13px;color:var(--sub);font-weight:600}
+.dose .dv{font-size:21px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.35}
+.dose .dv small{font-size:13px;font-weight:600;color:var(--sub)}
+.dose .rule{font-size:13px;color:var(--ink)}
+.dose .ml{font-size:13.5px;color:var(--act);font-weight:700}
+.dose.cap{border-color:#e3c27a;background:var(--ambbg)}
+.capb{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:var(--amb);border-radius:5px;padding:0 6px;margin-left:4px;vertical-align:3px}
+.dose.need .dv{font-size:15px;color:var(--sub);font-weight:600}
+.dose.rescue{border-color:#f0c4c4;background:var(--warnbg)}
+.dose.rescue .dv{color:var(--warn)}
+.tl{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 6px}
+.tl span{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;background:#eef3f7;color:var(--navy);border-radius:5px;padding:1px 7px}
+.tl span.o{background:#fff;border:1px dashed #b9c7d6;color:var(--sub)}
+.meas{font-size:13.5px;color:var(--sub)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:0 0 8px}
+th,td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+th{background:#eef3f7;font-weight:700;color:var(--navy)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+.box{border-radius:8px;padding:8px 11px;margin:0 0 8px;font-size:14px}
+.box.ok{background:var(--okbg);border:1px solid #c2e0d0}
+.box.warn{background:var(--warnbg);border:1px solid #f0c4c4}
+.box.amb{background:var(--ambbg);border:1px solid #e8d3a0}
+.box.info{background:var(--actbg);border:1px solid #bcdbe6}
+.box.pur{background:var(--purbg);border:1px solid #d9cbef}
+.out{color:var(--sub);font-size:12px}
+.calc{border:1px dashed #b9c7d6;border-radius:9px;padding:9px 11px;margin:6px 0 8px;background:#fbfdfe}
+.calc .row{display:flex;flex-wrap:wrap;gap:6px 10px;margin-bottom:6px}
+.calc label{font-size:12.5px;color:var(--sub);display:flex;align-items:center;gap:4px}
+.calc input{width:66px;font:inherit;font-size:15px;padding:3px 6px;border:1px solid #b9c7d6;border-radius:6px;text-align:right;font-variant-numeric:tabular-nums}
+.calc .res{font-size:14px;font-weight:700}
+.calc .res .g{color:var(--ok)}.calc .res .b{color:var(--warn)}.calc .res .m{color:var(--amb)}
+.memo .card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin:0 0 10px}
+.memo h2{margin:0 0 7px;font-size:16px;color:var(--navy)}
+.memo ul{margin:0;padding-left:1.2em}
+.memo li{margin-bottom:5px}
+.src{font-size:12px;color:var(--sub);margin:16px 2px 0;line-height:1.6}
+.empty{color:var(--sub);text-align:center;padding:24px 0}
+.hl{background:#fff2a8;border-radius:2px;padding:0 2px}
+.xs{font-size:12px;color:var(--sub)}
+.ext{font-size:11px;color:var(--pur);font-weight:700;border:1px solid #d9cbef;border-radius:4px;padding:0 4px;margin-left:3px;white-space:nowrap}
+@media print{.top,.search{display:none}.t{break-inside:avoid}details>*{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <h1>負荷試験あんちょこ</h1>
+  <p>体重・身長を入れると量が出る／採血時間／判定の早見</p>
+</header>
+
+<div class="top">
+  <div class="inbar">
+    <label>体重<input id="wt" type="number" inputmode="decimal" step="0.1" min="0" placeholder="kg">kg</label>
+    <label>身長<input id="ht" type="number" inputmode="decimal" step="0.1" min="0" placeholder="cm">cm</label>
+    <span class="bsa" id="bsa">BSA <b>—</b></span>
+    <button class="clr" id="clr" type="button" aria-label="クリア">✕</button>
+  </div>
+  <nav class="views" role="tablist">
+    <button role="tab" data-v="prep" aria-selected="true">準備（量）</button>
+    <button role="tab" data-v="judge" aria-selected="false">判定</button>
+    <button role="tab" data-v="memo" aria-selected="false">前準備・順番</button>
+  </nav>
+  <div class="chips" id="chips"></div>
+</div>
+
+<main id="main"></main>
+
+<script>
+/* ===== 系統 ===== */
+const SYS=[
+ ['all','すべて'],['gh','GH'],['thy','甲状腺・PRL'],['gon','性腺・DSD'],['adr','副腎'],
+ ['wat','水・ADH'],['ca','Ca・PTH・髄質'],['glu','糖・低血糖'],['ren','腎・尿細管']
+];
+const SYSN=Object.fromEntries(SYS);
+
+/* ===== GH共通の判定 ===== */
+const GHJ=`<table><tr><th></th><th>低反応</th><th>重症</th></tr>
+<tr><td>GH頂値（下記以外）</td><td class="n">≦6 ng/mL</td><td class="n">≦3 ng/mL</td></tr>
+<tr><td>GHRP-2のみ</td><td class="n">≦16 ng/mL</td><td class="n">≦10 ng/mL</td></tr></table>
+<ul><li>成長障害のみ → <b>2種以上</b>で低反応が必要。症候性低血糖・頭蓋内器質性疾患（他の前葉ホルモン欠損）あり → <b>1種</b>で可</li>
+<li>すべて重症基準 → 重症／重症に至らないがすべて低反応 → 中等症／1つ以上で反応あり・2つ以上で低反応 → 軽症（国際的には認められていない概念）</li>
+<li>偽性低反応：<b>甲状腺機能低下</b>（補充して正常化後に）、<b>尿崩症</b>（DDAVP治療中に）、ステロイド投与中、愛情遮断、<b>肥満</b></li>
+<li>新生児・乳児早期は頂値が基準超えでもGHDを否定できない。基準を満たすまで刺激試験を繰り返すのは目的に反する</li></ul>`;
+
+/* ===== 試験データ =====
+ dose: per 'kg' | 'm2' | 'fix', v 数値 or [lo,hi], u 単位, max 上限, conc 製剤濃度(単位/mL) で mL 表示 */
+const T=[
+/* ---------- GH ---------- */
+{id:'itt',sys:'gh',nm:'インスリン負荷（ITT）',kw:'インスリン 低血糖 ITT GH ACTH コルチゾール',
+ dose:[{n:'速効型インスリン（ヒューマリンR等）静注',per:'kg',v:0.1,u:'単位',conc:1,cl:'1単位/mLに希釈',rule:'0.1 単位/kg'},
+       {n:'完全欠損疑い・低血糖既往なら',per:'kg',v:0.05,u:'単位',conc:1,cl:'1単位/mLに希釈',rule:'0.05 単位/kg'},
+       {n:'低血糖症状（意識障害・けいれん）→ ただちに静注して中止',per:'kg',v:1,u:'mL',rule:'20%ブドウ糖 1 mL/kg',rescue:1}],
+ how:'前夜夕食以降絶食。留置針挿入20〜30分後に前値。インスリン投与後15〜45分で低血糖',
+ tl:['0','15<small>血糖のみ</small>','30','60','90','120'],meas:'血糖・GH（同時に ACTH・コルチゾールも可）',
+ judge:`<div class="box info">有効な負荷：<b>血糖が前値の50%以下</b>に低下</div>${GHJ}
+<p>副腎：コルチゾール頂値 <b>&lt;18 μg/dL</b> で副腎皮質機能低下を疑う（成人基準）</p>`,
+ caut:`<ul><li><b>20%ブドウ糖をすぐ打てる状態で準備</b>、終了まで医療者がベッドサイドに付き添う</li><li>ブドウ糖静注の<b>直前に採血</b>しておけば多くは評価可能</li><li>成人GHDの手引きではけいれん発作・虚血性心疾患で禁忌</li><li>薬剤量とプロトコールは複数医師で確認</li></ul>`},
+
+{id:'arg',sys:'gh',nm:'アルギニン負荷',kw:'アルギU アルギニン GH',
+ dose:[{n:'L-アルギニン塩酸塩 30分で点滴',per:'kg',v:0.5,u:'g',max:30,conc:0.1,cl:'アルギU（10%）なら',rule:'0.5 g/kg（最大30 g）'}],
+ how:'早朝空腹時。30分かけて点滴',tl:['0','30','60','90','120'],meas:'GH',
+ judge:GHJ,caut:`<ul><li>まれにアナフィラキシー</li><li>代謝性アシドーシスを助長しうる → 腎疾患・アシドーシスでは慎重に</li></ul>`},
+
+{id:'ldopa',sys:'gh',nm:'L-DOPA負荷',kw:'ドパストン レボドパ GH',
+ dose:[{n:'L-DOPA 経口',per:'kg',v:10,u:'mg',max:500,rule:'10 mg/kg（最大500 mg）'}],
+ how:'早朝空腹時に内服',tl:['0','30','60','90','120'],meas:'GH',
+ judge:GHJ,caut:`<ul><li>内服30分前後に一過性の嘔気・嘔吐</li></ul>`},
+
+{id:'clo',sys:'gh',nm:'クロニジン負荷',kw:'カタプレス クロニジン GH',
+ dose:[{n:'クロニジン 経口',per:'m2',v:[100,150],u:'μg',max:150,rule:'0.1〜0.15 mg/m²（最大0.15 mg）'}],
+ how:'早朝空腹時に内服',tl:['0','30','60','90','120'],meas:'GH',
+ judge:GHJ,caut:`<ul><li>60分ごろより眠気</li><li>血圧低下に注意して血圧を見る<span class="ext">出典外</span></li></ul>`},
+
+{id:'glgh',sys:'gh',nm:'グルカゴン負荷（GH）',kw:'グルカゴン GH 皮下 筋注',
+ dose:[{n:'グルカゴン 皮下注（または筋注）',per:'kg',v:0.03,u:'mg',max:1,conc:1,cl:'1 mg/mLに溶解なら',rule:'0.03 mg/kg（最大1 mg）'}],
+ how:'早朝空腹時。直接作用で血糖↑ → インスリン分泌 → 血糖↓で間接的にGH刺激。<b>180分</b>かかる',
+ tl:['0','30','60','90','120','150','180'],meas:'GH・血糖',
+ judge:GHJ,caut:`<ul><li>高血糖後の<b>反応性低血糖</b> → 血糖モニター、ブドウ糖液を準備（対応はITTに準じる）</li><li>インスリン分泌能をみるグルカゴン負荷（静注・Cペプチド）とは別物</li></ul>`},
+
+{id:'ghrp',sys:'gh',nm:'GHRP-2負荷',kw:'GHRP プラルモレリン 科研 GH',
+ dose:[{n:'プラルモレリン（注射用GHRP科研100）静注',per:'kg',v:2,u:'μg',max:100,rule:'2 μg/kg（最大100 μg）'}],
+ how:'小児は4歳以上18歳未満。多くは30〜45分で頂値 → 60分で終了',tl:['0','15','30','45','60'],meas:'GH',
+ judge:`<div class="box amb">GHRP-2だけ基準が違う：<b>≦16</b> 低反応／<b>≦10</b> 重症</div>${GHJ}`,
+ caut:`<ul><li>副作用はほとんどない。一時的な腸管運動亢進で腹鳴</li></ul>`},
+
+/* ---------- 甲状腺・PRL ---------- */
+{id:'trh',sys:'thy',nm:'TRH負荷',kw:'TRH プロチレリン TSH PRL プロラクチン 甲状腺',
+ dose:[{n:'プロチレリン（TRH）ゆっくり静注',per:'kg',v:[5,7],u:'μg',max:500,rule:'5〜7 μg/kg（最大500 μg）。生食5〜10 mLに混ぜる'},
+       {n:'PRL分泌評価として行う場合',per:'kg',v:10,u:'μg',max:500,rule:'10 μg/kg（最大0.5 mg）'}],
+ how:'食事の影響は受けないが、他の負荷と同時に早朝空腹時に行うことが多い。検査前に排尿、食直後は避ける',
+ tl:['0','(15)','30','60','90','120'],meas:'TSH（PRL）。前と120分にFT3・FT4を測ることも',
+ judge:`<table><tr><th>TSH反応</th><th>基準</th><th>考える病態</th></tr>
+<tr><td>正常</td><td>15〜30分で頂値、120分でほぼ前値</td><td></td></tr>
+<tr><td>低反応</td><td class="n">頂値 &lt;5 μIU/mL</td><td>中枢性（下垂体性）、潜在性甲状腺機能亢進、TSH産生腺腫</td></tr>
+<tr><td>遅延・遷延</td><td>頂値が60分以降／頂値60分後も頂値の40%以下に下がらない</td><td><b>視床下部性</b>に特徴的</td></tr>
+<tr><td>過大</td><td>30分以内に頂値 かつ <b>&gt;30 μIU/mL</b></td><td>原発性・潜在性甲状腺機能低下</td></tr></table>
+<p class="xs">新生児・乳児：30分値 &gt;35 で原発性を疑う報告もあるが &gt;30 を基準とする施設が多い</p>
+<div class="box amb">中枢性甲低の小児54例：低反応30%・遅延30%だが<b>過大16.7%・正常23.3%</b> → 正常反応でも否定できない。FT4正常下限の軽症例で有用</div>
+<p><b>PRL</b>：正常は15〜30分で基礎値の2倍以上／視床下部障害は60分以降に頂値の遅延過剰反応／潜在性高PRL血症は30分値 ≧70 ng/mL／PRL分泌不全は基礎値・頂値とも低値</p>`,
+ caut:`<ul><li>悪心・嘔吐、<b>尿意</b>、熱感（数分で消える。事前に説明）</li><li>下垂体腺腫ではまれに<b>下垂体卒中</b></li><li>TSH反応↑：メトクロプラミド、ハロペリドール、ヨード、アミオダロン、リチウム、スピロノラクトン等／↓：L-DOPA、シプロヘプタジン、カルバマゼピン、サリチル酸等</li></ul>`},
+
+{id:'t3',sys:'thy',nm:'T3抑制試験',kw:'T3 チロナミン バセドウ 中止',
+ dose:[{n:'T3（チロナミン）分3で7日間',per:'kg',v:1.5,u:'μg/日',max:75,rule:'1.5 μg/kg/日（最大75 μg/日）'}],
+ how:'抗甲状腺薬で一定期間正常化した後、抗甲状腺薬は継続したまま行う',tl:['前','7日後'],meas:'ヨウ素摂取率 または T4',
+ judge:`<div class="box ok">陽性：ヨウ素摂取率 <b>≦30%</b> または T4が <b>30%以上減少</b> → 抗甲状腺薬の中止を検討</div>
+<p>GL2016では推奨されず、中止判断に苦慮する例に限り考慮。TRH負荷と組み合わせて甲状腺ホルモン不応症の診断にも</p>`,
+ caut:`<ul><li>T3を負荷するので心疾患では注意</li></ul>`},
+
+{id:'bromo',sys:'thy',nm:'ブロモクリプチン負荷（PRL抑制）',kw:'ブロモクリプチン PRL プロラクチノーマ',
+ dose:[{n:'ブロモクリプチン 経口（成人量）',per:'fix',v:2.5,u:'mg',rule:'成人 2.5 mg'}],
+ how:'プロラクチノーマの診断は基礎値と画像で行うので必須ではない。治療反応性をみる目的',tl:['0','2h','4h','6h','12h'],meas:'PRL',
+ judge:`<div class="box info">プロラクチノーマ：4〜6時間で基礎値の<b>70%以上</b>抑制</div>
+<p>高PRL血症：複数回の基礎値がいずれも <b>≧20 ng/mL</b>。巨大腺腫なのに低値 → <b>hook effect</b>。マクロプロラクチン血症は高PRL血症の40%との報告</p>`,
+ caut:`<ul><li>嘔気・嘔吐、起立性低血圧、頭痛、めまい</li></ul>`},
+
+/* ---------- 性腺 ---------- */
+{id:'lhrh',sys:'gon',nm:'LH-RH負荷',kw:'LHRH GnRH ゴナドトロピン LH FSH 思春期',
+ dose:[{n:'LH-RH 静注',per:'m2',v:100,u:'μg',max:100,rule:'100 μg/m²（最大100 μg）'}],
+ how:'食事・運動・ストレスの影響を受けにくく、早朝空腹時でなくてよい',tl:['0','(15)','30','(45)','60','90','120'],meas:'LH・FSH',
+ judge:`<div class="box ok">思春期発来の反応：<b>LH頂値 &gt;6 mIU/mL</b> かつ <b>LH/FSH頂値比↑</b>（FSHよりLHの上昇が目立つ）</div>
+<table><tr><th>頂値（IRMA法）</th><th>LH</th><th>FSH</th></tr>
+<tr><td>前思春期 男児</td><td class="n">3.8</td><td class="n">9.9</td></tr>
+<tr><td>思春期 男児</td><td class="n">26.6</td><td class="n">11.4</td></tr>
+<tr><td>前思春期 女児</td><td class="n">2.8</td><td class="n">18.0</td></tr>
+<tr><td>思春期 女児</td><td class="n">11.4</td><td class="n">12.9</td></tr></table>
+<ul><li><b>男児1〜3か月</b>（mini puberty）：基礎値が思春期相当 → 基礎値＋負荷でも感度以下ならゴナドトロピン欠損の可能性が高い</li>
+<li><b>幼児〜前思春期</b>：健常児も低い → 低反応から分泌低下とは判断しがたい。<b>FSH過剰反応</b>なら性腺自体の強い障害を疑う</li>
+<li>女児はFSH基礎値10〜20程度が2歳ごろまで続く</li>
+<li><b>CPP疑い</b>：LH基礎値が明らかに上昇していれば必須でない（基礎値 &gt;0.3〜0.4で特異度高いとの報告）。検査のために治療を遅らせない。ゴナドトロピン上昇がはっきりしなければLH-RH非依存性の鑑別に有用</li>
+<li><b>思春期遅発</b>：男児18歳・女児16歳でも二次性徴なく思春期反応なし → 低ゴナドトロピン性と考えてよい。それより前は低反応だけでは診断できない</li></ul>
+<p class="xs">キット差が大きく、基準値は施設ごと。日本人の年齢別正常値（CLIA）はない</p>`,
+ caut:`<ul><li>TRH併用時に一過性の悪心・熱感、まれにショック</li><li><b>hCG負荷より先に</b>行う（hCGの影響は1週間以上残る）</li></ul>`},
+
+{id:'hcg',sys:'gon',nm:'hCG負荷',kw:'hCG テストステロン DSD 精巣 Leydig 5α 17β',
+ dose:[{n:'hCG 筋注 ×3日間連続（1日量）',per:'m2',v:3000,u:'単位/日',rule:'3,000 単位/m²/日 × 3日'}],
+ how:'投与終了24時間後に採血。46,XY DSDでは前後で <b>T・Δ4A・DHT</b> を測る',tl:['前','3日目投与の24h後'],meas:'テストステロン（＋Δ4A・DHT）',
+ judge:`<table><tr><th>所見</th><th>目安</th></tr>
+<tr><td>低反応</td><td>T増加が <b>110〜150 ng/dL</b> より低い（Winter：2,000単位×3日）</td></tr>
+<tr><td>精巣無形成・低形成</td><td>T増加 <b>&lt;10 ng/dL</b> が多い</td></tr>
+<tr><td>6か月未満（Pang）</td><td>前 14±10 → 後 46±31 ng/dL、<b>3.2倍</b></td></tr>
+<tr><td>5α還元酵素欠損</td><td><b>T/DHT ≧10</b>（負荷後のほうが感度↑）</td></tr>
+<tr><td>17β-HSD3欠損</td><td><b>T/Δ4A &lt;0.8</b>（感度 負荷前57% → 負荷後90%）</td></tr></table>
+<div class="calc" data-calc="hcg"><div class="row">
+<label>T<input data-k="t" inputmode="decimal">ng/dL</label><label>DHT<input data-k="d" inputmode="decimal">ng/dL</label><label>Δ4A<input data-k="a" inputmode="decimal">ng/dL</label></div><div class="res"></div></div>
+<p class="xs">mini puberty（〜6か月）以外の前思春期男児では Leydig 細胞機能評価にhCG負荷が必須</p>`,
+ caut:`<ul><li>影響が1週間以上続く → <b>LH-RH負荷を先に</b></li><li>思春期年齢で行うと思春期を進め骨端閉鎖を早めうる</li><li>精子形成能は評価できない</li></ul>`},
+
+/* ---------- 副腎 ---------- */
+{id:'crh',sys:'adr',nm:'CRH（CRF）負荷',kw:'CRH CRF コルチコレリン ACTH コルチゾール クッシング',
+ dose:[{n:'コルチコレリン（hCRH）静注',per:'kg',v:[1.0,1.5],u:'μg',max:100,rule:'1.0〜1.5 μg/kg（最大100 μg）'}],
+ how:'早朝空腹時、留置後30分以上の安静臥床。ACTHはEDTA管→すぐ氷水→遠心',tl:['0','15','30','60'],meas:'ACTH・コルチゾール（ACTHは30分、コルチゾールは60分で頂値）',
+ judge:`<ul><li>コルチゾール頂値 <b>&lt;18 μg/dL</b> → 副腎皮質機能低下を疑う／≧18 → 下垂体性障害は否定的（成人のエビデンス）</li>
+<li>頂値15をカットオフにするとITT基準で感度43%・特異度80%（明確なカットオフはない）</li></ul>
+<table><tr><th>パターン</th><th>ACTH・コルチゾール</th></tr>
+<tr><td>視床下部性</td><td><b>遅延かつ過剰</b>反応（重度・長期だと低反応にもなる）</td></tr>
+<tr><td>下垂体性</td><td>ともに<b>低反応</b></td></tr></table>
+<div class="box pur"><b>Cushingの鑑別</b>：Cushing病はACTHが前値の<b>1.5倍</b>以上に上昇。ACTH増加率 <b>35%</b> で Cushing病 vs 異所性（感度100%・特異度93%）、コルチゾール増加率20%（感度91%・特異度88%）</div>`,
+ caut:`<ul><li><b>ヒドロコルチゾン内服中は18〜24時間休薬</b>（前日夜・当日朝を抜く）。PSL・DEXはもっと長く</li><li>投与直後の顔面紅潮・温感（数分で消失）</li></ul>`},
+
+{id:'acth',sys:'adr',nm:'迅速ACTH負荷',kw:'コートロシン テトラコサクチド ACTH コルチゾール 17OHP CAH 21水酸化酵素',
+ dose:[{n:'コートロシン（テトラコサクチド）静注',per:'m2',v:0.25,u:'mg',max:0.25,dp:3,rule:'小児 0.25 mg/m²（成人 0.25 mg）'}],
+ how:'注射前30分以上安静。時間帯・食事制限なし。<b>非古典型CAH目的なら朝8時</b>。月経のある女性は卵胞期',tl:['0','30','60'],meas:'コルチゾール（CAH疑いは17OHP ほか前駆体）',
+ judge:`<div class="box ok">コルチゾール頂値 <b>≧18〜20 μg/dL</b> を正常とする施設が多い</div>
+<table><tr><th colspan="2">21OHD（米国内分泌学会2018）</th></tr>
+<tr><td>早朝17OHP</td><td class="n">&lt;2 ng/mL 除外／2〜10 → 負荷へ／&gt;10 21OHD</td></tr>
+<tr><td>負荷後17OHP</td><td class="n">&gt;10 ng/mL → 21OHD</td></tr></table>
+<p class="xs">非古典型と非罹患（保因者）の完全な区別は困難</p>
+<div class="box amb">原発性と続発性は区別できない。長期ステロイド後など<b>軽度のACTH分泌低下では反応が保たれ偽陰性</b> → CRHやITTも合わせて判断。抗副腎抗体・自己免疫疾患合併では1 μg ACTH負荷も</div>`,
+ caut:`<ul><li>グルココルチコイド内服中は半減期の短いHCに変更し、前日夕を抜く</li><li>強く疑う例は終了後<b>ただちにグルココルチコイド</b></li><li>非常にまれにショック → 常時観察</li></ul>`},
+
+{id:'dex',sys:'adr',nm:'デキサメタゾン抑制',kw:'デキサメタゾン DEX デカドロン クッシング 抑制',
+ dose:[{n:'迅速法（一晩法）：23時に内服',per:'kg',v:0.015,u:'mg',max:1,rule:'15 μg/kg（最大1 mg）'},
+       {n:'低用量48時間法：6時間ごと×8回（1回量）',per:'kg',v:0.03,u:'mg',max:0.5,rule:'30 μg/kg（最大0.5 mg）'},
+       {n:'高用量（8 mg）法：23時に内服',per:'kg',v:0.12,u:'mg',max:8,rule:'120 μg/kg（最大8 mg）'}],
+ how:'翌朝8〜9時に採血（迅速法は前日朝8〜9時にも）。48時間法は最終内服6時間後',tl:['前日朝','23時内服','翌朝8〜9時'],meas:'コルチゾール（ACTH）',
+ judge:`<table><tr><th>方法</th><th>正常（抑制あり）</th></tr>
+<tr><td>迅速法 1 mg</td><td class="n">翌朝 ≦5 μg/dL</td></tr>
+<tr><td>低用量48時間法</td><td class="n">≦1.8 μg/dL</td></tr></table>
+<div class="box info"><b>Cushingスクリーニング（3項目中2項目以上）</b>：深夜コルチゾール ≧5／24時間尿中遊離コルチゾール高値（基準 &lt;70 μg/m²/日、3日間）／DEX 1 mg で翌朝 ≧5</div>
+<div class="box pur"><b>高用量</b>：抑制されれば Cushing病（vs 異所性ACTH）。基準は「<b>前値の50%以下</b>」と「<b>20%以上抑制</b>」の2通りの記載あり</div>
+<p>48時間法は抑うつ・神経性やせ症・高度肥満・低栄養などコルチゾール亢進状態で特異度が高い</p>`,
+ caut:`<ul><li>偽陽性（抑制不十分）：<b>CYP3A4誘導薬</b>（フェニトイン、フェノバルビタール、カルバマゼピン、リファンピシン → 数週前に中止）、<b>エストロゲン・ピル</b>、肥満、抑うつ</li><li>肝・腎疾患はDEXクリアランス↓</li><li>Cushing症候群の原因は医原性が最多 → 薬歴を聞く</li></ul>`},
+
+{id:'meto',sys:'adr',nm:'メトピロン負荷（1回法）',kw:'メトピロン メチラポン 11-DOF 11デオキシコルチゾール ACTH',
+ dose:[{n:'メチラポン 23〜24時に経口',per:'kg',v:30,u:'mg',max:3000,maxExt:1,rule:'30 mg/kg'}],
+ how:'牛乳や固形物と一緒に内服（めまい予防）。すべての副腎皮質ステロイドを中止',tl:['23〜24時内服','翌朝8時'],meas:'コルチゾール・ACTH・11-DOF',
+ judge:`<div class="box info">検査成立：翌朝コルチゾール <b>&lt;5〜7 μg/dL</b>（負荷が十分）</div>
+<table><tr><th>正常</th><td class="n">ACTH &gt;75 pg/mL、11-DOF 7〜22 μg/dL</td></tr>
+<tr><th>副腎不全示唆</th><td class="n">11-DOF &lt;7 μg/dL</td></tr></table>
+<p class="xs">11β水酸化酵素を阻害してACTH分泌↑をみる。部分的なACTH分泌不全の検出に有用な可能性</p>`,
+ caut:`<ul><li>もっとも注意すべきは<b>急性副腎不全</b> → 十分な監視下で</li><li>めまい、眠気、悪心・嘔吐、頭痛</li><li>影響する薬：フェニトイン、エストロゲン、バルビツール、クロルプロマジン、抗甲状腺薬 等</li></ul>`},
+
+{id:'pa',sys:'adr',nm:'原発性アルドステロン症の確認試験（成人量）',kw:'アルドステロン レニン ARR カプトプリル 生理食塩水 フロセミド立位',
+ dose:[{n:'カプトプリル試験：内服',per:'fix',v:50,u:'mg',rule:'50 mg（12.5 mg 4錠）→ 60分後採血'},
+       {n:'生理食塩水試験：4時間で点滴',per:'fix',v:2000,u:'mL',rule:'2,000 mL/4時間（安静臥位）'},
+       {n:'フロセミド立位試験：静注',per:'fix',v:40,u:'mg',rule:'40 mg → 2時間立位 → 座位採血'}],
+ how:'スクリーニング：PACとPRAを同時測定し <b>ARR ≧200</b> で負荷試験へ',tl:['前','負荷後'],meas:'PAC・PRA',
+ judge:`<table><tr><th>試験</th><th>陽性</th></tr>
+<tr><td>カプトプリル</td><td class="n">負荷後 ARR ≧200</td></tr>
+<tr><td>生理食塩水</td><td class="n">負荷後 PAC ≧60 pg/mL（≦50は否定的）</td></tr>
+<tr><td>フロセミド立位</td><td class="n">PRA ≦2.0 ng/mL/時</td></tr></table>
+<p>スクリーニング陽性＋負荷試験<b>1種類以上</b>陽性で確定。家族性（HALD1〜4）は小児期・乳幼児期でも高血圧を発症しうる</p>`,
+ caut:`<ul><li>拮抗薬は<b>4週間前</b>、RAS阻害薬・利尿薬・β遮断薬は2週間前に中止。低Kは補正、減塩はしない</li><li>カプトプリル：血管性浮腫、腎血管性高血圧なら過度の降圧</li><li>生食：心負荷。コントロール不良の高血圧は禁忌</li></ul>`},
+
+/* ---------- 水・ADH ---------- */
+{id:'wdt',sys:'wat',nm:'水制限試験',kw:'水制限 尿崩症 浸透圧 多尿 心因性多飲',
+ dose:[],
+ how:'開始まで自由飲水 → 採血・採尿・体重測定 → 絶飲食開始。30〜60分ごとに採尿・体重',tl:['開始','30〜60分ごと','終了'],meas:'尿量・尿浸透圧・体重／血清Na・血漿浸透圧（AVP）',
+ pre:`<div class="box warn"><b>終了基準</b>：尿浸透圧がプラトー（変化 &lt;30 mOsm/kg）／<b>体重3〜5%減少</b>／4〜7時間経過<br>血漿浸透圧 ≧290 で十分な負荷</div><div id="wloss"></div>`,
+ judge:`<div class="box warn">血漿浸透圧 ≧290 で尿浸透圧 <b>≦290</b> → <b>完全型尿崩症</b>（AVP低値なら中枢性の可能性が高い）</div>
+<table><tr><th>最大尿浸透圧</th><th>解釈</th></tr>
+<tr><td class="n">&lt;300</td><td>完全型尿崩症</td></tr>
+<tr><td class="n">300〜700</td><td>部分型尿崩症 または 心因性</td></tr>
+<tr><td class="n">&gt;700</td><td>心因性多飲（正常）</td></tr></table>
+<p>正常：尿浸透圧が<b>血漿の2倍以上・800以上</b>（乳幼児は500〜600）。このときバソプレシン負荷での上昇は5%以下</p>
+<p class="xs">長期の心因性多飲は髄質の浸透圧勾配がなく濃縮不十分 → 水制限だけでは鑑別困難。飲水を徐々に減らして再検、または高張食塩水負荷でADHを測る</p>
+<p class="xs">血漿浸透圧の推定 ＝ 2×Na ＋ BUN/2.8 ＋ Glu/18</p>`,
+ caut:`<ul><li>開始時すでに血清Na &gt;146（血漿浸透圧 ≧290・Na ≧150）で尿が濃縮されていなければ、水制限せずにバソプレシン負荷へ</li><li><b>副腎不全合併は多尿にならない</b>（仮面尿崩症）→ ステロイド補充後に評価</li><li>低年齢・強く疑う例・尿量が多い例は頻回にモニターし危険なら中止</li><li>高Ca・低Kでも多尿</li></ul>`},
+
+{id:'avp',sys:'wat',nm:'バソプレシン（DDAVP）負荷',kw:'ピトレシン バソプレシン DDAVP デスモプレシン 尿崩症 腎性',
+ dose:[{n:'水溶性ピトレシン 皮下注',per:'m2',v:5,u:'単位',max:5,rule:'5 単位/m²（最大5 単位）。0.1 単位/kg でも可'},
+       {n:'または DDAVP 点鼻',per:'fix',v:[5,10],u:'μg',rule:'5〜10 μg'}],
+ how:'水制限試験に続けて。ピトレシンは30分ごと120分まで、DDAVPは60分ごと240分まで採尿・採血',tl:['0','30','60','90','120','(〜240 DDAVP)'],meas:'尿量・尿浸透圧・血漿浸透圧・Na',
+ judge:`<div class="calc" data-calc="avp"><div class="row"><label>投与前 尿浸透圧<input data-k="a" inputmode="decimal"></label><label>投与後 最大<input data-k="b" inputmode="decimal"></label></div><div class="res"></div></div>
+<table><tr><th>尿浸透圧の上昇率</th><th>解釈</th></tr>
+<tr><td class="n">≧10%</td><td>中枢性尿崩症</td></tr>
+<tr><td>尿量 ≧50%↓、2〜3倍、≧290で血漿を上回る</td><td>完全型中枢性</td></tr>
+<tr><td class="n">10〜70%</td><td>部分型中枢性</td></tr>
+<tr><td>反応なし（&lt;300で血漿を上回らない）</td><td>完全型腎性</td></tr>
+<tr><td class="n">≦5%（尿浸透圧300〜600）</td><td>部分型腎性</td></tr>
+<tr><td class="n">≦10% が多い</td><td>心因性多飲</td></tr></table>
+<p class="xs">腎性尿崩症ではADH ≧1.0 pg/mL。随時で尿比重 ≧1.010・尿浸透圧 ≧600・血漿浸透圧 ≦290・AVP ≧1.0 なら尿崩症は否定的</p>`,
+ caut:`<ul><li>ピトレシン：効果発現が早いが血管収縮で<b>腹痛・狭心痛</b></li><li>DDAVP点鼻：鼻汁を除いてから</li></ul>`},
+
+{id:'hts',sys:'wat',nm:'高張食塩水負荷',kw:'高張食塩水 5% NaCl ADH 尿崩症 浸透圧',
+ dose:[{n:'5% NaCl 点滴速度',per:'kg',v:3,u:'mL/時',rule:'0.05 mL/kg/分（＝3 mL/kg/時）'},
+       {n:'総量（180分上限）＝ 調製量',per:'kg',v:9,u:'mL',rule:'体重×9 mL。<b>10% NaCl と蒸留水を半量ずつ</b>混ぜる',half:1}],
+ how:'当日朝まで飲食自由。開始30分前から終了まで禁飲食・ベッド上安静。<b>点滴と別の四肢</b>に採血ルート',tl:['0','30','60','90','120','150','180'],meas:'30分ごと 血清Na・浸透圧・ADH（氷中で運ぶ）／60分ごと採尿',
+ pre:`<div class="box warn"><b>中止</b>：血清Na <b>150</b> または 血清浸透圧 <b>295</b> に達したら採血して中止。Na ≧155 なら速やかに終了</div>`,
+ judge:`<p>ADH分泌不全（血清Na 150に近い検体で判断）</p>
+<table><tr><th>血清Na</th><th>ADH（これ以下で分泌不全）</th></tr>
+<tr><td class="n">144</td><td class="n">≦1.5 pg/mL</td></tr><tr><td class="n">146</td><td class="n">≦2.5</td></tr>
+<tr><td class="n">148</td><td class="n">≦4</td></tr><tr><td class="n">≧150</td><td class="n">≦6</td></tr></table>
+<div class="calc" data-calc="hts"><div class="row"><label>血清Na<input data-k="na" inputmode="decimal"></label><label>ADH<input data-k="adh" inputmode="decimal">pg/mL</label></div><div class="res"></div></div>
+<p>正常反応：開始直後から尿量が前の<b>25%以下</b>に減り、尿浸透圧が血漿を上回る</p>
+<p class="xs">健常者はNa ≧146でADH分泌が急増。現行測定値 ＝ 0.945×旧測定値 − 0.645（やや低め）</p>`,
+ caut:`<ul><li>副腎不全合併疑い → 飲水4時間前に生理量のヒドロコルチゾン</li><li>血管痛が多い、漏れると皮下の炎症 → 刺入部に注意</li><li>血漿浸透圧 ≧300 なら随時採血で評価でき不要。Na正常下限なら尿崩症は否定的</li><li>2.5%液は輸液量が倍になり評価を損なう</li></ul>`},
+
+/* ---------- Ca・PTH・髄質 ---------- */
+{id:'eh',sys:'ca',nm:'Ellsworth-Howard試験',kw:'エルスワースハワード PTH テリパラチド 偽性副甲状腺 cAMP リン',
+ dose:[{n:'テリパラチド（PTH 1-34）静注',per:'eh',u:'単位',rule:'BSA &lt;1 m²：100 単位/m²／≧1 m²・成人：100 単位。生食3 mLに溶解し3分以上かけて'},
+       {n:'飲水（PTH 4時間前から1時間ごと同量）',per:'kg',v:5,u:'mL',max:200,rule:'5 mL/kg（最大200 mL）'}],
+ how:'標準法はPTH 13時、乳幼児変法は10時。<b>PTH 3時間前に完全排尿</b> → 1時間ごとに投与前3回（U1〜U3）・投与後3回（U4〜U6）採尿',tl:['−3h 排尿','U1','U2','U3','PTH','U4','U5','U6'],meas:'尿：リン・Cr・cAMP／投与前の血液：Ca・P・Cr・Alb',
+ judge:`<div class="box info">リン酸排泄 ＝ (U4＋U5) − (U2＋U3)　［mg/2時間］<br>cAMP ＝ U4 − U3［μmol/時］、U4/U3［倍］</div>
+<table><tr><th></th><th>リン酸</th><th>cAMP</th></tr>
+<tr><td>副甲状腺機能低下症</td><td class="n">≧35</td><td class="n">≧1 かつ ≧10倍</td></tr>
+<tr><td>偽性副甲状腺機能低下症 Ⅰ型</td><td class="n">&lt;35</td><td class="n">&lt;1 かつ &lt;10倍</td></tr>
+<tr><td>Ⅱ型</td><td class="n">&lt;35</td><td class="n">≧1 かつ ≧10倍</td></tr></table>
+<div class="calc" data-calc="eh"><div class="row">
+<label>U2 P<input data-k="p2" inputmode="decimal"></label><label>U3 P<input data-k="p3" inputmode="decimal"></label><label>U4 P<input data-k="p4" inputmode="decimal"></label><label>U5 P<input data-k="p5" inputmode="decimal"></label><span class="xs">mg/時</span></div>
+<div class="row"><label>U3 cAMP<input data-k="c3" inputmode="decimal"></label><label>U4 cAMP<input data-k="c4" inputmode="decimal"></label><span class="xs">μmol/時</span></div><div class="res"></div></div>
+<p class="xs">BSA &lt;1 m² は体表面積換算の値を使う。cAMPは信頼できるが、<b>リン酸は健常小児でも基準を下回る者が多い</b>。Ⅱ型の存在は疑問視</p>
+<p><b>判定の前提</b>：低Ca高P血症（補正Ca &lt;8.4、P 小児 ≧4.5）／BUN ≦30 または Cr ≦2／投与前リン酸 ≧10 mg/2時間／投与前2回の差 &lt;17.5 mg/時／前後の尿Cr比 0.8〜1.2</p>
+<p class="xs">低Ca高Pで intact PTH ≧30 pg/mL がPHPの目安だが副甲状腺機能低下症でも30以上のことあり</p>`,
+ caut:`<ul><li>リン吸収阻害薬・Ca剤は約1週間中止、前日は乳製品を控える</li><li>高Ca血症・妊婦・PTH過敏症は禁忌</li><li>潮紅、熱感、動悸、血圧低下、悪心</li></ul>`},
+
+{id:'bic',sys:'ca',nm:'重炭酸Na負荷（PTH予備能）',kw:'重炭酸 メイロン NaHCO3 PTH 潜在性副甲状腺',
+ dose:[{n:'7% NaHCO₃ 2分で静注',per:'m2',v:40,u:'mL',max:40,rule:'40 mL/m²（最大40 mL）'},
+       {n:'または 8.4% NaHCO₃',per:'m2',v:35,u:'mL',max:35,rule:'35 mL/m²（最大35 mL）'}],
+ how:'早朝空腹時。<b>反対側</b>の末梢から採血。太い静脈を使う',tl:['0','3','5','10','30','60'],meas:'intact PTH（血液ガス・Caイオン）',
+ judge:`<div class="box warn">ΔPTH（頂値 − 前値）<b>≦50 pg/mL</b> → 予備能低下</div>
+<p>3分でCaイオン最低・PTH頂値、30分で前値へ。小児の基準値はない。ビタミンD欠乏ではPTH反応が悪い</p>
+<p class="xs">適応：甲状腺摘出後、22q11.2欠失など低Caのない潜在性副甲状腺機能低下症</p>`,
+ caut:`<ul><li>血管外漏出で<b>組織壊死</b></li><li>明らかな低Ca血症では禁忌。しびれ・テタニー</li><li>適応外使用 → 施設の規定に従う</li></ul>`},
+
+{id:'clos',sys:'ca',nm:'クロニジン抑制試験（PPGL）',kw:'クロニジン カテコールアミン 褐色細胞腫 パラガングリオーマ',
+ dose:[{n:'クロニジン 経口',per:'kg',v:5,u:'μg',max:250,rule:'小児 5 μg/kg（最大250 μg）。成人 300 μg'}],
+ how:'10〜12時間絶食後、30分臥位安静の後に内服。臥位のまま',tl:['0','1h','2h','3h'],meas:'血漿エピネフリン＋ノルエピネフリン',
+ judge:`<div class="box warn">陽性（PPGL）：前値の<b>50%以下</b> あるいは <b>500 pg/mL以下</b>に下がらない</div><p>ノルアドレナリン型で有用。誘発試験（グルカゴン・メトクロプラミド）とフェントラミン試験は<b>GL2018で実施すべきでない</b></p>`,
+ caut:`<ul><li>β遮断薬は48時間以上前に中止（併用で重篤な徐脈）</li></ul>`},
+
+/* ---------- 糖・低血糖 ---------- */
+{id:'ogtt',sys:'glu',nm:'OGTT（75g糖負荷）',kw:'OGTT 糖負荷 トレーラン 耐糖能 HOMA インスリン 糖尿病',
+ dose:[{n:'ブドウ糖（標準体重で計算）',per:'kg',v:1.75,u:'g',max:75,conc:1/3,cl:'トレーランG（3 mL/g）なら',rule:'1.75 g/kg 標準体重（最大75 g）。5分以内に飲む'}],
+ how:'炭水化物150 g以上の食事を3日以上 → 前日22時以降絶食（糖を含まない水は可）、朝9時ごろ開始。<b>飲み始め</b>から時間を数える',tl:['0','30','60','(90)','120','(180)'],meas:'血糖・インスリン（CPR）',
+ judge:`<table><tr><th>区分</th><th>空腹時</th><th>2時間値</th></tr>
+<tr><td>正常型</td><td class="n">&lt;110</td><td class="n">かつ &lt;140</td></tr>
+<tr><td>糖尿病型</td><td class="n">≧126</td><td class="n">または ≧200</td></tr>
+<tr><td>境界型</td><td colspan="2">どちらにも属さない</td></tr></table>
+<ul><li>正常型でも <b>1時間値 ≧180</b> は境界型に準じて経過観察</li><li>空腹時100〜109は「正常高値」</li></ul>
+<div class="calc" data-calc="ogtt"><div class="row">
+<label>血糖 0′<input data-k="g0" inputmode="decimal"></label><label>30′<input data-k="g30" inputmode="decimal"></label><label>120′<input data-k="g120" inputmode="decimal"></label></div>
+<div class="row"><label>IRI 0′<input data-k="i0" inputmode="decimal"></label><label>30′<input data-k="i30" inputmode="decimal"></label><label>120′<input data-k="i120" inputmode="decimal"></label><span class="xs">μU/mL</span></div><div class="res"></div></div>
+<table><tr><th>指標</th><th>目安</th></tr>
+<tr><td>insulinogenic index</td><td>Δ IRI30 / Δ血糖30。成人 <b>≦0.4</b> で初期分泌低下。小児平均 1〜3歳0.53／4〜6歳0.62／7〜11歳1.10／12〜16歳1.34</td></tr>
+<tr><td>HOMA-IR</td><td>FPG×IRI/405。≦1.6 正常、<b>≧2.5</b> 抵抗性（FPG &lt;140のみ）</td></tr>
+<tr><td>Matsuda index</td><td><b>≦2.5</b> 抵抗性（0分と120分の2点でも妥当）</td></tr>
+<tr><td>disposition index</td><td>II × Matsuda。<b>&lt;1.0</b> で耐糖能異常を疑う</td></tr>
+<tr><td>空腹時IRI</td><td>≧15 抵抗性、≧50 強い抵抗性</td></tr></table>
+<p class="xs">延長OGTT（反応性低血糖・ミトコンドリア病）：前・30・60・90・120・180分（〜5時間）に血糖・乳酸・ピルビン酸・インスリン・ガス。乳酸 ≧20%上昇かつ L/P &gt;20 でミトコンドリア病を示唆</p>`,
+ caut:`<ul><li><b>随時血糖 ≧200・典型的症状・ケトーシス</b>があれば行わない（高血糖を助長、診断的意義なし）</li><li>1型の診断ではOGTTはほとんど行わない</li></ul>`},
+
+{id:'glcp',sys:'glu',nm:'グルカゴン負荷（インスリン分泌能）',kw:'グルカゴン Cペプチド CPR インスリン分泌 1型',
+ dose:[{n:'グルカゴン 静注',per:'kg',v:[0.02,0.03],u:'mg',max:1,conc:1,cl:'1 mg/mLに溶解なら',rule:'0.02〜0.03 mg/kg（最大1 mg）'}],
+ how:'早朝空腹時。インスリン最終投与から24時間あけるのが望ましい。CPRは3〜9分で頂値 → 前と6分だけも多い',tl:['0','3','6','9','15','(30)'],meas:'CPR・血糖。60分後まで低血糖を観察',
+ judge:`<table><tr><th>6分値 CPR</th><th>ΔCPR</th><th>推定</th></tr>
+<tr><td class="n">&gt;4.0</td><td class="n">&gt;2.0</td><td>予備能（比較的）保持</td></tr>
+<tr><td class="n">2.0〜4.0</td><td class="n">1.0〜2.0</td><td>予備能低下</td></tr>
+<tr><td class="n">&lt;2.0</td><td class="n">&lt;1.0</td><td>インスリン依存状態に近い</td></tr>
+<tr><td class="n">&lt;0.1</td><td class="n">&lt;0.5</td><td>インスリン依存状態</td></tr></table>
+<ul><li>インスリン依存状態：空腹時CPR <b>&lt;0.6</b> または 負荷後 <b>&lt;1.0 ng/mL</b></li><li>頂値 ≦3 ng/mL で分泌不全／&lt;0.1 は枯渇</li><li>1 nmol/L ＝ 3 ng/mL</li></ul>`,
+ caut:`<ul><li>30〜60分遅れて<b>低血糖</b></li><li>腎機能障害・高濃度の抗インスリン抗体でCPR偽高値</li><li>褐色細胞腫では慎重に（カテコールアミン分泌刺激）</li></ul>`},
+
+{id:'fast',sys:'glu',nm:'絶食試験（低血糖の鑑別）',kw:'絶食 クリティカルサンプル 低血糖 ケトン FFA インスリン',
+ dose:[{n:'終了時のグルカゴン静注',per:'kg',v:0.03,u:'mg',max:1,maxExt:1,conc:1,cl:'1 mg/mLなら',rule:'0.03 mg/kg'},
+       {n:'低血糖の是正',per:'kg',v:1,u:'mL',rule:'20%ブドウ糖 1 mL/kg',rescue:1,ext:1}],
+ how:'低血糖検体が日中に取れるよう開始時刻を決める。<b>脂肪酸代謝異常症をタンデムマスで先に除外</b>（既知なら禁忌）',tl:['開始','血糖に応じて','血糖 &lt;45 で終了'],meas:'クリティカルサンプル：血糖・インスリン・FFA・3OHB・GH・コルチゾール・アンモニア（アラニン）',
+ pre:`<table><tr><th>年齢</th><th>絶食時間</th></tr><tr><td>&lt;6か月</td><td class="n">8時間</td></tr><tr><td>6〜12か月</td><td class="n">12時間</td></tr><tr><td>1〜7歳</td><td class="n">16時間</td></tr><tr><td>7歳〜</td><td class="n">20〜24時間</td></tr></table>
+<table><tr><th>血糖</th><th>採血間隔</th></tr><tr><td class="n">≧85</td><td>3時間ごと</td></tr><tr><td class="n">65〜85</td><td>2時間ごと</td></tr><tr><td class="n">50〜65</td><td>1時間ごと</td></tr><tr><td class="n">45〜50</td><td>30分ごと</td></tr></table>
+<p class="xs">簡易血糖は低めに出ることがある → 目標 &lt;45 mg/dL。低下が始まると急速に進むことがある</p>`,
+ judge:`<table><tr><th>インスリン</th><th>FFA</th><th>3OHB</th><th>示唆</th></tr>
+<tr><td class="n">&gt;1</td><td class="n">&lt;1,500</td><td class="n">&lt;2,000</td><td><b>高インスリン性</b></td></tr>
+<tr><td class="n">&lt;1</td><td class="n">&gt;1,500</td><td class="n">&lt;2,000</td><td><b>脂肪酸酸化異常</b>（FFA/総ケトン体 &gt;2.5）</td></tr>
+<tr><td class="n">&lt;1</td><td class="n">&gt;1,500</td><td class="n">&gt;2,000</td><td>飢餓・その他（ケトン性など）</td></tr></table>
+<p class="xs">単位：インスリン μU/mL、FFA・3OHB μmol/L</p>
+<ul><li>グルカゴンで血糖 <b>&gt;30 mg/dL</b> 上昇 → 高インスリン血症を示唆</li><li>GH &gt;6 ng/mL・コルチゾール &gt;18 μg/dL → 欠乏は否定的（GH低値＝GHDではない）</li><li>アンモニア高値＋インスリン高値 → GDH異常／アラニン高値 → 糖新生異常</li></ul>`,
+ caut:`<ul><li>脂肪酸代謝異常症は致死性不整脈の危険</li><li>けいれん・意識障害に備え、目標値が近づいたら間隔を密に</li></ul>`},
+
+{id:'leu',sys:'glu',nm:'ロイシン／タンパク負荷',kw:'ロイシン タンパク 高インスリン GDH KATP',
+ dose:[{n:'ロイシン 経口',per:'kg',v:150,u:'mg',rule:'150 mg/kg'},
+       {n:'ロイシン 静注なら',per:'kg',v:[50,75],u:'mg',rule:'50〜75 mg/kg'},
+       {n:'タンパク 経口',per:'kg',v:1.5,u:'g',rule:'1.5 g/kg（180分まで採血）'}],
+ how:'適応：GDH活性型変異、HADH欠損、（タンパク負荷はKATPチャネル機能喪失型も）',tl:['0','15','30','45','60','90','(〜180)'],meas:'血糖・インスリン・アンモニア',
+ judge:`<div class="box warn">陽性：血糖 <b>&lt;45 mg/dL</b> で インスリン <b>&gt;3 μU/mL</b>（正常は低血糖にならない）</div><p>同時にアンモニア上昇 → <b>グルタミン酸脱水素酵素（GDH）異常症</b></p>`,
+ caut:`<ul><li>低血糖に備えてブドウ糖を準備</li></ul>`},
+
+{id:'gsd',sys:'glu',nm:'糖原病の負荷（Fernandes）',kw:'糖原病 Fernandes 乳酸 ガラクトース 肝型',
+ dose:[{n:'ブドウ糖 経口（10%溶液などに調製）',per:'kg',v:[1.75,2],u:'g',max:50,rule:'1.75〜2 g/kg（最大50 g）'}],
+ how:'グルコース・グルカゴン・ガラクトース負荷の組み合わせ。結果は真の診断と一致しないことがあり、最終的には酵素・遺伝子へ',tl:['0','30','60','90','120','(180)'],meas:'血糖・乳酸',
+ judge:`<table><tr><th>ブドウ糖負荷での乳酸</th><th>解釈</th></tr>
+<tr><td>速やかに<b>低下</b></td><td>Ⅰ型</td></tr><tr><td>20〜50 mg/dL <b>上昇</b></td><td>ほかの肝型糖原病</td></tr><tr><td>ごく軽度上昇</td><td>正常</td></tr></table>
+<table><tr><th>グルカゴンで血糖</th><th>空腹時</th><th>食後2時間</th></tr>
+<tr><td>Ⅲ型</td><td>上昇せず</td><td>上昇</td></tr><tr><td>Ⅵ型</td><td>上昇せず</td><td>上昇せず</td></tr><tr><td>Ⅸ型</td><td>上昇</td><td></td></tr></table>`,
+ caut:`<ul><li><b>Ⅰ型疑いではグルカゴン・ガラクトース負荷をしない</b>（著しい乳酸アシドーシス）</li><li>Ⅰ型は前夜からの絶食で夜間低血糖・乳酸アシドーシス → 慎重にモニターし、下がりが速ければ空腹時間を短く</li><li>Ⅰ型を想定したら高頻度変異（727G&gt;T）をまず検索</li></ul>`},
+
+/* ---------- 腎・尿細管 ---------- */
+{id:'furo',sys:'ren',nm:'フロセミド負荷（尿酸性化能）',kw:'フロセミド ラシックス RTA 尿細管性アシドーシス 尿pH',
+ dose:[{n:'フロセミド',per:'kg',v:[0.5,1],u:'mg',max:40,rule:'0.5〜1 mg/kg（最大40 mg）'}],
+ how:'前日夕食後より絶食、十分な水分。投与前と1時間ごとに4〜6時間採尿',tl:['0','1h','2h','3h','4h','(5h)','(6h)'],meas:'尿pH（<b>pHメーター</b>で、採尿後すぐ）',
+ judge:`<div class="box ok">最低尿pH <b>≦5.5</b> → dRTAを否定（感度100%）</div><div class="box amb">5.5以下にならない → dRTAの可能性（特異度82〜89%、偽陽性多い）→ 塩化アンモニウム負荷へ</div>
+<p class="xs">低身長のスクリーニングでも血液ガスを見る（RTAで低身長）</p>`,
+ caut:`<ul><li>試験紙は1刻みしかない → pHメーター</li><li>放置すると尿素分解でアルカリ側へ</li></ul>`},
+
+{id:'nh4',sys:'ren',nm:'塩化アンモニウム負荷',kw:'塩化アンモニウム RTA dRTA 尿pH',
+ dose:[{n:'塩化アンモニウム 60分かけて内服',per:'kg',v:100,u:'mg',rule:'100 mg/kg'}],
+ how:'絶食不要、飲水自由。尿は内服前・開始後2時間、以後1時間ごと6〜8時間まで',tl:['前','2h','3h','4h','5h','6h','(7〜8h)'],meas:'尿pH（pHメーター）。血液ガスは前・2h・4h（解釈に必須ではない）',
+ judge:`<table><tr><th>最低尿pH</th><th>解釈</th></tr><tr><td class="n">&lt;5.3</td><td>正常</td></tr><tr><td class="n">≧5.3</td><td>尿酸性化障害あり</td></tr></table>
+<p>適応：代謝性アシドーシスのない incomplete dRTA。すでに pH &lt;7.35 かつ HCO₃⁻ &lt;21 なら不要</p>`,
+ caut:`<ul><li>国内に内服製剤がない・嘔気嘔吐が約半数 → 現在はフロセミド負荷が代替</li></ul>`},
+
+{id:'hco3',sys:'ren',nm:'重炭酸イオン負荷（RTA病型）',kw:'重曹 重炭酸 FEHCO3 RTA 近位 pRTA',
+ dose:[{n:'重曹（HCO₃⁻として）1日量 × 2〜3日',per:'kg',v:[2,4],u:'mEq/日',rule:'2〜4 mEq/kg/日',soda:1}],
+ how:'血中HCO₃⁻が再吸収閾値（20〜24）を大きく超えないよう調整。不十分なら3.75% NaHCO₃を点滴で2 mEq/時程度ずつ',tl:['2〜3日後'],meas:'FE HCO₃⁻、U-B PCO₂（尿pH &gt;7.6 を確認）',
+ judge:`<table><tr><th></th><th>FE HCO₃⁻</th><th>U-B PCO₂</th></tr>
+<tr><td>基準</td><td class="n">≦5%</td><td class="n">≧20 mmHg</td></tr>
+<tr><td>Ⅰ型（遠位）</td><td class="n">≦5%</td><td class="n">≦15</td></tr>
+<tr><td>Ⅱ型（近位）</td><td class="n">10〜15%以上</td><td class="n">≧20</td></tr>
+<tr><td>Ⅳ型</td><td class="n">≦10%</td><td class="n">≦15</td></tr></table>
+<p class="xs">過剰負荷だと正常でもFE HCO₃⁻ ≧15%。尿は空気に触れさせずすぐ測定</p>`,
+ caut:`<ul><li>Naが負荷になる → 腎・心機能障害、高血圧では事前に検討</li></ul>`}
+];
+
+/* ===== 計算 ===== */
+let W=null,H=null;
+const bsa=()=>W&&H?Math.sqrt(W*H/3600):null;
+const fmt=(x,dp)=>{if(x==null||!isFinite(x))return'—';
+  let d=dp!=null?dp:(x>=100?0:x>=10?1:x>=1?2:3);
+  return (+x.toFixed(d)).toLocaleString('ja-JP',{maximumFractionDigits:d});};
+function doseHTML(d){
+  const ex=d.ext?'<span class="ext">出典外</span>':'';
+  if(d.per==='fix'){
+    const v=Array.isArray(d.v)?d.v.map(x=>fmt(x)).join('〜'):fmt(d.v);
+    return `<div class="dose"><div class="dn">${d.n}</div><div class="dv">${v} <small>${d.u}</small></div><div class="rule">${d.rule}</div></div>`;
+  }
+  let base=null,miss='';
+  if(d.per==='kg'){base=W;miss='体重を入れると計算'}
+  else if(d.per==='m2'){base=bsa();miss=W?'身長も入れると m² で計算':'体重・身長を入れると計算'}
+  else if(d.per==='eh'){const b=bsa();if(!b)return `<div class="dose need"><div class="dn">${d.n}</div><div class="dv">${W?'身長も入れると計算':'体重・身長を入れると計算'}</div><div class="rule">${d.rule}</div></div>`;
+    const v=b<1?100*b:100;return `<div class="dose"><div class="dn">${d.n}</div><div class="dv">${fmt(v,0)} <small>${d.u}</small></div><div class="rule">${d.rule}</div></div>`;}
+  const cls=d.rescue?' rescue':'';
+  if(!base)return `<div class="dose need${cls}"><div class="dn">${d.n}${ex}</div><div class="dv">${miss}</div><div class="rule">${d.rule}</div></div>`;
+  const arr=Array.isArray(d.v)?d.v:[d.v];
+  let capped=false;
+  const vals=arr.map(x=>{let y=x*base;if(d.max!=null&&y>d.max){y=d.max;capped=true}return y});
+  const vs=vals.length>1&&fmt(vals[0],d.dp)!==fmt(vals[1],d.dp)?vals.map(x=>fmt(x,d.dp)).join('〜'):fmt(vals[vals.length-1],d.dp);
+  let ml='';
+  if(d.conc){const m=vals.map(x=>x/d.conc);ml=`<div class="ml">${d.cl}：${m.length>1&&fmt(m[0])!==fmt(m[1])?m.map(x=>fmt(x)).join('〜'):fmt(m[m.length-1])} mL</div>`}
+  if(d.half){ml=`<div class="ml">10% NaCl ${fmt(vals[0]/2)} mL ＋ 蒸留水 ${fmt(vals[0]/2)} mL</div>`}
+  if(d.soda){ml=`<div class="ml">重曹（1 g＝12 mEq）なら ${vals.map(x=>fmt(x/12)).join('〜')} g/日</div>`}
+  const capTxt=capped?`<span class="capb">上限${d.maxExt?'（一般的）':''}</span>`:'';
+  const maxNote=d.maxExt?` <span class="xs">上限 ${fmt(d.max)} ${d.u}は一般的な値<span class="ext">出典外</span></span>`:'';
+  return `<div class="dose${capped?' cap':''}${cls}"><div class="dn">${d.n}${ex}</div><div class="dv">${vs} <small>${d.u}</small>${capTxt}</div><div class="rule">${d.rule}${maxNote}</div>${ml}</div>`;
+}
+function peek(t){
+  const d=t.dose.find(x=>!x.rescue);
+  if(!d)return '薬剤なし';
+  if(d.per==='fix')return `${d.n.split('：')[0]}　<span class="v">${Array.isArray(d.v)?d.v.join('〜'):d.v} ${d.u}</span>`;
+  const tmp=document.createElement('div');tmp.innerHTML=doseHTML(d);
+  const dv=tmp.querySelector('.dv');const txt=dv?dv.textContent.trim():'';
+  const ok=!tmp.querySelector('.need');
+  return `${d.rule.replace(/<[^>]+>/g,'').split('。')[0]}${ok?`　→ <span class="v">${txt.replace('上限',' (上限)')}</span>`:''}`;
+}
+
+/* ===== 判定の小計算 ===== */
+const num=v=>{v=String(v).trim();return v===''?null:+v};
+const CALC={
+ hcg(g){const t=g.t,d=g.d,a=g.a;const o=[];
+   if(t!=null&&d)o.push(`T/DHT ＝ <b>${fmt(t/d,1)}</b> ${t/d>=10?'<span class="b">≧10：5α還元酵素欠損を示唆</span>':'<span class="g">&lt;10</span>'}`);
+   if(t!=null&&a)o.push(`T/Δ4A ＝ <b>${fmt(t/a,2)}</b> ${t/a<0.8?'<span class="b">&lt;0.8：17β-HSD3欠損を示唆</span>':'<span class="g">≧0.8</span>'}`);
+   return o.join('<br>')},
+ avp(g){if(g.a&&g.b!=null){const r=(g.b-g.a)/g.a*100;let s;
+   if(r<=5)s='<span class="b">≦5%：腎性（部分型）または正常（十分濃縮済み）</span>';
+   else if(r<10)s='<span class="m">5〜10%：心因性多飲に多い範囲</span>';
+   else if(r<=70)s='<span class="b">10〜70%：中枢性（部分型）</span>';
+   else s='<span class="b">&gt;70%：中枢性（完全型を考える）</span>';
+   return `上昇率 <b>${fmt(r,0)}%</b>　${s}`}return''},
+ hts(g){if(g.na==null||g.adh==null)return'';const na=g.na,a=g.adh;let th;
+   if(na>=150)th=6;else if(na>=148)th=4;else if(na>=146)th=2.5;else if(na>=144)th=1.5;else return '<span class="m">Na &lt;144 では判定表の範囲外（150に近い検体で判断）</span>';
+   return a<=th?`<span class="b">Na ${na} で ADH ${a} ≦ ${th} → 分泌不全</span>`:`<span class="g">Na ${na} で ADH ${a} &gt; ${th} → 分泌は保たれる</span>`},
+ eh(g){const o=[];
+   if([g.p2,g.p3,g.p4,g.p5].every(x=>x!=null)){const p=(g.p4+g.p5)-(g.p2+g.p3);o.push(`リン酸排泄 <b>${fmt(p,1)} mg/2時間</b> ${p>=35?'<span class="g">≧35</span>':'<span class="b">&lt;35</span>'}`)}
+   if(g.c3!=null&&g.c4!=null){const df=g.c4-g.c3,rt=g.c3?g.c4/g.c3:null;
+     o.push(`cAMP 増加 <b>${fmt(df,2)} μmol/時</b>、<b>${rt?fmt(rt,1):'—'} 倍</b> ${df>=1&&rt>=10?'<span class="g">≧1 かつ ≧10倍</span>':df<1&&rt!=null&&rt<10?'<span class="b">&lt;1 かつ &lt;10倍 → PHP Ⅰ型パターン</span>':'<span class="m">片方だけ基準を満たす</span>'}`)}
+   return o.join('<br>')},
+ ogtt(g){const o=[];
+   if(g.g0!=null&&g.g120!=null){let c;if(g.g0>=126||g.g120>=200)c='<span class="b">糖尿病型</span>';else if(g.g0<110&&g.g120<140)c='<span class="g">正常型</span>';else c='<span class="m">境界型</span>';o.push(`区分：${c}`)}
+   if(g.g0!=null&&g.g30!=null&&g.i0!=null&&g.i30!=null&&g.g30!==g.g0){const ii=(g.i30-g.i0)/(g.g30-g.g0);o.push(`insulinogenic index <b>${fmt(ii,2)}</b> ${ii<=0.4?'<span class="b">≦0.4</span>':''}`)}
+   if(g.g0!=null&&g.i0!=null){const h=g.g0*g.i0/405;o.push(`HOMA-IR <b>${fmt(h,2)}</b> ${g.g0>=140?'<span class="m">FPG ≧140では評価不可</span>':h>=2.5?'<span class="b">≧2.5 抵抗性</span>':h<=1.6?'<span class="g">≦1.6 正常</span>':''}`)}
+   if(g.g0!=null&&g.i0!=null&&g.g120!=null&&g.i120!=null){const mg=(g.g0+g.g120)/2,mi=(g.i0+g.i120)/2;const m=10000/Math.sqrt(g.g0*g.i0*mg*mi);o.push(`Matsuda（0・120分）<b>${fmt(m,2)}</b> ${m<=2.5?'<span class="b">≦2.5 抵抗性</span>':''}`)
+   if(g.g30!==g.g0&&g.i30!=null){const ii=(g.i30-g.i0)/(g.g30-g.g0),di=ii*m;o.push(`disposition index <b>${fmt(di,2)}</b> ${di<1?'<span class="b">&lt;1.0</span>':''}`)}}
+   return o.join('<br>')}
+};
+function bindCalcs(root){
+  root.querySelectorAll('.calc').forEach(c=>{
+    const f=CALC[c.dataset.calc],res=c.querySelector('.res');
+    const run=()=>{const g={};c.querySelectorAll('input').forEach(i=>g[i.dataset.k]=num(i.value));res.innerHTML=f(g)||'<span class="xs">値を入れると計算</span>'};
+    c.querySelectorAll('input').forEach(i=>i.addEventListener('input',run));run();
+  });
+}
+
+/* ===== 描画 ===== */
+const ls={get(k,d){try{const v=localStorage.getItem('fuka.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('fuka.'+k,JSON.stringify(v))}catch(e){}}};
+let view=ls.get('view','prep'),sys=ls.get('sys','all'),q='';
+const openSet=new Set();
+const main=document.getElementById('main');
+
+function tl(t){return `<div class="tl">${t.tl.map(x=>`<span${/^\(/.test(x)?' class="o"':''}>${x}${/^\d+$/.test(x)?'′':''}</span>`).join('')}</div>`}
+function card(t){
+  const open=openSet.has(t.id);
+  let body='';
+  if(view==='prep'){
+    body=(t.dose.length?`<h3>量</h3>${t.dose.map(doseHTML).join('')}`:'')+
+      `<h3>やり方</h3><p>${t.how}</p>`+(t.pre||'')+
+      `<h3>採血・採尿（分）</h3>${tl(t)}<p class="meas">${t.meas}</p>`+
+      `<h3 class="c">注意</h3>${t.caut}`;
+  }else{
+    body=`<h3 class="j">判定</h3>${t.judge}<h3>採血・採尿</h3>${tl(t)}<p class="meas">${t.meas}</p>`;
+  }
+  const pk=view==='prep'?peek(t):`採血 ${t.tl.join('・').replace(/<[^>]+>/g,'')}`;
+  return `<details class="t" data-id="${t.id}"${open?' open':''}><summary><div class="hd"><span class="nm">${t.nm}</span><span class="sys">${SYSN[t.sys]}</span></div><div class="peek">${pk}</div></summary><div class="bd">${body}</div></details>`;
+}
+function memoHTML(){return `<div class="memo">
+<div class="card"><h2>順番・前処置</h2><ul>
+<li><b>甲状腺機能低下</b>があるとGHが見かけ上低い → 甲状腺ホルモンで正常化してからGH試験。<b>尿崩症</b>はDDAVP治療中に</li>
+<li>複合型下垂体機能低下：<b>グルココルチコイドを先</b>、甲状腺ホルモンは後（甲状腺ホルモンがコルチゾール代謝を促進 → 副腎不全）</li>
+<li><b>LH-RH → hCG</b> の順（hCGの影響は1週間以上残る）</li>
+<li>CRH：HC内服中は18〜24時間休薬（前日夜・当日朝）。迅速ACTH：HCに変更して前日夕を抜く</li>
+<li>高張食塩水・水制限：副腎不全合併は水利尿が出ない（仮面尿崩症）→ 先にHC</li>
+<li>DEX抑制：CYP3A4誘導薬は数週前に中止、エストロゲン・ピルで偽陽性</li>
+<li>アルドステロン症：拮抗薬4週・RAS系/利尿薬/β遮断薬2週前に中止、低K補正、減塩しない</li>
+<li>E-H試験：リン吸収阻害薬・Ca剤 約1週間中止、前日は乳製品を控える</li>
+<li>絶食試験：脂肪酸代謝異常症を先に除外（既知なら禁忌）</li>
+<li>TRHは他の前葉負荷と同時に早朝空腹時に行うことが多い</li></ul></div>
+<div class="card"><h2>安全</h2><ul>
+<li>ITT・グルカゴン：<b>20%ブドウ糖 1 mL/kg</b> をすぐ打てる状態に。終了までベッドサイドに付き添う。ブドウ糖の直前に採血</li>
+<li>薬剤量とプロトコールは<b>複数医師で確認</b></li>
+<li>説明事項：意義／内容と限界／危険性と中止条件／代替検査／しなかった場合の見通し。7〜14歳は informed assent</li></ul></div>
+<div class="card"><h2>換算・式</h2><ul>
+<li>BSA（Mosteller）＝ √(身長cm × 体重kg ／ 3600)</li>
+<li>血漿浸透圧 ＝ 2×Na ＋ BUN/2.8 ＋ Glu/18</li>
+<li>CPR 1 nmol/L ＝ 3 ng/mL／重曹 1 g ＝ HCO₃⁻ 12 mEq</li>
+<li>早朝コルチゾール &lt;4 μg/dL ＋ ACTH ≧100 pg/mL → 原発性副腎不全を強く疑う。随時 ≧18 なら原発性は否定的</li></ul></div>
+<p class="src">出典：「小児内科」特集 小児の負荷試験（2019, p.414〜564）。<span class="ext">出典外</span>の印は一般的な値として足したもの。製剤濃度・上限・実際のプロトコールは添付文書と院内手順で確認すること。</p>
+</div>`}
+function render(){
+  document.querySelectorAll('nav.views button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===view));
+  const chips=document.getElementById('chips');
+  chips.style.display=view==='memo'?'none':'flex';
+  chips.innerHTML=SYS.map(([k,n])=>`<button data-s="${k}" aria-pressed="${k===sys}">${n}</button>`).join('');
+  chips.querySelectorAll('button').forEach(b=>b.onclick=()=>{sys=b.dataset.s;ls.set('sys',sys);render()});
+  if(view==='memo'){main.innerHTML=memoHTML();return}
+  const ql=q.trim().toLowerCase();
+  const list=T.filter(t=>(sys==='all'||t.sys===sys)&&(!ql||(t.nm+' '+t.kw).toLowerCase().includes(ql)));
+  main.innerHTML=`<input class="search" id="q" type="search" placeholder="検索（例：コートロシン、TRH、hCG）" value="${q.replace(/"/g,'&quot;')}">`+
+    (list.length?list.map(card).join(''):'<div class="empty">該当なし</div>')+
+    `<p class="src">出典：「小児内科」特集 小児の負荷試験（2019）。量は院内手順・添付文書で確認。</p>`;
+  const qi=document.getElementById('q');
+  qi.oninput=()=>{q=qi.value;const pos=qi.selectionStart;render();const n=document.getElementById('q');n.focus();try{n.setSelectionRange(pos,pos)}catch(e){}};
+  main.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{d.open?openSet.add(d.dataset.id):openSet.delete(d.dataset.id)}));
+  bindCalcs(main);
+  const wl=document.getElementById('wloss');
+  if(wl)wl.innerHTML=W?`<p>体重 ${fmt(W)} kg の 3% ＝ <b>${fmt(W*0.97)} kg</b>、5% ＝ <b>${fmt(W*0.95)} kg</b> で終了</p>`:'';
+}
+/* 入力：量だけ差し替え（開閉・スクロールを保つ） */
+function onInput(){
+  W=num(document.getElementById('wt').value);H=num(document.getElementById('ht').value);
+  if(W!=null&&W<=0)W=null;if(H!=null&&H<=0)H=null;
+  const b=bsa();document.getElementById('bsa').innerHTML=`BSA <b>${b?b.toFixed(2):'—'}</b>${b?' m²':''}`;
+  if(view==='memo')return;
+  main.querySelectorAll('details.t').forEach(el=>{
+    const t=T.find(x=>x.id===el.dataset.id);
+    if(view==='prep'){el.querySelector('.peek').innerHTML=peek(t);
+      const bd=el.querySelector('.bd');const doses=bd.querySelectorAll('.dose');
+      t.dose.forEach((d,i)=>{if(doses[i]){const tmp=document.createElement('div');tmp.innerHTML=doseHTML(d);doses[i].replaceWith(tmp.firstElementChild)}});}
+  });
+  const wl=document.getElementById('wloss');
+  if(wl)wl.innerHTML=W?`<p>体重 ${fmt(W)} kg の 3% ＝ <b>${fmt(W*0.97)} kg</b>、5% ＝ <b>${fmt(W*0.95)} kg</b> で終了</p>`:'';
+}
+document.getElementById('wt').addEventListener('input',onInput);
+document.getElementById('ht').addEventListener('input',onInput);
+document.getElementById('clr').onclick=()=>{document.getElementById('wt').value='';document.getElementById('ht').value='';onInput()};
+document.querySelectorAll('nav.views button').forEach(b=>b.onclick=()=>{view=b.dataset.v;ls.set('view',view);render()});
+render();onInput();
+</script>
+</body>
+</html>
