@@ -56,6 +56,27 @@ table.meas input{padding:6px 7px;font-size:14px;}
 table.meas td.agecell{font-size:13px;color:var(--navy);font-weight:700;white-space:nowrap;}
 table.meas th.bacol{color:#c2410c;}
 table.meas input.ba{border-color:#fed7aa;background:#fff7ed;}
+/* スマホ縦：各行をカードにして横はみ出しを防ぐ */
+@media (max-width:640px){
+  table.meas,table.meas tbody{display:block;width:100%;}
+  table.meas thead{display:none;}
+  table.meas tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px 8px;position:relative;
+    padding:10px 36px 10px 10px;margin-bottom:8px;border:1px solid #dbe3ee;border-radius:10px;background:#fbfcfe;}
+  table.meas td{display:block;padding:0;min-width:0;}
+  table.meas td::before{display:block;font-size:10.5px;font-weight:700;color:var(--gray);margin-bottom:2px;white-space:nowrap;}
+  table.meas td.col-date{grid-column:span 2;}
+  table.meas td.col-date::before{content:"測定日";}
+  table.meas td.col-calc{grid-column:span 2;align-self:end;padding-bottom:8px;}
+  table.meas td.col-calc::before{content:"年齢（自動）";}
+  table.meas td:nth-child(3)::before{content:"歳";}
+  table.meas td:nth-child(4)::before{content:"か月";}
+  table.meas td:nth-child(5)::before{content:"身長 cm";}
+  table.meas td:nth-child(6)::before{content:"体重 kg";}
+  table.meas td:nth-child(7)::before{content:"骨年齢 歳";color:#c2410c;}
+  table.meas td:nth-child(8)::before{content:"骨年齢 か月";color:#c2410c;}
+  table.meas td:nth-child(9){position:absolute;top:6px;right:6px;}
+  table.meas input{width:100%;min-width:0;}
+}
 body.mode-bd .col-age{display:none;}
 body.mode-age .col-date,body.mode-age .col-calc{display:none;}
 body.mode-age #bdWrap{display:none;}
