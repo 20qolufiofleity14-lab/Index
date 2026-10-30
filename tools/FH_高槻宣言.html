@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FH 高槻宣言とスクリーニング</title>
+<meta name="mini-category" content="metab">
+<meta name="mini-desc" content="高槻宣言2024の10項目、TC/LDL-Cからの判定、小児FH診断基準2022、HoFH、治療とJSPE59の話題">
+<style>
+:root{
+  --navy:#122b45; --navy2:#1d4266; --ink:#16202b; --sub:#5a6b7c;
+  --line:#dbe3ec; --bg:#f2f5f8; --card:#ffffff;
+  --act:#1e6f8c; --actbg:#e8f3f7;
+  --ok:#2e7d55; --okbg:#e8f5ee;
+  --warn:#8e2b2b; --warnbg:#fdeaea;
+  --amb:#8a5a00; --ambbg:#fff7e3;
+  --pur:#5b3a8c; --purbg:#f3eefb;
+}
+*{box-sizing:border-box;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
+  font-size:15px;line-height:1.7;padding-bottom:60px}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:14px 16px 12px}
+header h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.02em}
+header p{margin:3px 0 0;font-size:12px;color:#a9c4dd}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 4px rgba(18,43,69,.08)}
+nav{display:flex;overflow-x:auto;scrollbar-width:none;max-width:760px;margin:0 auto;padding:0 6px}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:1 0 auto;border:0;background:none;padding:10px 10px;font:inherit;font-size:14px;font-weight:700;color:var(--sub);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
+main{padding:12px 12px 0;max-width:760px;margin:0 auto}
+section[hidden]{display:none}
+.c{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:0 0 10px}
+.c h2{margin:0 0 6px;font-size:16px;color:var(--navy)}
+.c h3{margin:10px 0 4px;font-size:14px;color:var(--navy2)}
+.c p{margin:4px 0}
+.c ul,.c ol{margin:4px 0;padding-left:1.3em}
+.c li{margin:2px 0}
+.act{border-left:4px solid var(--act);background:var(--actbg)}
+.ok{border-left:4px solid var(--ok);background:var(--okbg)}
+.warn{border-left:4px solid var(--warn);background:var(--warnbg)}
+.amb{border-left:4px solid var(--amb);background:var(--ambbg)}
+.pur{border-left:4px solid var(--pur);background:var(--purbg)}
+.slogan{text-align:center;font-weight:800;color:var(--navy);font-size:17px;margin:2px 0}
+.slogan small{display:block;font-size:13px;color:var(--sub);font-weight:600}
+ol.decl{list-style:none;padding:0;margin:0;counter-reset:d}
+ol.decl li{counter-increment:d;position:relative;padding:8px 0 8px 36px;border-bottom:1px dashed var(--line)}
+ol.decl li:last-child{border-bottom:0}
+ol.decl li::before{content:counter(d);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+ol.decl li.hot::before{background:var(--warn)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:0 7px;border-radius:9px;background:var(--actbg);color:var(--act);margin-left:4px;vertical-align:1px}
+.num{font-weight:800;color:var(--warn);font-variant-numeric:tabular-nums}
+.flow{display:flex;flex-direction:column;gap:0;margin:6px 0}
+.step{border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;background:#fff}
+.step b{color:var(--navy)}
+.arrow{text-align:center;color:var(--sub);font-size:13px;line-height:1.4;padding:2px 0}
+.step.s1{border-color:#9cc3d3}.step.s2{border-color:#e0b85a;background:var(--ambbg)}.step.s3{border-color:#d58c8c;background:var(--warnbg)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+th{background:#eef3f8;color:var(--navy);font-weight:700}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.form label{display:flex;flex-direction:column;font-size:12px;color:var(--sub);font-weight:600}
+.form input[type=number]{font:inherit;font-size:17px;font-weight:700;padding:6px 8px;border:1.5px solid #b9c7d6;border-radius:8px;color:var(--navy);font-variant-numeric:tabular-nums;width:100%}
+.form input:focus{outline:none;border-color:var(--act);box-shadow:0 0 0 3px #d3e8ef}
+.chk{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.chk label{display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer}
+.chk input{width:18px;height:18px;margin-top:3px;flex:0 0 auto}
+.res{margin-top:10px;border-radius:10px;padding:10px 12px;font-size:14px}
+.res .big{font-size:17px;font-weight:800;margin-bottom:4px}
+.res.g{background:var(--okbg);border:1.5px solid #9fd0b4}
+.res.y{background:var(--ambbg);border:1.5px solid #e0b85a}
+.res.r{background:var(--warnbg);border:1.5px solid #d58c8c}
+.res.n{background:#f4f6f8;border:1.5px dashed var(--line);color:var(--sub)}
+.res ul{margin:4px 0;padding-left:1.2em}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 11px;font:inherit;font-size:13px;color:var(--sub);cursor:pointer}
+.note{font-size:12px;color:var(--sub)}
+.src{font-size:12px;color:var(--sub);line-height:1.6}
+.src a{color:var(--act)}
+.pill{display:inline-block;border-radius:6px;padding:0 6px;font-weight:700;font-size:13px}
+.pill.y{background:#ffe9b0;color:#6b4500}.pill.r{background:#f6c9c9;color:#7a1f1f}.pill.b{background:#d4e8f0;color:#164f63}
+</style>
+</head>
+<body>
+<header>
+  <h1>FH 高槻宣言とスクリーニング</h1>
+  <p>家族性高コレステロール血症（小児）｜日本小児脂質研究会 高槻宣言2024 ＋ 動脈硬化学会GL2022</p>
+</header>
+<div class="top">
+<nav role="tablist">
+  <button role="tab" data-t="decl" aria-selected="true">宣言</button>
+  <button role="tab" data-t="scr">スクリーニング</button>
+  <button role="tab" data-t="calc">判定</button>
+  <button role="tab" data-t="dx">診断基準</button>
+  <button role="tab" data-t="tx">治療・フォロー</button>
+  <button role="tab" data-t="jspe">JSPE59</button>
+</nav>
+</div>
+<main>
+
+<!-- ============ 宣言 ============ -->
+<section id="decl">
+  <div class="c act">
+    <p class="slogan">“Check Child Cholesterol, Save FH”<small>こどものコレステロールをチェックして、FHを救おう！</small></p>
+    <p class="note" style="text-align:center">日本小児脂質研究会 第38回学術集会（2024年10月27日、大阪医科薬科大学・高槻）で発表</p>
+  </div>
+
+  <div class="c">
+    <h2>目的は3つ</h2>
+    <ol>
+      <li>FHの<b>認知度</b>を上げる</li>
+      <li>小児期からの<b>FHスクリーニング</b>を進め、診断率を上げる</li>
+      <li>FHの小児と<b>家族</b>への治療・介入を進め、動脈硬化性疾患を予防する</li>
+    </ol>
+  </div>
+
+  <div class="c">
+    <h2>宣言の10項目</h2>
+    <ol class="decl">
+      <li>FHは<b>300人に1人</b>と頻度の高い疾患</li>
+      <li>未治療のFHでは<b>20〜30歳代</b>で心血管疾患を起こすこともある</li>
+      <li>小児期に発見し治療すれば、予後を著しく改善できる</li>
+      <li>小児期にLDL-Cが高い人は、成人期も高いことが多い（トラッキング）</li>
+      <li class="hot">小児でも<b>採血の機会にはTCを測定</b><span class="tag">オポチュニスティック</span></li>
+      <li class="hot">小児生活習慣病予防健診などで<b>健常小児全員</b>のTCかLDL-Cを測定<span class="tag">ユニバーサル</span></li>
+      <li class="hot">TC <span class="num">220 mg/dL以上</span> → LDL-Cを評価</li>
+      <li class="hot">LDL-C <span class="num">140 mg/dL以上</span> → FHを疑う</li>
+      <li class="hot">LDL-C <span class="num">180 mg/dL以上</span> → FHの可能性が高い<br><span class="note">TC 260 mg/dL ≒ LDL-C 180 mg/dL</span></li>
+      <li class="hot"><b>両親のLDL-C</b>も確認<span class="tag">リバース・カスケード</span></li>
+    </ol>
+  </div>
+
+  <div class="c amb">
+    <h2>覚えかた：数字は4つだけ</h2>
+    <table>
+      <tr><th>TC 220</th><td>LDL-Cを測る入口</td></tr>
+      <tr><th>LDL 140</th><td>疑う（＝小児FH診断基準の「高LDL-C」と同じ値）</td></tr>
+      <tr><th>LDL 180 ≒ TC 260</th><td>可能性が高い（＝親の基準値も180）</td></tr>
+      <tr><th>LDL 250</th><td>単独でFH。さらに<b>HoFHを鑑別</b>（診断基準タブ）</td></tr>
+    </table>
+    <p class="note">220/260と140/180はTCとLDL-Cの対応。最初の2つは宣言、250は診断基準2022の値。</p>
+  </div>
+
+  <div class="c warn">
+    <h2>なぜ小児科なのか（背景の数字）</h2>
+    <ul>
+      <li>国内の推定患者は約<b>40万人</b>、診断率は約<b>2.6％</b>（レセプトDB研究｜JSPE59 SY4）</li>
+      <li>小児期に診断・治療を始めれば冠動脈疾患はほぼ予防できる</li>
+      <li>小児ヘテロは<b>無症状</b>。健診や他疾患の採血が唯一のきっかけ</li>
+      <li>見逃しの典型：高LDL-Cが出ても再検・精査につながらない／親がFHなのに子どもを調べていない（SY4-1 山本先生）</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ スクリーニング ============ -->
+<section id="scr" hidden>
+  <div class="c">
+    <h2>3つの入口</h2>
+    <table>
+      <tr><th style="width:34%">方式</th><th>どうやるか</th></tr>
+      <tr><td><b>オポチュニスティック</b><br><span class="note">宣言⑤</span></td><td>他の理由で採血するときに<b>TCを1項目足す</b>。いちばん今日からできる。シトステロール血症など他の脂質異常症も拾える</td></tr>
+      <tr><td><b>ユニバーサル</b><br><span class="note">宣言⑥</span></td><td>小児生活習慣病予防健診などで<b>全員</b>のTC/LDL-Cを測る。香川県は小4全員（下記）</td></tr>
+      <tr><td><b>リバース・カスケード</b><br><span class="note">宣言⑩</span></td><td>子どもがFHなら<b>親</b>（さらに同胞・祖父母）を調べる。親のLDL-C 180以上は子の診断基準にもなる</td></tr>
+      <tr><td><b>カスケード</b></td><td>成人FHの発端者から<b>子ども</b>を調べる。親がFHなら子は<b>50％</b>。抄録では「子どもの検索がされていない」例が問題視</td></tr>
+    </table>
+  </div>
+
+  <div class="c">
+    <h2>流れ（宣言⑤〜⑩）</h2>
+    <div class="flow">
+      <div class="step s1"><b>① TCを測る</b>（採血のついで／健診）</div>
+      <div class="arrow">▼ TC ≥ 220</div>
+      <div class="step s1"><b>② LDL-Cを評価</b>（直接法、または TC・HDL・TGから計算）</div>
+      <div class="arrow">▼ LDL-C ≥ 140</div>
+      <div class="step s2"><b>③ FHを疑う</b> → 未治療で<b>再検（複数回確認）</b>、二次性を除外、家族歴を聴く</div>
+      <div class="arrow">▼ LDL-C ≥ 180（≒TC 260）</div>
+      <div class="step s3"><b>④ FHの可能性が高い</b> → 両親のLDL-Cを確認、診断基準へ、専門外来へ</div>
+      <div class="arrow">▼ LDL-C ≥ 250 または 黄色腫</div>
+      <div class="step s3"><b>⑤ HoFHを鑑別</b> → 早期に専門施設へ</div>
+    </div>
+  </div>
+
+  <div class="c act">
+    <h2>家族歴の聴き方（外来でそのまま）</h2>
+    <ul>
+      <li>お父さん・お母さんはコレステロールを言われたことがありますか？<b>値は？薬は？</b></li>
+      <li>きょうだいは？</li>
+      <li>おじいさん・おばあさん、両親に<b>若くして</b>心筋梗塞・狭心症・脳梗塞になった人は？<br><span class="note">早発性冠動脈疾患＝男性55歳未満、女性65歳未満</span></li>
+      <li>親が若くして急死していないか（くも膜下出血など。シトステロール血症の症例でも母が39歳で死去）</li>
+    </ul>
+  </div>
+
+  <div class="c pur">
+    <h2>香川モデル（実例）</h2>
+    <ul>
+      <li>2012年から行政・医師会・大学が連携。<b>小学4年生全員</b>の小児生活習慣病予防健診を起点に</li>
+      <li>2018年以降は県内全17市町でLDL-Cを含む採血</li>
+      <li>ユニバーサル＋リバース・カスケードで、FH親子450人以上を診断。累積FH診断は約500人（令和7年）</li>
+      <li>費用対効果 約15万円/QALY。「3段階スクリーニング体制」</li>
+      <li>小児科と循環器内科が小児期から並行してみて、成人期へ切れ目なくつなぐ</li>
+      <li>合言葉は「完璧な体制を待たず、まず始める」</li>
+    </ul>
+    <p class="note">出典：JSPE59 MS-2 南野先生、SY4-3 松永先生。愛媛県立中央病院資料（2018年以降の全市町実施）</p>
+  </div>
+
+  <div class="c amb">
+    <h2>LDL-Cの出し方</h2>
+    <p><b>Friedewald式</b>：LDL-C = TC − HDL-C − TG/5（mg/dL）</p>
+    <ul>
+      <li>空腹時で、TG <span class="num">400未満</span>のときだけ使う。それ以外は直接法</li>
+      <li>小児は空腹時でない採血が多い。高TGなら直接法を優先</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 判定 ============ -->
+<section id="calc" hidden>
+  <div class="c">
+    <h2>入力して判定</h2>
+    <p class="note">15歳未満を想定。LDL-Cが空欄ならTC・HDL・TGから計算します（TG&lt;400のとき）。</p>
+    <div class="form">
+      <label>TC（mg/dL）<input type="number" id="tc" inputmode="decimal"></label>
+      <label>LDL-C 直接法（mg/dL）<input type="number" id="ldl" inputmode="decimal"></label>
+      <label>HDL-C（mg/dL）<input type="number" id="hdl" inputmode="decimal"></label>
+      <label>TG（mg/dL）<input type="number" id="tg" inputmode="decimal"></label>
+    </div>
+    <div class="chk">
+      <label><input type="checkbox" id="rep">未治療で<b>複数回</b>確認した値（二次性は除外済み）</label>
+      <label><input type="checkbox" id="fhfam">親またはきょうだいがFH（病的バリアント保有を含む）</label>
+      <label><input type="checkbox" id="par180">親のLDL-Cが180 mg/dL以上</label>
+      <label><input type="checkbox" id="cad">祖父母か親に早発性冠動脈疾患（男&lt;55歳・女&lt;65歳）</label>
+      <label><input type="checkbox" id="xan">黄色腫（皮膚・腱）あり</label>
+      <label><input type="checkbox" id="gene">本人にFHの病的バリアントあり</label>
+    </div>
+    <div style="margin-top:8px;text-align:right"><button class="btn" id="clr">クリア</button></div>
+    <div id="out" class="res n">値を入れると判定が出ます</div>
+  </div>
+  <p class="note">判定は高槻宣言2024と小児FH診断基準（動脈硬化学会GL2022）をそのまま当てはめた目安です。最終判断は臨床で。</p>
+</section>
+
+<!-- ============ 診断基準 ============ -->
+<section id="dx" hidden>
+  <div class="c">
+    <h2>小児FHヘテロ接合体の診断基準（15歳未満）</h2>
+    <p class="note">動脈硬化性疾患予防ガイドライン2022。他の原発性・二次性の高LDL-C血症を除外した上で使う。</p>
+    <table>
+      <tr><th style="width:12%">1</th><td>高LDL-C血症：<b>未治療LDL-C 140 mg/dL以上</b>（複数回確認）</td></tr>
+      <tr><th>2</th><td>FHの家族歴（<b>親または同胞</b>）</td></tr>
+      <tr><th>3</th><td><b>親のLDL-C 180 mg/dL以上</b>、または早発性冠動脈疾患の家族歴（<b>祖父母または親</b>）</td></tr>
+    </table>
+    <h3>判定</h3>
+    <table>
+      <tr><th>組み合わせ</th><th>判定</th></tr>
+      <tr><td>1 ＋ 2</td><td><span class="pill r">FH</span></td></tr>
+      <tr><td>1 ＋ 3</td><td><span class="pill y">FH疑い</span>　ただし LDL-C ≥180 なら <span class="pill r">FH</span></td></tr>
+      <tr><td>1 のみ</td><td>LDL-C ≥250 → <span class="pill r">FH</span>／≥180 → <span class="pill y">FH疑い</span></td></tr>
+      <tr><td>病的バリアント</td><td>本人に確認されれば <span class="pill r">FH</span>。親・同胞の保有は「家族歴あり」に数える</td></tr>
+    </table>
+    <ul class="note">
+      <li>LDL-C ≥250 または黄色腫 → <b>HoFHの鑑別</b></li>
+      <li>FH疑いは精査と脂質低下療法の対象</li>
+      <li>早発性冠動脈疾患：男性55歳未満、女性65歳未満</li>
+    </ul>
+  </div>
+
+  <div class="c warn">
+    <h2>HoFH（ホモ接合体）を見逃さない</h2>
+    <ul>
+      <li>出生時から著明な高LDL-C。症例報告では未治療LDL-C <b>600〜700 mg/dL前後</b>（603.9、636、中央値680）</li>
+      <li><b>乳幼児期の皮膚黄色腫</b>が受診のきっかけになりやすい（皮膚科→小児科、11か月で発見の例）</li>
+      <li>小児期から動脈硬化が進む。冠動脈疾患・<b>大動脈弁狭窄症</b>を若年で発症</li>
+      <li>指定難病79の基準：Probable＝空腹時 TC <b>450以上</b>（LDL-C <b>370以上</b>）、または小児期からの皮膚黄色腫など重度で薬に抵抗。Definite＝遺伝子解析かLDL受容体活性で確定</li>
+      <li>原因：LDLRの両アレル変異のほか、複数遺伝子の組み合わせでも（ダブルヘテロ：LDLR＋PCSK9でヘテロより重症）</li>
+      <li>両親ともにFH（または高LDL-C）のとき要注意。片親の遺伝学的検査でヘテロでも、臨床的にHoFHと診断した例あり</li>
+    </ul>
+    <p><b>→ 疑ったらすぐ専門施設へ。</b></p>
+  </div>
+
+  <div class="c amb">
+    <h2>除外すること（二次性・他の原発性）</h2>
+    <table>
+      <tr><th>二次性</th><td>甲状腺機能低下症、ネフローゼ症候群、胆汁うっ滞・肝疾患、肥満、神経性やせ症、薬剤（ステロイドなど）</td></tr>
+      <tr><th>他の原発性</th><td><b>シトステロール血症</b>（ABCG5/8、常染色体潜性）：FHと見分けにくい。植物ステロールを測る（例：144.5 μg/mL、基準&gt;10で異常）。第一選択はエゼチミブかコレスチミドで、FHと治療が違う</td></tr>
+      <tr><th>紛らわしい背景</th><td><b>シトリン欠損症</b>：脂質を好む食嗜好やFTTDCDでも高LDL-Cになり、合併FHの診断が遅れうる（JSPE59 P1-20-5）</td></tr>
+    </table>
+  </div>
+
+  <div class="c act">
+    <h2>遺伝学的検査の位置づけ</h2>
+    <ul>
+      <li>診断確定に役立つ。LDLR病的バリアントが多い（東大17例：HoFH 1、HeFH 10でLDLR）</li>
+      <li>臨床的FHでも<b>全例で見つかるわけではない</b>。陰性でもFHは否定できない</li>
+      <li>ダブルヘテロとわかれば重症度の評価になり、早期治療の判断材料になる</li>
+      <li>FHを疑って出した検査で、シトステロール血症（ABCG8）が見つかることもある</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 治療・フォロー ============ -->
+<section id="tx" hidden>
+  <div class="c">
+    <h2>ヘテロ接合体（HeFH）</h2>
+    <ul>
+      <li>まず食事・運動療法と、<b>受動喫煙を含めた禁煙</b></li>
+      <li>LDL-C <b>180 mg/dL以上が続く</b>なら、<b>10歳ごろ</b>を目安に薬物療法を検討</li>
+      <li>管理目標：<b>LDL-C 140 mg/dL未満</b>（小児）</li>
+      <li>第一選択はスタチン。国内では<b>ピタバスタチンが10歳以上</b>で適応。必要ならエゼチミブを追加</li>
+      <li>東大17例：スタチン開始時の平均年齢11.3歳、未治療LDL-C平均233 → スタチン±エゼチミブでおおむね140未満を達成</li>
+    </ul>
+    <p class="note">10歳より前でも重症（ダブルヘテロなど）なら例外的に開始した報告あり：6歳7か月からピタバスタチン1 mg/日で約40％低下、副作用なし（院内の未承認薬申請を経て｜P1-20-7）。</p>
+  </div>
+
+  <div class="c warn">
+    <h2>ホモ接合体（HoFH）</h2>
+    <ul>
+      <li><b>LET's Strategy</b>（小倉先生）：Lower the better／Earlier the better／Together the better</li>
+      <li>スタチン＋エゼチミブ → PCSK9阻害薬（エボロクマブ）</li>
+      <li><b>エビナクマブ</b>（エヴキーザ®、抗ANGPTL3抗体）：LDL受容体に頼らない仕組みなのでHoFHで有用。小児適応あり。5歳で追加し、LDL-C 100未満でアフェレーシスを回避できた例</li>
+      <li><b>ロミタピド</b>（MTP阻害薬）：海外小児第III相で24週にLDL-C平均53.9％低下</li>
+      <li>LDLアフェレーシス</li>
+      <li><b>肝移植</b>：成育5例（1.4〜4.0歳）でLDL-Cが680→68（90％低下）。血管病変が<b>進む前</b>の実施が大事。既報116例では低下率82％、37例で術後に薬を再開</li>
+    </ul>
+  </div>
+
+  <div class="c act">
+    <h2>家族への展開</h2>
+    <ul>
+      <li>子どもを診断したら<b>両親のLDL-C</b>（リバース・カスケード）、次に<b>同胞</b></li>
+      <li>FHの親の子は1人ずつ50％。成人FHの外来から子どもへ（カスケード）</li>
+      <li>遺伝カウンセリング、遺伝診療部・産婦人科と連携（女性は将来の妊娠・出産も）</li>
+    </ul>
+  </div>
+
+  <div class="c pur">
+    <h2>成人への移行</h2>
+    <ul>
+      <li>小児科と内科（循環器・代謝）が<b>小児期から並行して</b>かかわり、切れ目なく移す</li>
+      <li>成人HeFHの管理目標（参考）：一次予防 LDL-C 100未満、二次予防 70未満</li>
+    </ul>
+  </div>
+
+  <div class="c ok">
+    <h2>フォロー終了（経過観察オフ）の目安</h2>
+    <h3>終了しない</h3>
+    <ul>
+      <li><b>FH・FH疑いと診断した子</b>：生涯フォロー。終了ではなく<b>成人診療科へ移行</b>して引き継ぐ</li>
+    </ul>
+    <h3>小児科の精査フォローを終えてよい目安</h3>
+    <ul>
+      <li>未治療で再検したLDL-Cが<b>140未満</b>に戻り、FHの家族歴・親の高LDL-C・早発性冠動脈疾患の家族歴がない</li>
+      <li>二次性（甲状腺・腎・肝・肥満・薬剤）が見つかり、その治療でLDL-Cが正常化した</li>
+    </ul>
+    <h3>家族への伝え方（セーフティネット）</h3>
+    <ul>
+      <li>「今は基準内ですが、健診や採血のときはコレステロールも見てもらってください」</li>
+      <li>「ご両親もコレステロールを測っておいてください。高ければ、もう一度お子さんも調べます」</li>
+      <li>「黄色いできもの（ひじ・ひざ・お尻・アキレス腱）が出たら受診してください」</li>
+    </ul>
+    <p class="note">終了の目安は、診断基準と宣言の閾値をもとにした運用案です（ガイドラインに明記された基準ではありません）。</p>
+  </div>
+</section>
+
+<!-- ============ JSPE59 ============ -->
+<section id="jspe" hidden>
+  <div class="c act">
+    <h2>第59回 日本小児内分泌学会（北九州）のFH関連</h2>
+    <p class="note">抄録集から。日本動脈硬化学会と共催、日本小児脂質研究会と共同企画。</p>
+  </div>
+  <div class="c">
+    <h3>シンポジウム4　11/5（木）15:40〜17:00　第5会場</h3>
+    <p class="note">FHをモデルに考える小児期脂質異常症の早期診断・介入（座長：多田隼人・山本幸代）</p>
+    <ul>
+      <li><b>SY4-1 山本幸代</b>：なぜ小児期のFHは見逃されるのか。高値でも再検しない／子どもを調べていない／HoFHなのに長く診断されない</li>
+      <li><b>SY4-2 多田隼人</b>：遺伝子診断から考える早期診断。診断率約2.6％</li>
+      <li><b>SY4-3 松永圭司</b>：香川県の小児・成人診療連携</li>
+      <li><b>SY4-4 菊池透</b>：高槻宣言2024の普及（10項目の原文はこの抄録）</li>
+    </ul>
+  </div>
+  <div class="c">
+    <h3>Meet the Expert 2　11/6（金）15:45〜16:15　第1会場</h3>
+    <ul><li><b>岡崎啓明</b>：原発性脂質異常症Update。HeFHを見落とさない、小児〜若年成人をシームレスに。女性は妊娠・出産への対応も</li></ul>
+    <h3>モーニングセミナー　11/7（土）8:00〜8:50　第3会場</h3>
+    <ul>
+      <li><b>MS-1 小倉正恒</b>：HoFHのLET's Strategy、ロミタピド小児第III相</li>
+      <li><b>MS-2 南野哲男</b>：香川モデルの3段階スクリーニング、HoFH早期発見</li>
+    </ul>
+    <h3>ランチョン11　11/7（土）12:20〜13:10　第3会場</h3>
+    <ul>
+      <li><b>LS11-1 斯波真理子</b>：HoFHの早期診断と治療、ANGPTL3阻害薬</li>
+      <li><b>LS11-2 島彦仁</b>：5歳男児のエヴキーザ治療経験</li>
+    </ul>
+    <h3>一般口演18　11/7（土）11:05〜12:05　第2会場</h3>
+    <ul>
+      <li>O3-18-1 東大：小児FH 17例。発見は健診6・家系内5・他疾患精査5</li>
+      <li>O3-18-2 成育：小児HoFHの肝移植</li>
+      <li>O3-18-3 幕張：オポチュニスティック・スクリーニングで見つかったシトステロール血症</li>
+    </ul>
+    <h3>ポスター20　11/6（金）17:00〜18:00</h3>
+    <ul>
+      <li>P1-20-5 日医：シトリン欠損症に合併したFH</li>
+      <li>P1-20-6 慈恵：FH 19例。家族歴から診断は中央値2歳3か月、学校健診は11歳1か月、偶然の採血は3歳2か月。5例は1歳半以下で診断</li>
+      <li>P1-20-7 滋賀：ダブルヘテロの6歳にスタチン</li>
+    </ul>
+  </div>
+</section>
+
+<div class="c src">
+  <b>出典</b><br>
+  ・日本小児脂質研究会「<a href="https://square.umin.ac.jp/~jslpc/declaration.html">高槻宣言2024</a>」<br>
+  ・第59回日本小児内分泌学会 抄録集（SY4-1〜4、MS-1/2、LS11-1/2、MtE2、O3-18-1〜3、P1-20-5〜7）<br>
+  ・日本動脈硬化学会 動脈硬化性疾患予防ガイドライン2022 小児FH診断基準（<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10164603/table/X16">J Atheroscler Thromb 英語版の表</a>）<br>
+  ・厚労省 指定難病79 家族性高コレステロール血症（ホモ接合体）<a href="https://www.mhlw.go.jp/content/10905000/001173491.pdf">診断基準</a>
+</div>
+</main>
+
+<script>
+const tabs=document.querySelectorAll('nav button');
+function show(t){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!==t);try{localStorage.setItem('fh.tab',t)}catch(e){}window.scrollTo(0,0)}
+tabs.forEach(b=>b.onclick=()=>show(b.dataset.t));
+try{const t=localStorage.getItem('fh.tab');if(t&&document.getElementById(t))show(t)}catch(e){}
+
+const $=id=>document.getElementById(id);
+const ids=['tc','ldl','hdl','tg','rep','fhfam','par180','cad','xan','gene'];
+ids.forEach(i=>$(i).addEventListener('input',judge));
+$('clr').onclick=()=>{ids.forEach(i=>{const e=$(i);if(e.type==='checkbox')e.checked=false;else e.value=''});judge()};
+const v=id=>{const x=parseFloat($(id).value);return isNaN(x)?null:x};
+
+function judge(){
+  const tc=v('tc'),hdl=v('hdl'),tg=v('tg');let ldl=v('ldl'),calc=false;
+  if(ldl==null&&tc!=null&&hdl!=null&&tg!=null&&tg<400){ldl=Math.round(tc-hdl-tg/5);calc=true}
+  const o=$('out');const L=[];let cls='n',head='';
+  if(tc==null&&ldl==null){o.className='res n';o.innerHTML=(tg!=null&&tg>=400)?'TG 400以上のため計算できません。直接法のLDL-Cを入れてください':'値を入れると判定が出ます';return}
+  const fam=$('fhfam').checked,p3=$('par180').checked||$('cad').checked,xan=$('xan').checked,gene=$('gene').checked,rep=$('rep').checked;
+  if(calc)L.push(`LDL-C（Friedewald計算値）= <b>${ldl}</b> mg/dL`);
+  if(ldl==null){
+    if(tc>=260){cls='r';head='TC ≥260（≒LDL-C 180相当）→ LDL-Cを測る';L.push('高槻宣言⑦⑨：FHの可能性が高い域。HDL・TGか直接法LDL-Cを')}
+    else if(tc>=220){cls='y';head='TC ≥220 → LDL-Cを評価';L.push('高槻宣言⑦')}
+    else{cls='g';head='TC <220';L.push('宣言上はここで一区切り。家族歴があれば別に評価')}
+  }else{
+    // 高槻宣言の段階
+    let tk='';
+    if(ldl>=180)tk='宣言⑨：FHの可能性が高い';else if(ldl>=140)tk='宣言⑧：FHを疑う';else tk='LDL-C <140';
+    // 診断基準2022
+    let dx=null;
+    const c1=ldl>=140;
+    if(gene)dx='FH（本人に病的バリアント）';
+    else if(c1&&fam)dx='FH（基準1＋2）';
+    else if(c1&&p3)dx=ldl>=180?'FH（基準1＋3、LDL-C≥180）':'FH疑い（基準1＋3）';
+    else if(c1&&ldl>=250)dx='FH（基準1のみ、LDL-C≥250）';
+    else if(c1&&ldl>=180)dx='FH疑い（基準1のみ、LDL-C≥180）';
+    else if(c1)dx='基準1のみ（140〜179）：診断基準上は該当なし。家族歴と再検で詰める';
+    if(dx&&dx.startsWith('FH（'))cls='r';else if(c1||dx)cls='y';else cls='g';
+    head=dx||tk;
+    L.push(tk);
+    if(c1&&!rep&&!gene)L.push('診断基準は<b>未治療・複数回確認</b>が前提。再検と二次性の除外を');
+    if(c1)L.push('両親のLDL-Cを確認（宣言⑩）');
+    if(ldl>=250||xan){L.push('<b>HoFHを鑑別</b>（LDL-C≥250または黄色腫）→ 専門施設へ');cls='r'}
+    if(ldl>=370)L.push('指定難病79 Probableの目安（LDL-C 370以上）にも該当');
+    if(cls==='r'&&ldl>=180)L.push('LDL-C 180以上が続くなら10歳ごろを目安に薬物療法を検討（目標 &lt;140）');
+    if(!c1&&(fam||p3))L.push('家族歴あり：今は基準未満でも、成長に合わせて再検');
+  }
+  o.className='res '+cls;
+  o.innerHTML=`<div class="big">${head}</div><ul>${L.map(x=>'<li>'+x+'</li>').join('')}</ul>`;
+}
+</script>
+</body>
+</html>
