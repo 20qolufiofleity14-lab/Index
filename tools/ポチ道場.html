@@ -1,0 +1,257 @@
+<title>ポチ道場</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="mini-category" content="other">
+<meta name="mini-desc" content="5〜20秒で終わるミニゲーム。クリアでコイン（1日3回まで）">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800&display=swap">
+<style>
+/* Layout: one phone-width column — coin bar, today's game card, game stage that turns into the play area */
+:root{
+  --bg:#FFD84D; --ink:#2A1B3D; --pop:#FF4F79; --mint:#2EC4B6; --paper:#FFF6D6; --shade:#E8B92E;
+  --display:"Dela Gothic One","Hiragino Sans","Yu Gothic",sans-serif;
+  --body:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:500;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:12px 24px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  background-image:radial-gradient(var(--shade) 1.5px,transparent 1.5px);background-size:18px 18px}
+.wrap{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.logo{font-family:var(--display);font-size:22px;letter-spacing:.02em}
+.wallet{display:flex;gap:6px}
+.chip{background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px;font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip b{color:var(--bg)}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);padding:16px}
+.today small{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--pop)}
+.today h2{font-family:var(--display);font-size:34px;margin:4px 0 2px;font-weight:400}
+.today p{margin:0 0 14px;font-size:14px}
+button{font-family:inherit;cursor:pointer}
+.go{width:100%;font-family:var(--display);font-size:24px;padding:14px;border:3px solid var(--ink);border-radius:14px;
+  background:var(--pop);color:#fff;box-shadow:0 5px 0 var(--ink);transition:transform .06s}
+.go:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.go:focus-visible,.pick:focus-visible,.sub:focus-visible{outline:3px solid var(--mint);outline-offset:2px}
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pick{border:3px solid var(--ink);border-radius:12px;background:var(--paper);padding:10px 4px;font-weight:800;font-size:14px;color:var(--ink)}
+.pick span{display:block;font-family:var(--display);font-size:20px;font-weight:400}
+.pick[aria-pressed="true"]{background:var(--mint);color:#fff}
+.label{font-size:12px;font-weight:800;letter-spacing:.1em}
+.note{font-size:12px;line-height:1.6;margin:0}
+/* stage */
+.stage{position:relative;width:100%;aspect-ratio:3/4;max-width:100%;background:var(--ink);border:3px solid var(--ink);
+  border-radius:18px;overflow:hidden;box-shadow:5px 5px 0 var(--ink);user-select:none;-webkit-user-select:none}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:12px;right:12px;top:10px;display:flex;justify-content:space-between;color:var(--paper);
+  font-weight:800;font-size:15px;pointer-events:none;font-variant-numeric:tabular-nums;z-index:3}
+.timebar{position:absolute;left:0;bottom:0;height:8px;background:var(--bg);z-index:3}
+.over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  text-align:center;color:var(--paper);z-index:5;padding:20px}
+.big{font-family:var(--display);font-size:56px;line-height:1;color:var(--bg);text-shadow:4px 4px 0 var(--pop)}
+.verb{animation:zoom .9s ease-out both}
+@keyframes zoom{0%{transform:scale(2.4) rotate(-8deg);opacity:0}25%{transform:scale(1) rotate(-3deg);opacity:1}100%{transform:scale(1.08) rotate(-3deg)}}
+.sub{border:3px solid var(--paper);background:transparent;color:var(--paper);border-radius:12px;padding:10px 16px;font-weight:800;font-size:15px;text-decoration:none;display:inline-block}
+.sub.main{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.gain{font-size:18px;font-weight:800}
+.balloon{position:absolute;width:62px;height:76px;border-radius:50% 50% 48% 48%;z-index:2;
+  box-shadow:inset -8px -10px 0 rgba(0,0,0,.15)}
+.balloon::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:22px;background:var(--paper);opacity:.6}
+.pop{animation:pop .18s ease-out forwards}
+@keyframes pop{to{transform:scale(1.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.verb,.pop{animation-duration:.01s}}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="/Academylab/" target="_top" style="color:inherit;text-decoration:none">‹ ポチ道場</a>
+    <div class="wallet">
+      <span class="chip">今日 +<b id="coins">0</b></span>
+      <span class="chip">Lv <b id="lv">1</b></span>
+      <span class="chip">残り <b id="left">3</b>/3</span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="over" id="home">
+      <div class="label" style="color:var(--bg)">今日のミニゲーム</div>
+      <div class="big" id="todayName">ストップ</div>
+      <div id="todayDesc" style="font-size:15px">動くバーを真ん中で止める</div>
+      <button class="go" id="start" style="max-width:240px">スタート</button>
+    </div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:10px">
+    <div class="label">ほかのゲームで遊ぶ</div>
+    <div class="picks" id="picks"></div>
+    <p class="note">クリアで +2コイン（1日3回まで、それ以降は練習）。コインはアカデミーの財布に入ります。今週ミニゲームでコインを取った日が増えるほどLvが大きく上がり、3日目にはほぼ取れない難しさになります。Lvは毎週月曜にリセット。前の週にコインを取っていれば1段上から、取らなかった週のあとは1段下からスタート。</p>
+  </div>
+</div>
+
+<script>
+const GAMES={
+  stop:{name:'ストップ',verb:'とめろ！',desc:()=>`動くバーを緑ゾーンで止める（3回中1回）`},
+  stack:{name:'スタック',verb:'つめ！',desc:()=>`ブロックを${P().stack.goal}段積む`},
+  balloon:{name:'風船わり',verb:'われ！',desc:()=>`10秒で風船を${P().balloon.need}個わる`}
+};
+const IDS=Object.keys(GAMES), REWARD=2, CAP=3;
+const LOG_KEY='pochiDojoLog2'; // アカデミーの財布がこの coinDays を読んでコインに換算する
+const ACADEMY_URL='/Academylab/';
+
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+function load(k,def){try{return JSON.parse(localStorage.getItem(k))??def}catch(e){return def}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+// 週（月曜はじまり）ごとにレベルをリセット。前の週にクリアしていれば翌週は1段上から、ゼロなら1段下げる
+function weekKey(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+let log=load(LOG_KEY,{});
+if(log.week!==weekKey()){
+  const had=log.week!==undefined;
+  if(!had)log.plays=0; // 旧版で使った回数は持ち越さない
+  log.base=had?Math.max(0,(log.base||0)+((log.weekClears||0)>0?1:-1)):0;
+  log.lastWeekClears=had?(log.weekClears||0):0;
+  log.week=weekKey();log.weekClears=0;log.days=[];
+}
+if(log.date!==today()){log.date=today();log.plays=0}
+if(!Array.isArray(log.days))log.days=[];
+if(!log.coinDays||typeof log.coinDays!=='object')log.coinDays={};
+save(LOG_KEY,log);
+// 今週ミニゲームでコインを取った「日数」で一気に上がる：1日目は気軽、2日目でLv5〜7、3日目はLv9以上
+const pastDays=()=>log.days.filter(d=>d!==today()).length;
+const level=()=>log.base+4*pastDays()+log.plays;
+// レベルごとの難易度（上がるほど狭く・速く・多く）
+function P(L=level()){return{
+  stop:{zone:Math.max(.04,.18-.022*L),speed:.8+.2*L,step:.3+.05*L},
+  stack:{goal:Math.min(14,8+Math.floor(L/2)),width:Math.max(.28,.6-.05*L),speed:.5+.12*L,snap:Math.max(2,6-L*.8)},
+  balloon:{need:Math.min(18,10+L),rise:1+.12*L,spawn:Math.max(280,420-20*L)}
+}}
+function refresh(){coins.textContent=REWARD*(log.coinDays[today()]||0);left.textContent=Math.max(0,CAP-log.plays);lv.textContent=level()+1}
+
+function dailyPick(){const s=today();let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return IDS[h%IDS.length]}
+let current=dailyPick();
+
+const stage=document.getElementById('stage'), picksEl=document.getElementById('picks');
+IDS.forEach(id=>{const b=document.createElement('button');b.className='pick';b.id='pick-'+id;
+  b.innerHTML='<span>'+GAMES[id].verb.replace('！','')+'</span>'+GAMES[id].name;
+  b.onclick=()=>{current=id;showHome()};picksEl.appendChild(b)});
+
+let cleanup=null;
+function clearStage(){if(cleanup){cleanup();cleanup=null}stage.innerHTML=''}
+function showHome(){
+  clearStage();
+  const g=GAMES[current];
+  stage.innerHTML=`<div class="over"><div class="label" style="color:var(--bg)">${current===dailyPick()?'今日のミニゲーム':'えらんだゲーム'}</div>
+  <div class="big">${g.name}</div><div style="font-size:15px">${g.desc()}</div>
+  <div style="font-size:12px;opacity:.8">Lv.${level()+1} ・ 今週ミニゲームを使った日 ${log.days.length}日</div>
+  <button class="go" id="start" style="max-width:240px">スタート</button></div>`;
+  document.getElementById('start').onclick=()=>play(current);
+  IDS.forEach(id=>document.getElementById('pick-'+id).setAttribute('aria-pressed',id===current));
+  refresh();
+}
+function play(id){
+  clearStage();
+  stage.innerHTML=`<div class="over"><div class="big verb">${GAMES[id].verb}</div></div>`;
+  const t=setTimeout(()=>{clearStage();RUN[id]()},950);
+  cleanup=()=>clearTimeout(t);
+}
+function finish(win,msg){
+  if(cleanup){cleanup();cleanup=null}
+  let gainTxt='';
+  if(win){
+    if(log.plays<CAP){log.plays++;log.weekClears++;if(!log.days.includes(today()))log.days.push(today());log.coinDays[today()]=(log.coinDays[today()]||0)+1;save(LOG_KEY,log);gainTxt=`+${REWARD}コイン！ 次から Lv.${level()+1}`}
+    else gainTxt='今日の3回は使い切ったので練習モード（Lvは上がりません）';
+  }
+  refresh();
+  const o=document.createElement('div');o.className='over';o.style.background='rgba(42,27,61,.82)';
+  o.innerHTML=`<div class="big verb">${win?'クリア！':'ざんねん'}</div>
+  <div style="font-size:15px">${msg}</div>${gainTxt?`<div class="gain">${gainTxt}</div>`:''}
+  <div class="row"><button class="sub" id="again">もう一回</button><button class="sub" id="back">もどる</button></div>
+  ${win?`<a class="sub main" href="${ACADEMY_URL}" target="_top">このまま今日の1話を読む</a>`:''}`;
+  stage.appendChild(o);
+  o.querySelector('#again').onclick=()=>play(current);
+  o.querySelector('#back').onclick=showHome;
+}
+function makeCanvas(){
+  const c=document.createElement('canvas');stage.appendChild(c);
+  const r=stage.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  c.width=r.width*dpr;c.height=r.height*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);
+  return {c,x,W:r.width,H:r.height};
+}
+function hud(l,r){const h=document.createElement('div');h.className='hud';h.innerHTML=`<span>${l}</span><span>${r}</span>`;stage.appendChild(h);return h}
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+const RUN={
+  stop(){
+    const {c,x,W,H}=makeCanvas(),h=hud('','');
+    const p=P().stop;let tries=0,pos=0,dir=1,speed=p.speed,stopped=false,last=performance.now(),raf,flash=null;
+    const zone=p.zone;
+    const upd=()=>h.innerHTML=`<span>チャンス ${3-tries}</span><span>真ん中で タップ</span>`;upd();
+    function draw(){
+      x.clearRect(0,0,W,H);
+      const bx=W*.08,bw=W*.84,by=H*.5-24;
+      x.fillStyle='#3d2c55';x.fillRect(bx,by,bw,48);
+      x.fillStyle=css('--mint');x.fillRect(bx+bw*(.5-zone/2),by,bw*zone,48);
+      x.fillStyle=css('--paper');x.fillRect(bx+bw*pos-4,by-18,8,84);
+      if(flash){x.fillStyle=flash.c;x.font=`32px ${css('--display')}`;x.textAlign='center';x.fillText(flash.t,W/2,H*.32)}
+    }
+    function loop(t){const dt=(t-last)/1000;last=t;
+      if(!stopped){pos+=dir*speed*dt;if(pos>1){pos=1;dir=-1}if(pos<0){pos=0;dir=1}}
+      draw();raf=requestAnimationFrame(loop)}
+    raf=requestAnimationFrame(loop);
+    const tap=()=>{if(stopped)return;stopped=true;tries++;
+      const hit=Math.abs(pos-.5)<=zone/2;
+      flash=hit?{t:'ピタッ！',c:css('--bg')}:{t:'おしい',c:css('--pop')};upd();
+      setTimeout(()=>{
+        if(hit)return finish(true,`${tries}回目で止めた`);
+        if(tries>=3)return finish(false,'3回とも外れた');
+        flash=null;speed+=p.step;stopped=false;pos=Math.random()<.5?0:1;dir=pos?-1:1;
+      },650)};
+    c.addEventListener('pointerdown',tap);
+    cleanup=()=>{cancelAnimationFrame(raf);c.removeEventListener('pointerdown',tap)};
+  },
+  stack(){
+    const p=P().stack,{c,x,W,H}=makeCanvas(),GOAL=p.goal,bh=H/13,h=hud('','');
+    const tower=[{x:W*(1-p.width)/2,w:W*p.width}];
+    let cur={x:0,w:W*p.width},dir=1,speed=W*p.speed,last=performance.now(),raf,done=false,cam=0;
+    const cols=[css('--pop'),css('--mint'),css('--bg')];
+    const upd=()=>h.innerHTML=`<span>${tower.length-1} / ${GOAL}段</span><span>タップで落とす</span>`;upd();
+    function loop(t){const dt=(t-last)/1000;last=t;
+      if(!done){cur.x+=dir*speed*dt;if(cur.x+cur.w>W){cur.x=W-cur.w;dir=-1}if(cur.x<0){cur.x=0;dir=1}}
+      const target=Math.max(0,(tower.length+1)*bh-H*.62);cam+=(target-cam)*.15;
+      x.clearRect(0,0,W,H);
+      tower.forEach((b,i)=>{x.fillStyle=i===0?'#5a4675':cols[i%3];x.fillRect(b.x,H-(i+1)*bh+cam,b.w,bh-3)});
+      if(!done){const i=tower.length;x.fillStyle=cols[i%3];x.fillRect(cur.x,H-(i+1)*bh+cam,cur.w,bh-3)}
+      raf=requestAnimationFrame(loop)}
+    raf=requestAnimationFrame(loop);
+    const tap=()=>{if(done)return;const top=tower[tower.length-1];
+      let l=Math.max(cur.x,top.x),r=Math.min(cur.x+cur.w,top.x+top.w);
+      if(Math.abs(cur.x-top.x)<p.snap){l=top.x;r=top.x+top.w}
+      if(r-l<=0){done=true;return setTimeout(()=>finish(false,`${tower.length-1}段で落ちた`),400)}
+      tower.push({x:l,w:r-l});upd();
+      if(tower.length-1>=GOAL){done=true;return setTimeout(()=>finish(true,`${GOAL}段 積みあげた`),400)}
+      cur={x:Math.random()<.5?0:W-(r-l),w:r-l};dir=cur.x?-1:1;speed+=W*.06};
+    c.addEventListener('pointerdown',tap);
+    cleanup=()=>{cancelAnimationFrame(raf);c.removeEventListener('pointerdown',tap)};
+  },
+  balloon(){
+    const p=P().balloon,r=stage.getBoundingClientRect(),W=r.width,H=r.height,TIME=10,NEED=p.need;
+    const h=hud('',''),bar=document.createElement('div');bar.className='timebar';stage.appendChild(bar);
+    const cols=[css('--pop'),css('--mint'),css('--bg'),'#9B6BFF'];
+    let got=0,start=performance.now(),lastSpawn=0,raf,list=[],over=false;
+    const upd=t=>{h.innerHTML=`<span>わった ${got} / ${NEED}</span><span>${Math.max(0,t).toFixed(1)}秒</span>`;bar.style.width=Math.max(0,t/TIME*100)+'%'};
+    function spawn(){const b=document.createElement('div');b.className='balloon';
+      b.style.background=cols[Math.floor(Math.random()*cols.length)];
+      const o={el:b,x:Math.random()*(W-70)+4,y:H+10,v:H*p.rise/(2.2+Math.random()*1.2)};
+      b.style.left=o.x+'px';b.style.top=o.y+'px';
+      b.addEventListener('pointerdown',e=>{e.stopPropagation();if(over||o.dead)return;o.dead=true;got++;b.classList.add('pop');setTimeout(()=>b.remove(),200);
+        if(got>=NEED){over=true;finish(true,`${((performance.now()-start)/1000).toFixed(1)}秒で${NEED}個`)}});
+      stage.appendChild(b);list.push(o)}
+    function loop(t){const rem=TIME-(t-start)/1000;upd(rem);
+      if(t-lastSpawn>p.spawn){spawn();lastSpawn=t}
+      const dt=Math.min(.05,(t-(loop.p||t))/1000);loop.p=t;list.forEach(o=>{if(o.dead)return;o.y-=o.v*dt;o.el.style.top=o.y+'px';if(o.y<-90){o.dead=true;o.el.remove()}});
+      if(rem<=0&&!over){over=true;return finish(false,`${got}個 わった（あと${NEED-got}個）`)}
+      if(!over)raf=requestAnimationFrame(loop)}
+    raf=requestAnimationFrame(loop);
+    cleanup=()=>{over=true;cancelAnimationFrame(raf)};
+  }
+};
+showHome();
+</script>
