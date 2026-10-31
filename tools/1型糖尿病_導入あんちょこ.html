@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1型糖尿病 導入あんちょこ</title>
+<meta name="mini-category" content="glucose">
+<meta name="mini-desc" content="初期インスリン量・カーボ比・補正係数の計算、CGM目標、シックデイ、低血糖">
+<meta name="mini-title" content="1型糖尿病 導入あんちょこ">
+<style>
+/* ════════════════════════════════════════
+   DESIGN SYSTEM — CSS VARIABLES
+   ════════════════════════════════════════ */
+:root {
+  --bg: #eef2f7;
+  --card: #ffffff;
+  --border: #dde3ec;
+  --text: #1a202c;
+  --text-muted: #64748b;
+  --primary: #1e3a5f;
+  --primary-mid: #254d80;
+  --primary-light: #3468a8;
+  --red: #b91c1c;
+  --red-soft: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --amber: #92400e;
+  --amber-soft: #b45309;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --blue: #1d4ed8;
+  --blue-soft: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --green: #166534;
+  --green-soft: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+/* ════════════════════════════════════════
+   BASE
+   ════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo','メイリオ',sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* ════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a9e 60%, #1e4e9e 100%);
+  color: white;
+  padding: 14px 20px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; }
+.header-left .sub { font-size: 10.5px; opacity: 0.75; margin-top: 2px; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.header-tag {
+  font-size: 9.5px; background: rgba(255,255,255,0.18);
+  padding: 2px 9px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3); white-space: nowrap;
+}
+
+/* ════════════════════════════════════════
+   TAB NAVIGATION
+   ════════════════════════════════════════ */
+.tab-nav {
+  background: var(--primary-mid);
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 9px 14px; color: rgba(255,255,255,0.62);
+  background: none; border: none; cursor: pointer;
+  white-space: nowrap; font-size: 11.5px; font-family: inherit;
+  border-bottom: 3px solid transparent; transition: all 0.18s;
+  font-weight: 500; flex-shrink: 0;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+.tab-btn.active { color: white; border-bottom-color: #5ef07a; background: rgba(255,255,255,0.12); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════ */
+.tab-content { display: none; padding: 14px 16px 24px; max-width: 1280px; margin: 0 auto; }
+.tab-content.active { display: block; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px; }
+.grid-half { display: grid; grid-template-columns: 1.4fr 1fr; gap: 11px; }
+.mb-3 { margin-bottom: 11px; }
+@media (max-width: 780px) {
+  .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   CARDS
+   ════════════════════════════════════════ */
+.card {
+  background: var(--card); border-radius: 7px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+/* Card header variants */
+.card-hd {
+  padding: 7px 11px; font-weight: 700; font-size: 11.5px;
+  display: flex; align-items: center; gap: 5px; letter-spacing: 0.2px;
+}
+.card-hd .icon { font-size: 13px; }
+.card-hd.red    { background: var(--red-bg);    color: var(--red);    border-bottom: 1px solid var(--red-border); }
+.card-hd.amber  { background: var(--amber-bg);  color: var(--amber);  border-bottom: 1px solid var(--amber-border); }
+.card-hd.blue   { background: var(--blue-bg);   color: var(--blue);   border-bottom: 1px solid var(--blue-border); }
+.card-hd.green  { background: var(--green-bg);  color: var(--green);  border-bottom: 1px solid var(--green-border); }
+.card-hd.purple { background: var(--purple-bg); color: var(--purple); border-bottom: 1px solid var(--purple-border); }
+.card-hd.dark   { background: var(--primary);   color: white; }
+.card-hd.navy   { background: var(--primary-mid); color: white; }
+.card-body { padding: 9px 11px; }
+
+/* ════════════════════════════════════════
+   HIGHLIGHT BOXES (hl-*)
+   使い方: <div class="hl hl-red">...</div>
+   ════════════════════════════════════════ */
+.hl {
+  padding: 5px 9px; border-radius: 4px; margin: 3px 0; border-left: 3px solid;
+}
+.hl-red    { background: var(--red-bg);    border-color: var(--red-soft);   color: #7f1d1d; }
+.hl-amber  { background: var(--amber-bg);  border-color: var(--amber-soft); color: #78350f; }
+.hl-blue   { background: var(--blue-bg);   border-color: var(--blue-soft);  color: #1e3a8a; }
+.hl-green  { background: var(--green-bg);  border-color: var(--green-soft); color: #14532d; }
+.hl-purple { background: var(--purple-bg); border-color: var(--purple);     color: #3b0764; }
+
+/* ════════════════════════════════════════
+   BADGES (b-*)
+   使い方: <span class="badge b-red">テキスト</span>
+   ════════════════════════════════════════ */
+.badge {
+  display: inline-block; padding: 1px 5px; border-radius: 3px;
+  font-size: 9.5px; font-weight: 700; vertical-align: middle; line-height: 1.4;
+}
+.b-red    { background: var(--red-soft);   color: white; }
+.b-amber  { background: var(--amber-soft); color: white; }
+.b-blue   { background: var(--blue-soft);  color: white; }
+.b-green  { background: var(--green-soft); color: white; }
+.b-purple { background: var(--purple);     color: white; }
+.b-gray   { background: #64748b;           color: white; }
+.b-ev     { background: #374151; color: #e5e7eb; font-family: monospace; }
+
+/* ════════════════════════════════════════
+   AGE CRITERION ROWS
+   使い方: <div class="age-row [boys]">
+           <div class="age-num">7.5歳</div>
+           <div class="age-text">説明</div></div>
+   ════════════════════════════════════════ */
+.age-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 8px; margin: 3px 0; border-radius: 5px;
+  background: var(--red-bg); border-left: 3px solid var(--red-soft);
+}
+.age-num { font-weight: 900; font-size: 15px; color: var(--red); min-width: 68px; }
+.age-text { font-size: 12px; color: #7f1d1d; flex: 1; }
+.age-row.boys { background: var(--blue-bg); border-color: var(--blue-soft); }
+.age-row.boys .age-num { color: var(--blue); }
+.age-row.boys .age-text { color: #1e3a8a; }
+
+/* ════════════════════════════════════════
+   TABLES
+   ════════════════════════════════════════ */
+.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.tbl th {
+  background: var(--primary); color: white;
+  padding: 5px 7px; text-align: center; font-weight: 600; font-size: 10.5px;
+}
+.tbl td { padding: 4px 7px; border: 1px solid #dde3ec; text-align: center; vertical-align: middle; }
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl tr:hover td { background: var(--blue-bg); }
+/* Table cell modifiers */
+.td-lbl     { text-align: left !important; font-weight: 600; background: #f1f5f9 !important; color: #334155; }
+.td-prepub  { background: var(--green-bg) !important; color: #14532d; }
+.td-pub     { background: var(--red-bg)   !important; color: #7f1d1d; font-weight: 600; }
+.td-key     { background: #fff7ed        !important; color: #7c2d12; font-weight: 700; }
+
+/* ════════════════════════════════════════
+   DOSE BOXES
+   ════════════════════════════════════════ */
+.dose-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: white; padding: 12px 14px; border-radius: 7px; margin: 6px 0; text-align: center;
+}
+.dose-box-amber {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+  color: white; padding: 10px 14px; border-radius: 7px; text-align: center;
+}
+.dose-label { font-size: 10px; opacity: 0.65; margin-bottom: 3px; font-weight: 600; letter-spacing: 0.5px; }
+.dose-num   { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+.dose-unit  { font-size: 12px; opacity: 0.82; margin-top: 1px; }
+
+/* ════════════════════════════════════════
+   MONITORING GRID (4-column)
+   使い方: <div class="monitor-grid">
+           <div class="monitor-cell hd">見出し</div>...
+   ════════════════════════════════════════ */
+.monitor-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+.monitor-cell {
+  padding: 8px 9px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.monitor-cell:nth-child(4n) { border-right: none; }
+.monitor-cell.hd  { background: var(--primary); color: white; font-weight: 700; font-size: 11px; text-align: center; }
+.monitor-cell.grp { background: #f1f5f9; font-weight: 700; font-size: 11px; color: var(--primary); }
+
+/* ════════════════════════════════════════
+   CLINICAL LIST
+   使い方: <ul class="cl"><li>内容</li></ul>
+   ════════════════════════════════════════ */
+.cl { list-style: none; padding: 0; }
+.cl li {
+  padding: 4px 0 4px 15px; border-bottom: 1px solid #f1f5f9;
+  position: relative; font-size: 12px;
+}
+.cl li:last-child { border-bottom: none; }
+.cl li::before { content: '▸'; position: absolute; left: 0; color: var(--primary-light); font-size: 9px; top: 6px; }
+
+/* ════════════════════════════════════════
+   UTILITY
+   ════════════════════════════════════════ */
+.mh { background: #f8fafc; border-radius: 4px; padding: 4px 8px; margin: 4px 0; font-size: 11.5px; border-left: 2px solid #94a3b8; }
+.small      { font-size: 10.5px; color: var(--text-muted); }
+.small-note { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; padding-top: 4px; border-top: 1px dashed #cbd5e1; }
+.mt { margin-top: 8px; }
+.arrow { color: var(--red); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════ */
+.footer {
+  background: var(--primary); color: rgba(255,255,255,0.5);
+  text-align: center; padding: 8px; font-size: 9.5px; margin-top: 20px;
+}
+
+body{-webkit-text-size-adjust:100%}
+.tab-content{padding:11px}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:8px}
+.calc label{display:flex;flex-direction:column;font-size:10.5px;color:var(--text-muted);gap:2px;font-weight:600}
+.calc input,.calc select{font:inherit;font-size:15px;padding:6px 7px;border:1px solid var(--border);border-radius:5px;background:#fff;color:var(--text);width:100%;box-sizing:border-box}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin:6px 0}
+.res .r{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:6px;padding:6px 8px}
+.res .r b{display:block;font-size:17px;color:var(--primary);font-variant-numeric:tabular-nums}
+.res .r span{font-size:10px;color:var(--text-muted)}
+.res .r.warn{background:var(--amber-bg);border-color:var(--amber-border)}
+.res .r.bad{background:var(--red-bg);border-color:var(--red-border)}
+.res .r.bad b{color:var(--red)}
+.res .r.ok{background:var(--green-bg);border-color:var(--green-border)}
+.out{font-size:12px;line-height:1.6}
+.card-body ul{margin:3px 0 3px 17px;padding:0}
+.card-body li{margin:2px 0}
+.src{font-size:10px;color:var(--text-muted);margin-top:8px}
+.ext{display:inline-block;background:#6d28d9;color:#fff;font-size:9px;font-weight:700;border-radius:3px;padding:0 4px;vertical-align:middle}
+.tbl-wrap{overflow-x:auto}
+.mb{margin-bottom:11px}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-left"><h1>💉 1型糖尿病 導入あんちょこ</h1><div class="sub">Type 1 diabetes — 初期量・目標・シックデイ・低血糖</div></div><div class="header-right"><span class="header-tag">ISPAD 2022</span></div></div>
+<div class="tab-nav"><button class="tab-btn active" onclick="switchTab(0)">① 計算</button><button class="tab-btn" onclick="switchTab(1)">② 診断・導入</button><button class="tab-btn" onclick="switchTab(2)">③ 目標</button><button class="tab-btn" onclick="switchTab(3)">④ シックデイ</button><button class="tab-btn" onclick="switchTab(4)">⑤ 低血糖</button><button class="tab-btn" onclick="switchTab(5)">⑥ フォロー</button></div>
+<div class="tab-content active" id="tab0"><div class="card "><div class="card-hd dark"><span class="icon">🧮</span> 初期量の計算（体重を入れる）</div><div class="card-body">
+<div class="calc">
+<label>体重（kg）<input id="wt" type="number" step="0.1" inputmode="decimal" placeholder="例 24"></label>
+<label>年齢（歳）<input id="age" type="number" step="0.1" inputmode="decimal" placeholder="例 7"></label>
+<label>時期<select id="ph">
+<option value="new">発症時（DKAなし）</option>
+<option value="dka">発症時（DKA後）</option>
+<option value="hm">寛解期（ハネムーン）</option>
+<option value="pre">安定期・思春期前</option>
+<option value="pub">安定期・思春期</option></select></label>
+<label>TDDを直接入れる（任意）<input id="tddIn" type="number" step="0.5" inputmode="decimal" placeholder="自動"></label>
+<label>基礎の割合（%）<input id="bp" type="number" step="5" value="40"></label>
+</div>
+<div class="res" id="r1"></div>
+<div class="out" id="o1"></div>
+</div></div><div class="mb"></div><div class="card "><div class="card-hd blue"><span class="icon">🍙</span> 食事・補正の1回量</div><div class="card-body">
+<div class="calc">
+<label>いまの血糖（mg/dL）<input id="bg" type="number" inputmode="decimal" placeholder="例 240"></label>
+<label>目標血糖（mg/dL）<input id="tg" type="number" value="120"></label>
+<label>食べる炭水化物（g）<input id="cho" type="number" inputmode="decimal" placeholder="例 60"></label>
+<label>カーボ比（g/単位）<input id="icrIn" type="number" step="0.5" placeholder="自動"></label>
+<label>補正係数（mg/dL/単位）<input id="isfIn" type="number" step="5" placeholder="自動"></label>
+<label>残っている追加分（単位）<input id="iob" type="number" step="0.5" value="0"></label>
+</div>
+<div class="res" id="r2"></div>
+<div class="out">カーボ比・補正係数を空欄にすると、上のTDDから500ルール・1800ルールで出した値を使います。前回の超速効から3〜4時間以内は、まだ効いている分（インスリンオンボード）を引いてから補正します。</div>
+</div></div></div><div class="tab-content" id="tab1"><div class="grid-2 mb"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 診断（ISPAD 2022）</div><div class="card-body"><ul><li>症状（多飲・多尿・体重減少）＋随時血糖 ≥200 mg/dL、または空腹時 ≥126、OGTT 2時間 ≥200、HbA1c ≥6.5%</li><li>症状がなければ別の日にもう一度確認する</li><li><b>1型を示す所見</b>：膵島関連自己抗体（GAD、IA-2、インスリン自己抗体〔インスリン開始前〕、ZnT8）、C-ペプチド低値</li><li>抗体陰性・家族歴濃厚・軽症 → MODYを、肥満・黒色表皮腫 → 2型を考える</li></ul></div></div><div class="card "><div class="card-hd dark"><span class="icon">⬛</span> DKA後の皮下への切り替え</div><div class="card-body"><ul><li>目安：アシドーシス改善（pH >7.30、HCO₃⁻ >15〜18）、意識清明、経口摂取可能</li><li><b>食前</b>のタイミングで超速効を皮下注し、<b>15〜30分後</b>に持続静注を止める（速効型なら1〜2時間後）</li><li>持効型（グラルギン等）は静注中から先に入れておいてよい（切り替え後の高血糖・ケトン再上昇を防ぐ）</li><li>初期TDDの目安：DKA後は0.8〜1.0 単位/kg/日から <span class="ext">出典外</span></li></ul></div></div></div><div class="grid-2 mb"><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> 発症時に出しておく検査</div><div class="card-body"><ul><li>自己抗体（GAD、IA-2、IAA、ZnT8）、C-ペプチド、HbA1c</li><li>甲状腺：TSH、FT4、抗TPO抗体・抗Tg抗体</li><li>セリアック病：抗tTG-IgA＋総IgA（日本では頻度は低い）</li><li>脂質、尿アルブミン（ベースライン）、身長・体重・血圧</li></ul></div></div><div class="card "><div class="card-hd green"><span class="icon">🟢</span> 退院までに家族ができるようにすること</div><div class="card-body"><ul><li>血糖測定・CGMの装着とアラーム設定、インスリン注射（部位のローテーション）</li><li>カーボカウント（少なくとも主食の炭水化物量）</li><li>低血糖の見分け方と対応（ブドウ糖、グルカゴン）</li><li>シックデイのルール（基礎インスリンはやめない、ケトンを測る、いつ連絡するか）</li><li>学校・保育園への説明書、緊急連絡先</li></ul></div></div></div><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> 寛解期（ハネムーン）</div><div class="card-body"><div class="hl hl-amber">発症から数週〜数か月でTDDが<b>0.5 単位/kg/日未満</b>まで下がり、HbA1c <7%を保てる時期。量を減らしても<b>基礎インスリンはゼロにしない</b>（β細胞の保護と、再上昇に気づくため）。</div>数か月〜1、2年で終わり、TDDが再び増えていく。</div></div></div><div class="tab-content" id="tab2"><div class="grid-2 mb"><div class="card "><div class="card-hd green"><span class="icon">🎯</span> 血糖コントロールの目標（ISPAD 2022）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>指標</th><th>目標</th></tr><tr><td>HbA1c</td><td><b>&lt;7.0%</b>（低血糖を増やさずに達成できるなら &lt;6.5%）</td></tr><tr><td>空腹時・食前</td><td>70〜144 mg/dL</td></tr><tr><td>食後</td><td>90〜180 mg/dL</td></tr><tr><td>就寝時</td><td>80〜162 mg/dL</td></tr></table></div></div></div><div class="card "><div class="card-hd blue"><span class="icon">📈</span> CGMの目標（ISPAD 2022）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>指標</th><th>範囲</th><th>目標</th></tr><tr><td>TIR</td><td>70〜180 mg/dL</td><td><b>&gt;70%</b></td></tr><tr><td>TBR</td><td>&lt;70 mg/dL</td><td>&lt;4%</td></tr><tr><td>TBR（レベル2）</td><td>&lt;54 mg/dL</td><td>&lt;1%</td></tr><tr><td>TAR</td><td>&gt;180 mg/dL</td><td>&lt;25%</td></tr><tr><td>TAR（レベル2）</td><td>&gt;250 mg/dL</td><td>&lt;5%</td></tr><tr><td>変動係数（CV）</td><td></td><td>≤36%</td></tr></table></div></div></div></div><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> 古い教科書との違い</div><div class="card-body"><ul><li>以前は年齢別に緩い目標（幼児 &lt;8.5% など）だったが、現在は<b>全年齢で &lt;7.0%</b>に統一</li><li>目標はCGMの指標（TIR）と合わせて見る。HbA1cだけでは低血糖の多さが分からない</li></ul></div></div></div><div class="tab-content" id="tab3"><div class="card "><div class="card-hd dark"><span class="icon">🧮</span> シックデイの追加インスリン（TDDから計算）</div><div class="card-body">
+<div class="calc">
+<label>ふだんのTDD（単位/日）<input id="stdd" type="number" step="0.5" inputmode="decimal" placeholder="上の計算から自動"></label>
+<label>血中ケトン（mmol/L）<input id="ket" type="number" step="0.1" inputmode="decimal" placeholder="例 1.2"></label>
+<label>血糖（mg/dL）<input id="sbg" type="number" inputmode="decimal" placeholder="例 280"></label>
+</div>
+<div class="res" id="r3"></div><div class="out" id="o3"></div>
+</div></div><div class="mb"></div><div class="card "><div class="card-hd blue"><span class="icon">📋</span> 血中ケトンと対応（ISPAD 2022 シックデイ）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>血中ケトン</th><th>尿ケトン（目安）</th><th>追加の超速効</th><th>対応</th></tr><tr><td>&lt;0.6</td><td>陰性〜痕跡</td><td>補正量のみ</td><td>通常どおり。2〜3時間ごとに血糖</td></tr><tr><td>0.6〜0.9</td><td>痕跡〜少量</td><td>TDDの5〜10%</td><td>水分をとる。1〜2時間後に再検</td></tr><tr><td>1.0〜1.4</td><td>少量〜中等量</td><td>TDDの10%</td><td>同上</td></tr><tr><td>1.5〜2.9</td><td>中等量〜多量</td><td>TDDの10〜20%</td><td>DKAの危険。下がらなければ受診</td></tr><tr><td><b>≥3.0</b></td><td>多量</td><td>TDDの20%</td><td><b>すぐ受診</b>（DKAの可能性）</td></tr></table></div></div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> すぐ病院へ</div><div class="card-body"><ul><li>嘔吐が続く・水分がとれない</li><li>血中ケトン ≥3.0、または追加注射しても下がらない</li><li>腹痛・深く速い呼吸・意識がぼんやり</li><li>低血糖が繰り返し、食べられない</li><li>幼児・家族が不安なとき</li></ul></div></div><div class="card "><div class="card-hd green"><span class="icon">🟢</span> シックデイの基本</div><div class="card-body"><ul><li><b>基礎インスリンは止めない</b>（食べられなくても必要）</li><li>血糖は2〜3時間ごと、ケトンは血糖 &gt;250 のときや体調不良時に測る</li><li>血糖が高い・ケトンが出ている：糖を含まない水分</li><li>血糖が低め：糖を含む水分（スポーツドリンク等）</li><li>胃腸炎で低血糖が続くとき：ミニドーズ・グルカゴン（下の低血糖タブ）</li></ul></div></div></div></div><div class="tab-content" id="tab4"><div class="card "><div class="card-hd dark"><span class="icon">🧮</span> 低血糖の対応量</div><div class="card-body">
+<div class="calc">
+<label>体重（kg）<input id="hwt" type="number" step="0.1" inputmode="decimal" placeholder="上の体重を使う"></label>
+<label>年齢（歳）<input id="hage" type="number" step="0.1" inputmode="decimal" placeholder="上の年齢を使う"></label>
+</div>
+<div class="res" id="r4"></div>
+</div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> 低血糖の段階（ISPAD 2022）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>段階</th><th>定義</th></tr><tr><td>レベル1</td><td>&lt;70 mg/dL（≥54）</td></tr><tr><td>レベル2</td><td>&lt;54 mg/dL：臨床的に重要な低血糖</td></tr><tr><td>レベル3</td><td>血糖値に関係なく、意識障害・けいれんなど他者の助けが必要</td></tr></table></div></div></div><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 対応の流れ</div><div class="card-body"><ul><li>飲み込める：ブドウ糖 <b>0.3 g/kg</b>（目安 10〜15 g）→ 15分後に再検、上がらなければ繰り返す</li><li>回復したら、次の食事まで間があれば炭水化物を少し追加</li><li>意識障害・けいれん・飲み込めない：<b>グルカゴン</b>（筋注・皮下注、または点鼻）、病院では10%ブドウ糖 2〜3 mL/kg 静注</li><li>グルカゴン後は嘔吐しやすい。横向きに寝かせる</li></ul></div></div></div><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> ミニドーズ・グルカゴン（胃腸炎などで食べられず低血糖が続くとき）</div><div class="card-body"><div class="hl hl-amber">グルカゴン1 mg を1 mLの溶解液で溶かし（1 mg/mL）、インスリン用シリンジ（U-100）で打つ。<b>2歳以下：20 μg（2目盛）、2歳超：年齢×10 μg（年齢×1目盛）、上限150 μg（15目盛）</b>を皮下注。30分で上がらなければ倍量を。</div><div class="small-note">点鼻グルカゴン（3 mg）の使える年齢は添付文書で確認する。</div></div></div></div><div class="tab-content" id="tab5"><div class="card "><div class="card-hd navy"><span class="icon">🌊</span> 定期スクリーニング（ISPAD 2022）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>項目</th><th>いつから</th><th>頻度</th></tr><tr><td>HbA1c</td><td>発症時から</td><td>3か月ごと（年4回）</td></tr><tr><td>身長・体重・BMI・血圧</td><td>発症時から</td><td>毎回（血圧は少なくとも年1回）</td></tr><tr><td>甲状腺（TSH、抗体）</td><td>発症時</td><td>2年ごと（抗体陽性・症状あれば毎年）</td></tr><tr><td>セリアック病</td><td>発症時</td><td>2年目・5年目に</td></tr><tr><td>脂質</td><td>11歳から（家族歴があれば2歳から）</td><td>正常なら3年ごと</td></tr><tr><td>尿アルブミン（随時尿のアルブミン/Cr比）</td><td>11歳から（罹病2〜5年）</td><td>毎年</td></tr><tr><td>眼底</td><td>11歳から（罹病2〜5年）</td><td>2〜3年ごと</td></tr><tr><td>足・神経障害</td><td>11歳から（罹病2〜5年）</td><td>毎年</td></tr><tr><td>心理・社会面（摂食の問題、抑うつ）</td><td>10〜12歳から</td><td>毎年</td></tr></table></div></div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> 注射部位・機器</div><div class="card-body"><ul><li>リポハイパートロフィー（硬結）を毎回触って確認</li><li>CGM・ポンプの皮膚トラブル</li><li>針の長さ（4 mmで十分なことが多い）</li></ul></div></div><div class="card "><div class="card-hd green"><span class="icon">🟢</span> フォロー終了（経過観察オフ）の目安</div><div class="card-body"><div class="hl hl-green">1型糖尿病は<b>生涯の治療</b>で、終了はない。区切りになるのは<b>成人診療科への移行</b>。</div><ul><li>移行の準備は12〜14歳ごろから：自分で量を決める、受診予約、シックデイ判断を本人ができるか</li><li>紹介状に：発症年・DKA歴・重症低血糖歴・使用機器・合併症スクリーニングの結果</li><li>家族への説明：「病院が変わっても、血糖の記録とシックデイのルールは同じ」</li></ul></div></div></div></div>
+<div class="footer">出典：ISPAD Clinical Practice Consensus Guidelines 2022（診断、インスリン治療、血糖目標、シックデイ、低血糖、合併症スクリーニング）<br>施設の取り決め・最新の添付文書を優先してください。<span class="ext">出典外</span>は一般的な目安として補った値です。</div>
+<script>
+function switchTab(n){document.querySelectorAll('.tab-content').forEach((el,i)=>el.classList.toggle('active',i===n));document.querySelectorAll('.tab-btn').forEach((el,i)=>el.classList.toggle('active',i===n));window.scrollTo({top:0,behavior:'smooth'})}
+const $=id=>document.getElementById(id);const v=id=>{const x=parseFloat($(id).value);return isNaN(x)?null:x};
+const f=(x,d=1)=>x==null||!isFinite(x)?'—':(Math.round(x*10**d)/10**d).toLocaleString('ja-JP',{maximumFractionDigits:d});
+const R=(val,label,cls='')=>`<div class="r ${cls}"><b>${val}</b><span>${label}</span></div>`;
+const LS={get(k,d){try{const x=localStorage.getItem(k);return x==null?d:JSON.parse(x)}catch(e){return d}},set(k,x){try{localStorage.setItem(k,JSON.stringify(x))}catch(e){}}};
+
+const RANGE={new:[0.5,0.7],dka:[0.8,1.0],hm:[0.3,0.5],pre:[0.7,1.0],pub:[1.0,1.5]};
+const r05=x=>Math.round(x*2)/2;
+function calc(){
+ const wt=v('wt'),ph=$('ph').value,bp=(v('bp')||40)/100;LS.set('t1d.in',{wt:$('wt').value,age:$('age').value,ph});
+ let tdd=v('tddIn'),rng=RANGE[ph];
+ if(tdd==null&&wt)tdd=wt*(rng[0]+rng[1])/2;
+ let h='';
+ if(tdd){const bas=tdd*bp,bol=tdd-bas;
+  h+=R(wt&&v('tddIn')==null?`${f(wt*rng[0])}〜${f(wt*rng[1])}`:f(tdd),'TDDの範囲（単位/日）');
+  h+=R(f(tdd),'TDD（計算に使う値）');
+  h+=R(f(bas),`基礎（${Math.round(bp*100)}%）単位/日`);
+  h+=R(f(bol/3),'毎食の追加（3等分）単位');
+  h+=R(f(500/tdd),'カーボ比（500÷TDD）g/単位');
+  h+=R(f(1800/tdd,0),'補正係数（1800÷TDD）mg/dL/単位');}
+ $('r1').innerHTML=h;
+ $('o1').innerHTML=tdd?`範囲：発症時0.5〜0.7、DKA後0.8〜1.0、寛解期 &lt;0.5、思春期前0.7〜1.0、思春期1.0〜1.5（2まで）単位/kg/日。幼児は基礎30〜40%、思春期は40〜50%が多い。カーボ比は450〜500、補正係数は1500〜2000で割る施設もある。<b>出したあとは血糖を見て数日ごとに調整</b>。`:'';
+ // 1回量
+ const icr=v('icrIn')||(tdd?500/tdd:null),isf=v('isfIn')||(tdd?1800/tdd:null),bg=v('bg'),tg=v('tg')||120,cho=v('cho'),iob=v('iob')||0;
+ let h2='';
+ if(icr&&cho!=null)h2+=R(f(cho/icr),'食事分（単位）');
+ if(isf&&bg!=null){const c=(bg-tg)/isf-iob;h2+=R(f(c),'補正分（IOBを引いた値）',c<0?'warn':'')}
+ if(icr&&isf&&cho!=null&&bg!=null){const tot=Math.max(0,cho/icr+(bg-tg)/isf-iob);h2+=R(f(r05(tot)),'合計（0.5単位に丸め）','ok')}
+ if(bg!=null&&bg<70)h2+=R('先に低血糖の対応','血糖 &lt;70','bad');
+ $('r2').innerHTML=h2;
+ // シックデイ
+ const stdd=v('stdd')||tdd,ket=v('ket'),sbg=v('sbg');let h3='',o3='';
+ if(stdd){h3+=R(f(r05(stdd*0.05)),'TDDの5%');h3+=R(f(r05(stdd*0.1)),'TDDの10%');h3+=R(f(r05(stdd*0.2)),'TDDの20%')}
+ if(ket!=null){let p,cl='';if(ket<0.6){p='補正量のみ';}else if(ket<1.0){p='TDDの5〜10%';cl='warn'}else if(ket<1.5){p='TDDの10%';cl='warn'}else if(ket<3.0){p='TDDの10〜20%';cl='bad'}else{p='20%＋すぐ受診';cl='bad'}
+  h3+=R(p,`ケトン ${ket} の目安`,cl);
+  if(ket>=0.6&&sbg!=null&&sbg<180)o3='血糖が低めでケトンが出ている（飢餓性ケトンを含む）：<b>糖を含む水分をとって</b>から追加インスリンを。血糖が下がるのが怖くて打たないとケトンは消えない。';
+  if(ket>=3)o3='<b>DKAの可能性。すぐ受診。</b>'}
+ $('r3').innerHTML=h3;$('o3').innerHTML=o3;
+ // 低血糖
+ const hw=v('hwt')||wt,ha=v('hage')??v('age');let h4='';
+ if(hw){h4+=R(f(hw*0.3)+' g','ブドウ糖（0.3 g/kg）');h4+=R((hw<25?'0.5':'1')+' mg','グルカゴン筋注（&lt;25kg 0.5 / ≥25kg 1 mg）');h4+=R(f(hw*2,0)+'〜'+f(hw*3,0)+' mL','10%ブドウ糖 静注（2〜3 mL/kg）')}
+ if(ha!=null){const ug=ha<=2?20:Math.min(150,Math.round(ha)*10);h4+=R(ug+' μg（'+ug/10+'目盛）','ミニドーズ・グルカゴン')}
+ $('r4').innerHTML=h4;
+}
+const s=LS.get('t1d.in',null);if(s){$('wt').value=s.wt||'';$('age').value=s.age||'';if(s.ph)$('ph').value=s.ph}
+
+document.querySelectorAll('.calc input,.calc select').forEach(el=>el.addEventListener('input',()=>{try{calc()}catch(e){}}));
+try{calc()}catch(e){}
+</script>
+</body>
+</html>

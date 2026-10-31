@@ -12,11 +12,11 @@
 /* Layout: phone-first list app. Sticky header with category tabs + search; pinned row of big buttons; card list; full-screen viewer with a slim top bar. */
 :root{
   --bg:#eef1f3; --surface:#fff; --surface2:#f5f7f8; --fg:#17313f; --muted:#607380; --line:#d4dce1;
-  --accent:#17313f; --k0:#2f6f9f; --k1:#2e8a4e; --k2:#c0531f; --k3:#b03a6e; --k4:#7a4fc0; --k5:#a77a0a; --k6:#1f8a8a; --k7:#7a8a95; --clin:#c0531f; --learn:#2f6f9f; --other:#7a8a95; --ng:#b3362f; --ok:#1d7a4a;
+  --accent:#17313f; --k0:#2f6f9f; --k1:#2e8a4e; --k2:#c0531f; --k3:#b03a6e; --k4:#7a4fc0; --k5:#a77a0a; --k6:#1f8a8a; --k7:#7a8a95;--k8:#3b5bdb; --clin:#c0531f; --learn:#2f6f9f; --other:#7a8a95; --ng:#b3362f; --ok:#1d7a4a;
   --tint:11%;
   --f:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
 }
-@media(prefers-color-scheme:dark){:root{--bg:#10171c;--surface:#1a2329;--surface2:#141c21;--fg:#e4ebf0;--muted:#93a3ae;--line:#2b3942;--accent:#cfe0ea;--k0:#7fb7e6;--k1:#74cf92;--k2:#f2905f;--k3:#ec8fb9;--k4:#b79af0;--k5:#e3c25b;--k6:#6fd0d0;--k7:#a5b2bb;--clin:#f2905f;--learn:#7fb7e6;--other:#8d9ca6;--ng:#ff8a80;--ok:#5fcf8f;--tint:18%;color-scheme:dark}}
+@media(prefers-color-scheme:dark){:root{--bg:#10171c;--surface:#1a2329;--surface2:#141c21;--fg:#e4ebf0;--muted:#93a3ae;--line:#2b3942;--accent:#cfe0ea;--k0:#7fb7e6;--k1:#74cf92;--k2:#f2905f;--k3:#ec8fb9;--k4:#b79af0;--k5:#e3c25b;--k6:#6fd0d0;--k7:#a5b2bb;--k8:#91a7ff;--clin:#f2905f;--learn:#7fb7e6;--other:#8d9ca6;--ng:#ff8a80;--ok:#5fcf8f;--tint:18%;color-scheme:dark}}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f);font-size:15px;line-height:1.55}
 body{padding-top:env(safe-area-inset-top,0px);-webkit-tap-highlight-color:transparent}
@@ -131,13 +131,14 @@ const del=id=>tx('readwrite',s=>s.delete(id));
 const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 /* ---------- categorize ---------- */
-const DEFAULT_CATS=[{id:'thyroid',n:'甲状腺',k:0},{id:'growth',n:'成長・骨',k:1},{id:'puberty',n:'思春期',k:3},{id:'glucose',n:'糖・低血糖',k:2},{id:'metab',n:'代謝',k:4},{id:'conf',n:'学会関連',k:6},{id:'other',n:'共通・その他',k:7}];
+const DEFAULT_CATS=[{id:'thyroid',n:'甲状腺',k:0},{id:'growth',n:'成長・骨',k:1},{id:'puberty',n:'思春期',k:3},{id:'glucose',n:'糖・低血糖',k:2},{id:'metab',n:'代謝',k:4},{id:'adrenal',n:'副腎',k:5},{id:'water',n:'水・電解質',k:8},{id:'conf',n:'学会関連',k:6},{id:'other',n:'共通・その他',k:7}];
 let cats=ls.get('mini.cats',null);if(!Array.isArray(cats)||!cats.length){cats=DEFAULT_CATS.map(c=>({...c}));ls.set('mini.cats',cats)}
 if(!cats.find(c=>c.id==='other')){cats.push({id:'other',n:'共通・その他',k:7});ls.set('mini.cats',cats)}
 if(!ls.get('mini.conf.added',false)){if(!cats.find(c=>c.id==='conf')){const i=cats.findIndex(c=>c.id==='other');cats.splice(i<0?cats.length:i,0,{id:'conf',n:'学会関連',k:6});ls.set('mini.cats',cats)}ls.set('mini.conf.added',true)}
+if(!ls.get('mini.adr.added',false)){for(const c of [{id:'adrenal',n:'副腎',k:5},{id:'water',n:'水・電解質',k:8}]){if(!cats.find(x=>x.id===c.id)){const i=cats.findIndex(x=>x.id==='conf'||x.id==='other');cats.splice(i<0?cats.length:i,0,c)}}ls.set('mini.cats',cats);ls.set('mini.adr.added',true)}
 const catOf=id=>cats.find(c=>c.id===id)||cats.find(c=>c.id==='other');
 const CATS=new Proxy({},{get:(_,id)=>{const c=catOf(id);return {n:c.n,c:`var(--k${c.k})`}}});
-const KW=[['conf',/学会|JSPE|抄録|日程/i],['thyroid',/甲状腺|橋本|バセドウ|TSH|TRH|CH /i],['puberty',/思春期|CPP|乳房|性腺/],['growth',/身長|成長|IGF|GH|ソマト|ALP|骨|カルシウム/],['glucose',/糖|DKA|低血糖|インスリン|ケトン/],['metab',/代謝|アミノ酸|PKU|OTC|カルニチン|脂肪酸|FAOD|ライソゾーム|尿素|有機酸/]];
+const KW=[['conf',/学会|JSPE|抄録|日程/i],['thyroid',/甲状腺|橋本|バセドウ|TSH|TRH|CH /i],['puberty',/思春期|CPP|乳房|性腺/],['adrenal',/副腎|CAH|コルチゾ|ステロイド/],['water',/尿崩|SIADH|ナトリウム|電解質|水代謝/],['growth',/身長|成長|IGF|GH|ソマト|ALP|骨|カルシウム/],['glucose',/糖|DKA|低血糖|インスリン|ケトン/],['metab',/代謝|アミノ酸|PKU|OTC|カルニチン|脂肪酸|FAOD|ライソゾーム|尿素|有機酸/]];
 const guessCat=title=>{for(const [id,re] of KW)if(re.test(title)&&cats.find(c=>c.id===id))return id;return 'other'};
 function parseHTML(html,fname){
   const meta=(n)=>{const m=html.match(new RegExp('<meta\\s+name=["\']'+n+'["\']\\s+content=["\']([^"\']*)["\']','i'))||html.match(new RegExp('<meta\\s+content=["\']([^"\']*)["\']\\s+name=["\']'+n+'["\']','i'));return m?m[1].trim():''};

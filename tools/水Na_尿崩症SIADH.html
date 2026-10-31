@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水・Na あんちょこ（低Na・高Na・尿崩症・SIADH）</title>
+<meta name="mini-category" content="water">
+<meta name="mini-desc" content="Na補正速度・自由水欠乏・浸透圧の計算、SIADH/CSW/尿崩症の鑑別、DDAVPと術後の三相性反応">
+<meta name="mini-title" content="水・Na（尿崩症・SIADH）">
+<style>
+/* ════════════════════════════════════════
+   DESIGN SYSTEM — CSS VARIABLES
+   ════════════════════════════════════════ */
+:root {
+  --bg: #eef2f7;
+  --card: #ffffff;
+  --border: #dde3ec;
+  --text: #1a202c;
+  --text-muted: #64748b;
+  --primary: #1e3a5f;
+  --primary-mid: #254d80;
+  --primary-light: #3468a8;
+  --red: #b91c1c;
+  --red-soft: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --amber: #92400e;
+  --amber-soft: #b45309;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --blue: #1d4ed8;
+  --blue-soft: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --green: #166534;
+  --green-soft: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+/* ════════════════════════════════════════
+   BASE
+   ════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo','メイリオ',sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* ════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a9e 60%, #1e4e9e 100%);
+  color: white;
+  padding: 14px 20px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; }
+.header-left .sub { font-size: 10.5px; opacity: 0.75; margin-top: 2px; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.header-tag {
+  font-size: 9.5px; background: rgba(255,255,255,0.18);
+  padding: 2px 9px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3); white-space: nowrap;
+}
+
+/* ════════════════════════════════════════
+   TAB NAVIGATION
+   ════════════════════════════════════════ */
+.tab-nav {
+  background: var(--primary-mid);
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 9px 14px; color: rgba(255,255,255,0.62);
+  background: none; border: none; cursor: pointer;
+  white-space: nowrap; font-size: 11.5px; font-family: inherit;
+  border-bottom: 3px solid transparent; transition: all 0.18s;
+  font-weight: 500; flex-shrink: 0;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+.tab-btn.active { color: white; border-bottom-color: #5ef07a; background: rgba(255,255,255,0.12); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════ */
+.tab-content { display: none; padding: 14px 16px 24px; max-width: 1280px; margin: 0 auto; }
+.tab-content.active { display: block; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px; }
+.grid-half { display: grid; grid-template-columns: 1.4fr 1fr; gap: 11px; }
+.mb-3 { margin-bottom: 11px; }
+@media (max-width: 780px) {
+  .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   CARDS
+   ════════════════════════════════════════ */
+.card {
+  background: var(--card); border-radius: 7px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+/* Card header variants */
+.card-hd {
+  padding: 7px 11px; font-weight: 700; font-size: 11.5px;
+  display: flex; align-items: center; gap: 5px; letter-spacing: 0.2px;
+}
+.card-hd .icon { font-size: 13px; }
+.card-hd.red    { background: var(--red-bg);    color: var(--red);    border-bottom: 1px solid var(--red-border); }
+.card-hd.amber  { background: var(--amber-bg);  color: var(--amber);  border-bottom: 1px solid var(--amber-border); }
+.card-hd.blue   { background: var(--blue-bg);   color: var(--blue);   border-bottom: 1px solid var(--blue-border); }
+.card-hd.green  { background: var(--green-bg);  color: var(--green);  border-bottom: 1px solid var(--green-border); }
+.card-hd.purple { background: var(--purple-bg); color: var(--purple); border-bottom: 1px solid var(--purple-border); }
+.card-hd.dark   { background: var(--primary);   color: white; }
+.card-hd.navy   { background: var(--primary-mid); color: white; }
+.card-body { padding: 9px 11px; }
+
+/* ════════════════════════════════════════
+   HIGHLIGHT BOXES (hl-*)
+   使い方: <div class="hl hl-red">...</div>
+   ════════════════════════════════════════ */
+.hl {
+  padding: 5px 9px; border-radius: 4px; margin: 3px 0; border-left: 3px solid;
+}
+.hl-red    { background: var(--red-bg);    border-color: var(--red-soft);   color: #7f1d1d; }
+.hl-amber  { background: var(--amber-bg);  border-color: var(--amber-soft); color: #78350f; }
+.hl-blue   { background: var(--blue-bg);   border-color: var(--blue-soft);  color: #1e3a8a; }
+.hl-green  { background: var(--green-bg);  border-color: var(--green-soft); color: #14532d; }
+.hl-purple { background: var(--purple-bg); border-color: var(--purple);     color: #3b0764; }
+
+/* ════════════════════════════════════════
+   BADGES (b-*)
+   使い方: <span class="badge b-red">テキスト</span>
+   ════════════════════════════════════════ */
+.badge {
+  display: inline-block; padding: 1px 5px; border-radius: 3px;
+  font-size: 9.5px; font-weight: 700; vertical-align: middle; line-height: 1.4;
+}
+.b-red    { background: var(--red-soft);   color: white; }
+.b-amber  { background: var(--amber-soft); color: white; }
+.b-blue   { background: var(--blue-soft);  color: white; }
+.b-green  { background: var(--green-soft); color: white; }
+.b-purple { background: var(--purple);     color: white; }
+.b-gray   { background: #64748b;           color: white; }
+.b-ev     { background: #374151; color: #e5e7eb; font-family: monospace; }
+
+/* ════════════════════════════════════════
+   AGE CRITERION ROWS
+   使い方: <div class="age-row [boys]">
+           <div class="age-num">7.5歳</div>
+           <div class="age-text">説明</div></div>
+   ════════════════════════════════════════ */
+.age-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 8px; margin: 3px 0; border-radius: 5px;
+  background: var(--red-bg); border-left: 3px solid var(--red-soft);
+}
+.age-num { font-weight: 900; font-size: 15px; color: var(--red); min-width: 68px; }
+.age-text { font-size: 12px; color: #7f1d1d; flex: 1; }
+.age-row.boys { background: var(--blue-bg); border-color: var(--blue-soft); }
+.age-row.boys .age-num { color: var(--blue); }
+.age-row.boys .age-text { color: #1e3a8a; }
+
+/* ════════════════════════════════════════
+   TABLES
+   ════════════════════════════════════════ */
+.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.tbl th {
+  background: var(--primary); color: white;
+  padding: 5px 7px; text-align: center; font-weight: 600; font-size: 10.5px;
+}
+.tbl td { padding: 4px 7px; border: 1px solid #dde3ec; text-align: center; vertical-align: middle; }
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl tr:hover td { background: var(--blue-bg); }
+/* Table cell modifiers */
+.td-lbl     { text-align: left !important; font-weight: 600; background: #f1f5f9 !important; color: #334155; }
+.td-prepub  { background: var(--green-bg) !important; color: #14532d; }
+.td-pub     { background: var(--red-bg)   !important; color: #7f1d1d; font-weight: 600; }
+.td-key     { background: #fff7ed        !important; color: #7c2d12; font-weight: 700; }
+
+/* ════════════════════════════════════════
+   DOSE BOXES
+   ════════════════════════════════════════ */
+.dose-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: white; padding: 12px 14px; border-radius: 7px; margin: 6px 0; text-align: center;
+}
+.dose-box-amber {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+  color: white; padding: 10px 14px; border-radius: 7px; text-align: center;
+}
+.dose-label { font-size: 10px; opacity: 0.65; margin-bottom: 3px; font-weight: 600; letter-spacing: 0.5px; }
+.dose-num   { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+.dose-unit  { font-size: 12px; opacity: 0.82; margin-top: 1px; }
+
+/* ════════════════════════════════════════
+   MONITORING GRID (4-column)
+   使い方: <div class="monitor-grid">
+           <div class="monitor-cell hd">見出し</div>...
+   ════════════════════════════════════════ */
+.monitor-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+.monitor-cell {
+  padding: 8px 9px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.monitor-cell:nth-child(4n) { border-right: none; }
+.monitor-cell.hd  { background: var(--primary); color: white; font-weight: 700; font-size: 11px; text-align: center; }
+.monitor-cell.grp { background: #f1f5f9; font-weight: 700; font-size: 11px; color: var(--primary); }
+
+/* ════════════════════════════════════════
+   CLINICAL LIST
+   使い方: <ul class="cl"><li>内容</li></ul>
+   ════════════════════════════════════════ */
+.cl { list-style: none; padding: 0; }
+.cl li {
+  padding: 4px 0 4px 15px; border-bottom: 1px solid #f1f5f9;
+  position: relative; font-size: 12px;
+}
+.cl li:last-child { border-bottom: none; }
+.cl li::before { content: '▸'; position: absolute; left: 0; color: var(--primary-light); font-size: 9px; top: 6px; }
+
+/* ════════════════════════════════════════
+   UTILITY
+   ════════════════════════════════════════ */
+.mh { background: #f8fafc; border-radius: 4px; padding: 4px 8px; margin: 4px 0; font-size: 11.5px; border-left: 2px solid #94a3b8; }
+.small      { font-size: 10.5px; color: var(--text-muted); }
+.small-note { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; padding-top: 4px; border-top: 1px dashed #cbd5e1; }
+.mt { margin-top: 8px; }
+.arrow { color: var(--red); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════ */
+.footer {
+  background: var(--primary); color: rgba(255,255,255,0.5);
+  text-align: center; padding: 8px; font-size: 9.5px; margin-top: 20px;
+}
+
+body{-webkit-text-size-adjust:100%}
+.tab-content{padding:11px}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:8px}
+.calc label{display:flex;flex-direction:column;font-size:10.5px;color:var(--text-muted);gap:2px;font-weight:600}
+.calc input,.calc select{font:inherit;font-size:15px;padding:6px 7px;border:1px solid var(--border);border-radius:5px;background:#fff;color:var(--text);width:100%;box-sizing:border-box}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin:6px 0}
+.res .r{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:6px;padding:6px 8px}
+.res .r b{display:block;font-size:17px;color:var(--primary);font-variant-numeric:tabular-nums}
+.res .r span{font-size:10px;color:var(--text-muted)}
+.res .r.warn{background:var(--amber-bg);border-color:var(--amber-border)}
+.res .r.bad{background:var(--red-bg);border-color:var(--red-border)}
+.res .r.bad b{color:var(--red)}
+.res .r.ok{background:var(--green-bg);border-color:var(--green-border)}
+.out{font-size:12px;line-height:1.6}
+.card-body ul{margin:3px 0 3px 17px;padding:0}
+.card-body li{margin:2px 0}
+.src{font-size:10px;color:var(--text-muted);margin-top:8px}
+.ext{display:inline-block;background:#6d28d9;color:#fff;font-size:9px;font-weight:700;border-radius:3px;padding:0 4px;vertical-align:middle}
+.tbl-wrap{overflow-x:auto}
+.mb{margin-bottom:11px}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-left"><h1>💧 水・Na あんちょこ</h1><div class="sub">低Na・高Na・尿崩症・SIADH — 計算と鑑別</div></div><div class="header-right"><span class="header-tag">Adrogué-Madias式</span><span class="header-tag">AAP 2018 維持輸液</span></div></div>
+<div class="tab-nav"><button class="tab-btn active" onclick="switchTab(0)">① 計算</button><button class="tab-btn" onclick="switchTab(1)">② 低Na</button><button class="tab-btn" onclick="switchTab(2)">③ 高Na・多尿</button><button class="tab-btn" onclick="switchTab(3)">④ 尿崩症の治療</button><button class="tab-btn" onclick="switchTab(4)">⑤ フォロー</button></div>
+<div class="tab-content active" id="tab0"><div class="card "><div class="card-hd dark"><span class="icon">🧮</span> 浸透圧・Na補正の計算</div><div class="card-body">
+<div class="calc">
+<label>体重（kg）<input id="wt" type="number" step="0.1" inputmode="decimal" placeholder="例 20"></label>
+<label>体水分の係数<select id="tbw"><option value="0.7">0.7（乳児）</option><option value="0.6" selected>0.6（小児・成人男性）</option><option value="0.5">0.5（成人女性・高齢）</option></select></label>
+<label>血清Na（mEq/L）<input id="na" type="number" step="0.1" inputmode="decimal" placeholder="例 124"></label>
+<label>血糖（mg/dL）<input id="glu" type="number" inputmode="decimal" placeholder="例 100"></label>
+<label>BUN（mg/dL）<input id="bun" type="number" inputmode="decimal" placeholder="例 10"></label>
+<label>症状<select id="sym"><option value="0">なし・軽い</option><option value="1">けいれん・意識障害・嘔吐</option></select></label>
+<label>経過<select id="chr"><option value="1">48時間以上（慢性）・不明</option><option value="0">48時間未満（急性）</option></select></label>
+<label>入れる輸液<select id="inf">
+<option value="513,0">3% NaCl（Na 513）</option>
+<option value="154,0" selected>生理食塩液（Na 154）</option>
+<option value="130,4">乳酸リンゲル（Na 130, K 4）</option>
+<option value="90,0">1号液（Na 90）</option>
+<option value="77,0">1/2生食（Na 77）</option>
+<option value="35,20">3号液（Na 35, K 20）</option>
+<option value="0,0">5%ブドウ糖（Na 0）</option></select></label>
+</div>
+<div class="res" id="r1"></div><div class="out" id="o1"></div>
+</div></div><div class="mb"></div><div class="card "><div class="card-hd blue"><span class="icon">🧪</span> 尿の指標</div><div class="card-body">
+<div class="calc">
+<label>尿浸透圧（mOsm/kg）<input id="uosm" type="number" inputmode="decimal" placeholder="例 450"></label>
+<label>尿Na（mEq/L）<input id="una" type="number" inputmode="decimal" placeholder="例 60"></label>
+<label>尿K（mEq/L）<input id="uk" type="number" inputmode="decimal" placeholder="例 30"></label>
+<label>血清浸透圧・実測（任意）<input id="posm" type="number" inputmode="decimal" placeholder="自動"></label>
+<label>身長（cm）<input id="ht" type="number" step="0.1" inputmode="decimal" placeholder="尿量の評価用"></label>
+<label>24時間尿量（mL）<input id="uv" type="number" inputmode="decimal" placeholder="例 3000"></label>
+</div>
+<div class="res" id="r2"></div><div class="out" id="o2"></div>
+</div></div></div><div class="tab-content" id="tab1"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 症候性低Na血症（けいれん・意識障害・嘔吐）</div><div class="card-body"><div class="hl hl-red"><b>3% NaCl 2 mL/kg（最大100 mL）を10分で静注</b>。症状が続けば最大2回まで繰り返す（計3回）。目標は<b>最初の数時間で4〜6 mEq/L</b>上げて症状を止めること。</div><ul><li>3% NaClの作り方の一例：生食400 mL＋10% NaCl 120 mL ≒ 3%（施設の調製法に従う）</li><li>1 mL/kgで血清Naはおよそ1 mEq/L上がる（目安）</li><li>症状が止まったら、補正の速さを下の上限内に抑える</li></ul></div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> 補正速度の上限（浸透圧性脱髄を防ぐ）</div><div class="card-body"><ul><li>慢性（48時間以上・不明）：<b>24時間で8〜10 mEq/L以内</b>（低K・低栄養・肝疾患など高リスクでは8以内）</li><li>48時間で18 mEq/Lを超えない</li><li>急に尿量が増えたら（低容量の是正、DDAVP切れ、原因の解除）Naが一気に上がる → 2〜4時間ごとに測る</li><li>上がりすぎたら：5%ブドウ糖やDDAVPで下げ戻すことも検討</li></ul></div></div><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> 鑑別の手順</div><div class="card-body"><b>① 浸透圧</b>：低浸透圧か（高血糖・偽性低Naを除く）<br><b>② 尿浸透圧</b>：&lt;100なら水中毒・溶質不足<br><b>③ 体液量と尿Na</b><div class="tbl-wrap"><table class="tbl"><tr><th>体液量</th><th>尿Na</th><th>主な原因</th></tr><tr><td>減少</td><td>&lt;20〜30</td><td>胃腸炎、熱傷、third space</td></tr><tr><td>減少</td><td>&gt;30</td><td>利尿薬、<b>副腎不全・CAH</b>、中枢性塩類喪失、尿細管障害</td></tr><tr><td>正常</td><td>&gt;30</td><td><b>SIADH</b>、甲状腺機能低下、副腎不全（ACTH欠損）</td></tr><tr><td>過剰</td><td>&lt;20</td><td>心不全、ネフローゼ、肝硬変</td></tr></table></div></div></div></div><div class="grid-2 mb"><div class="card "><div class="card-hd dark"><span class="icon">⬛</span> SIADHの診断</div><div class="card-body"><ul><li>低浸透圧性低Na血症（Posm &lt;275）</li><li>尿浸透圧 &gt;100（不適切に濃い）、尿Na &gt;30（ふつうの塩分摂取下）</li><li>体液量は正常（脱水・浮腫がない）</li><li><b>甲状腺機能低下と副腎不全を除外</b>してから診断する</li><li>原因：中枢神経（髄膜炎、頭部外傷、術後）、肺炎、薬（ビンクリスチン、シクロホスファミド、カルバマゼピン）、疼痛・嘔気</li></ul></div></div><div class="card "><div class="card-hd purple"><span class="icon">🟣</span> SIADHと中枢性塩類喪失（CSW）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th></th><th>SIADH</th><th>CSW</th></tr><tr><td>体液量</td><td>正常〜やや過剰</td><td><b>減少</b>（体重減少、頻脈）</td></tr><tr><td>尿量</td><td>少ない</td><td>多い</td></tr><tr><td>尿Na</td><td>高い</td><td>とても高い</td></tr><tr><td>尿酸</td><td>低い</td><td>低い（補正後も低いまま）</td></tr><tr><td>治療</td><td><b>水制限</b></td><td><b>Naと水の補充</b></td></tr></table></div><div class="small-note">見分けがつかないときは、まず等張液で体液量を確かめる。水制限は脱水のCSWを悪化させる。</div></div></div></div><div class="card "><div class="card-hd green"><span class="icon">🟢</span> SIADHの治療と予防</div><div class="card-body"><ul><li>水制限（維持量の50〜75%）。(尿Na＋尿K)/血清Na &gt;1なら水制限だけでは上がりにくい</li><li>塩の追加、ループ利尿薬の併用</li><li><b>入院中の維持輸液は等張液</b>を基本にする（低張液は医原性低Naの原因：AAP 2018）</li></ul></div></div></div><div class="tab-content" id="tab2"><div class="grid-2 mb"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 高Na血症の補正</div><div class="card-body"><ul><li>自由水欠乏（L）= 体水分 ×（Na/140 − 1）……計算タブに出ます</li><li><b>慢性（48時間以上）は24時間で10〜12 mEq/L以内</b>（0.5 mEq/L/時以下）。速すぎると脳浮腫</li><li>ショックがあれば先に生食で循環を戻す</li><li>尿崩症が原因なら水だけでは追いつかない → DDAVP</li></ul></div></div><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> 多尿の定義と最初の確認</div><div class="card-body"><ul><li>小児：<b>&gt;2 L/m²/日</b>（乳児ではおよそ&gt;150 mL/kg/日）</li><li>まず除外：高血糖（浸透圧利尿）、高Ca、低K、腎疾患、利尿薬</li><li>血清Na・浸透圧が高め＋尿が薄い（Uosm &lt;300）→ 尿崩症を強く疑う</li><li>血清Naが低め＋尿が薄い → 心因性多飲</li></ul></div></div></div><div class="card "><div class="card-hd dark"><span class="icon">⬛</span> 水制限試験・DDAVP試験の読み方</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th></th><th>水制限後の尿浸透圧</th><th>DDAVP後</th></tr><tr><td>正常・心因性多飲</td><td>&gt;800（濃縮できる）</td><td>変化なし</td></tr><tr><td><b>中枢性尿崩症</b>（完全型）</td><td>&lt;300</td><td><b>50%以上上昇</b></td></tr><tr><td>中枢性尿崩症（部分型）</td><td>300〜800</td><td>10%以上上昇</td></tr><tr><td><b>腎性尿崩症</b></td><td>&lt;300</td><td>上がらない（&lt;10%）</td></tr></table></div><div class="small-note">止める基準：体重3〜5%減少、血清Na &gt;145〜150、Posm &gt;295〜300。手順と採血の時間は「負荷試験あんちょこ」へ。高張食塩水負荷でのコペプチン測定も鑑別に使われる。</div></div></div><div class="mb"></div><div class="card "><div class="card-hd purple"><span class="icon">🟣</span> 中枢性尿崩症を見つけたら（原因検索）</div><div class="card-body"><ul><li><b>頭部MRI</b>：下垂体後葉の高信号の消失、下垂体茎の肥厚</li><li>茎の肥厚・腫瘤：<b>胚細胞腫（髄液・血清のhCG-β、AFP）、ランゲルハンス細胞組織球症</b>（骨・皮膚の病変）、リンパ球性漏斗下垂体後葉炎</li><li>はじめのMRIで原因不明でも、<b>3〜6か月ごとにMRIを繰り返す</b>（胚細胞腫が遅れて見えてくる）</li><li>前葉機能（GH、TSH、ACTH、ゴナドトロピン）も評価する</li></ul></div></div></div><div class="tab-content" id="tab3"><div class="card "><div class="card-hd dark"><span class="icon">⬛</span> デスモプレシン（DDAVP）の使い方</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>製剤</th><th>小児の開始量の目安</th><th>ポイント</th></tr><tr><td>口腔内崩壊錠（ミニリンメルト 60/120/240 μg）</td><td>1回60 μgを1日1〜3回から</td><td>舌下で溶ける。量の微調整がしやすい</td></tr><tr><td>点鼻スプレー（2.5 μg/噴霧）</td><td>1回2.5〜5 μgを1日1〜2回</td><td>鼻炎で吸収が不安定</td></tr><tr><td>注射（静注・皮下注）</td><td>0.1〜0.5 μg 程度 <span class="ext">出典外</span></td><td>術後など経口・点鼻ができないとき</td></tr></table></div><div class="hl hl-red"><b>1日1回は「切れる時間」を作る</b>（尿量が増えるのを待ってから次を使う）。毎日きっちり効かせ続けると、水を飲みすぎたときに低Na血症になる。</div><div class="hl hl-amber">乳児は量の調節が難しい。母乳・低溶質ミルクで溶質負荷を減らす、サイアザイドを使う、などの方法もある。</div></div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 口渇がない尿崩症（無飲症）</div><div class="card-body"><ul><li>鞍上部の手術後に多い。のどが渇かないので<b>高Na血症を起こしやすく、命にかかわる</b></li><li>毎日の体重で飲水量を決める（目標体重から増減）</li><li>DDAVPは固定量、飲水量も決めて、定期的に血清Naを測る</li></ul></div></div><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> 術後の三相性反応（鞍上部手術・下垂体茎の障害）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>時期</th><th>病態</th><th>注意</th></tr><tr><td>1〜5日</td><td>尿崩症（多尿）</td><td>DDAVPと輸液</td></tr><tr><td>5〜10日</td><td><b>SIADH</b>（蓄えたADHが出る）</td><td>DDAVPを続けると<b>重い低Na</b>。水を絞る</td></tr><tr><td>その後</td><td>永続性の尿崩症</td><td>維持のDDAVPへ</td></tr></table></div><div class="small-note">術後はNaを1日2回以上、尿量と体重を毎日。副腎不全の合併（ACTH欠損）を忘れない：ステロイドがないと水が出せず低Naが隠れる・出る。</div></div></div></div><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> シックデイの指導</div><div class="card-body"><ul><li>嘔吐・下痢でDDAVPを飲めない・吸収されないときは連絡</li><li>水をたくさん飲めない状況（胃腸炎・手術）では高Naに注意</li><li>点滴するときは「尿崩症でDDAVP使用中」と必ず伝える（低張液の大量輸液で低Na）</li></ul></div></div></div><div class="tab-content" id="tab4"><div class="grid-2 mb"><div class="card "><div class="card-hd navy"><span class="icon">🌊</span> フォローで見るもの</div><div class="card-body"><ul><li>血清Na（量を変えたとき、体調を崩したとき）</li><li>夜間尿・おねしょ、学校での飲水・トイレ</li><li>身長・体重、前葉機能（とくに原因が腫瘍・LCH・術後のとき）</li><li>原因不明の中枢性尿崩症：MRIを3〜6か月ごと（最初の2〜3年は特に）</li></ul></div></div><div class="card "><div class="card-hd green"><span class="icon">🟢</span> フォロー終了（経過観察オフ）の目安</div><div class="card-body"><ul><li><b>中枢性尿崩症</b>：多くは永続し、終了はない。成人の内分泌内科へ移行</li><li><b>SIADH</b>：原因（薬・感染・術後）が去り、水制限なしでNaが正常なら終了</li><li><b>心因性多飲</b>：飲水が落ち着き、Naが正常なら終了</li><li><b>家族への説明</b>：「ぐったりする・吐く・けいれん・ひどい頭痛は、Naが急に変わったサイン。すぐ受診」</li></ul></div></div></div></div>
+<div class="footer">出典：Adrogué HJ, Madias NE. N Engl J Med 2000（Hyponatremia／Hypernatremia）、AAP Clinical Practice Guideline: Maintenance IV Fluids in Children 2018、小児内分泌学（日本小児内分泌学会編）水代謝の章、たのしく学ぶ小児内分泌 水代謝異常<br>施設の取り決め・最新の添付文書を優先してください。<span class="ext">出典外</span>は一般的な目安として補った値です。</div>
+<script>
+function switchTab(n){document.querySelectorAll('.tab-content').forEach((el,i)=>el.classList.toggle('active',i===n));document.querySelectorAll('.tab-btn').forEach((el,i)=>el.classList.toggle('active',i===n));window.scrollTo({top:0,behavior:'smooth'})}
+const $=id=>document.getElementById(id);const v=id=>{const x=parseFloat($(id).value);return isNaN(x)?null:x};
+const f=(x,d=1)=>x==null||!isFinite(x)?'—':(Math.round(x*10**d)/10**d).toLocaleString('ja-JP',{maximumFractionDigits:d});
+const R=(val,label,cls='')=>`<div class="r ${cls}"><b>${val}</b><span>${label}</span></div>`;
+const LS={get(k,d){try{const x=localStorage.getItem(k);return x==null?d:JSON.parse(x)}catch(e){return d}},set(k,x){try{localStorage.setItem(k,JSON.stringify(x))}catch(e){}}};
+
+function calc(){
+ const wt=v('wt'),tbwF=parseFloat($('tbw').value),na=v('na'),glu=v('glu'),bun=v('bun');
+ const [infNa,infK]=$('inf').value.split(',').map(Number),sym=$('sym').value==='1',chronic=$('chr').value==='1';
+ let h='',o='';
+ const tbw=wt?wt*tbwF:null;
+ if(na!=null){
+  const posm=2*na+(glu||100)/18+(bun||10)/2.8;h+=R(f(posm,0),'計算浸透圧 mOsm/kg',posm<275?'warn':posm>295?'warn':'ok');
+  h+=R(f(2*na+(glu||100)/18,0),'有効浸透圧（BUN除く）');
+  if(glu&&glu>100){h+=R(f(na+1.6*(glu-100)/100)+'〜'+f(na+2.4*(glu-100)/100),'高血糖補正Na（1.6〜2.4）')}
+  if(tbw){
+   const d=(infNa+infK-na)/(tbw+1);h+=R((d>0?'+':'')+f(d,2),'この輸液1 Lで動くNa（mEq/L）');
+   if(na<135){const lim=chronic?8:12;const L=d>0?lim/d:null;h+=R(L?f(L*1000,0)+' mL':'上がらない',`24時間で+${lim}までの量`,d>0?'':'bad');
+     h+=R(f(2*wt,0)+' mL（最大100）','症候性：3% NaCl 2 mL/kg',sym?'bad':'');
+     h+=R(f((140-na)*tbw,0)+' mEq','Na欠乏量（体水分×(140−Na)）');
+   }
+   if(na>145){const fw=tbw*(na/140-1);h+=R(f(fw,2)+' L','自由水欠乏',na>=155?'bad':'warn');h+=R(d<0?f(-10/d*1000,0)+' mL':'下がらない','24時間で−10までの量（この輸液）',d<0?'':'bad')}
+  }
+ }
+ if(na!=null){
+  if(na<120&&sym)o='<b>症候性の重い低Na血症</b>：まず3% NaCl 2 mL/kgを10分で。';
+  else if(na<135&&chronic)o='慢性低Na：24時間で8〜10 mEq/L以内。2〜4時間ごとに測る。';
+  else if(na<135)o='急性（48時間未満）なら補正をやや速くしてもよいが、症状が止まったら上限内に戻す。';
+  if(na>145)o='高Na：慢性なら0.5 mEq/L/時以下（24時間で10〜12以内）。';
+ }
+ $('r1').innerHTML=h;$('o1').innerHTML=o;
+ // 尿
+ const uosm=v('uosm'),una=v('una'),uk=v('uk'),ht=v('ht'),uv=v('uv');let posm=v('posm');
+ if(posm==null&&na!=null)posm=2*na+(glu||100)/18+(bun||10)/2.8;
+ let h2='',o2=[];
+ if(uosm!=null&&posm){h2+=R(f(uosm/posm,2),'尿/血清 浸透圧比');}
+ if(uosm!=null){if(uosm<100)o2.push('尿浸透圧 &lt;100：ADHは抑えられている（水中毒、溶質不足、または尿崩症）');else if(na!=null&&na<135)o2.push('低Naなのに尿浸透圧 &gt;100：ADHが働いている（SIADH、低容量、副腎不全・甲状腺機能低下）');
+  if(na!=null&&na>145&&uosm<300)o2.push('<b>高Naなのに尿が薄い（&lt;300）：尿崩症を強く疑う</b>')}
+ if(una!=null&&uk!=null&&na){const ratio=(una+uk)/na;h2+=R(f(ratio,2),'(尿Na＋尿K)/血清Na',ratio>1?'warn':'');
+   o2.push(ratio>1?'比 &gt;1：水制限だけでは上がらない。塩の追加・ループ利尿薬を検討':ratio>0.5?'比 0.5〜1：水制限は維持量の50%程度に':'比 &lt;0.5：水制限（維持量の75%程度）で上がりやすい')}
+ if(una!=null&&na!=null&&na<135)o2.push(una>30?'尿Na &gt;30：SIADH・副腎不全・CSW・利尿薬・腎性喪失':'尿Na &lt;20〜30：腎外からの喪失（胃腸炎など）、または浮腫性疾患');
+ if(ht&&wt&&uv){const bsa=Math.sqrt(ht*wt/3600);const lm=uv/1000/bsa;h2+=R(f(bsa,2),'体表面積 m²');h2+=R(f(lm,2)+' L/m²/日','尿量',lm>2?'bad':'ok');h2+=R(f(uv/wt/24,1)+' mL/kg/時','尿量');if(lm>2)o2.push('<b>多尿（&gt;2 L/m²/日）</b>：まず高血糖・高Ca・低Kを除外')}
+ $('r2').innerHTML=h2;$('o2').innerHTML=o2.length?ul(o2):'';
+}
+function ul(a){return '<ul>'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>'}
+
+document.querySelectorAll('.calc input,.calc select').forEach(el=>el.addEventListener('input',()=>{try{calc()}catch(e){}}));
+try{calc()}catch(e){}
+</script>
+</body>
+</html>

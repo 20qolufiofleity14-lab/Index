@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ca・骨 あんちょこ（低Ca・高Ca・くる病）</title>
+<meta name="mini-category" content="growth">
+<meta name="mini-desc" content="補正Ca・TmP/GFR・尿Ca/Cr・Ca/Crクリアランス比の計算、低Ca/高Caの初療と鑑別、くる病のパターン表">
+<meta name="mini-title" content="Ca・骨（低Ca・高Ca・くる病）">
+<style>
+/* ════════════════════════════════════════
+   DESIGN SYSTEM — CSS VARIABLES
+   ════════════════════════════════════════ */
+:root {
+  --bg: #eef2f7;
+  --card: #ffffff;
+  --border: #dde3ec;
+  --text: #1a202c;
+  --text-muted: #64748b;
+  --primary: #1e3a5f;
+  --primary-mid: #254d80;
+  --primary-light: #3468a8;
+  --red: #b91c1c;
+  --red-soft: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --amber: #92400e;
+  --amber-soft: #b45309;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --blue: #1d4ed8;
+  --blue-soft: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --green: #166534;
+  --green-soft: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --purple-border: #c4b5fd;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+/* ════════════════════════════════════════
+   BASE
+   ════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo','メイリオ',sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* ════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a9e 60%, #1e4e9e 100%);
+  color: white;
+  padding: 14px 20px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.header-left h1 { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; }
+.header-left .sub { font-size: 10.5px; opacity: 0.75; margin-top: 2px; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.header-tag {
+  font-size: 9.5px; background: rgba(255,255,255,0.18);
+  padding: 2px 9px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3); white-space: nowrap;
+}
+
+/* ════════════════════════════════════════
+   TAB NAVIGATION
+   ════════════════════════════════════════ */
+.tab-nav {
+  background: var(--primary-mid);
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 9px 14px; color: rgba(255,255,255,0.62);
+  background: none; border: none; cursor: pointer;
+  white-space: nowrap; font-size: 11.5px; font-family: inherit;
+  border-bottom: 3px solid transparent; transition: all 0.18s;
+  font-weight: 500; flex-shrink: 0;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+.tab-btn.active { color: white; border-bottom-color: #5ef07a; background: rgba(255,255,255,0.12); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════ */
+.tab-content { display: none; padding: 14px 16px 24px; max-width: 1280px; margin: 0 auto; }
+.tab-content.active { display: block; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px; }
+.grid-half { display: grid; grid-template-columns: 1.4fr 1fr; gap: 11px; }
+.mb-3 { margin-bottom: 11px; }
+@media (max-width: 780px) {
+  .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   CARDS
+   ════════════════════════════════════════ */
+.card {
+  background: var(--card); border-radius: 7px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+/* Card header variants */
+.card-hd {
+  padding: 7px 11px; font-weight: 700; font-size: 11.5px;
+  display: flex; align-items: center; gap: 5px; letter-spacing: 0.2px;
+}
+.card-hd .icon { font-size: 13px; }
+.card-hd.red    { background: var(--red-bg);    color: var(--red);    border-bottom: 1px solid var(--red-border); }
+.card-hd.amber  { background: var(--amber-bg);  color: var(--amber);  border-bottom: 1px solid var(--amber-border); }
+.card-hd.blue   { background: var(--blue-bg);   color: var(--blue);   border-bottom: 1px solid var(--blue-border); }
+.card-hd.green  { background: var(--green-bg);  color: var(--green);  border-bottom: 1px solid var(--green-border); }
+.card-hd.purple { background: var(--purple-bg); color: var(--purple); border-bottom: 1px solid var(--purple-border); }
+.card-hd.dark   { background: var(--primary);   color: white; }
+.card-hd.navy   { background: var(--primary-mid); color: white; }
+.card-body { padding: 9px 11px; }
+
+/* ════════════════════════════════════════
+   HIGHLIGHT BOXES (hl-*)
+   使い方: <div class="hl hl-red">...</div>
+   ════════════════════════════════════════ */
+.hl {
+  padding: 5px 9px; border-radius: 4px; margin: 3px 0; border-left: 3px solid;
+}
+.hl-red    { background: var(--red-bg);    border-color: var(--red-soft);   color: #7f1d1d; }
+.hl-amber  { background: var(--amber-bg);  border-color: var(--amber-soft); color: #78350f; }
+.hl-blue   { background: var(--blue-bg);   border-color: var(--blue-soft);  color: #1e3a8a; }
+.hl-green  { background: var(--green-bg);  border-color: var(--green-soft); color: #14532d; }
+.hl-purple { background: var(--purple-bg); border-color: var(--purple);     color: #3b0764; }
+
+/* ════════════════════════════════════════
+   BADGES (b-*)
+   使い方: <span class="badge b-red">テキスト</span>
+   ════════════════════════════════════════ */
+.badge {
+  display: inline-block; padding: 1px 5px; border-radius: 3px;
+  font-size: 9.5px; font-weight: 700; vertical-align: middle; line-height: 1.4;
+}
+.b-red    { background: var(--red-soft);   color: white; }
+.b-amber  { background: var(--amber-soft); color: white; }
+.b-blue   { background: var(--blue-soft);  color: white; }
+.b-green  { background: var(--green-soft); color: white; }
+.b-purple { background: var(--purple);     color: white; }
+.b-gray   { background: #64748b;           color: white; }
+.b-ev     { background: #374151; color: #e5e7eb; font-family: monospace; }
+
+/* ════════════════════════════════════════
+   AGE CRITERION ROWS
+   使い方: <div class="age-row [boys]">
+           <div class="age-num">7.5歳</div>
+           <div class="age-text">説明</div></div>
+   ════════════════════════════════════════ */
+.age-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 8px; margin: 3px 0; border-radius: 5px;
+  background: var(--red-bg); border-left: 3px solid var(--red-soft);
+}
+.age-num { font-weight: 900; font-size: 15px; color: var(--red); min-width: 68px; }
+.age-text { font-size: 12px; color: #7f1d1d; flex: 1; }
+.age-row.boys { background: var(--blue-bg); border-color: var(--blue-soft); }
+.age-row.boys .age-num { color: var(--blue); }
+.age-row.boys .age-text { color: #1e3a8a; }
+
+/* ════════════════════════════════════════
+   TABLES
+   ════════════════════════════════════════ */
+.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.tbl th {
+  background: var(--primary); color: white;
+  padding: 5px 7px; text-align: center; font-weight: 600; font-size: 10.5px;
+}
+.tbl td { padding: 4px 7px; border: 1px solid #dde3ec; text-align: center; vertical-align: middle; }
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl tr:hover td { background: var(--blue-bg); }
+/* Table cell modifiers */
+.td-lbl     { text-align: left !important; font-weight: 600; background: #f1f5f9 !important; color: #334155; }
+.td-prepub  { background: var(--green-bg) !important; color: #14532d; }
+.td-pub     { background: var(--red-bg)   !important; color: #7f1d1d; font-weight: 600; }
+.td-key     { background: #fff7ed        !important; color: #7c2d12; font-weight: 700; }
+
+/* ════════════════════════════════════════
+   DOSE BOXES
+   ════════════════════════════════════════ */
+.dose-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: white; padding: 12px 14px; border-radius: 7px; margin: 6px 0; text-align: center;
+}
+.dose-box-amber {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+  color: white; padding: 10px 14px; border-radius: 7px; text-align: center;
+}
+.dose-label { font-size: 10px; opacity: 0.65; margin-bottom: 3px; font-weight: 600; letter-spacing: 0.5px; }
+.dose-num   { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+.dose-unit  { font-size: 12px; opacity: 0.82; margin-top: 1px; }
+
+/* ════════════════════════════════════════
+   MONITORING GRID (4-column)
+   使い方: <div class="monitor-grid">
+           <div class="monitor-cell hd">見出し</div>...
+   ════════════════════════════════════════ */
+.monitor-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+.monitor-cell {
+  padding: 8px 9px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.monitor-cell:nth-child(4n) { border-right: none; }
+.monitor-cell.hd  { background: var(--primary); color: white; font-weight: 700; font-size: 11px; text-align: center; }
+.monitor-cell.grp { background: #f1f5f9; font-weight: 700; font-size: 11px; color: var(--primary); }
+
+/* ════════════════════════════════════════
+   CLINICAL LIST
+   使い方: <ul class="cl"><li>内容</li></ul>
+   ════════════════════════════════════════ */
+.cl { list-style: none; padding: 0; }
+.cl li {
+  padding: 4px 0 4px 15px; border-bottom: 1px solid #f1f5f9;
+  position: relative; font-size: 12px;
+}
+.cl li:last-child { border-bottom: none; }
+.cl li::before { content: '▸'; position: absolute; left: 0; color: var(--primary-light); font-size: 9px; top: 6px; }
+
+/* ════════════════════════════════════════
+   UTILITY
+   ════════════════════════════════════════ */
+.mh { background: #f8fafc; border-radius: 4px; padding: 4px 8px; margin: 4px 0; font-size: 11.5px; border-left: 2px solid #94a3b8; }
+.small      { font-size: 10.5px; color: var(--text-muted); }
+.small-note { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; padding-top: 4px; border-top: 1px dashed #cbd5e1; }
+.mt { margin-top: 8px; }
+.arrow { color: var(--red); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════ */
+.footer {
+  background: var(--primary); color: rgba(255,255,255,0.5);
+  text-align: center; padding: 8px; font-size: 9.5px; margin-top: 20px;
+}
+
+body{-webkit-text-size-adjust:100%}
+.tab-content{padding:11px}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:8px}
+.calc label{display:flex;flex-direction:column;font-size:10.5px;color:var(--text-muted);gap:2px;font-weight:600}
+.calc input,.calc select{font:inherit;font-size:15px;padding:6px 7px;border:1px solid var(--border);border-radius:5px;background:#fff;color:var(--text);width:100%;box-sizing:border-box}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin:6px 0}
+.res .r{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:6px;padding:6px 8px}
+.res .r b{display:block;font-size:17px;color:var(--primary);font-variant-numeric:tabular-nums}
+.res .r span{font-size:10px;color:var(--text-muted)}
+.res .r.warn{background:var(--amber-bg);border-color:var(--amber-border)}
+.res .r.bad{background:var(--red-bg);border-color:var(--red-border)}
+.res .r.bad b{color:var(--red)}
+.res .r.ok{background:var(--green-bg);border-color:var(--green-border)}
+.out{font-size:12px;line-height:1.6}
+.card-body ul{margin:3px 0 3px 17px;padding:0}
+.card-body li{margin:2px 0}
+.src{font-size:10px;color:var(--text-muted);margin-top:8px}
+.ext{display:inline-block;background:#6d28d9;color:#fff;font-size:9px;font-weight:700;border-radius:3px;padding:0 4px;vertical-align:middle}
+.tbl-wrap{overflow-x:auto}
+.mb{margin-bottom:11px}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-left"><h1>🦴 Ca・骨 あんちょこ</h1><div class="sub">低Ca・高Ca・くる病・副甲状腺 — 計算と鑑別</div></div><div class="header-right"><span class="header-tag">Global Consensus 2016（栄養性くる病）</span><span class="header-tag">Sargent 1993</span></div></div>
+<div class="tab-nav"><button class="tab-btn active" onclick="switchTab(0)">① 計算</button><button class="tab-btn" onclick="switchTab(1)">② 低Ca</button><button class="tab-btn" onclick="switchTab(2)">③ 高Ca</button><button class="tab-btn" onclick="switchTab(3)">④ くる病</button><button class="tab-btn" onclick="switchTab(4)">⑤ 副甲状腺</button><button class="tab-btn" onclick="switchTab(5)">⑥ 終了の目安</button></div>
+<div class="tab-content active" id="tab0"><div class="card "><div class="card-hd dark"><span class="icon">🧮</span> 血清・尿の指標を入れる</div><div class="card-body">
+<div class="calc">
+<label>年齢<select id="ag">
+<option value="0">生後6か月まで</option><option value="1">7〜18か月</option><option value="2" selected>19か月〜6歳</option><option value="3">7〜12歳</option><option value="4">13歳以上</option></select></label>
+<label>Ca（mg/dL）<input id="ca" type="number" step="0.1" inputmode="decimal" placeholder="例 7.6"></label>
+<label>Alb（g/dL）<input id="alb" type="number" step="0.1" inputmode="decimal" placeholder="例 3.2"></label>
+<label>P（mg/dL）<input id="p" type="number" step="0.1" inputmode="decimal" placeholder="例 2.4"></label>
+<label>Cr（mg/dL）<input id="cr" type="number" step="0.01" inputmode="decimal" placeholder="例 0.3"></label>
+<label>Mg（mg/dL）<input id="mg" type="number" step="0.1" inputmode="decimal"></label>
+<label>ALP（U/L, IFCC）<input id="alp" type="number" inputmode="decimal"></label>
+<label>intact PTH（pg/mL）<input id="pth" type="number" inputmode="decimal"></label>
+<label>25(OH)D（ng/mL）<input id="vd" type="number" step="0.1" inputmode="decimal"></label>
+<label>FGF23（pg/mL・任意）<input id="fgf" type="number" inputmode="decimal"></label>
+<label>随時尿Ca（mg/dL）<input id="uca" type="number" step="0.1" inputmode="decimal"></label>
+<label>随時尿P（mg/dL）<input id="up" type="number" step="0.1" inputmode="decimal"></label>
+<label>随時尿Cr（mg/dL）<input id="ucr" type="number" step="0.1" inputmode="decimal"></label>
+</div>
+<div class="res" id="r1"></div><div class="out" id="o1"></div>
+</div></div><div class="mb"></div><div class="card "><div class="card-hd blue"><span class="icon">📏</span> 年齢で変わる基準（目安）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>年齢</th><th>血清P（mg/dL）</th><th>尿Ca/Cr 上限（mg/mg）</th></tr><tr><td>生後6か月まで</td><td>4.8〜7.4</td><td>0.86</td></tr><tr><td>7〜18か月</td><td>4.5〜6.7</td><td>0.60</td></tr><tr><td>19か月〜6歳</td><td>4.5〜6.5</td><td>0.42</td></tr><tr><td>7〜12歳</td><td>3.6〜5.8</td><td>0.22</td></tr><tr><td>13歳以上</td><td>2.7〜4.5</td><td>0.22</td></tr></table></div><div class="small-note">血清Pの範囲は測定法で異なる <span class="ext">出典外</span>。尿Ca/CrはSargentら（1993）。ALPは成長期に高く、成人の基準で判断しない（IFCC法では小児はJSCC法の約1/3）。</div></div></div></div><div class="tab-content" id="tab1"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 症候性低Ca血症（テタニー・けいれん・QT延長）</div><div class="card-body"><div class="hl hl-red"><b>8.5% グルコン酸Ca（カルチコール）0.5〜1 mL/kg（最大20 mL）を10分以上かけて静注</b>。心電図モニター下で、徐脈が出たら止める。</div><ul><li>続けて持続静注：8.5% グルコン酸Ca 3〜6 mL/kg/日（元素Caで約25〜50 mg/kg/日）</li><li><b>漏れると皮膚壊死</b>。できれば太い静脈・中心静脈。重炭酸・リン酸を含む液と混ぜない</li><li><b>低Mgがあると治らない</b>：硫酸Mg 25〜50 mg/kg（最大2 g）を20分以上かけて</li><li>ジギタリス内服中は慎重に（不整脈）</li></ul></div></div><div class="mb"></div><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> PTHとPで分ける低Ca血症の鑑別</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>PTH</th><th>P</th><th>考える病気</th></tr><tr><td><b>低い・不適切に正常</b></td><td>高い</td><td>副甲状腺機能低下症（22q11.2欠失、自己免疫性〔APS-1〕、術後、ミトコンドリア病）、<b>常染色体優性低Ca血症（CaSR機能獲得）</b>、低Mg</td></tr><tr><td><b>高い</b></td><td>高い</td><td><b>偽性副甲状腺機能低下症</b>（PTH不応）、腎不全</td></tr><tr><td><b>高い</b></td><td>低い〜正常</td><td><b>ビタミンD欠乏</b>・VDDR（1α水酸化酵素欠損、VDR異常）、Ca摂取不足</td></tr></table></div></div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> 新生児の低Ca血症</div><div class="card-body"><ul><li><b>早発型（生後72時間以内）</b>：早産、仮死、母体糖尿病、IUGR。多くは一過性</li><li><b>晩発型（生後5〜10日）</b>：リンの多いミルク、母体のビタミンD欠乏、<b>母体の副甲状腺機能亢進症</b>（母のCaも調べる）</li><li>晩発型が続く・顔貌の特徴や心疾患があれば22q11.2欠失を</li></ul></div></div><div class="card "><div class="card-hd purple"><span class="icon">🟣</span> 常染色体優性低Ca血症（ADH1）に注意</div><div class="card-body"><ul><li>CaSRの機能獲得変異。低Caなのに<b>尿Caが多い</b>（PTH低値〜正常）</li><li>活性型ビタミンDで<b>腎石灰化・腎結石が進みやすい</b></li><li>無症状なら治療しないことも多い。治療するなら最小限で、症状を止めることだけを目標に</li><li>家族歴（親にも軽い低Ca）が手がかり</li></ul></div></div></div></div><div class="tab-content" id="tab2"><div class="card "><div class="card-hd red"><span class="icon">🔴</span> 高Ca血症の初期治療（Ca &gt;12〜14 mg/dL、または症状あり）</div><div class="card-body"><ul><li><b>生理食塩液で十分に輸液</b>（維持量の1.5〜2倍、または約3 L/m²/日）</li><li>脱水が戻ってから<b>フロセミド 1 mg/kg</b>（尿へのCa排泄を増やす）。輸液より先に使わない</li><li>カルシトニン製剤：効き始めが早いが数日で効かなくなる（用量は添付文書）</li><li>ビスホスホネート：パミドロネート 0.5〜1 mg/kg を4〜6時間で <span class="ext">出典外</span>（適応外。効果は2〜4日後から）</li><li>ビタミンD中毒・肉芽腫性疾患：ステロイドが効く</li><li>Ca・ビタミンD・ビタミンAのサプリ、サイアザイドを中止</li></ul></div></div><div class="mb"></div><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> 高Ca血症の鑑別</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>PTH</th><th>考える病気</th></tr><tr><td><b>高い・不適切に正常</b></td><td>原発性副甲状腺機能亢進症（MEN1・MEN2A、HPT-JT）、<b>家族性低Ca尿性高Ca血症（FHH）</b>、新生児重症副甲状腺機能亢進症</td></tr><tr><td><b>低い</b></td><td>ビタミンD中毒、<b>悪性腫瘍（PTHrP、骨転移）</b>、長期臥床、Williams症候群、皮下脂肪壊死症（新生児）、<b>CYP24A1異常</b>（1,25(OH)₂Dの分解障害）、低ホスファターゼ症（乳児型）、ビタミンA過剰</td></tr></table></div><div class="hl hl-purple"><b>FHH</b>：PTHは軽く高め、Ca/Cr クリアランス比 <b>&lt;0.01</b>。手術は不要。<br>Ca/Crクリアランス比 =（尿Ca × 血清Cr）÷（血清Ca × 尿Cr）……計算タブに出ます。</div></div></div></div><div class="tab-content" id="tab3"><div class="card "><div class="card-hd dark"><span class="icon">⬛</span> くる病の検査パターン</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th></th><th>Ca</th><th>P</th><th>ALP</th><th>PTH</th><th>25(OH)D</th><th>1,25(OH)₂D</th><th>TmP/GFR</th><th>その他</th></tr><tr><td><b>ビタミンD欠乏</b></td><td>↓〜正常</td><td>↓〜正常</td><td>↑↑</td><td>↑↑</td><td><b>↓</b></td><td>正常〜↑</td><td>↓</td><td>母乳・日光不足・食物制限</td></tr><tr><td>VDDR1A（1α水酸化酵素）</td><td>↓</td><td>↓</td><td>↑↑</td><td>↑↑</td><td>正常</td><td><b>↓</b></td><td>↓</td><td>常染色体劣性</td></tr><tr><td>VDDR2（VDR）</td><td>↓</td><td>↓</td><td>↑↑</td><td>↑↑</td><td>正常</td><td><b>↑↑</b></td><td>↓</td><td><b>脱毛</b></td></tr><tr><td><b>XLH・FGF23関連</b></td><td>正常</td><td><b>↓</b></td><td>↑</td><td>正常〜軽く↑</td><td>正常</td><td>正常〜低め</td><td><b>↓</b></td><td><b>FGF23 ≥30 pg/mL</b>（低P時）</td></tr><tr><td>HHRH（SLC34A3）</td><td>正常</td><td>↓</td><td>↑</td><td>↓〜正常</td><td>正常</td><td><b>↑</b></td><td>↓</td><td>高Ca尿、FGF23は低い</td></tr><tr><td>Fanconi症候群</td><td>正常</td><td>↓</td><td>↑</td><td>正常</td><td>正常</td><td>正常</td><td>↓</td><td>糖尿・アミノ酸尿・アシドーシス</td></tr><tr><td><b>低ホスファターゼ症</b></td><td>正常〜↑</td><td>正常〜↑</td><td><b>↓</b></td><td>↓〜正常</td><td>正常</td><td>正常</td><td>↑</td><td>乳歯の早期脱落、PLP↑</td></tr></table></div><div class="small-note">X線：手首・膝の骨幹端の杯状変形・毛羽立ち。くる病でALPが正常〜低いときは低ホスファターゼ症を考える。</div></div></div><div class="mb"></div><div class="grid-2 mb"><div class="card "><div class="card-hd green"><span class="icon">🟢</span> ビタミンD欠乏性くる病の治療</div><div class="card-body"><ul><li>天然型ビタミンDを12週以上：<b>1歳未満 2,000 IU/日、1〜12歳 3,000〜6,000 IU/日、12歳以上 6,000 IU/日</b>（国際コンセンサス2016）</li><li>日本では天然型は医薬品にないため、<b>アルファカルシドール 0.05〜0.1 μg/kg/日</b>を使うことが多い</li><li><b>Ca 500 mg/日</b>を食事やサプリで併せて</li><li>治療後の維持：1歳未満 400 IU/日、それ以上 600 IU/日</li><li>1〜3か月でALP低下、3か月でX線の改善を確認。高Ca尿に注意</li></ul></div></div><div class="card "><div class="card-hd purple"><span class="icon">🟣</span> XLH（FGF23関連低P性くる病）</div><div class="card-body"><ul><li><b>ブロスマブ（クリースビータ）</b>：小児は0.8 mg/kgを2週ごと皮下注で開始（最大90 mg）。空腹時Pを見て調整</li><li>従来治療：リン製剤（ホスリボン）を1日4〜5回に分けて＋活性型ビタミンD</li><li>従来治療の合併症：腎石灰化、二次性副甲状腺機能亢進症 → 尿Ca・PTH・腎エコー</li><li>歯の膿瘍、頭蓋縫合早期癒合、聴力にも注意</li></ul></div></div></div><div class="card "><div class="card-hd blue"><span class="icon">🔵</span> ビタミンDの判定（25(OH)D）</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>25(OH)D（ng/mL）</th><th>判定</th></tr><tr><td>≥30</td><td>充足</td></tr><tr><td>20〜30</td><td>不足</td></tr><tr><td><b>&lt;20</b></td><td><b>欠乏</b>（くる病・低Ca血症の診断に合う）</td></tr><tr><td>&gt;100</td><td>過剰（中毒の可能性）</td></tr></table></div></div></div></div><div class="tab-content" id="tab4"><div class="grid-2 mb"><div class="card "><div class="card-hd dark"><span class="icon">⬛</span> 副甲状腺機能低下症の維持療法</div><div class="card-body"><ul><li><b>活性型ビタミンD</b>：アルファカルシドール 0.05〜0.1 μg/kg/日 から <span class="ext">出典外</span>（カルシトリオールなら半量程度）</li><li>必要ならCa製剤を併用</li><li><b>目標：血清Caは基準の下限付近（8.0〜8.5 mg/dL）</b>。正常にしようとすると高Ca尿になる</li><li>尿Ca/Cr を年齢の上限未満に。高ければ量を減らす、サイアザイドを検討</li><li>血清Ca×P積 &lt;55（mg²/dL²）を目安に <span class="ext">出典外</span></li></ul></div></div><div class="card "><div class="card-hd purple"><span class="icon">🟣</span> 偽性副甲状腺機能低下症</div><div class="card-body"><ul><li><b>Ⅰa型</b>：GNASの母由来アレル。PTH不応＋<b>TSH不応</b>（軽い甲状腺機能低下）、GHRH不応、性腺。<b>AHO</b>（円形顔貌、短い第4・5中手骨、皮下骨化、肥満）</li><li><b>Ⅰb型</b>：腎のPTH不応だけ（GNAS上流のメチル化異常）。AHOなし</li><li>PTHは幼児期にはまだ正常のことがあり、年齢とともに上がる</li><li>治療は活性型ビタミンD。PTHを正常近くまで下げると骨にもよい</li></ul></div></div></div><div class="card "><div class="card-hd amber"><span class="icon">🟡</span> フォローで見るもの</div><div class="card-body"><div class="tbl-wrap"><table class="tbl"><tr><th>項目</th><th>頻度の目安</th></tr><tr><td>血清Ca・P・Mg・Cr</td><td>量を変えたら1〜2週後、安定したら3〜6か月ごと</td></tr><tr><td>尿Ca/Cr（随時尿）</td><td>3〜6か月ごと</td></tr><tr><td>腎エコー（石灰化・結石）</td><td>年1回</td></tr><tr><td>眼科（白内障）、頭部CT（基底核石灰化）</td><td>診断時・必要時</td></tr><tr><td>ALP・X線（くる病）</td><td>1〜3か月ごと → 改善したら6か月ごと</td></tr></table></div></div></div></div><div class="tab-content" id="tab5"><div class="card "><div class="card-hd green"><span class="icon">🟢</span> フォロー終了（経過観察オフ）の目安</div><div class="card-body"><ul><li><b>ビタミンD欠乏性くる病</b>：ALP・PTH・25(OH)Dが正常化し、X線で骨幹端が治れば治療終了。リスクが続く（完全母乳、食物制限、外に出ない）なら維持量を続け、半年〜1年みて終了</li><li><b>新生児の一過性低Ca</b>：補充をやめて1〜2週Caが保てれば終了</li><li><b>副甲状腺機能低下症・偽性副甲状腺機能低下症・XLH</b>：生涯の治療。成人の内分泌内科へ移行</li><li><b>FHH</b>：診断がつけば治療は不要。家族への遺伝の説明をして終了（不要な手術を避けるよう本人に伝える）</li></ul><div class="hl hl-green"><b>家族への説明</b>：「手足のしびれ・つっぱり、けいれん（低Ca）、ぐったり・吐く・便秘・多尿（高Ca）があればすぐ受診。熱や下痢のときはCaが動きやすい」</div></div></div></div>
+<div class="footer">出典：Munns CF et al. Global Consensus Recommendations on Prevention and Management of Nutritional Rickets. JCEM 2016、Sargent JD et al. J Pediatr 1993（尿Ca/Cr）、日本内分泌学会・日本小児内分泌学会「ビタミンD欠乏性くる病・低カルシウム血症の診断の手引き」、FGF23関連低リン血症性くる病・骨軟化症の診断指針、クリースビータ添付文書、たのしく学ぶ小児内分泌 カルシウム・骨<br>施設の取り決め・最新の添付文書を優先してください。<span class="ext">出典外</span>は一般的な目安として補った値です。</div>
+<script>
+function switchTab(n){document.querySelectorAll('.tab-content').forEach((el,i)=>el.classList.toggle('active',i===n));document.querySelectorAll('.tab-btn').forEach((el,i)=>el.classList.toggle('active',i===n));window.scrollTo({top:0,behavior:'smooth'})}
+const $=id=>document.getElementById(id);const v=id=>{const x=parseFloat($(id).value);return isNaN(x)?null:x};
+const f=(x,d=1)=>x==null||!isFinite(x)?'—':(Math.round(x*10**d)/10**d).toLocaleString('ja-JP',{maximumFractionDigits:d});
+const R=(val,label,cls='')=>`<div class="r ${cls}"><b>${val}</b><span>${label}</span></div>`;
+const LS={get(k,d){try{const x=localStorage.getItem(k);return x==null?d:JSON.parse(x)}catch(e){return d}},set(k,x){try{localStorage.setItem(k,JSON.stringify(x))}catch(e){}}};
+
+const UCA=[0.86,0.60,0.42,0.22,0.22],PLO=[4.8,4.5,4.5,3.6,2.7],PHI=[7.4,6.7,6.5,5.8,4.5];
+function calc(){
+ const ag=+$('ag').value,ca=v('ca'),alb=v('alb'),p=v('p'),cr=v('cr'),mg=v('mg'),alp=v('alp'),pth=v('pth'),vd=v('vd'),fgf=v('fgf'),uca=v('uca'),up=v('up'),ucr=v('ucr');
+ let h='',o=[];let cca=null;
+ if(ca!=null){cca=alb!=null&&alb<4?ca+(4-alb):ca;h+=R(f(cca),alb!=null&&alb<4?'補正Ca（Payne）mg/dL':'Ca（Alb≥4なので補正なし）',cca<8.5?'bad':cca>10.5?'bad':'ok');
+  if(cca<7.5)o.push('<b>補正Ca &lt;7.5</b>：症状があればグルコン酸Ca静注（低Caタブ）');if(cca>12)o.push('<b>補正Ca &gt;12</b>：輸液を始める（高Caタブ）')}
+ if(p!=null){const lo=PLO[ag],hi=PHI[ag];h+=R(f(p),`P（年齢の目安 ${lo}〜${hi}）`,p<lo?'bad':p>hi?'warn':'ok');if(cca!=null)h+=R(f(cca*p,0),'Ca×P積',cca*p>=55?'warn':'')}
+ if(mg!=null&&mg<1.7){h+=R(f(mg),'Mg 低値','bad');o.push('低Mg：先にMgを補わないとCaもPTHも戻らない')}
+ if(uca!=null&&ucr){const r=uca/ucr;h+=R(f(r,2),`尿Ca/Cr（上限 ${UCA[ag]}）`,r>UCA[ag]?'bad':'ok');if(r>UCA[ag])o.push('高Ca尿：活性型ビタミンDの過量、ADH1、HHRH、副甲状腺機能低下症の治療中なら減量を検討')}
+ if(up!=null&&ucr&&p&&cr){const trp=1-(up*cr)/(p*ucr);let tmp=trp<=0.86?trp*p:0.3*trp/(1-0.8*trp)*p;h+=R(f(trp*100,0)+'%','%TRP（尿細管P再吸収率）',trp<0.85&&p<PLO[ag]?'bad':'');h+=R(f(tmp,2),'TmP/GFR（mg/dL）',tmp<PLO[ag]?'bad':'ok');
+  if(p<PLO[ag]&&tmp<PLO[ag])o.push('<b>低Pで TmP/GFR も低い → 腎からのP喪失</b>（FGF23関連〔XLHなど〕、Fanconi、二次性副甲状腺機能亢進）');
+  else if(p<PLO[ag])o.push('低Pだが TmP/GFR は保たれている → 摂取不足・吸収不良・細胞内移動（再栄養など）')}
+ if(uca!=null&&ucr&&ca&&cr){const ccr=(uca*cr)/(ca*ucr);h+=R(f(ccr,4),'Ca/Crクリアランス比',ccr<0.01?'warn':'');if(cca>10.5&&ccr<0.01)o.push('<b>高Caでクリアランス比 &lt;0.01 → FHHを考える</b>')}
+ if(vd!=null){const s=vd<20?['欠乏','bad']:vd<30?['不足','warn']:vd>100?['過剰','bad']:['充足','ok'];h+=R(s[0],`25(OH)D ${vd}`,s[1])}
+ if(fgf!=null&&p!=null&&p<PLO[ag])h+=R(fgf>=30?'FGF23関連を示唆':'FGF23関連は否定的',`FGF23 ${fgf}（低P時の基準 30）`,fgf>=30?'bad':'ok');
+ // パターン
+ if(cca!=null&&pth!=null){
+  if(cca<8.5){if(pth<30&&p!=null&&p>PHI[ag]-0.5)o.push('低Ca＋PTH低値〜不適切正常＋高P → <b>副甲状腺機能低下症</b>（Mg、尿Ca/CrでADH1も）');
+   else if(pth>65&&p!=null&&p>=PHI[ag]-0.5)o.push('低Ca＋PTH高値＋高P → <b>偽性副甲状腺機能低下症</b>または腎不全');
+   else if(pth>65)o.push('低Ca＋PTH高値＋P低〜正常 → <b>ビタミンD欠乏・VDDR</b>（25(OH)Dと1,25を）')}
+  if(cca>10.5){o.push(pth>30?'高Ca＋PTH不適切に正常〜高値 → <b>原発性副甲状腺機能亢進症かFHH</b>（Ca/Crクリアランス比）':'高Ca＋PTH低値 → <b>PTH非依存性</b>（ビタミンD中毒、悪性腫瘍、臥床、CYP24A1など）')}}
+ if(alp!=null&&p!=null&&p<PLO[ag]&&pth!=null&&pth<=65)o.push('低P＋ALP高値＋PTHほぼ正常 → <b>FGF23関連低P性くる病（XLH）</b>らしい');
+ $('r1').innerHTML=h;$('o1').innerHTML=o.length?'<ul>'+o.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'';
+}
+
+document.querySelectorAll('.calc input,.calc select').forEach(el=>el.addEventListener('input',()=>{try{calc()}catch(e){}}));
+try{calc()}catch(e){}
+</script>
+</body>
+</html>

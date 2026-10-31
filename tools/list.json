@@ -1,10 +1,24 @@
 [
  {
+  "file": "1型糖尿病_導入あんちょこ.html",
+  "title": "1型糖尿病 導入あんちょこ",
+  "cat": "glucose",
+  "desc": "初期インスリン量・カーボ比・補正係数の計算、CGM目標、シックデイ、低血糖",
+  "v": "76ec2f38cc"
+ },
+ {
   "file": "ALPアイソザイム.html",
   "title": "ALPアイソザイム",
   "cat": "growth",
   "desc": "診断支援と学習",
   "v": "613d37ece0"
+ },
+ {
+  "file": "Ca骨_低Ca高Caくる病.html",
+  "title": "Ca・骨（低Ca・高Ca・くる病）",
+  "cat": "growth",
+  "desc": "補正Ca・TmP/GFR・尿Ca/Cr・Ca/Crクリアランス比の計算、低Ca/高Caの初療と鑑別、くる病のパターン表",
+  "v": "1efd847d94"
  },
  {
   "file": "DKA初療あんちょこ.html",
@@ -91,6 +105,13 @@
   "v": "4a0200a230"
  },
  {
+  "file": "先天性副腎過形成_CAH.html",
+  "title": "先天性副腎過形成（CAH）",
+  "cat": "adrenal",
+  "desc": "21OHD中心。NBS・DSD鑑別・副腎クリーゼ・維持量・モニタリング・特殊状況",
+  "v": "c3812db221"
+ },
+ {
   "file": "先天性甲状腺機能低下症_GL2021.html",
   "title": "先天性甲状腺機能低下症 GL2021",
   "cat": "thyroid",
@@ -145,6 +166,13 @@
   "cat": "thyroid",
   "desc": "診療クイックリファレンス",
   "v": "421cbbdcc3"
+ },
+ {
+  "file": "水Na_尿崩症SIADH.html",
+  "title": "水・Na（尿崩症・SIADH）",
+  "cat": "water",
+  "desc": "Na補正速度・自由水欠乏・浸透圧の計算、SIADH/CSW/尿崩症の鑑別、DDAVPと術後の三相性反応",
+  "v": "6edae6da43"
  },
  {
   "file": "注射針_デバイス.html",

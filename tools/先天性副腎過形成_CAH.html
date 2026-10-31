@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>先天性副腎皮質過形成（CAH）診療クイックリファレンス</title>
+<meta name="mini-category" content="adrenal">
+<meta name="mini-desc" content="21OHD中心。NBS・DSD鑑別・副腎クリーゼ・維持量・モニタリング・特殊状況">
+<meta name="mini-title" content="先天性副腎過形成（CAH）">
+<style>
+:root {
+  --bg:#eef2f7;--card:#ffffff;--border:#dde3ec;
+  --text:#1a202c;--text-muted:#64748b;
+  --primary:#1e3a5f;--primary-mid:#254d80;--primary-light:#3468a8;
+  --red:#b91c1c;--red-soft:#dc2626;--red-bg:#fef2f2;--red-border:#fca5a5;
+  --amber:#92400e;--amber-soft:#b45309;--amber-bg:#fffbeb;--amber-border:#fcd34d;
+  --blue:#1d4ed8;--blue-soft:#2563eb;--blue-bg:#eff6ff;--blue-border:#93c5fd;
+  --green:#166534;--green-soft:#16a34a;--green-bg:#f0fdf4;--green-border:#86efac;
+  --purple:#5b21b6;--purple-bg:#f5f3ff;--purple-border:#c4b5fd;
+  --shadow:0 1px 4px rgba(0,0,0,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN','Noto Sans JP','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:12.5px;line-height:1.55;}
+.header{background:linear-gradient(135deg,#1e3a5f 0%,#2d5a9e 60%,#1e4e9e 100%);color:white;padding:14px 20px 12px;display:flex;align-items:flex-end;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,0.2);}
+.header-left h1{font-size:17px;font-weight:800;letter-spacing:0.3px;}
+.header-left .sub{font-size:10.5px;opacity:0.75;margin-top:2px;}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.header-tag{font-size:9.5px;background:rgba(255,255,255,0.18);padding:2px 9px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);white-space:nowrap;}
+.tab-nav{background:var(--primary-mid);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid rgba(255,255,255,0.1);}
+.tab-nav::-webkit-scrollbar{display:none;}
+.tab-btn{padding:9px 14px;color:rgba(255,255,255,0.62);background:none;border:none;cursor:pointer;white-space:nowrap;font-size:11.5px;font-family:inherit;border-bottom:3px solid transparent;transition:all 0.18s;font-weight:500;flex-shrink:0;}
+.tab-btn:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.08);}
+.tab-btn.active{color:white;border-bottom-color:#5ef07a;background:rgba(255,255,255,0.12);font-weight:700;}
+.tab-content{display:none;padding:14px 16px 24px;max-width:1280px;margin:0 auto;}
+.tab-content.active{display:block;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;}
+.grid-half{display:grid;grid-template-columns:1.4fr 1fr;gap:11px;}
+.mb-3{margin-bottom:11px;}
+@media(max-width:780px){.grid-2,.grid-3,.grid-half{grid-template-columns:1fr;}}
+.card{background:var(--card);border-radius:7px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);}
+.card-hd{padding:7px 11px;font-weight:700;font-size:11.5px;display:flex;align-items:center;gap:5px;letter-spacing:0.2px;}
+.card-hd.red{background:var(--red-bg);color:var(--red);border-bottom:1px solid var(--red-border);}
+.card-hd.amber{background:var(--amber-bg);color:var(--amber);border-bottom:1px solid var(--amber-border);}
+.card-hd.blue{background:var(--blue-bg);color:var(--blue);border-bottom:1px solid var(--blue-border);}
+.card-hd.green{background:var(--green-bg);color:var(--green);border-bottom:1px solid var(--green-border);}
+.card-hd.purple{background:var(--purple-bg);color:var(--purple);border-bottom:1px solid var(--purple-border);}
+.card-hd.dark{background:var(--primary);color:white;}
+.card-hd.navy{background:var(--primary-mid);color:white;}
+.card-body{padding:9px 11px;}
+.hl{padding:5px 9px;border-radius:4px;margin:3px 0;border-left:3px solid;}
+.hl-red{background:var(--red-bg);border-color:var(--red-soft);color:#7f1d1d;}
+.hl-amber{background:var(--amber-bg);border-color:var(--amber-soft);color:#78350f;}
+.hl-blue{background:var(--blue-bg);border-color:var(--blue-soft);color:#1e3a8a;}
+.hl-green{background:var(--green-bg);border-color:var(--green-soft);color:#14532d;}
+.hl-purple{background:var(--purple-bg);border-color:var(--purple);color:#3b0764;}
+.badge{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9.5px;font-weight:700;vertical-align:middle;line-height:1.4;}
+.b-red{background:var(--red-soft);color:white;}
+.b-amber{background:var(--amber-soft);color:white;}
+.b-blue{background:var(--blue-soft);color:white;}
+.b-green{background:var(--green-soft);color:white;}
+.b-purple{background:var(--purple);color:white;}
+.b-gray{background:#64748b;color:white;}
+.b-ev{background:#374151;color:#e5e7eb;font-family:monospace;}
+.b-pink{background:#be185d;color:white;}
+.b-orange{background:#c2410c;color:white;}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;}
+.tbl th{background:var(--primary);color:white;padding:5px 7px;text-align:center;font-weight:600;font-size:10.5px;}
+.tbl td{padding:4px 7px;border:1px solid #dde3ec;text-align:center;vertical-align:middle;}
+.tbl tr:nth-child(even) td{background:#f8fafc;}
+.tbl tr:hover td{background:var(--blue-bg);}
+.td-lbl{text-align:left !important;font-weight:600;background:#f1f5f9 !important;color:#334155;}
+.td-prepub{background:var(--green-bg) !important;color:#14532d;}
+.td-pub{background:var(--red-bg) !important;color:#7f1d1d;font-weight:600;}
+.td-key{background:#fff7ed !important;color:#7c2d12;font-weight:700;}
+.td-amber{background:var(--amber-bg) !important;color:#78350f;}
+.td-purple{background:var(--purple-bg) !important;color:#3b0764;}
+.dose-box{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-mid) 100%);color:white;padding:12px 14px;border-radius:7px;margin:6px 0;text-align:center;}
+.dose-box-amber{background:linear-gradient(135deg,#78350f 0%,#b45309 100%);color:white;padding:10px 14px;border-radius:7px;text-align:center;}
+.dose-box-red{background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 100%);color:white;padding:10px 14px;border-radius:7px;text-align:center;}
+.dose-box-green{background:linear-gradient(135deg,#166534 0%,#16a34a 100%);color:white;padding:10px 14px;border-radius:7px;text-align:center;}
+.dose-box-teal{background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);color:white;padding:10px 14px;border-radius:7px;text-align:center;}
+.dose-label{font-size:10px;opacity:0.65;margin-bottom:3px;font-weight:600;letter-spacing:0.5px;}
+.dose-num{font-size:26px;font-weight:900;letter-spacing:-0.5px;}
+.dose-unit{font-size:12px;opacity:0.82;margin-top:1px;}
+.monitor-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.monitor-cell{padding:8px 9px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:11.5px;}
+.monitor-cell:nth-child(4n){border-right:none;}
+.monitor-cell.hd{background:var(--primary);color:white;font-weight:700;font-size:11px;text-align:center;}
+.monitor-cell.grp{background:#f1f5f9;font-weight:700;font-size:11px;color:var(--primary);}
+.monitor-grid-5{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.monitor-grid-5 .monitor-cell{border-right:1px solid var(--border);}
+.monitor-grid-5 .monitor-cell:nth-child(4n){border-right:1px solid var(--border);}
+.monitor-grid-5 .monitor-cell:nth-child(5n){border-right:none;}
+.cl{list-style:none;padding:0;}
+.cl li{padding:4px 0 4px 15px;border-bottom:1px solid #f1f5f9;position:relative;font-size:12px;}
+.cl li:last-child{border-bottom:none;}
+.cl li::before{content:'▸';position:absolute;left:0;color:var(--primary-light);font-size:9px;top:6px;}
+.mh{background:#f8fafc;border-radius:4px;padding:4px 8px;margin:4px 0;font-size:11.5px;border-left:2px solid #94a3b8;}
+.small{font-size:10.5px;color:var(--text-muted);}
+.small-note{font-size:10.5px;color:var(--text-muted);margin-top:4px;padding-top:4px;border-top:1px dashed #cbd5e1;}
+.mt{margin-top:8px;}
+/* Steroidogenesis pathway */
+.ster-wrap{background:#f8fafc;border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin:5px 0;}
+.ster-row{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin:3px 0;}
+.ster-node{padding:4px 8px;border-radius:5px;font-size:11px;font-weight:700;text-align:center;border:1.5px solid;white-space:nowrap;}
+.sn-blue{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+.sn-red{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.sn-green{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.sn-amber{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
+.sn-gray{background:#f1f5f9;border-color:#94a3b8;color:#475569;}
+.sn-purple{background:var(--purple-bg);border-color:var(--purple-border);color:var(--purple);}
+.s-enz{font-size:9px;color:var(--text-muted);background:white;border:1px dashed #cbd5e1;padding:1px 4px;border-radius:3px;text-align:center;white-space:nowrap;}
+.s-arr{font-size:14px;color:#64748b;font-weight:700;}
+.s-blocked{font-size:10.5px;color:var(--red);font-weight:900;background:var(--red-bg);border:2px solid var(--red-soft);padding:2px 6px;border-radius:4px;white-space:nowrap;}
+.s-accu{font-size:9px;background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);padding:2px 5px;border-radius:3px;white-space:nowrap;}
+/* Prader stages */
+.prader-row{display:flex;gap:5px;margin:6px 0;flex-wrap:wrap;}
+.prader-box{flex:1;min-width:70px;border:1.5px solid;border-radius:6px;padding:6px 5px;text-align:center;}
+.pr-1{background:#f0fdf4;border-color:var(--green-border);color:var(--green);}
+.pr-2{background:#eff6ff;border-color:var(--blue-border);color:var(--blue);}
+.pr-3{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
+.pr-4{background:#fff7ed;border-color:#fdba74;color:#9a3412;}
+.pr-5{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.prader-box .pn{font-size:15px;font-weight:900;}
+.prader-box .pt{font-size:10px;margin-top:3px;line-height:1.3;}
+.footer{background:var(--primary);color:rgba(255,255,255,0.5);text-align:center;padding:8px;font-size:9.5px;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🧪 先天性副腎皮質過形成（CAH）診療クイックリファレンス</h1>
+    <div class="sub">Congenital Adrenal Hyperplasia — 21-水酸化酵素欠損症（21-OHD）を中心に / 副腎皮質ステロイド合成障害</div>
+  </div>
+  <div class="header-right">
+    <span class="header-tag">日本小児内分泌学会 CAH診療ガイドライン 2021</span>
+    <span class="header-tag">Endocrine Society Clinical Practice Guideline 2018</span>
+    <span class="header-tag">PES/ESPE DSD Consensus 2016</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">① 概要・病態・分類</button>
+  <button class="tab-btn" onclick="switchTab(1)">② NBS・診断・DSD鑑別</button>
+  <button class="tab-btn" onclick="switchTab(2)">③ 副腎クリーゼ 急性期 🔴</button>
+  <button class="tab-btn" onclick="switchTab(3)">④ 慢性期治療</button>
+  <button class="tab-btn" onclick="switchTab(4)">⑤ モニタリング</button>
+  <button class="tab-btn" onclick="switchTab(5)">⑥ 特殊状況・長期管理</button>
+</div>
+
+
+<!-- ════════ TAB 1: 概要・病態・分類 ════════ -->
+<div class="tab-content active" id="tab0">
+  <div class="grid-half mb-3">
+
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">⚗️</span> 副腎ステロイド合成経路と21-OHD病態</div>
+      <div class="card-body">
+        <div class="ster-wrap">
+          <!-- Shared precursors -->
+          <div class="ster-row">
+            <div class="ster-node sn-gray">コレステロール</div>
+            <span class="s-arr">→</span>
+            <div class="s-enz">StAR/CYP11A1</div>
+            <span class="s-arr">→</span>
+            <div class="ster-node sn-gray">プレグネノロン</div>
+            <span class="s-arr">→</span>
+            <div class="s-enz">3β-HSD2</div>
+            <span class="s-arr">→</span>
+            <div class="ster-node sn-amber">プロゲステロン</div>
+          </div>
+          <div style="margin:2px 0 2px 60px;color:#94a3b8;font-size:11px;">↓ 17α-OH</div>
+          <!-- 17-OHP accumulation -->
+          <div class="ster-row" style="margin-left:30px;">
+            <div class="ster-node sn-red" style="position:relative;">
+              17-OH-プロゲステロン<br>
+              <span style="font-size:9px;font-weight:400;">（17-OHP）↑↑↑</span>
+            </div>
+            <span class="s-arr">→</span>
+            <div class="s-blocked">⛔ 21-OH欠損</div>
+            <span class="s-arr" style="color:#dc2626;">✗</span>
+            <div class="ster-node sn-green" style="opacity:0.5;">11-デオキシ<br>コルチゾール</div>
+            <span class="s-arr" style="opacity:0.5;">→</span>
+            <div class="ster-node sn-green" style="opacity:0.5;"><strong>コルチゾール ↓</strong></div>
+          </div>
+          <!-- Overflow to androgens -->
+          <div style="margin:3px 0 3px 12px;display:flex;align-items:center;gap:5px;">
+            <div style="color:var(--amber);font-size:11px;font-weight:700;">↓ 溢流（overflow）</div>
+          </div>
+          <div class="ster-row" style="margin-left:20px;">
+            <div class="ster-node sn-amber">DHEA</div>
+            <span class="s-arr">→</span>
+            <div class="ster-node sn-amber">アンドロステン<br>ジオン ↑↑</div>
+            <span class="s-arr">→</span>
+            <div class="ster-node sn-red"><strong>テストステロン ↑↑</strong><br><span style="font-size:9px;">男性化の原因</span></div>
+          </div>
+          <!-- Aldosterone branch -->
+          <div style="margin:6px 0 2px 0;border-top:1px dashed #cbd5e1;padding-top:6px;">
+            <div class="ster-row">
+              <div class="ster-node sn-amber" style="font-size:10px;">プロゲステロン</div>
+              <span class="s-arr">→</span>
+              <div class="s-blocked">⛔ 21-OH欠損</div>
+              <span class="s-arr" style="color:#dc2626;">✗</span>
+              <div class="ster-node sn-green" style="opacity:0.5;">DOC →<br>コルチコステロン</div>
+              <span class="s-arr" style="opacity:0.5;">→</span>
+              <div class="ster-node sn-green" style="opacity:0.5;"><strong>アルドステロン ↓</strong><br><span style="font-size:9px;">塩喪失型で</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="hl hl-red mt">
+          <strong>コルチゾール ↓ → ACTH ↑↑（フィードバック機構）</strong><br>
+          ACTH過剰 → 副腎皮質を過剰刺激 → 副腎肥大（過形成）＋ 17-OHP更に蓄積<br>
+          <span class="small">→ 17-OHPが診断の鍵（新生児スクリーニングに使用）</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div class="card">
+        <div class="card-hd dark"><span class="icon">📊</span> 疫学・遺伝</div>
+        <div class="card-body">
+          <table class="tbl">
+            <tr><td class="td-lbl">頻度（古典型合計）</td><td class="td-key">約 1/20,000 出生（日本）</td></tr>
+            <tr><td class="td-lbl">原因酵素（全体）</td><td>21-水酸化酵素欠損 <strong>95%</strong></td></tr>
+            <tr><td class="td-lbl">遺伝子</td><td>CYP21A2（6p21.3 / HLA領域）</td></tr>
+            <tr><td class="td-lbl">遺伝形式</td><td>常染色体劣性（AR）</td></tr>
+            <tr><td class="td-lbl">NBS開始（日本）</td><td>1989年〜（17-OHP測定）</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd blue"><span class="icon">📋</span> 21-OHD 病型分類</div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>病型</th><th>21-OH活性</th><th>コルチゾール</th><th>アルドステロン</th><th>男性化</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="td-lbl"><span class="badge b-red">古典型<br>塩喪失型（SW）</span></td>
+                <td class="td-pub">&lt;1%</td>
+                <td class="td-pub">↓↓</td>
+                <td class="td-pub">↓↓<br><span style="font-size:9px;">副腎クリーゼ</span></td>
+                <td class="td-pub">↑↑↑</td>
+              </tr>
+              <tr>
+                <td class="td-lbl"><span class="badge b-amber">古典型<br>単純男性化型（SV）</span></td>
+                <td class="td-key">1–2%</td>
+                <td class="td-key">↓</td>
+                <td class="td-prepub">保たれる</td>
+                <td class="td-pub">↑↑</td>
+              </tr>
+              <tr>
+                <td class="td-lbl"><span class="badge b-green">非古典型（NC）<br>遅発型</span></td>
+                <td class="td-prepub">20–50%</td>
+                <td class="td-prepub">正常〜軽度↓</td>
+                <td class="td-prepub">正常</td>
+                <td class="td-amber">軽度↑</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="small-note">SW：Salt-Wasting　SV：Simple-Virilizing　NC：Non-Classic</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd amber"><span class="icon">⚗️</span> 21-OHD 以外のCAH（鑑別）</div>
+        <div class="card-body">
+          <ul class="cl">
+            <li><strong>11β水酸化酵素欠損（11β-OHD）</strong> — 5%<br><span class="small">特徴：男性化 ＋ <span class="badge b-amber">高血圧</span>（DOC蓄積）、11-デオキシコルチゾール↑↑</span></li>
+            <li><strong>3β-HSD2欠損症</strong> — 稀<br><span class="small">特徴：男児でも外性器異常（男性化不完全）、DHEA↑↑</span></li>
+            <li><strong>17α水酸化酵素欠損（17α-OHD）</strong> — 稀<br><span class="small">特徴：女児では性腺機能不全、男児でも女性型外性器、高血圧</span></li>
+          </ul>
+          <div class="small-note">21-OHDとの鑑別：11β-OHD → 11-デオキシコルチゾール↑↑、高血圧が特徴</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clinical manifestations by sex -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">♀️</span> 46,XX 患者（女児）の臨床像</div>
+      <div class="card-body">
+        <div class="mh">出生時（古典型）</div>
+        <ul class="cl">
+          <li><strong>外陰部男性化（外性器異常）</strong> — 診断の端緒<br><span class="small">Prader分類（詳細は②タブ参照）</span></li>
+          <li>内性器は正常女性型（子宮・卵巣あり）</li>
+          <li>SWでは副腎クリーゼ（2〜4週）も合併</li>
+        </ul>
+        <div class="mh mt">未治療・治療不十分の場合</div>
+        <ul class="cl">
+          <li>性早熟（偽性早熟）</li>
+          <li>骨年齢促進 → 最終身長の低下</li>
+          <li>成人期：月経不順・多毛・にきび（NC型）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">♂️</span> 46,XY 患者（男児）の臨床像</div>
+      <div class="card-body">
+        <div class="mh">出生時（古典型）</div>
+        <ul class="cl">
+          <li>外性器は一見正常（男性化しているので見かけ上は正常）</li>
+          <li><span class="badge b-red">SW型では生後7〜21日に副腎クリーゼ発症</span><br><span class="small">哺乳不良・嘔吐→ショック。NBS結果前に発症することも多い</span></li>
+          <li>SV型：幼児期の陰茎肥大・陰毛早発（見逃されやすい）</li>
+        </ul>
+        <div class="mh mt">未治療の場合</div>
+        <ul class="cl">
+          <li>偽性性早熟 → 骨年齢促進 → 最終身長低下</li>
+          <li>精巣副腎残余腫瘍（TART）— 成人男性に多い</li>
+          <li>精子形成障害（TART・過剰GC抑制）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 2: NBS・診断・DSD鑑別 ════════ -->
+<div class="tab-content" id="tab1">
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">🔬</span> 新生児マス・スクリーニング（NBS）</div>
+      <div class="card-body">
+        <div class="mh">スクリーニング法</div>
+        <ul class="cl">
+          <li>測定項目：<strong>17-OHP</strong>（乾燥濾紙血）</li>
+          <li>採血時期：生後4–6日（哺乳開始後）</li>
+          <li>判定：出生体重別カットオフ値を使用</li>
+        </ul>
+
+        <div class="mh mt">出生体重別カットオフ値（17-OHP ng/mL）</div>
+        <table class="tbl">
+          <thead><tr><th>出生体重</th><th>カットオフ（要精査）</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">≥ 2500 g（正期産）</td><td class="td-key">&gt; 15 ng/mL</td><td>最も特異度高い</td></tr>
+            <tr><td class="td-lbl">2000–2499 g</td><td class="td-key">&gt; 20 ng/mL</td><td></td></tr>
+            <tr><td class="td-lbl">1500–1999 g</td><td class="td-key">&gt; 30 ng/mL</td><td>早産で偽陽性↑</td></tr>
+            <tr><td class="td-lbl">&lt; 1500 g（超低出生体重）</td><td class="td-key">&gt; 50 ng/mL</td><td>偽陽性率高 → 精査必須</td></tr>
+          </tbody>
+        </table>
+        <div class="hl hl-amber mt">
+          <strong>偽陽性に注意：早産・LBW・重症疾患・ステロイド投与</strong><br>
+          NBS陽性 → 必ず精密検査（血清17-OHP確認）で判断。<br>
+          臨床像（外陰部異常・電解質異常）があれば結果を待たずに治療検討
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd red"><span class="icon">⚡</span> 新生児期の診断フロー — 今週のケースに適用</div>
+      <div class="card-body">
+        <div class="hl hl-red">
+          <strong>NBS陽性 OR 外陰部異常 OR 電解質異常 → 以下を即日オーダー</strong>
+        </div>
+        <div class="mh mt">初回精密検査セット</div>
+        <ul class="cl">
+          <li><span class="badge b-red">血清 17-OHP</span>（確定診断の要）</li>
+          <li>血清電解質：Na / K / Cl / CO₂<span class="badge b-red">SW判断</span></li>
+          <li>血糖（低血糖リスク）</li>
+          <li>血漿コルチゾール（基礎値）</li>
+          <li>血漿アルドステロン + 血漿レニン活性（PRA）or 直接レニン</li>
+          <li>血清テストステロン / アンドロステンジオン / DHEAS</li>
+          <li><span class="badge b-red">染色体核型（DSD必須）</span></li>
+          <li>骨盤・副腎エコー（内性器確認・副腎肥大）</li>
+        </ul>
+        <div class="hl hl-green mt">
+          <strong>17-OHP の解釈（新生児血清）</strong><br>
+          &gt; 100 ng/mL → 古典型CAH ほぼ確定<br>
+          10–100 ng/mL → 古典型 or 非古典型 → ACTH負荷試験<br>
+          2–10 ng/mL（ACTH後）→ 非古典型 or キャリア
+        </div>
+        <div class="small-note">17-OHP換算：1 ng/mL = 3.03 nmol/L ／ 注：生後24–48時間は生理的に高値あり → 4–7日での確認が望ましい</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prader classification -->
+  <div class="card mb-3">
+    <div class="card-hd purple"><span class="icon">📐</span> 外陰部男性化度：Prader分類（46,XX CAH）</div>
+    <div class="card-body">
+      <div class="prader-row">
+        <div class="prader-box pr-1">
+          <div class="pn">Ⅰ</div>
+          <div class="pt">陰核肥大のみ<br>（大陰唇癒合なし）</div>
+        </div>
+        <div class="prader-box pr-2">
+          <div class="pn">Ⅱ</div>
+          <div class="pt">陰核肥大<br>+部分的な<br>陰唇陰嚢癒合</div>
+        </div>
+        <div class="prader-box pr-3">
+          <div class="pn">Ⅲ</div>
+          <div class="pt">陰核肥大<br>+完全癒合<br>尿生殖洞形成<br>（基部に開口）</div>
+        </div>
+        <div class="prader-box pr-4">
+          <div class="pn">Ⅳ</div>
+          <div class="pt">陰茎様陰核<br>+完全癒合<br>尿生殖洞<br>（先端に開口）</div>
+        </div>
+        <div class="prader-box pr-5">
+          <div class="pn">Ⅴ</div>
+          <div class="pt">表現型上<br>男性と区別<br>不能<br>（尿道下裂なし）</div>
+        </div>
+      </div>
+      <div class="hl hl-purple mt">
+        <strong>内性器は常に正常女性型（子宮・卵巣）— エコーで確認</strong><br>
+        Prader Ⅲ–Ⅴでは外科的管理（形成術）の適応・時期を専門チームで検討<br>
+        <span class="small">性別適合は46,XX CAHでは原則として女性として育てる（現代コンセンサス）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DSD differential -->
+  <div class="card">
+    <div class="card-hd navy"><span class="icon">🔍</span> 新生児 DSD（性分化疾患）の鑑別診断</div>
+    <div class="card-body">
+      <table class="tbl">
+        <thead>
+          <tr><th>疾患</th><th>核型</th><th>内性器</th><th>外性器</th><th>17-OHP</th><th>電解質</th><th>鑑別点</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-lbl"><span class="badge b-red">21-OHD（CAH）</span></td>
+            <td>46,XX</td>
+            <td class="td-prepub">正常女性</td>
+            <td class="td-pub">男性化（Prader Ⅰ–Ⅴ）</td>
+            <td class="td-pub">↑↑↑</td>
+            <td class="td-pub">SW型でNa↓K↑</td>
+            <td style="text-align:left;">17-OHP↑↑、副腎肥大</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-amber">11β-OHD（CAH）</span></td>
+            <td>46,XX</td>
+            <td class="td-prepub">正常女性</td>
+            <td class="td-pub">男性化</td>
+            <td class="td-key">軽度↑</td>
+            <td class="td-amber">高血圧・低K</td>
+            <td style="text-align:left;">11-デオキシコルチゾール↑↑</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-blue">完全型AIS</span></td>
+            <td>46,XY</td>
+            <td class="td-pub">精巣（鼠径部）</td>
+            <td class="td-prepub">正常女性型</td>
+            <td>正常</td>
+            <td>正常</td>
+            <td style="text-align:left;">T↑↑、核型46,XY</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-blue">部分型AIS・5α-RD</span></td>
+            <td>46,XY</td>
+            <td class="td-pub">精巣</td>
+            <td class="td-amber">外性器異常</td>
+            <td>正常</td>
+            <td>正常</td>
+            <td style="text-align:left;">DHT/T比・5α-RD遺伝子</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-purple">混合型性腺発育不全</span></td>
+            <td>45,X/46,XY</td>
+            <td class="td-amber">片側精巣</td>
+            <td class="td-amber">外性器異常</td>
+            <td>正常</td>
+            <td>正常</td>
+            <td style="text-align:left;">モザイク核型</td>
+          </tr>
+          <tr>
+            <td class="td-lbl"><span class="badge b-gray">母体アンドロゲン過剰</span></td>
+            <td>46,XX</td>
+            <td class="td-prepub">正常女性</td>
+            <td class="td-amber">軽度男性化</td>
+            <td>正常</td>
+            <td>正常</td>
+            <td style="text-align:left;">母体黄体腫・薬剤歴</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="small-note">AIS = アンドロゲン不応症 ／ 5α-RD = 5α-還元酵素欠損症 ／ DSD評価は多職種チーム（内分泌・泌尿器外科・心理士・遺伝）で対応</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 3: 副腎クリーゼ 急性期治療 ════════ -->
+<div class="tab-content" id="tab2">
+
+  <div class="hl hl-red mb-3" style="font-size:13px;padding:8px 12px;">
+    <strong>🚨 副腎クリーゼ（塩喪失型男児：生後7〜21日に多い）— 早期認識・即時治療が生命を救う</strong>
+  </div>
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd red"><span class="icon">🔍</span> 副腎クリーゼの認識</div>
+      <div class="card-body">
+        <div class="mh">典型的な経過（SW型男児）</div>
+        <ul class="cl">
+          <li>生後7–21日：哺乳量減少・嘔吐・活気不良</li>
+          <li>体重増加不良 → 体重減少</li>
+          <li>脱水進行 → 循環不全 → ショック</li>
+          <li>痙攣（低Na血症による）</li>
+          <li>低血糖（コルチゾール欠乏）</li>
+        </ul>
+        <div class="mh mt">即時採血（治療前に！）</div>
+        <ul class="cl">
+          <li><span class="badge b-red">血清 Na・K・Cl・CO₂</span>（最優先）</li>
+          <li>血糖（低血糖チェック）</li>
+          <li>血漿コルチゾール（治療前ベースライン）</li>
+          <li>17-OHP（治療前サンプル）</li>
+          <li>レニン・アルドステロン</li>
+        </ul>
+        <div class="hl hl-amber mt">
+          <strong>採血と治療は並行して行う</strong><br>
+          検査結果を待って治療開始を遅らせない<br>
+          臨床的にクリーゼを疑えば即時HC投与
+        </div>
+        <div class="mh mt">電解質パターン（SW型）</div>
+        <table class="tbl">
+          <thead><tr><th>指標</th><th>典型的な所見</th></tr></thead>
+          <tbody>
+            <tr><td class="td-lbl">血清Na</td><td class="td-pub">&lt; 130 mEq/L（重症 &lt; 120）</td></tr>
+            <tr><td class="td-lbl">血清K</td><td class="td-pub">&gt; 6 mEq/L（高K血症）</td></tr>
+            <tr><td class="td-lbl">血液ガス</td><td class="td-pub">代謝性アシドーシス</td></tr>
+            <tr><td class="td-lbl">血糖</td><td class="td-amber">低血糖（コルチゾール欠乏）</td></tr>
+            <tr><td class="td-lbl">BUN/Cr比</td><td class="td-amber">↑（脱水・腎前性）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💉</span> 副腎クリーゼ 急性期プロトコル</div>
+      <div class="card-body">
+        <div class="mh">Step 1：生理食塩水ボーラス</div>
+        <div class="dose-box-red" style="margin-bottom:6px;">
+          <div class="dose-label">0.9% NaCl（急速輸液）</div>
+          <div class="dose-num">20 mL/kg</div>
+          <div class="dose-unit">10–20分で静注 → 循環改善評価 → 繰り返し可（最大60 mL/kg）</div>
+        </div>
+
+        <div class="mh">Step 2：ハイドロコルチゾン IV ← 最重要</div>
+        <div class="dose-box">
+          <div class="dose-label">ハイドロコルチゾン ローディング（IV or IM）</div>
+          <div class="dose-num">50–100 mg/m²</div>
+          <div class="dose-unit">静注（緊急時IM可）— 1分で push または短時間で</div>
+        </div>
+        <div style="background:#eff6ff;border-radius:5px;padding:6px 9px;margin:5px 0;font-size:11px;">
+          <strong>新生児の用量目安：</strong><br>
+          体重 &lt; 3 kg：12.5 mg（→ 25 mg/日）<br>
+          体重 3–5 kg：25 mg（→ 50 mg/日）<br>
+          体重 &gt; 5 kg：BSA × 50–100 mg/m²
+        </div>
+
+        <div class="mh">Step 3：維持輸液（HC継続）</div>
+        <div class="dose-box-amber">
+          <div class="dose-label">ハイドロコルチゾン 維持（持続またはq6h）</div>
+          <div class="dose-num">50–100 mg/m²/日</div>
+          <div class="dose-unit">= ローディング量を24時間かけて分割投与（4分割 q6h）</div>
+        </div>
+
+        <div class="mh mt">Step 4：電解質補正・低血糖補正</div>
+        <ul class="cl">
+          <li>輸液：5–10% ブドウ糖加生理食塩水（GIR 4–6 mg/kg/分）</li>
+          <li>低Na血症（&lt;125）：急速補正は避ける（中枢神経脱髄）<br><span class="small">目標：最初の24hで Na 8–10 mEq/L↑ まで</span></li>
+          <li>高K血症（&gt;7.0 or 心電図変化）：K除去対応を追加</li>
+          <li>低血糖：10% ブドウ糖 2 mL/kg ボーラス</li>
+        </ul>
+        <div class="small-note">フルドロコルチゾンは経口摂取可能になってから開始。HC高用量中は鉱質コルチコイド効果もあるため、急性期はFC不要。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stress dose reminder -->
+  <div class="card mb-3">
+    <div class="card-hd amber"><span class="icon">⚠️</span> ストレスドーズ（手術・重篤な疾患時）— 慢性期患者が急性増悪した場合も同様</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">軽症（発熱 ≥38°C・軽症感染）</div>
+          <div class="dose-box-green" style="padding:8px;">
+            <div class="dose-label">通常量を</div>
+            <div class="dose-num">2–3×</div>
+            <div class="dose-unit">3日間継続（回復まで）</div>
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>経口・経管で投与継続</li>
+            <li>解熱後も3日間は増量継続</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">中等症（嘔吐・経口不可）</div>
+          <div class="dose-box-amber" style="padding:8px;">
+            <div class="dose-label">ハイドロコルチゾン IM注射</div>
+            <div class="dose-num">50 mg/m²</div>
+            <div class="dose-unit">（または 2 mg/kg 新生児）→ ER受診</div>
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>家族にソル・コーテフ®IM処方を事前に</li>
+            <li>注射後もER受診で入院評価</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">重症（手術・全身麻酔）</div>
+          <div class="dose-box-red" style="padding:8px;">
+            <div class="dose-label">術前 ハイドロコルチゾン IV</div>
+            <div class="dose-num">50–100 mg/m²</div>
+            <div class="dose-unit">術前投与 → 術中・術後 50–100 mg/m²/日</div>
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>術前・麻酔科・外科への情報共有必須</li>
+            <li>術後1–2日で通常量に漸減</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recovery monitoring -->
+  <div class="card">
+    <div class="card-hd green"><span class="icon">📈</span> 急性期回復モニタリング</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div class="mh">回復の指標</div>
+          <ul class="cl">
+            <li>血清Na：125→130→135 mEq/L と段階的改善</li>
+            <li>血清K：6.5以下に低下</li>
+            <li>血圧・脈拍：正常化</li>
+            <li>哺乳量回復・尿量改善（1–2 mL/kg/h）</li>
+            <li>血糖：70–180 mg/dL 維持</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">HCテーパリング目安</div>
+          <ul class="cl">
+            <li>安定後：急性期量から2–3日かけて通常維持量へ漸減</li>
+            <li>フルドロコルチゾン：経口再開後に追加</li>
+            <li>NaCl補充（乳児期）：退院時に処方（母乳・ミルクのNa不足補完）</li>
+          </ul>
+          <div class="hl hl-green mt">
+            退院前に保護者へ「副腎クリーゼ緊急カード」交付<br>
+            <span class="small">シックデイ規則・HC注射の使い方を指導</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 4: 慢性期治療 ════════ -->
+<div class="tab-content" id="tab3">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💊</span> グルココルチコイド補充：ハイドロコルチゾン（HC）</div>
+      <div class="card-body">
+        <div class="hl hl-blue">
+          <strong>小児では必ずハイドロコルチゾンを使用</strong><br>
+          デキサメタゾン・プレドニゾロン → 成長抑制リスク大 → 使用しない
+        </div>
+        <div class="mh mt">年齢別維持量</div>
+        <div class="dose-box" style="margin-bottom:5px;">
+          <div class="dose-label">乳幼児・幼小児期（推奨）</div>
+          <div class="dose-num">10–20 mg/m²/日</div>
+          <div class="dose-unit">1日3回（8時 / 13時 / 18時）など日内変動を考慮した分割</div>
+        </div>
+        <div class="dose-box-green">
+          <div class="dose-label">学童〜思春期</div>
+          <div class="dose-num">8–15 mg/m²/日</div>
+          <div class="dose-unit">1日3回 ／ 思春期以降：10–12 mg/m²/日</div>
+        </div>
+        <div class="mh mt">投与タイミング（日内リズム）</div>
+        <ul class="cl">
+          <li>早朝の最大量（コルチゾールの日内リズムに合わせる）</li>
+          <li>例：総量の 40% 朝 / 30% 昼 / 30% 夕</li>
+          <li>または均等3分割（TID）でも可</li>
+        </ul>
+        <div class="hl hl-amber mt">
+          <strong>過不足の判断</strong><br>
+          過多（クッシング症状）→ 成長障害・体重増加・骨密度↓<br>
+          過少（コントロール不良）→ 17-OHP↑・骨年齢促進・身長速度↑（一時的）→ 最終身長↓
+        </div>
+        <div class="small-note">BSA（体表面積）計算：√（身長 cm × 体重 kg ÷ 3600）</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd dark"><span class="icon">💧</span> ミネラルコルチコイド補充：フルドロコルチゾン（FC）— SW型のみ</div>
+      <div class="card-body">
+        <div class="dose-box-teal" style="margin-bottom:6px;">
+          <div class="dose-label">フルドロコルチゾン（フロリネフ®）維持量</div>
+          <div class="dose-num">50–200 μg/日</div>
+          <div class="dose-unit">通常 100 μg/日 ／ 1日1–2回に分割経口投与</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid var(--green-border);border-radius:5px;padding:7px 9px;font-size:11px;margin-bottom:8px;">
+          <strong>新生児：100–200 μg/日（相対的に高用量が必要）</strong><br>
+          <span class="small">成長とともに1 μg/kg/日以下に自然に落ち着く</span>
+        </div>
+        <div class="mh">乳児期のNaCl補充（SW型・必須）</div>
+        <div class="dose-box-amber">
+          <div class="dose-label">塩化ナトリウム（NaCl）補充</div>
+          <div class="dose-num">1–2 g/日</div>
+          <div class="dose-unit">ミルクに混ぜて3–4回に分けて投与（母乳はNa含有量が少ない）</div>
+        </div>
+        <div class="mh mt">FCの調整指標</div>
+        <ul class="cl">
+          <li><strong>血漿レニン活性（PRA）または直接レニン濃度</strong><br><span class="small">目標：年齢別正常上限内 or 若干上昇程度</span></li>
+          <li>高レニン（PRA↑）→ FC増量（または NaCl補充追加）</li>
+          <li>低レニン + 高血圧 → FC過多 → 減量</li>
+          <li>血清Na・K：補助的指標</li>
+        </ul>
+        <div class="small-note">離乳食開始後・乳児期以降のNaCl補充は食事塩分で代替可能。FC単独で管理できるようになることが多い。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sick day rules family education -->
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🏡</span> 患者・家族への指導：シックデイ管理</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">発熱・軽症感染時</div>
+          <div class="hl hl-amber">
+            <strong>HC通常量の2–3倍</strong><br>
+            発熱が続く間は増量継続<br>
+            解熱後 3日間は増量維持
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>熱が38°C → 直ちに増量開始</li>
+            <li>食欲低下でも飲ませる努力を</li>
+            <li>4–5日以上続く → 受診</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">嘔吐・経口不可時</div>
+          <div class="hl hl-red">
+            <strong>IM注射 または 直ちに受診</strong>
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>ソル・コーテフ® 筋注（事前処方）<br><span class="small">50 mg/m²（または2 mg/kg）</span></li>
+            <li>注射後も必ずER受診</li>
+            <li>「薬が飲めない = 副腎クリーゼのリスク」と理解</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">受診時・手術時（医療者向け）</div>
+          <div class="hl hl-blue">
+            <strong>医療者への必ず伝える情報：</strong><br>
+            CAH患者・副腎不全リスク<br>
+            手術時はHCカバーが必要
+          </div>
+          <ul class="cl" style="margin-top:5px;">
+            <li>緊急カード（紙）常時携帯</li>
+            <li>お薬手帳に「副腎不全リスク・ステロイドカバー必要」明記</li>
+            <li>全身麻酔前は麻酔科・外科へ必ず報告</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 5: モニタリング ════════ -->
+<div class="tab-content" id="tab4">
+  <div class="card mb-3">
+    <div class="card-hd dark"><span class="icon">🎯</span> 管理目標値 — 治療の過不足判断</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div class="mh">17-OHP（朝・服薬前）</div>
+          <table class="tbl">
+            <thead><tr><th>17-OHP（ng/mL）</th><th>判断</th><th>対応</th></tr></thead>
+            <tbody>
+              <tr><td class="td-pub">&gt; 15–20</td><td class="td-pub">治療不足</td><td class="td-pub">HC増量を検討</td></tr>
+              <tr><td class="td-prepub"><strong>1–10</strong></td><td class="td-prepub"><strong>目標域</strong></td><td class="td-prepub">現用量継続</td></tr>
+              <tr><td class="td-amber">&lt; 1</td><td class="td-amber">治療過多の可能性</td><td class="td-amber">HC減量を検討</td></tr>
+            </tbody>
+          </table>
+          <div class="small-note">17-OHPは「朝の服薬直前」に採血（最も信頼性高い）。食後・服薬後は低値に偽れるため注意。</div>
+        </div>
+        <div>
+          <div class="mh">その他の管理目標</div>
+          <table class="tbl">
+            <thead><tr><th>指標</th><th>目標</th><th>意味</th></tr></thead>
+            <tbody>
+              <tr><td class="td-lbl">アンドロステンジオン</td><td class="td-prepub">年齢別正常域</td><td>アンドロゲン過剰評価</td></tr>
+              <tr><td class="td-lbl">テストステロン</td><td class="td-prepub">年齢別正常域</td><td>男性化の指標</td></tr>
+              <tr><td class="td-lbl">PRA / 直接レニン</td><td class="td-prepub">正常上限以内</td><td>FC調整指標（SW型）</td></tr>
+              <tr><td class="td-lbl">身長SDスコア</td><td class="td-prepub">-2SD以内</td><td>成長への影響評価</td></tr>
+              <tr><td class="td-lbl">骨年齢</td><td class="td-prepub">暦年齢と一致</td><td>アンドロゲン過剰の長期指標</td></tr>
+            </tbody>
+          </table>
+          <div class="hl hl-amber mt">
+            <strong>17-OHPだけで判断しない</strong><br>
+            発育・骨年齢・アンドロゲン・レニン・血圧を総合的に評価
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monitoring schedule -->
+  <div class="card mb-3">
+    <div class="card-hd navy"><span class="icon">📅</span> モニタリングスケジュール</div>
+    <div class="card-body">
+      <div class="monitor-grid-5" style="margin:6px 0 12px;">
+        <div class="monitor-cell hd">検査・評価項目</div>
+        <div class="monitor-cell hd">乳児期<br>（0–1歳）</div>
+        <div class="monitor-cell hd">幼小児期<br>（1–8歳）</div>
+        <div class="monitor-cell hd">学童〜<br>思春期</div>
+        <div class="monitor-cell hd">目的・備考</div>
+
+        <div class="monitor-cell grp">17-OHP（朝・服薬前）</div>
+        <div class="monitor-cell" style="background:var(--red-bg);font-weight:700;color:var(--red);">1–2ヶ月毎</div>
+        <div class="monitor-cell" style="background:var(--amber-bg);color:var(--amber);">2–3ヶ月毎</div>
+        <div class="monitor-cell">3–4ヶ月毎</div>
+        <div class="monitor-cell">治療の過不足評価</div>
+
+        <div class="monitor-cell grp">アンドロステンジオン</div>
+        <div class="monitor-cell">2–3ヶ月毎</div>
+        <div class="monitor-cell">3ヶ月毎</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">男性化コントロール</div>
+
+        <div class="monitor-cell grp">PRA / 直接レニン</div>
+        <div class="monitor-cell" style="background:var(--red-bg);">1–2ヶ月毎</div>
+        <div class="monitor-cell">2–3ヶ月毎</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">FC量調整（SW型）</div>
+
+        <div class="monitor-cell grp">血清Na・K + 血圧</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">電解質・FC副作用</div>
+
+        <div class="monitor-cell grp">身長・体重・成長曲線</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">HC過多・不足の早期察知</div>
+
+        <div class="monitor-cell grp">骨年齢（X線）</div>
+        <div class="monitor-cell">1–1.5歳〜</div>
+        <div class="monitor-cell">年1回</div>
+        <div class="monitor-cell">年1回</div>
+        <div class="monitor-cell">アンドロゲン長期コントロール</div>
+
+        <div class="monitor-cell grp">精巣エコー（男児）</div>
+        <div class="monitor-cell">—</div>
+        <div class="monitor-cell">—</div>
+        <div class="monitor-cell">年1回（思春期〜）</div>
+        <div class="monitor-cell">TART（副腎残余腫瘍）</div>
+      </div>
+
+      <div class="mh">思春期・発育評価の追加項目</div>
+      <div class="monitor-grid" style="margin:6px 0;">
+        <div class="monitor-cell hd">項目</div>
+        <div class="monitor-cell hd">頻度</div>
+        <div class="monitor-cell hd">目的</div>
+        <div class="monitor-cell hd">備考</div>
+        <div class="monitor-cell grp">Tanner分類</div>
+        <div class="monitor-cell">3–6ヶ月毎</div>
+        <div class="monitor-cell">性早熟・思春期進行評価</div>
+        <div class="monitor-cell">GnRH負荷試験（適宜）</div>
+        <div class="monitor-cell grp">骨密度（DXA）</div>
+        <div class="monitor-cell">—</div>
+        <div class="monitor-cell">HC過多による骨粗鬆症リスク</div>
+        <div class="monitor-cell">思春期以降・2年毎目安</div>
+        <div class="monitor-cell grp">血圧（連続測定）</div>
+        <div class="monitor-cell">毎受診</div>
+        <div class="monitor-cell">FC過多・アンドロゲン影響</div>
+        <div class="monitor-cell">11β-OHDでは特に重要</div>
+        <div class="monitor-cell grp">心理発達・QOL評価</div>
+        <div class="monitor-cell">年1–2回</div>
+        <div class="monitor-cell">疾患・治療・外性器への適応</div>
+        <div class="monitor-cell">心理士との連携</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warning signs -->
+  <div class="card">
+    <div class="card-hd red"><span class="icon">🚨</span> 治療モニタリング上の警告サイン</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <div class="mh">治療不足のサイン（17-OHP↑・アンドロゲン↑）</div>
+          <ul class="cl">
+            <li>骨年齢が暦年齢より 2歳以上先行</li>
+            <li>身長速度が過剰（成長スパート早期）</li>
+            <li>陰毛早発・陰茎肥大（男児）・陰核肥大（女児）</li>
+            <li>にきび・体毛増加</li>
+          </ul>
+          <div class="hl hl-amber mt">
+            骨年齢促進が続くと最終身長が予測より著明に低くなる<br>
+            → HC用量・投与タイミングの見直し
+          </div>
+        </div>
+        <div>
+          <div class="mh">治療過多のサイン（クッシング徴候）</div>
+          <ul class="cl">
+            <li>成長率の低下・成長障害</li>
+            <li>体重増加・満月様顔貌</li>
+            <li>皮膚線条・骨密度低下</li>
+            <li>高血圧・低K（FC過多）</li>
+          </ul>
+          <div class="hl hl-red mt">
+            成長速度低下は過多の最早期サイン<br>
+            「良いコントロール = 適切な成長速度」
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ TAB 6: 特殊状況・長期管理 ════════ -->
+<div class="tab-content" id="tab5">
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd purple"><span class="icon">🧬</span> DSD管理・性別適合・外科的対応</div>
+      <div class="card-body">
+        <div class="mh">性別適合（46,XX CAH）</div>
+        <div class="hl hl-green">
+          <strong>現代コンセンサス：女性として育てる</strong><br>
+          46,XX CAHの性自認は通常女性 → 女性として育てることを推奨
+        </div>
+        <ul class="cl" style="margin-top:5px;">
+          <li>Prader Ⅰ–Ⅱ：外科的手術が不要な場合も多い</li>
+          <li>Prader Ⅲ–Ⅴ：外陰部形成術（clitoroplasty, vaginoplasty）を検討<br><span class="small">手術時期については施設・家族・本人との十分な協議が必要</span></li>
+          <li>早期手術 vs 後期手術：現在も国際的に議論中</li>
+          <li>思春期前に心理的サポートを開始</li>
+        </ul>
+        <div class="mh mt">家族・患者への説明の要点</div>
+        <ul class="cl">
+          <li>内性器は正常女性（子宮・卵巣あり）→ 妊娠の可能性</li>
+          <li>外性器の外観は治療・手術で改善可能</li>
+          <li>生涯にわたるホルモン補充が必要</li>
+          <li>多職種チーム（内分泌・泌尿器外科・心理・遺伝・看護）で対応</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd blue"><span class="icon">🤰</span> 妊娠・出産とCAH</div>
+      <div class="card-body">
+        <div class="mh">CAH患者の妊娠管理</div>
+        <ul class="cl">
+          <li>妊娠前：17-OHP管理の最適化・遺伝カウンセリング</li>
+          <li>HC継続（コルチゾールは胎盤で不活性化されるため胎児影響少）</li>
+          <li>FC継続（必要な場合）</li>
+          <li>妊娠中は用量増加が必要な場合あり</li>
+          <li>分娩時：HC「ストレスカバー」（50–100 mg/m² IV）</li>
+        </ul>
+        <div class="mh mt">出生前治療（Prenatal DEX）</div>
+        <div class="hl hl-amber">
+          <strong>デキサメタゾン（DEX）母体投与（現在は倫理的に制限あり）</strong><br>
+          目的：胎児の外性器男性化を予防（CAH家族歴のある場合）<br>
+          問題点：胎児のDEX曝露による長期影響不明<br>
+          <span class="small">→ 現在は施設倫理委員会承認下で限定的にのみ実施</span>
+        </div>
+        <div class="mh mt">次子のリスク（両親ともキャリアの場合）</div>
+        <ul class="cl">
+          <li>次子が46,XXで古典型CAH：25% × 50% = 12.5%</li>
+          <li>着床前診断・出生前診断の選択肢を遺伝カウンセリングで提示</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-3">
+    <div class="card">
+      <div class="card-hd navy"><span class="icon">🏫</span> 移行医療・成人管理</div>
+      <div class="card-body">
+        <div class="mh">小児→成人移行（15–18歳目安）</div>
+        <ul class="cl">
+          <li>成人内分泌科と連携を早期に開始</li>
+          <li>思春期以降：HC用量を成人量（10–12 mg/m²/日）へ調整</li>
+          <li>成人女性：月経・妊娠・婦人科的問題への対応</li>
+          <li>成人男性：TART・精子形成の評価</li>
+        </ul>
+        <div class="mh mt">成人CAHの課題</div>
+        <ul class="cl">
+          <li>アドヒアランス：生涯服薬 → 怠薬リスク</li>
+          <li>代謝合併症：高血圧・肥満・糖尿病リスク</li>
+          <li>骨粗鬆症：GC長期使用 → DXA定期評価</li>
+          <li>精神的健康：疾患・外性器への受容、QOL</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd green"><span class="icon">📈</span> 長期予後と成長への影響</div>
+      <div class="card-body">
+        <div class="mh">最終身長への影響</div>
+        <ul class="cl">
+          <li>古典型CAH：未治療・治療不十分 → 骨年齢促進 → 最終身長 −5〜−10 cm</li>
+          <li>適切な管理下 → ほぼ遺伝子身長に近い最終身長が期待できる</li>
+          <li>治療開始が遅れた場合：GnRHa（LHRHa）で思春期を遅らせ身長を確保する選択肢</li>
+        </ul>
+        <div class="mh mt">妊孕性</div>
+        <ul class="cl">
+          <li>女性：適切な管理下で妊娠可能（SW型でも報告あり）</li>
+          <li>男性：TART、副睾丸精子通過障害 → 妊孕性低下リスク</li>
+        </ul>
+        <div class="hl hl-green mt">
+          <strong>早期診断（NBS）＋ 適切なHC/FC管理 ＋ 多職種チーム</strong><br>
+          → 通常に近い身体発育・生活・妊孕性が期待できる
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-classic CAH -->
+  <div class="card">
+    <div class="card-hd amber"><span class="icon">🔍</span> 非古典型（NC）CAH — 遅発型・軽症型</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div class="mh">臨床像・発見契機</div>
+          <ul class="cl">
+            <li>陰毛早発（premature pubarche）</li>
+            <li>女性：多毛・にきび・月経不順・PCOS様</li>
+            <li>男性：思春期早発・にきび</li>
+            <li>不妊検査で偶然発見</li>
+            <li>家族歴（古典型の兄弟姉妹）からスクリーニング</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">診断</div>
+          <ul class="cl">
+            <li>基礎17-OHP：2–10 ng/mL（borderline）</li>
+            <li><strong>ACTH刺激試験</strong>（250 μg IV）<br><span class="small">→ 刺激後17-OHP &gt; 10 ng/mL → NC-CAH確定</span></li>
+            <li>CYP21A2遺伝子解析</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mh">治療方針</div>
+          <ul class="cl">
+            <li>全例治療が必要とは限らない</li>
+            <li>治療適応：<br>成長への影響（骨年齢促進）<br>症状（多毛・月経不順）<br>妊孕性に影響する場合</li>
+            <li>HC用量は古典型より少ない<br><span class="small">5–7.5 mg/m²/日 程度</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="footer">
+  参考資料：日本小児内分泌学会「先天性副腎皮質過形成症（21水酸化酵素欠損症）の診断・治療ガイドライン」2021 ／
+  Endocrine Society Clinical Practice Guideline: Congenital Adrenal Hyperplasia 2018 ／ PES/ESPE DSD Consensus 2016 ／
+  本リファレンスは診療補助目的であり、最終判断は患者個別の臨床状況と主治医の判断に基づくこと
+</div>
+
+<script>
+function switchTab(n){
+  document.querySelectorAll('.tab-content').forEach(function(el,i){el.classList.toggle('active',i===n);});
+  document.querySelectorAll('.tab-btn').forEach(function(el,i){el.classList.toggle('active',i===n);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
