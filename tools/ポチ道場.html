@@ -6,7 +6,7 @@
 <title>ポチ道場</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="mini-category" content="other">
-<meta name="mini-desc" content="5〜20秒で終わるミニゲーム。クリアでコイン（1日3回まで）">
+<meta name="mini-desc" content="ルーレットで決まる6種のミニゲーム。クリアでコイン（1日3回まで）">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800&display=swap">
 <style>
 /* Layout: one phone-width column — coin bar, today's game card, game stage that turns into the play area */
@@ -63,6 +63,24 @@ button{font-family:inherit;cursor:pointer}
 .balloon::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:22px;background:var(--paper);opacity:.6}
 .pop{animation:pop .18s ease-out forwards}
 @keyframes pop{to{transform:scale(1.6);opacity:0}}
+/* ルーレット */
+.roul{font-family:var(--display);font-size:44px;line-height:1.1;color:var(--paper);min-height:1.2em}
+.roul.land{color:var(--bg);text-shadow:4px 4px 0 var(--pop);animation:zoom .7s ease-out both}
+/* 記録 */
+.rec{display:grid;grid-template-columns:1fr auto auto;gap:6px 12px;font-size:14px;font-variant-numeric:tabular-nums;align-items:baseline}
+.rec .n{font-weight:800}.rec .t{text-align:right}.rec .c{text-align:right;font-size:12px;opacity:.7}
+.best{display:inline-block;background:var(--pop);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800}
+/* ナンプレ */
+.np{position:absolute;inset:44px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:2}
+.npg{display:grid;grid-template-columns:repeat(4,1fr);width:min(78%,300px);aspect-ratio:1;border:3px solid var(--paper);border-radius:8px;overflow:hidden}
+.npg button{border:1px solid #4a3a63;background:#33244a;color:var(--paper);font-family:var(--display);font-size:clamp(22px,7vw,32px);padding:0}
+.npg button.fix{background:#241935;color:var(--bg)}
+.npg button.sel{background:var(--mint);color:#fff}
+.npg button.bad{color:var(--pop)}
+.npg button.br{border-right:3px solid var(--paper)}.npg button.bb{border-bottom:3px solid var(--paper)}
+.npk{display:flex;gap:8px}
+.npk button{width:54px;height:54px;border-radius:12px;border:3px solid var(--paper);background:transparent;color:var(--paper);font-family:var(--display);font-size:24px}
+.npk button.x{font-family:var(--body);font-size:14px;font-weight:800}
 @media (prefers-reduced-motion:reduce){.verb,.pop{animation-duration:.01s}}
 </style>
 </head><body>
@@ -79,17 +97,14 @@ button{font-family:inherit;cursor:pointer}
 
   <div class="stage" id="stage">
     <div class="over" id="home">
-      <div class="label" style="color:var(--bg)">今日のミニゲーム</div>
-      <div class="big" id="todayName">ストップ</div>
-      <div id="todayDesc" style="font-size:15px">動くバーを真ん中で止める</div>
-      <button class="go" id="start" style="max-width:240px">スタート</button>
+      
     </div>
   </div>
 
   <div class="card" style="display:flex;flex-direction:column;gap:10px">
-    <div class="label">ほかのゲームで遊ぶ</div>
-    <div class="picks" id="picks"></div>
-    <p class="note">クリアで +2コイン（1日3回まで、それ以降は練習）。コインはアカデミーの財布に入ります。今週ミニゲームでコインを取った日が増えるほどLvが大きく上がり、3日目にはほぼ取れない難しさになります。Lvは毎週月曜にリセット。前の週にコインを取っていれば1段上から、取らなかった週のあとは1段下からスタート。</p>
+    <div class="label">自己ベスト（クリアまでのタイム）</div>
+    <div class="rec" id="rec"></div>
+    <p class="note">スタートを押すと、6つのうちどれかがルーレットで決まります。クリアで +2コイン（1日3回まで、それ以降は練習）。コインはアカデミーの財布に入ります。今週ミニゲームでコインを取った日が増えるほどLvが大きく上がり、3日目にはほぼ取れない難しさになります。Lvは毎週月曜にリセット。前の週にコインを取っていれば1段上から、取らなかった週のあとは1段下からスタート。</p>
   </div>
 </div>
 
@@ -97,7 +112,10 @@ button{font-family:inherit;cursor:pointer}
 const GAMES={
   stop:{name:'ストップ',verb:'とめろ！',desc:()=>`動くバーを緑ゾーンで止める（3回中1回）`},
   stack:{name:'スタック',verb:'つめ！',desc:()=>`ブロックを${P().stack.goal}段積む`},
-  balloon:{name:'風船わり',verb:'われ！',desc:()=>`10秒で風船を${P().balloon.need}個わる`}
+  balloon:{name:'風船わり',verb:'われ！',desc:()=>`10秒で風船を${P().balloon.need}個わる`},
+  invader:{name:'インベーダー',verb:'うて！',desc:()=>`${P().invader.time}秒以内に全滅させる。指で砲台を動かす`},
+  catch:{name:'キャッチ',verb:'とれ！',desc:()=>`★を${P().catch.need}個とる。爆弾にさわるとアウト`},
+  nanpure:{name:'ナンプレ',verb:'とけ！',desc:()=>`4×4を${P().nanpure.time}秒以内に。縦・横・2×2に1〜4を1つずつ`}
 };
 const IDS=Object.keys(GAMES), REWARD=2, CAP=3;
 const LOG_KEY='pochiDojoLog2'; // アカデミーの財布がこの coinDays を読んでコインに換算する
@@ -127,52 +145,73 @@ const level=()=>log.base+4*pastDays()+log.plays;
 function P(L=level()){return{
   stop:{zone:Math.max(.04,.18-.022*L),speed:.8+.2*L,step:.3+.05*L},
   stack:{goal:Math.min(14,8+Math.floor(L/2)),width:Math.max(.28,.6-.05*L),speed:.5+.12*L,snap:Math.max(2,6-L*.8)},
-  balloon:{need:Math.min(18,10+L),rise:1+.12*L,spawn:Math.max(280,420-20*L)}
+  balloon:{need:Math.min(18,10+L),rise:1+.12*L,spawn:Math.max(280,420-20*L)},
+  invader:{cols:Math.min(7,5+Math.floor(L/3)),rows:Math.min(5,3+Math.floor(L/3)),speed:.1+.025*L,fire:Math.max(450,1700-110*L),time:Math.max(20,30-L)},
+  catch:{need:Math.min(20,10+L),fall:.35+.05*L,spawn:Math.max(260,650-35*L),bomb:Math.min(.42,.12+.03*L),time:20},
+  nanpure:{holes:Math.min(11,6+Math.floor(L/2)),time:Math.max(30,60-3*L)}
 }}
 function refresh(){coins.textContent=REWARD*(log.coinDays[today()]||0);left.textContent=Math.max(0,CAP-log.plays);lv.textContent=level()+1}
 
-function dailyPick(){const s=today();let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return IDS[h%IDS.length]}
-let current=dailyPick();
-
-const stage=document.getElementById('stage'), picksEl=document.getElementById('picks');
-IDS.forEach(id=>{const b=document.createElement('button');b.className='pick';b.id='pick-'+id;
-  b.innerHTML='<span>'+GAMES[id].verb.replace('！','')+'</span>'+GAMES[id].name;
-  b.onclick=()=>{current=id;showHome()};picksEl.appendChild(b)});
-
-let cleanup=null;
+const stage=document.getElementById('stage');
+let current=null,cleanup=null,playStart=0;
 function clearStage(){if(cleanup){cleanup();cleanup=null}stage.innerHTML=''}
+const fmt=t=>t==null?'—':t.toFixed(1)+'秒';
+function drawRec(){
+  const b=log.best||{},n=log.clears||{};
+  rec.innerHTML=IDS.map(id=>`<span class="n">${GAMES[id].name}</span><span class="t">${fmt(b[id])}</span><span class="c">クリア ${n[id]||0}回</span>`).join('');
+}
 function showHome(){
   clearStage();
-  const g=GAMES[current];
-  stage.innerHTML=`<div class="over"><div class="label" style="color:var(--bg)">${current===dailyPick()?'今日のミニゲーム':'えらんだゲーム'}</div>
-  <div class="big">${g.name}</div><div style="font-size:15px">${g.desc()}</div>
+  stage.innerHTML=`<div class="over"><div class="label" style="color:var(--bg)">今日のミニゲーム</div>
+  <div class="big">？？？</div><div style="font-size:15px">何が出るかはスタートしてからのお楽しみ</div>
   <div style="font-size:12px;opacity:.8">Lv.${level()+1} ・ 今週ミニゲームを使った日 ${log.days.length}日</div>
   <button class="go" id="start" style="max-width:240px">スタート</button></div>`;
-  document.getElementById('start').onclick=()=>play(current);
-  IDS.forEach(id=>document.getElementById('pick-'+id).setAttribute('aria-pressed',id===current));
-  refresh();
+  document.getElementById('start').onclick=roulette;
+  refresh();drawRec();
+}
+function roulette(){
+  clearStage();
+  const pool=IDS.filter(i=>i!==current);const pick=pool[Math.floor(Math.random()*pool.length)];
+  stage.innerHTML=`<div class="over"><div class="label" style="color:var(--bg)">今回のゲームは…</div><div class="roul" id="roul"></div><div id="rdesc" style="font-size:15px;min-height:3em"></div></div>`;
+  const el=document.getElementById('roul');let i=0,delay=60,timers=[];
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function tick(){
+    if(delay>260||reduce){current=pick;el.textContent=GAMES[pick].name;el.classList.add('land');
+      document.getElementById('rdesc').textContent=GAMES[pick].desc();
+      timers.push(setTimeout(()=>play(pick),1500));return}
+    el.textContent=GAMES[IDS[i++%IDS.length]].name;delay*=1.18;timers.push(setTimeout(tick,delay));
+  }
+  tick();
+  cleanup=()=>timers.forEach(clearTimeout);
 }
 function play(id){
   clearStage();
   stage.innerHTML=`<div class="over"><div class="big verb">${GAMES[id].verb}</div></div>`;
-  const t=setTimeout(()=>{clearStage();RUN[id]()},950);
+  const t=setTimeout(()=>{clearStage();playStart=performance.now();RUN[id]()},950);
   cleanup=()=>clearTimeout(t);
 }
 function finish(win,msg){
   if(cleanup){cleanup();cleanup=null}
-  let gainTxt='';
+  const id=current,el=(performance.now()-playStart)/1000;
+  let gainTxt='',bestTxt='';
   if(win){
-    if(log.plays<CAP){log.plays++;log.weekClears++;if(!log.days.includes(today()))log.days.push(today());log.coinDays[today()]=(log.coinDays[today()]||0)+1;save(LOG_KEY,log);gainTxt=`+${REWARD}コイン！ 次から Lv.${level()+1}`}
+    log.best=log.best||{};log.clears=log.clears||{};
+    log.clears[id]=(log.clears[id]||0)+1;
+    const prev=log.best[id];
+    if(prev==null||el<prev){log.best[id]=el;bestTxt=prev==null?`<span class="best">初クリア ${fmt(el)}</span>`:`<span class="best">自己ベスト更新！ ${fmt(prev)} → ${fmt(el)}</span>`}
+    else bestTxt=`<div style="font-size:14px">タイム ${fmt(el)}（ベスト ${fmt(prev)}）</div>`;
+    if(log.plays<CAP){log.plays++;log.weekClears++;if(!log.days.includes(today()))log.days.push(today());log.coinDays[today()]=(log.coinDays[today()]||0)+1;gainTxt=`+${REWARD}コイン！ 次から Lv.${level()+1}`}
     else gainTxt='今日の3回は使い切ったので練習モード（Lvは上がりません）';
+    save(LOG_KEY,log);
   }
-  refresh();
-  const o=document.createElement('div');o.className='over';o.style.background='rgba(42,27,61,.82)';
+  refresh();drawRec();
+  const o=document.createElement('div');o.className='over';o.style.background='rgba(42,27,61,.86)';
   o.innerHTML=`<div class="big verb">${win?'クリア！':'ざんねん'}</div>
-  <div style="font-size:15px">${msg}</div>${gainTxt?`<div class="gain">${gainTxt}</div>`:''}
-  <div class="row"><button class="sub" id="again">もう一回</button><button class="sub" id="back">もどる</button></div>
+  <div style="font-size:15px">${GAMES[id].name}：${msg}</div>${bestTxt}${gainTxt?`<div class="gain">${gainTxt}</div>`:''}
+  <div class="row"><button class="sub" id="again">次のゲーム</button><button class="sub" id="back">もどる</button></div>
   ${win?`<a class="sub main" href="${ACADEMY_URL}" target="_top">このまま今日の1話を読む</a>`:''}`;
   stage.appendChild(o);
-  o.querySelector('#again').onclick=()=>play(current);
+  o.querySelector('#again').onclick=roulette;
   o.querySelector('#back').onclick=showHome;
 }
 function makeCanvas(){
@@ -254,6 +293,99 @@ const RUN={
       if(t-lastSpawn>p.spawn){spawn();lastSpawn=t}
       const dt=Math.min(.05,(t-(loop.p||t))/1000);loop.p=t;list.forEach(o=>{if(o.dead)return;o.y-=o.v*dt;o.el.style.top=o.y+'px';if(o.y<-90){o.dead=true;o.el.remove()}});
       if(rem<=0&&!over){over=true;return finish(false,`${got}個 わった（あと${NEED-got}個）`)}
+      if(!over)raf=requestAnimationFrame(loop)}
+    raf=requestAnimationFrame(loop);
+    cleanup=()=>{over=true;cancelAnimationFrame(raf)};
+  },
+  invader(){
+    const p=P().invader,{c,x,W,H}=makeCanvas(),h=hud('',''),bar=document.createElement('div');bar.className='timebar';stage.appendChild(bar);
+    const SP=['00100100','00011000','00111100','01011010','11111111','10100101'],px=Math.max(3,Math.floor(W/(p.cols*14)));
+    const ew=8*px,eh=6*px,gx=ew*.55,gy=eh*.9;
+    const gridW=p.cols*ew+(p.cols-1)*gx;let ox=(W-gridW)/2,oy=50,dir=1;
+    const en=[];for(let r=0;r<p.rows;r++)for(let q=0;q<p.cols;q++)en.push({r,q,alive:true});
+    let gun=W/2,shots=[],bombs=[],lastShot=0,lastBomb=performance.now(),raf,over=false,last=performance.now();
+    const cols=[css('--pop'),css('--mint'),css('--bg'),'#9B6BFF',css('--paper')];
+    const move=e=>{const r=c.getBoundingClientRect();gun=Math.max(18,Math.min(W-18,e.clientX-r.left))};
+    c.addEventListener('pointerdown',move);c.addEventListener('pointermove',move);
+    const epos=e=>({x:ox+e.q*(ew+gx),y:oy+e.r*(eh+gy)});
+    function sprite(X,Y,col){x.fillStyle=col;for(let j=0;j<6;j++)for(let i=0;i<8;i++)if(SP[j][i]==='1')x.fillRect(X+i*px,Y+j*px,px,px)}
+    function end(win,msg){if(over)return;over=true;setTimeout(()=>finish(win,msg),250)}
+    function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;const rem=p.time-(t-playStart)/1000;
+      const alive=en.filter(e=>e.alive);
+      h.innerHTML=`<span>のこり ${alive.length}体</span><span>${Math.max(0,rem).toFixed(1)}秒</span>`;bar.style.width=Math.max(0,rem/p.time*100)+'%';
+      if(!over){
+        const minQ=Math.min(...alive.map(e=>e.q)),maxQ=Math.max(...alive.map(e=>e.q));
+        const sp=W*p.speed*(1+1.5*(1-alive.length/en.length));
+        ox+=dir*sp*dt;
+        if(ox+minQ*(ew+gx)<6&&dir<0||ox+maxQ*(ew+gx)+ew>W-6&&dir>0){dir*=-1;oy+=eh*.8}
+        if(t-lastShot>260){shots.push({x:gun,y:H-46});lastShot=t}
+        if(t-lastBomb>p.fire&&alive.length){const e=alive[Math.floor(Math.random()*alive.length)],q=epos(e);bombs.push({x:q.x+ew/2,y:q.y+eh});lastBomb=t}
+        shots.forEach(s=>s.y-=H*1.3*dt);shots=shots.filter(s=>s.y>-10&&!s.hit);
+        bombs.forEach(b=>b.y+=H*.42*dt);bombs=bombs.filter(b=>b.y<H+10);
+        for(const s of shots)for(const e of alive){const q=epos(e);if(e.alive&&s.x>q.x-2&&s.x<q.x+ew+2&&s.y>q.y&&s.y<q.y+eh){e.alive=false;s.hit=true;break}}
+        if(!en.some(e=>e.alive))end(true,`${(p.time-rem).toFixed(1)}秒で全滅`);
+        else if(Math.max(...en.filter(e=>e.alive).map(e=>epos(e).y+eh))>H-60)end(false,'インベーダーが降りてきた');
+        else if(bombs.some(b=>Math.abs(b.x-gun)<16&&b.y>H-44&&b.y<H-20))end(false,'撃たれた');
+        else if(rem<=0)end(false,`時間切れ（のこり${alive.length}体）`);
+      }
+      x.clearRect(0,0,W,H);
+      en.forEach(e=>{if(!e.alive)return;const q=epos(e);sprite(q.x,q.y,cols[e.r%cols.length])});
+      x.fillStyle=css('--paper');shots.forEach(s=>x.fillRect(s.x-1.5,s.y,3,10));
+      x.fillStyle=css('--pop');bombs.forEach(b=>{x.fillRect(b.x-2,b.y,4,4);x.fillRect(b.x,b.y+4,4,4);x.fillRect(b.x-2,b.y+8,4,4)});
+      x.fillStyle=css('--mint');x.fillRect(gun-16,H-30,32,10);x.fillRect(gun-4,H-40,8,10);
+      x.fillStyle='#3d2c55';x.fillRect(0,H-16,W,2);
+      raf=requestAnimationFrame(loop)}
+    raf=requestAnimationFrame(loop);
+    cleanup=()=>{over=true;cancelAnimationFrame(raf);c.removeEventListener('pointerdown',move);c.removeEventListener('pointermove',move)};
+  },
+  catch(){
+    const p=P().catch,{c,x,W,H}=makeCanvas(),h=hud('',''),bar=document.createElement('div');bar.className='timebar';stage.appendChild(bar);
+    let bx=W/2,items=[],got=0,lastSpawn=0,raf,over=false,last=performance.now();const BW=Math.max(64,W*.2);
+    const move=e=>{const r=c.getBoundingClientRect();bx=Math.max(BW/2,Math.min(W-BW/2,e.clientX-r.left))};
+    c.addEventListener('pointerdown',move);c.addEventListener('pointermove',move);
+    function end(win,msg){if(over)return;over=true;setTimeout(()=>finish(win,msg),250)}
+    function star(X,Y,R){x.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?R*.45:R;x.lineTo(X+Math.cos(a)*rr,Y+Math.sin(a)*rr)}x.closePath();x.fill()}
+    function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;const rem=p.time-(t-playStart)/1000;
+      h.innerHTML=`<span>★ ${got} / ${p.need}</span><span>${Math.max(0,rem).toFixed(1)}秒</span>`;bar.style.width=Math.max(0,rem/p.time*100)+'%';
+      if(!over){
+        if(t-lastSpawn>p.spawn){items.push({x:20+Math.random()*(W-40),y:30,bomb:Math.random()<p.bomb,v:H*p.fall*(.85+Math.random()*.4)});lastSpawn=t}
+        items.forEach(o=>o.y+=o.v*dt);
+        for(const o of items){if(o.y>H-58&&o.y<H-30&&Math.abs(o.x-bx)<BW/2+6){o.done=true;if(o.bomb){end(false,'爆弾をとってしまった');break}got++;if(got>=p.need)end(true,`${(p.time-rem).toFixed(1)}秒で${p.need}個`)}}
+        items=items.filter(o=>!o.done&&o.y<H+20);
+        if(rem<=0)end(false,`時間切れ（${got}個）`);
+      }
+      x.clearRect(0,0,W,H);
+      items.forEach(o=>{if(o.bomb){x.fillStyle='#120b1c';x.beginPath();x.arc(o.x,o.y,13,0,7);x.fill();x.strokeStyle=css('--pop');x.lineWidth=3;x.stroke();x.fillStyle=css('--bg');x.fillRect(o.x+6,o.y-18,4,6)}else{x.fillStyle=css('--bg');star(o.x,o.y,15)}});
+      x.fillStyle=css('--mint');x.fillRect(bx-BW/2,H-40,BW,14);x.fillRect(bx-BW/2,H-58,8,18);x.fillRect(bx+BW/2-8,H-58,8,18);
+      raf=requestAnimationFrame(loop)}
+    raf=requestAnimationFrame(loop);
+    cleanup=()=>{over=true;cancelAnimationFrame(raf);c.removeEventListener('pointerdown',move);c.removeEventListener('pointermove',move)};
+  },
+  nanpure(){
+    const p=P().nanpure,h=hud('',''),bar=document.createElement('div');bar.className='timebar';stage.appendChild(bar);
+    // 正しい4×4を作ってシャッフル
+    let g=[[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]];
+    const perm=[1,2,3,4].sort(()=>Math.random()-.5);g=g.map(r=>r.map(v=>perm[v-1]));
+    const sw=(a,i,j)=>{[a[i],a[j]]=[a[j],a[i]]};
+    if(Math.random()<.5)sw(g,0,1);if(Math.random()<.5)sw(g,2,3);if(Math.random()<.5){sw(g,0,2);sw(g,1,3)}
+    if(Math.random()<.5)g=g[0].map((_,i)=>g.map(r=>r[i]));
+    if(Math.random()<.5)g=g.map(r=>{r=r.slice();sw(r,0,1);return r});
+    const cells=g.flat().map(v=>({v,fix:true}));
+    const idx=[...Array(16).keys()].sort(()=>Math.random()-.5).slice(0,p.holes);idx.forEach(i=>{cells[i].fix=false;cells[i].v=0});
+    let sel=cells.findIndex(c=>!c.fix),raf,over=false;
+    const box=document.createElement('div');box.className='np';
+    box.innerHTML=`<div class="npg" id="npg"></div><div class="npk">${[1,2,3,4].map(n=>`<button data-n="${n}">${n}</button>`).join('')}<button class="x" data-n="0">けす</button></div>`;
+    stage.appendChild(box);const grid=box.querySelector('#npg');
+    const bad=i=>{const v=cells[i].v;if(!v)return false;const r=Math.floor(i/4),q=i%4;
+      return cells.some((c,j)=>j!==i&&c.v===v&&(Math.floor(j/4)===r||j%4===q||(Math.floor(j/8)===Math.floor(i/8)&&Math.floor(q/2)===Math.floor((j%4)/2))))};
+    function draw(){grid.innerHTML=cells.map((c,i)=>`<button data-i="${i}" class="${c.fix?'fix':''} ${i===sel?'sel':''} ${bad(i)?'bad':''} ${i%4===1?'br':''} ${Math.floor(i/4)===1?'bb':''}">${c.v||''}</button>`).join('')}
+    draw();
+    grid.onclick=e=>{const b=e.target.closest('[data-i]');if(!b||over)return;const i=+b.dataset.i;if(cells[i].fix)return;sel=i;draw()};
+    box.querySelector('.npk').onclick=e=>{const b=e.target.closest('[data-n]');if(!b||over||sel<0)return;cells[sel].v=+b.dataset.n;draw();
+      if(cells.every((c,i)=>c.v&&!bad(i))){over=true;setTimeout(()=>finish(true,`${((performance.now()-playStart)/1000).toFixed(1)}秒で完成`),300)}};
+    function loop(t){const rem=p.time-(t-playStart)/1000;
+      h.innerHTML=`<span>空き ${cells.filter(c=>!c.v).length}マス</span><span>${Math.max(0,rem).toFixed(1)}秒</span>`;bar.style.width=Math.max(0,rem/p.time*100)+'%';
+      if(rem<=0&&!over){over=true;return finish(false,'時間切れ')}
       if(!over)raf=requestAnimationFrame(loop)}
     raf=requestAnimationFrame(loop);
     cleanup=()=>{over=true;cancelAnimationFrame(raf)};
