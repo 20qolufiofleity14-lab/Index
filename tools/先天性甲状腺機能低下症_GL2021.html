@@ -875,6 +875,6 @@ footer p{margin-bottom:5px}
   });
 })();
 </script>
-<script data-mini-sw>if("serviceWorker"in navigator&&/\/tools\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\/[^/]*$/,"sw.js")).catch(function(){})</script>
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
 </body>
 </html>

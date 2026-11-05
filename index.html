@@ -259,9 +259,12 @@ document.getElementById('back').onclick=()=>{closeViewer();try{history.replaceSt
 document.getElementById('ext').onclick=async()=>{const t=tools.find(x=>x.id===openId);if(!t)return;
   if(!t.shelf){toast('このツールは棚に入っていないのでリンクがありません');return}
   const url=new URL('tools/'+encodeURIComponent(t.shelf),location.href).href;
-  const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();const w=1;
+  const inApp=navigator.standalone===true;
+  if(inApp){location.href='x-safari-'+url}
+  else{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove()}
+  const w=1;
   let copied=false;try{await Promise.race([navigator.clipboard.writeText(url),new Promise((_,ng)=>setTimeout(ng,800))]);copied=true}catch(_){}
-  toast(copied?'リンクをコピーしました。開かなければSafariに貼り付けてください':(w?'ブラウザで開きました':url))};
+  toast(copied?'Safariで開きます。開かなければ、コピーしたリンクをSafariに貼り付けてください':url)};
 document.getElementById('reload').onclick=()=>{const t=tools.find(x=>x.id===openId);if(t)frame.srcdoc=t.html};
 window.addEventListener('popstate',()=>closeViewer());
 
