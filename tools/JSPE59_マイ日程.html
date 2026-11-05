@@ -34,6 +34,12 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:.8em;color:var(--accent)
 label{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;color:var(--muted);margin-top:4px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:.86rem}
 .box ul{margin:4px 0 0;padding-left:1.1em}
+.item.past{opacity:.5}
+.item.now{outline:2px solid var(--accent);outline-offset:1px}
+.item.now .ti::before{content:"進行中 ";color:var(--accent);font-size:.78rem}
+#nowbtn{flex:1.2;border:0;border-radius:999px;background:var(--accent);color:var(--bg);font-weight:700;font-size:.88rem;font-variant-numeric:tabular-nums;padding:6px 0;font-family:inherit}
+.nowline{display:flex;align-items:center;gap:8px;color:#D9363E;font-weight:700;font-size:.8rem;margin:10px 0 8px;scroll-margin-top:64px;font-variant-numeric:tabular-nums}
+.nowline::after{content:"";flex:1;height:2px;background:#D9363E;border-radius:2px}
 </style>
 </head>
 <body>
@@ -49,10 +55,10 @@ label{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;color:var(
 </ul>
 </div>
 
-<nav><a href="#d1">5日 木</a><a href="#d2">6日 金</a><a href="#d3">7日 土</a></nav>
+<nav><button id="nowbtn" type="button">いま --:--</button><a href="#d1">5日 木</a><a href="#d2">6日 金</a><a href="#d3">7日 土</a></nav>
 
 <!-- DAY 1 -->
-<h2 id="d1">11/5（木）</h2>
+<h2 id="d1" data-date="2026-11-05">11/5（木）</h2>
 
 <div class="item"><div class="t">9:30–10:00<span class="room">第1 メッセ</span></div>
 <div><div class="ti">会長講演 Local, Global, Synergy（山本幸代）</div></div></div>
@@ -86,7 +92,7 @@ label{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;color:var(
 <label><input type="checkbox" id="k1">完了</label></div></div>
 
 <!-- DAY 2 -->
-<h2 id="d2">11/6（金）</h2>
+<h2 id="d2" data-date="2026-11-06">11/6（金）</h2>
 
 <div class="item"><div class="t">8:20–9:20<span class="room">第6 メッセ3F</span></div>
 <div><div class="ti">Rapid Communication</div><div class="d"><code>RC-2</code> 局所性CHI 11p15ロングリード＋RNA-seq ／ <code>RC-1</code> ROHHAD腫瘍WGS ／ <code>RC-4</code> 本邦初THRA</div><div class="d">裏（★印）：一般口演11 CHI（第3会場）HK1・パシレオチド</div></div></div>
@@ -117,7 +123,7 @@ label{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;color:var(
 <div><div class="ti">（任意）ポスター13〜25</div><div class="d"><code>P1-21-1/2</code> 中枢性甲状腺機能低下症 ／ <code>P1-19-8</code> <code>P1-20-8</code> ジアゾキシド関連</div></div></div>
 
 <!-- DAY 3 -->
-<h2 id="d3">11/7（土）</h2>
+<h2 id="d3" data-date="2026-11-07">11/7（土）</h2>
 
 <div class="item"><div class="t">8:00–9:20<span class="room">第4 国際会議場2F</span></div>
 <div><div class="ti">シンポ9 中枢性思春期早発症を再考する</div><div class="d"><code>SY9-3</code> 新ガイドライン（JCEM 2026）と治療適応</div></div></div>
@@ -162,6 +168,53 @@ document.querySelectorAll('input[type=checkbox]').forEach(function(c){
   try{c.checked=localStorage.getItem('jspe59-'+c.id)==='1';}catch(e){}
   c.addEventListener('change',function(){try{localStorage.setItem('jspe59-'+c.id,c.checked?'1':'0');}catch(e){}});
 });
+
+(function(){
+  // 各予定の開始・終了時刻を読み取る
+  var items=[],day=null;
+  document.querySelectorAll('h2[data-date],.item').forEach(function(el){
+    if(el.tagName==='H2'){day=el.dataset.date;return}
+    var m=(el.querySelector('.t')||{}).textContent.match(/(\d{1,2}):(\d{2})\D+(\d{1,2}):(\d{2})/);
+    if(!day||!m)return;
+    var b=day.split('-');
+    var mk=function(h,mi){return new Date(+b[0],+b[1]-1,+b[2],+h,+mi).getTime()};
+    items.push({el:el,s:mk(m[1],m[2]),e:mk(m[3],m[4])});
+  });
+  var line=document.createElement('div');line.className='nowline';
+  var btn=document.getElementById('nowbtn'),lastHidden=0;
+  function pad(n){return(n<10?'0':'')+n}
+  function update(){
+    var d=new Date(),t=d.getTime(),hm=d.getHours()+':'+pad(d.getMinutes());
+    btn.textContent='いま '+hm;
+    var target=null;
+    items.forEach(function(it){
+      it.el.classList.toggle('past',it.e<=t);
+      it.el.classList.toggle('now',it.s<=t&&t<it.e);
+      if(!target&&it.e>t)target=it;
+    });
+    line.textContent='いま '+hm;
+    if(target){target.el.parentNode.insertBefore(line,target.el)}
+    else if(items.length&&t>=items[items.length-1].e){var last=items[items.length-1].el;last.parentNode.insertBefore(line,last.nextSibling)}
+    else if(line.parentNode)line.remove();
+    return target;
+  }
+  function jump(smooth){
+    var target=update();
+    if(!line.parentNode||!target)return;
+    var nav=document.querySelector('nav');
+    var y=line.getBoundingClientRect().top+window.pageYOffset-(nav?nav.offsetHeight:0)-6;
+    window.scrollTo({top:Math.max(0,y),behavior:smooth?'smooth':'auto'});
+  }
+  btn.addEventListener('click',function(){jump(true)});
+  setInterval(update,30000);
+  // 開いた時に「いま」を一番上に
+  if(document.readyState==='complete')jump(false);else addEventListener('load',function(){jump(false)});
+  // Safariのタブなどで久しぶりに戻ってきた時も「いま」へ
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){lastHidden=Date.now()}
+    else if(lastHidden&&Date.now()-lastHidden>3*60*1000){jump(true)}else{update()}
+  });
+})();
 </script>
 <script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
 </body>
