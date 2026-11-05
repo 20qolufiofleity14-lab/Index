@@ -4,223 +4,223 @@
   "title": "1型糖尿病 導入あんちょこ",
   "cat": "glucose",
   "desc": "初期インスリン量・カーボ比・補正係数の計算、CGM目標、シックデイ、低血糖",
-  "v": "76ec2f38cc"
+  "v": "bfd0709445"
  },
  {
   "file": "ALPアイソザイム.html",
   "title": "ALPアイソザイム",
   "cat": "growth",
   "desc": "診断支援と学習",
-  "v": "613d37ece0"
+  "v": "c1f75fe922"
  },
  {
   "file": "Ca骨_低Ca高Caくる病.html",
   "title": "Ca・骨（低Ca・高Ca・くる病）",
   "cat": "growth",
   "desc": "補正Ca・TmP/GFR・尿Ca/Cr・Ca/Crクリアランス比の計算、低Ca/高Caの初療と鑑別、くる病のパターン表",
-  "v": "1efd847d94"
+  "v": "a99f833fed"
  },
  {
   "file": "DKA初療あんちょこ.html",
   "title": "DKA初療あんちょこ",
   "cat": "glucose",
   "desc": "ISPAD 2022準拠。体重を入れる輸液・インスリン計算とサマリテンプレ",
-  "v": "db5684d872"
+  "v": "ff5128da00"
  },
  {
   "file": "FH_高槻宣言.html",
   "title": "FH 高槻宣言とスクリーニング",
   "cat": "metab",
   "desc": "高槻宣言2024＋小児FH診療GL フォーカスアップデート2025。判定・診断フロー・年齢別の薬物開始・HoFH新薬",
-  "v": "778c3beee5"
+  "v": "eb2e7f14c7"
  },
  {
   "file": "IGF-1基準値.html",
   "title": "ソマトメジンC（IGF-1）基準値",
   "cat": "growth",
   "desc": "年齢・性別の基準範囲と患者値の判定",
-  "v": "10e18ce65b"
+  "v": "161cbf8c52"
  },
  {
   "file": "JSPE59_マイ日程.html",
   "title": "JSPE59 マイ日程",
   "cat": "conf",
   "desc": "第59回日本小児内分泌学会（11/5〜7 北九州）自分の回る日程・ポスター貼付/撤去",
-  "v": "5b4381d713"
+  "v": "c22d3652a2"
  },
  {
   "file": "OTC欠損症.html",
   "title": "OTC欠損症",
   "cat": "metab",
   "desc": "診療クイックリファレンス",
-  "v": "90afd702eb"
+  "v": "91c9c9a3db"
  },
  {
   "file": "TRH負荷試験.html",
   "title": "TRH負荷試験 判定チャート",
   "cat": "thyroid",
   "desc": "TRH負荷試験の判定チャート",
-  "v": "4ec5717f99"
+  "v": "e7c507f746"
  },
  {
   "file": "カルニチン欠乏症.html",
   "title": "カルニチン欠乏症",
   "cat": "metab",
   "desc": "診療クイックリファレンス",
-  "v": "88544f87be"
+  "v": "c0420e1a08"
  },
  {
   "file": "ソグルーヤ_IGF-I評価.html",
   "title": "ソグルーヤ® IGF-I SDスコア",
   "cat": "growth",
   "desc": "採血タイミングを補正して週平均IGF-I SDSを推定。年齢別基準値表つき",
-  "v": "0437d999cb"
+  "v": "caf004c8a6"
  },
  {
   "file": "フェニルケトン尿症_PKU.html",
   "title": "フェニルケトン尿症（PKU）",
   "cat": "metab",
   "desc": "診療クイックリファレンス",
-  "v": "883b33f9ae"
+  "v": "34e779a61d"
  },
  {
   "file": "ポチ道場.html",
   "title": "ポチ道場",
   "cat": "other",
   "desc": "ルーレットで決まる6種のミニゲーム。クリアでコイン（1日3回まで）",
-  "v": "26bf65990c"
+  "v": "c28b000a0f"
  },
  {
   "file": "ライソゾーム病_仕分け道場.html",
   "title": "ライソゾーム病 仕分け道場",
   "cat": "metab",
   "desc": "指定難病31疾患を蓄積物による8分類へドラッグで仕分け",
-  "v": "147b7d244f"
+  "v": "1c5d41a9e5"
  },
  {
   "file": "予測身長_成長曲線.html",
   "title": "予測身長・成長曲線ビジュアルツール",
   "cat": "growth",
   "desc": "成長曲線と目標身長・予測身長の可視化",
-  "v": "b0d0af28d6"
+  "v": "e69f02904e"
  },
  {
   "file": "低血糖_ケトン体FFA計算.html",
   "title": "低血糖 ケトン体・FFA計算",
   "cat": "glucose",
   "desc": "ケトン体・遊離脂肪酸の指標を計算",
-  "v": "4a0200a230"
+  "v": "cf46dd5e84"
  },
  {
   "file": "先天性副腎過形成_CAH.html",
   "title": "先天性副腎過形成（CAH）",
   "cat": "adrenal",
   "desc": "21OHD中心。NBS・DSD鑑別・副腎クリーゼ・維持量・モニタリング・特殊状況",
-  "v": "c3812db221"
+  "v": "02a870a57b"
  },
  {
   "file": "先天性甲状腺機能低下症_GL2021.html",
   "title": "先天性甲状腺機能低下症 GL2021",
   "cat": "thyroid",
   "desc": "マススクリーニングGL 2021のクイックリファレンス",
-  "v": "21eee46a01"
+  "v": "181231544b"
  },
  {
   "file": "内分泌初診サマリ_テンプレ.html",
   "title": "内分泌初診サマリ テンプレ",
   "cat": "other",
   "desc": "疾患別の初診サマリをコピーしてカルテへ",
-  "v": "2ab5fc80fb"
+  "v": "a8d5cf5c39"
  },
  {
   "file": "小児バセドウ病_2016GL.html",
   "title": "小児バセドウ病【2016GL】",
   "cat": "thyroid",
   "desc": "診療クイックリファレンス",
-  "v": "ba4198c177"
+  "v": "1b33d67b91"
  },
  {
   "file": "小児低血糖_あんちょこ.html",
   "title": "小児低血糖 あんちょこ",
   "cat": "glucose",
   "desc": "初動・鑑別・負荷試験・GIRやケトン体の計算",
-  "v": "8002b88a3b"
+  "v": "fcb80fa992"
  },
  {
   "file": "思春期早発症.html",
   "title": "思春期早発症",
   "cat": "puberty",
   "desc": "診療クイックリファレンス",
-  "v": "9fa850895a"
+  "v": "be750404a8"
  },
  {
   "file": "抗がん剤と内分泌.html",
   "title": "抗がん剤と内分泌 あんちょこ＆ドリル",
   "cat": "other",
   "desc": "商品名・略号の対応と内分泌の副作用。CCS併診用、ドリルつき",
-  "v": "b874a50503"
+  "v": "7d73a5b73b"
  },
  {
   "file": "早発乳房.html",
   "title": "早発乳房",
   "cat": "puberty",
   "desc": "乳幼児の孤立性乳房発育 — 初診評価・鑑別・段階的ワークアップ・フォロー",
-  "v": "afd3dd3de1"
+  "v": "7c7c279276"
  },
  {
   "file": "橋本病.html",
   "title": "橋本病（慢性甲状腺炎）",
   "cat": "thyroid",
   "desc": "診療クイックリファレンス",
-  "v": "421cbbdcc3"
+  "v": "2bb5691744"
  },
  {
   "file": "水Na_尿崩症SIADH.html",
   "title": "水・Na（尿崩症・SIADH）",
   "cat": "water",
   "desc": "Na補正速度・自由水欠乏・浸透圧の計算、SIADH/CSW/尿崩症の鑑別、DDAVPと術後の三相性反応",
-  "v": "6edae6da43"
+  "v": "82dc981365"
  },
  {
   "file": "注射針_デバイス.html",
   "title": "注射針・デバイス",
   "cat": "other",
   "desc": "インスリン用ペン針とGH製剤の注入器・針、規格・互換性、メーカー連絡先",
-  "v": "4d719dee37"
+  "v": "86b9228f0c"
  },
  {
   "file": "甲状腺腫.html",
   "title": "甲状腺腫",
   "cat": "thyroid",
   "desc": "診療クイックリファレンス",
-  "v": "08fc9f0004"
+  "v": "e6e2549e95"
  },
  {
   "file": "男性CPP_治療管理.html",
   "title": "男性中枢性思春期早発症 治療管理",
   "cat": "puberty",
   "desc": "治療管理リファレンス",
-  "v": "64aa9da2d3"
+  "v": "112340b839"
  },
  {
   "file": "脂肪酸代謝異常症_VLCAD_MCAD.html",
   "title": "脂肪酸代謝異常症（VLCAD・MCAD）",
   "cat": "metab",
   "desc": "新生児スクリーニング後の診療クイックリファレンス",
-  "v": "c824a2d855"
+  "v": "75bab97762"
  },
  {
   "file": "血漿アミノ酸分析.html",
   "title": "血漿アミノ酸分析 読解",
   "cat": "metab",
   "desc": "読解クイックリファレンス",
-  "v": "9d4e9571f7"
+  "v": "8bc012001e"
  },
  {
   "file": "負荷試験あんちょこ.html",
   "title": "負荷試験あんちょこ",
   "cat": "other",
   "desc": "体重・身長を入れると薬剤量（上限込み）が出る。採血時間と判定の早見つき",
-  "v": "d01a809d0f"
+  "v": "f77978aa3c"
  }
 ]

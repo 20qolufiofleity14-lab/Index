@@ -1,6 +1,6 @@
 /* オフライン用：一度開いた版を端末に覚えておき、電波がないときはそれを出す。
    ふだんは毎回ネットの最新版を取りに行く（4秒で返ってこなければ保存版）。 */
-const V='mini-v1';
+const V='mini-v2';
 const CORE=['./','./index.html','./tools/list.json'];
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.open(V);
   await Promise.all(CORE.map(u=>c.add(new Request(u,{cache:'reload'})).catch(()=>{})));

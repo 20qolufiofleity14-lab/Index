@@ -3,9 +3,14 @@
 <meta name="mini-category"> / <meta name="mini-desc"> を読む。v は内容のハッシュ。"""
 import hashlib, json, pathlib, re
 root = pathlib.Path(__file__).resolve().parent.parent / "tools"
+SW = '<script data-mini-sw>if("serviceWorker"in navigator&&/\\/tools\\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\\/[^/]*$/,"sw.js")).catch(function(){})</script>'
 out = []
 for f in sorted(root.glob("*.htm*")):
     s = f.read_text(encoding="utf-8", errors="replace")
+    if "data-mini-sw" not in s and re.search(r"</body>", s, re.I):
+        i = [m.start() for m in re.finditer(r"</body>", s, re.I)][-1]
+        s = s[:i] + SW + "\n" + s[i:]
+        f.write_text(s, encoding="utf-8")
     m = lambda n: (re.search(r'<meta\s+name=["\']%s["\']\s+content=["\']([^"\']*)' % n, s, re.I) or [None, ""])[1].strip()
     t = re.search(r"<title[^>]*>(.*?)</title>", s, re.I | re.S)
     out.append({"file": f.name,

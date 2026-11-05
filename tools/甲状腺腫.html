@@ -1013,5 +1013,6 @@ function switchTab(n){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
+<script data-mini-sw>if("serviceWorker"in navigator&&/\/tools\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\/[^/]*$/,"sw.js")).catch(function(){})</script>
 </body>
 </html>

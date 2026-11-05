@@ -115,7 +115,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 
 <div class="scrim" id="scrim"></div>
 <div class="sheet gut" id="sheet"><div class="in" id="sheetIn"></div></div>
-<div id="viewer" hidden><div class="vbar gut"><button class="ic" id="back">‹ 戻る</button><b id="vtitle"></b><button class="ic" id="reload">↻</button></div><iframe id="frame" title="ミニコンテンツ"></iframe></div>
+<div id="viewer" hidden><div class="vbar gut"><button class="ic" id="back">‹ 戻る</button><b id="vtitle"></b><button class="ic" id="ext" title="ブラウザで開く">🌐</button><button class="ic" id="reload">↻</button></div><iframe id="frame" title="ミニコンテンツ"></iframe></div>
 <a class="fab" id="homeBtn" href="https://20qolufiofleity14-lab.github.io/Academylab/" aria-label="アカデミーに戻る"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>アカデミー</a>
 <div class="toast" id="toast"></div>
 <div id="dropzone">ここに置いて追加</div>
@@ -256,6 +256,12 @@ async function open(id){const t=tools.find(x=>x.id===id);if(!t)return;openId=id;
 }
 function closeViewer(){if(viewer.hidden)return;viewer.hidden=true;frame.srcdoc='';document.body.style.overflow='';openId=null;load()}
 document.getElementById('back').onclick=()=>{closeViewer();try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}};
+document.getElementById('ext').onclick=async()=>{const t=tools.find(x=>x.id===openId);if(!t)return;
+  if(!t.shelf){toast('このツールは棚に入っていないのでリンクがありません');return}
+  const url=new URL('tools/'+encodeURIComponent(t.shelf),location.href).href;
+  const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();const w=1;
+  let copied=false;try{await Promise.race([navigator.clipboard.writeText(url),new Promise((_,ng)=>setTimeout(ng,800))]);copied=true}catch(_){}
+  toast(copied?'リンクをコピーしました。開かなければSafariに貼り付けてください':(w?'ブラウザで開きました':url))};
 document.getElementById('reload').onclick=()=>{const t=tools.find(x=>x.id===openId);if(t)frame.srcdoc=t.html};
 window.addEventListener('popstate',()=>closeViewer());
 

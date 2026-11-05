@@ -368,5 +368,6 @@ const s=LS.get('t1d.in',null);if(s){$('wt').value=s.wt||'';$('age').value=s.age|
 document.querySelectorAll('.calc input,.calc select').forEach(el=>el.addEventListener('input',()=>{try{calc()}catch(e){}}));
 try{calc()}catch(e){}
 </script>
+<script data-mini-sw>if("serviceWorker"in navigator&&/\/tools\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\/[^/]*$/,"sw.js")).catch(function(){})</script>
 </body>
 </html>

@@ -374,5 +374,6 @@ start(D);renderCards();renderList();renderBoard();
 const t0=store.get('lsd-tab2','board');if(t0!=='board')showTab(t0);
 </script>
 
+<script data-mini-sw>if("serviceWorker"in navigator&&/\/tools\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\/[^/]*$/,"sw.js")).catch(function(){})</script>
 </body>
 </html>

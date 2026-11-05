@@ -632,5 +632,6 @@ document.getElementById('clr').onclick=()=>{document.getElementById('wt').value=
 document.querySelectorAll('nav.views button').forEach(b=>b.onclick=()=>{view=b.dataset.v;ls.set('view',view);render()});
 render();onInput();
 </script>
+<script data-mini-sw>if("serviceWorker"in navigator&&/\/tools\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\/[^/]*$/,"sw.js")).catch(function(){})</script>
 </body>
 </html>

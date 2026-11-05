@@ -163,5 +163,6 @@ document.querySelectorAll('input[type=checkbox]').forEach(function(c){
   c.addEventListener('change',function(){try{localStorage.setItem('jspe59-'+c.id,c.checked?'1':'0');}catch(e){}});
 });
 </script>
+<script data-mini-sw>if("serviceWorker"in navigator&&/\/tools\/[^/]*$/.test(location.pathname))navigator.serviceWorker.register(location.pathname.replace(/tools\/[^/]*$/,"sw.js")).catch(function(){})</script>
 </body>
 </html>
