@@ -326,5 +326,10 @@ try{const h=localStorage.getItem('hub_home_url');if(h&&/^https?:/.test(h))docume
 load().then(syncShelf);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&viewer.hidden)syncShelf()});
 </script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+function netBadge(){if(!navigator.onLine)try{toast('オフライン：端末に保存した版で開いています')}catch(_){}}
+addEventListener('offline',netBadge);addEventListener('load',()=>setTimeout(netBadge,600));
+</script>
 </body>
 </html>
