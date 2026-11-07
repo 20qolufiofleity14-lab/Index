@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JSPE59 学会単語帳</title>
+<meta name="mini-category" content="conf">
+<meta name="mini-desc" content="JSPE59で調べた遺伝・解析・治療の用語を4段階に整理。学会ごとに追記">
+<style>
+/* Layout: one reading column; 4 learning layers as sequential bands, each term an entry with "一言" lead */
+:root{
+  --bg:#f3f5f4;
+  --surface:#ffffff;
+  --ink:#16201d;
+  --muted:#56645f;
+  --line:#d6dedb;
+  --accent:#0f7a6c;
+  --accent-soft:#dcefeb;
+  --base-a:#2f8f4e; --base-c:#2c62b8; --base-g:#c07a12; --base-t:#c0392b;
+  --f-display:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101614;--surface:#18201d;--ink:#e6ece9;--muted:#9aa9a3;--line:#2b3632;--accent:#4cc3b0;--accent-soft:#183a34;
+  --base-a:#6cc98a;--base-c:#7aa6ec;--base-g:#e3a94b;--base-t:#ec7a6e;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101614;--surface:#18201d;--ink:#e6ece9;--muted:#9aa9a3;--line:#2b3632;--accent:#4cc3b0;--accent-soft:#183a34;
+  --base-a:#6cc98a;--base-c:#7aa6ec;--base-g:#e3a94b;--base-t:#ec7a6e;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.bases{font-family:var(--f-mono);font-size:13px;letter-spacing:.3em}
+.bases .a{color:var(--base-a)}.bases .c{color:var(--base-c)}.bases .g{color:var(--base-g)}.bases .t{color:var(--base-t)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,7vw,40px);line-height:1.25;margin:0;text-wrap:balance}
+.lead{color:var(--muted);margin:0;max-width:62ch}
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+#q{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+#q:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips a{font-size:13px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:3px 12px;background:var(--surface)}
+.chips a b{font-family:var(--f-mono);color:var(--accent);margin-right:4px}
+section.layer{display:flex;flex-direction:column;gap:14px}
+.layer-head{display:flex;gap:14px;align-items:baseline;border-top:2px solid var(--ink);padding-top:12px}
+.layer-no{font-family:var(--f-mono);font-size:28px;color:var(--accent);line-height:1}
+.layer-head h2{font-family:var(--f-display);font-weight:600;font-size:21px;margin:0;line-height:1.4}
+.layer-head p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.term h3{margin:0;font-size:17px;font-weight:700;line-height:1.45}
+.term h3 small{font-family:var(--f-mono);font-weight:500;font-size:12px;color:var(--muted);margin-left:6px}
+.one{margin:0;font-weight:500;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:4px 10px;font-size:14px}
+.term p,.term ul{margin:0}
+.term ul{padding-left:1.2em}
+.ctx{font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.ctx b{font-family:var(--f-mono);font-weight:500;font-size:11.5px;letter-spacing:.06em;margin-right:6px;color:var(--ink)}
+.read{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.read h2{font-family:var(--f-display);font-weight:600;font-size:20px;margin:0 0 8px}
+.read ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.empty{color:var(--muted);text-align:center}
+footer{font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">第59回 日本小児内分泌学会 ・ 2026.11 北九州</div>
+    <div class="bases" aria-hidden="true"><span class="a">A</span><span class="c">C</span><span class="g">G</span><span class="t">T</span></div>
+    <h1>学会でわからなかった単語帳</h1>
+    <p class="lead">聞きながらメモした用語を、学ぶ順番に4段階で並べました。各項目は「一言でいうと」→ 意味 → 発表での文脈、の順です。</p>
+  </header>
+
+  <div class="tools">
+    <label for="q" class="eyebrow">用語をしぼりこむ</label>
+    <input id="q" type="search" placeholder="例：LOH、メチル化、GalNAc" autocomplete="off">
+    <nav class="chips" aria-label="段階">
+      <a href="#layer1"><b>1</b>土台</a>
+      <a href="#layer2"><b>2</b>遺伝のしくみ</a>
+      <a href="#layer3"><b>3</b>検査・解析技術</a>
+      <a href="#layer4"><b>4</b>治療と発表の聞き方</a>
+    </nav>
+  </div>
+
+  <section class="layer" id="layer1">
+    <div class="layer-head"><span class="layer-no">1</span><div><h2>土台：ゲノムの基本単位</h2><p>どの解析の話でも前提になる言葉。</p></div></div>
+
+    <article class="term">
+      <h3>SNP（スニップ）<small>single nucleotide polymorphism</small></h3>
+      <p class="one">人によって1文字だけ違う、ありふれた目印</p>
+      <p>集団でよく見られる（慣習的に1%以上の）一塩基の違い。多くは病気と関係ない個人差。まれで病気の原因になる「病的バリアント」とは区別する。</p>
+      <p class="ctx"><b>文脈</b>父由来と母由来のアレルを見分けるタグとして使う。フェージングやXCI解析はSNPで仕分けている。</p>
+    </article>
+
+    <article class="term">
+      <h3>Germline と Somatic<small>生殖細胞系列 / 体細胞</small></h3>
+      <p class="one">生まれつき全身にあるか、後から一部の細胞で起きたか</p>
+      <ul><li><b>Germline</b>：全身の細胞が持つ遺伝情報。普通は血液で調べる。</li><li><b>Somatic</b>：腫瘍など一部の細胞で後から起きた変異。</li></ul>
+      <p class="ctx"><b>文脈</b>腫瘍研究では血液（germline）と腫瘍の両方を読んで比べるのが基本。ROHHADの神経堤腫瘍のWGS（RC-1）。</p>
+    </article>
+
+    <article class="term">
+      <h3>50kbの距離感<small>調節領域 / TAD</small></h3>
+      <p class="one">ゲノムの距離としては「近い」</p>
+      <p>エンハンサーは遺伝子から数十kb〜1Mb離れて働くことがある。50kbなら同じTAD（調節の単位）に入っていることが多い。ただし近いだけでは病因とはいえず、機能解析や家系内の分離が必要。</p>
+    </article>
+  </section>
+
+  <section class="layer" id="layer2">
+    <div class="layer-head"><span class="layer-no">2</span><div><h2>遺伝のしくみ：アレルとエピジェネティクス</h2><p>どちらの親の、どちらのコピーに何が起きているか。</p></div></div>
+
+    <article class="term">
+      <h3>ヘテロ接合性・ホモ接合性<small>heterozygous / homozygous</small></h3>
+      <p class="one">2本のアレルが違うか、同じか</p>
+      <ul><li><b>ヘテロ</b>：片方だけに変異がある（正常1本＋変異1本）。</li><li><b>ホモ</b>：両方が同じ変異。</li><li><b>複合ヘテロ</b>：両方に違う変異がある（trans）。</li></ul>
+      <p class="ctx"><b>文脈</b>常染色体顕性はヘテロで発症、潜性はホモか複合ヘテロで発症。LOHは「ヘテロだったのがそうでなくなる」こと。</p>
+    </article>
+
+    <article class="term">
+      <h3>ドミナントネガティブ<small>dominant negative</small></h3>
+      <p class="one">壊れたタンパクが、正常なタンパクの足まで引っ張る</p>
+      <p>ヘテロなので正常タンパクも半分作られるが、二量体などの複合体で働くタンパクだと、変異型が混ざった複合体ごと働かなくなる。結果、50%ではなくそれ以下まで機能が落ち、ヘテロでも重症になる。</p>
+      <ul><li><b>ハプロ不全</b>：正常が半分しかないこと自体で発症（量の不足）。</li><li><b>ドミナントネガティブ</b>：変異型が正常型を邪魔する（妨害）。</li><li><b>機能獲得型</b>：変異で働きすぎる。</li></ul>
+      <p class="ctx"><b>文脈</b>例：GH1のエクソン3スキッピングによるIGHD2（P1-1-5）、甲状腺ホルモン不応症のTHRB/THRA。</p>
+    </article>
+
+    <article class="term">
+      <h3>cis と trans</h3>
+      <p class="one">2つの変異が同じ染色体か、別々の染色体か</p>
+      <ul><li><b>cis</b>：同じアレルに2つ並ぶ。もう片方は正常なので保因者。</li><li><b>trans</b>：父由来と母由来に1つずつ。両方壊れるので発症。</li></ul>
+      <p class="ctx"><b>文脈</b>21OHDでは遺伝子変換で偽遺伝子の変異がまとめて1本に移るため、cisがよくある。親の検体かロングリードで確定する。</p>
+    </article>
+
+    <article class="term">
+      <h3>ホットスポットバリアント</h3>
+      <p class="one">特定の場所に繰り返し見つかる変異</p>
+      <p>CYP21A2では、偽遺伝子CYP21A1Pにもともとある十数種類の変異（I2G、I172N、V281L、Q318X、R356W、P30L、exon 3の8bp欠失、exon 6クラスターなど）が遺伝子変換で移ってきたものが大半。一般にはCpG部位のC&gt;Tなど変異が起きやすい場所も指す。</p>
+    </article>
+
+    <article class="term">
+      <h3>片アレル・父性・母性・両親性<small>monoallelic / paternal / maternal / biallelic</small></h3>
+      <p class="one">どちらのアレルから、片方か両方か</p>
+      <p>普通の遺伝子は両親性に発現する。インプリンティング遺伝子は「父性アレルだけ」「母性アレルだけ」と片アレル発現が決まっている。</p>
+      <p class="ctx"><b>文脈</b>「父性の片アレル発現が両親性になっている」＝インプリンティングのバランスが崩れているという意味。</p>
+    </article>
+
+    <article class="term">
+      <h3>LOH<small>loss of heterozygosity</small></h3>
+      <p class="one">2つあった違うアレルが、腫瘍の中で1種類になる</p>
+      <p>片方に変異があり、残った正常アレルが失われると遺伝子が完全に働かなくなる（2-hit）。欠失のほか、コピー数が変わらないLOHもある。</p>
+    </article>
+
+    <article class="term">
+      <h3>pUPiD<small>父性片親性アイソダイソミー</small></h3>
+      <p class="one">父由来の同じ1本が2コピーになった状態</p>
+      <p>本数は2本のままなので欠失に見えないが、LOHの一種。インプリンティング領域で起きると、父性発現の遺伝子は2倍、母性発現の遺伝子はゼロになる。</p>
+      <p class="ctx"><b>文脈</b>局所性CHIの11p15が代表例（RC-2）。腫瘍のLOHの仕組みとしても出てくる。</p>
+    </article>
+
+    <article class="term">
+      <h3>GNAS と Gsα</h3>
+      <p class="one">多くのホルモン受容体が共通で使う「スイッチ」の遺伝子</p>
+      <p>GNASは遺伝子の名前、Gsαはそこから作られるタンパク。PTH、TSH、GHRH、LH/FSH、ACTH、MC4Rなどの受容体は、どれもGsαを介してcAMPを増やす。</p>
+      <ul><li><b>壊れる</b>：偽性副甲状腺機能低下症（PTHやTSHなどが効きにくい）、AHO。</li><li><b>働きすぎる（体細胞）</b>：McCune-Albright症候群。</li><li><b>メチル化が崩れる</b>：偽性副甲状腺機能低下症1B型。</li></ul>
+      <p class="ctx"><b>文脈</b>インプリンティング、機能喚失と機能獲得、モザイク、メチル化解析と、遺伝の論点が1つの遺伝子に全部あるので、学会でよく出てくる。</p>
+    </article>
+
+    <article class="term">
+      <h3>CpGメチル化</h3>
+      <p class="one">遺伝子のスイッチをオフにする目印</p>
+      <p>CのすぐあとにGが並ぶ場所（CpG）のCにメチル基がつく。プロモーターがメチル化されると発現が止まりやすい。インプリンティングは片方のアレルだけがメチル化されることで成り立つ。腫瘍ではがん抑制遺伝子の過剰メチル化がよくある。</p>
+      <p class="ctx"><b>文脈</b>ROHHADは原因遺伝子が見つかっておらず、腫瘍のメチル化異常という仮説から調べている。</p>
+    </article>
+
+    <article class="term">
+      <h3>XCI解析<small>X染色体不活化</small></h3>
+      <p class="one">女性の2本のXのどちらがどれだけ眠っているか</p>
+      <p>X連鎖疾患の女性保因者で、正常なXばかりが不活化される（skewing）と症状が出る。従来法はHUMARA法（ARのCAGリピートのメチル化）。</p>
+      <p class="ctx"><b>文脈</b>ロングリードならPCRなしでメチル化を直接読め、変異とメチル化が同じXに乗っているかまで一度にわかる（SP1-5）。</p>
+    </article>
+  </section>
+
+  <section class="layer" id="layer3">
+    <div class="layer-head"><span class="layer-no">3</span><div><h2>検査・解析技術：何が見えて、何が見えないか</h2><p>技術ごとの長所と死角をセットで覚える。</p></div></div>
+
+    <article class="term">
+      <h3>サンガー法の波形の読み方<small>electropherogram</small></h3>
+      <p class="one">1文字に1つの山、山が2つ重なればヘテロ</p>
+      <ul><li>4色の山が塩基を表す（一般的にはA緑、C青、G黒、T赤）。</li><li><b>ホモや正常</b>：その位置に山が1つ。</li><li><b>ヘテロの置換</b>：同じ位置に色の違う山が2つ、それぞれ約半分の高さ。</li><li><b>ヘテロの挿入・欠失</b>：その場所から後ろがずっと二重の山になる。</li></ul>
+      <p>ノイズと区別するため、順方向と逆方向の両方で同じ重なりが見えるか確かめる。</p>
+    </article>
+
+    <article class="term">
+      <h3>メチル化解析の色の読み方</h3>
+      <p class="one">まず凡例、次に「半分かどうか」</p>
+      <ul><li><b>丸の図（バイサルファイト法）</b>：1行が1分子、1つの丸が1つのCpG。黒丸＝メチル化、白丸＝非メチル化。</li><li><b>ロングリード（IGVなど）</b>：各リード上のCpGが赤＝メチル化、青＝非メチル化で表示されることが多い。アレル別に並べて見る。</li><li><b>ヒートマップ</b>：β値（0〜1）を色の濃淡で表す。一般に赤＝高、青＝低。</li></ul>
+      <p>インプリンティング領域（DMR）は片方のアレルだけメチル化されているので、<b>正常は約50%</b>。ロングリードなら「片方のアレルが全部赤、もう片方が全部青」が正常。両方青＝メチル化の喪失、両方赤＝メチル化の獲得。まだらならモザイクを疑う。</p>
+      <p class="ctx"><b>文脈</b>色の割り当ては図ごとに違うので、必ず凡例を先に見る。GNASのアレル別メチル化（P1-11-5）、X染色体メチル化（SP1-5）。</p>
+    </article>
+
+    <article class="term">
+      <h3>トリオ解析<small>trio analysis</small></h3>
+      <p class="one">本人と両親の3人を一緒に調べる</p>
+      <ul><li><b>de novo変異</b>を見つけやすい（両親になく本人にだけある変異）。</li><li>2つの変異が父由来と母由来に分かれるか（trans）を確定できる。</li><li>異常のない親も持っている変異を候補から外せるので、絞り込みが速い。</li><li>UPDの検出にも使える（片親のアレルしかない領域がわかる）。</li></ul>
+      <p class="ctx"><b>文脈</b>エクソームやWGSをトリオで行うと診断率が上がる。ロングリードのフェージングは「両親なしで同じことをする」方法ともいえる。</p>
+    </article>
+
+    <article class="term">
+      <h3>ロングリードシーケンス（LRS）と21OHD</h3>
+      <p class="one">偽遺伝子に強く、構造とフェーズが一度にわかる</p>
+      <ul><li>CYP21A2は偽遺伝子と約98%相同。ショートリードでは読み分けにくい。</li><li>30kb欠失のキメラ、遺伝子変換、重複、CAH-X（TNXB）を一度に検出。</li><li>cis/transを親の検体なしで判定できる。</li></ul>
+      <p class="ctx"><b>文脈</b>濾紙血DNAでのCYP21A2ロングリード解析（SP1-4）。弱点はコストと実施施設の少なさ。</p>
+    </article>
+
+    <article class="term">
+      <h3>ターゲットLRS</h3>
+      <p class="one">見たい領域だけを狙ってロングリードで読む</p>
+      <p>狙い方は long-range PCR、プローブのキャプチャ、Cas9での切り出し、ONTのadaptive sampling（読みながら目的外を弾く）。PCRを使わない方法ならメチル化の情報が残る。</p>
+    </article>
+
+    <article class="term">
+      <h3>long PCR＋ショートリード</h3>
+      <p class="one">変異を拾うだけなら十分、フェーズは失う</p>
+      <p>偽遺伝子を避けているのはプライマー設計の方なので、変異検出は精度よく安価にできる。ただし断片化するのでcis/transとキメラ構造がわからず、コピー数にはMLPAが別に必要。</p>
+    </article>
+
+    <article class="term">
+      <h3>リード数（深さ）</h3>
+      <p class="one">100未満でも、用途によっては十分</p>
+      <p>生殖細胞系列のヘテロ判定ならPacBio HiFiで数十リードあれば通常は足りる。ONT（エラー率が高め）、重複アレルの比率判定、モザイクやPCRバイアスがある場合は深さがほしい。</p>
+    </article>
+
+    <article class="term">
+      <h3>フェージング</h3>
+      <p class="one">変異をどちらの染色体に乗っているか仕分けること</p>
+      <p>長いリードには変異とSNPが一緒に乗るので、「SNPがAの方の染色体」と仕分けられる。cis/trans判定もXCI解析もこれが土台。</p>
+    </article>
+
+    <article class="term">
+      <h3>WGS<small>全ゲノム解析</small></h3>
+      <p class="one">エクソームの外まで、ゲノム全体を読む</p>
+      <p>イントロン、調節領域、構造異常まで見える。germlineで原因が見つからない疾患では、エクソームで見えない場所や腫瘍側を探す意味がある。</p>
+    </article>
+
+    <article class="term">
+      <h3>Bulk RNA-seq</h3>
+      <p class="one">組織まるごとの発現の平均</p>
+      <p>安価で深く読めるが、細胞ごとの違いは平均されて見えない。腫瘍に正常細胞が混ざると異常が薄まる。弱点を補うのがsingle-cell RNA-seqやVisium HD。</p>
+    </article>
+
+    <article class="term">
+      <h3>空間トランスクリプトーム と Visium HD<small>spatial transcriptomics</small></h3>
+      <p class="one">組織切片の上で、どこで何が発現しているかの地図</p>
+      <p>トランスクリプトーム＝細胞で発現しているRNAの全体。bulk RNA-seqは組織をすりつぶすので場所の情報が消えるが、空間トランスクリプトームは切片の位置を保ったまま発現を読む。Visium HDは10x Genomics社の高解像度版。</p>
+      <ul><li><b>bulk</b>：組織全体の平均。</li><li><b>single-cell</b>：細胞ごと。ただし場所はわからない。</li><li><b>空間</b>：場所つき。腫瘍のどの領域、下垂体のどの細胞かがわかる。</li></ul>
+    </article>
+
+    <article class="term">
+      <h3>LC-MS/MS<small>液体クロマトグラフィー・タンデム質量分析</small></h3>
+      <p class="one">重さで見分けるので、似たステロイドも別々に測れる</p>
+      <p>免疫測定法は形の似た物質まで測ってしまう（交差反応）。LC-MS/MSは分離してから重さで2段階に特定する。</p>
+      <p class="ctx"><b>文脈</b>21OHDスクリーニングの偽陽性低減、PORDの検出（O1-4-2）、新生児コルチゾールの測定法による乖離（O1-4-5）。</p>
+    </article>
+  </section>
+
+  <section class="layer" id="layer4">
+    <div class="layer-head"><span class="layer-no">4</span><div><h2>治療と発表の聞き方</h2><p>基礎の知識が治療と議論にどうつながるか。</p></div></div>
+
+    <article class="term">
+      <h3>APAの腫瘍内不均一性<small>intratumoral heterogeneity</small></h3>
+      <p class="one">1つの腫瘍の中に、作るホルモンの違う細胞が混ざっている</p>
+      <p>APA（アルドステロン産生腺腫）は均一ではなく、CYP11B2（アルドステロン合成）陰性の領域とCYP11B1（コルチゾール合成）陰性の領域が混在する。先の領域ごとにドライバー変異（KCNJ5、CACNA1D、ATP1A1など）が違うこともある。免疫染色や空間トランスクリプトームで「ステロイド産生の地図」を描ける。</p>
+      <ul><li><b>コルチゾール同時産生</b>：骨粗鬆症、耐糖能異常、心血管リスクが上乗せされる。</li><li><b>副腎静脈サンプリング</b>：コルチゾールで補正するので、腫瘍がコルチゾールも作ると左右判定が狂う。</li><li><b>術後</b>：対側副腎が抑制されていると、副腎不全になりうる。</li></ul>
+      <p class="ctx"><b>文脈</b>小川先生の特別講演。腫瘍の中の不均一性が、合併症や検査の解釈という臨床に直結するという話。</p>
+    </article>
+
+    <article class="term">
+      <h3>PLAP<small>placental alkaline phosphatase</small></h3>
+      <p class="one">胚腫種（ジーミノーマ）の腫瘍マーカー</p>
+      <p>胎盤型アルカリホスファターゼ。胚腫種はβ-hCGやAFPが上がらないことが多く、髄液PLAPが診断の助けになる。AFP高値＝卵黄嚢腫瘍、β-hCG高値＝絨毛癌の成分を疑う。</p>
+      <p class="ctx"><b>文脈</b>初経後の無月経と成長曲線異常から下垂体機能低下を疑ったジーミノーマ（P1-14-4）。下垂体茎の肥厚や尿崩症では胚腫種を忘れない。</p>
+    </article>
+
+    <article class="term">
+      <h3>GalNAc（ギャルナック）</h3>
+      <p class="one">核酸医薬を肝臓に届けるための糖の荷札</p>
+      <p>N-アセチルガラクトサミン。siRNAやアンチセンス核酸に付けると、肝細胞のASGPRが取り込む。皮下注だけで肝臓に集まる。例：givosiran、lumasiran、inclisiran。</p>
+      <p class="ctx"><b>文脈</b>糖原病Ia型の本邦好発変異を標的にした核酸医薬（SP2-1、広島大学）。</p>
+    </article>
+
+    <article class="term">
+      <h3>皮下注の方が効く理由</h3>
+      <p class="one">肝臓の入り口（ASGPR）には定員がある</p>
+      <p>静注は一気に濃度が上がって受容体が飽和し、入りきれない分が尿や他臓器へ逃げる。皮下注はゆっくり吸収されるので、低い濃度が長く続き効率よく取り込まれる。肝細胞内ではRISCで再利用されるため、数か月ごとの投与で効果が続く。</p>
+    </article>
+
+    <article class="term">
+      <h3>オフターゲット効果</h3>
+      <p class="one">狙った標的以外に作用してしまうこと</p>
+      <p>核酸医薬なら配列の似た別のmRNAを抑える、ゲノム編集なら狙っていない場所を切る。副作用の主な原因で、安全性評価の中心。</p>
+    </article>
+
+    <article class="term">
+      <h3>スペキュレーション<small>speculation</small></h3>
+      <p class="one">「ここからは推察です」</p>
+      <p>データでまだ示されていない演者の解釈。結果とスペキュレーションを分けて聞くと、どこまで信じてよいか整理しやすい。質疑では「それを確かめるには次に何をしますか」と聞ける。</p>
+    </article>
+  </section>
+
+  <p class="empty" id="empty" hidden>該当する用語がありません。別の言葉で探してください。</p>
+
+  <section class="read">
+    <h2>体系的に学ぶための教材</h2>
+    <ul>
+      <li><b>トンプソン&amp;トンプソン遺伝医学</b>：段階1と2を通読する定番。日本語訳あり。</li>
+      <li><b>Essential細胞生物学</b>：DNA→RNA→タンパクの土台が不安なとき。</li>
+      <li><b>GeneReviews</b>：疾患ごとに検査戦略まで書いてある。段階3と4を症例から身につける。</li>
+      <li>自分が診た疾患（PSIS、21OHD、CHIなど）の遺伝学的検査の流れを1つずつ説明できるようにする。</li>
+    </ul>
+  </section>
+
+  <footer>次の学会でわかった言葉が増えたら、この単語帳に追記していく。</footer>
+</div>
+
+<script>
+(function(){
+  var q=document.getElementById('q'),terms=[].slice.call(document.querySelectorAll('.term')),
+      layers=[].slice.call(document.querySelectorAll('section.layer')),empty=document.getElementById('empty');
+  q.addEventListener('input',function(){
+    var v=q.value.trim().toLowerCase(),shown=0;
+    terms.forEach(function(t){var hit=!v||t.textContent.toLowerCase().indexOf(v)>-1;t.hidden=!hit;if(hit)shown++;});
+    layers.forEach(function(l){l.hidden=!l.querySelector('.term:not([hidden])');});
+    empty.hidden=shown>0;
+  });
+})();
+</script>
+
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
+</body>
+</html>

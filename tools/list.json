@@ -49,6 +49,13 @@
   "v": "462a9e514c"
  },
  {
+  "file": "JSPE59_単語帳.html",
+  "title": "JSPE59 学会単語帳",
+  "cat": "conf",
+  "desc": "JSPE59で調べた遺伝・解析・治療の用語を4段階に整理。学会ごとに追記",
+  "v": "c11d5d3c97"
+ },
+ {
   "file": "OTC欠損症.html",
   "title": "OTC欠損症",
   "cat": "metab",
