@@ -62,8 +62,6 @@ section.layer{display:flex;flex-direction:column;gap:14px}
 .read ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
 .empty{color:var(--muted);text-align:center}
 footer{font-size:12.5px;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-html{scroll-behavior:smooth}
 </style>
 </head>
 <body>
@@ -335,6 +333,18 @@ html{scroll-behavior:smooth}
     terms.forEach(function(t){var hit=!v||t.textContent.toLowerCase().indexOf(v)>-1;t.hidden=!hit;if(hit)shown++;});
     layers.forEach(function(l){l.hidden=!l.querySelector('.term:not([hidden])');});
     empty.hidden=shown>0;
+  });
+  /* ページ内リンクは自分の文書だけをスクロールする（枠内で開いたとき親画面まで動かさない） */
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+    a.addEventListener('click',function(e){
+      var t=document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
+      e.preventDefault();
+      if(q.value){ q.value=''; q.dispatchEvent(new Event('input')); }
+      var bar=document.querySelector('.tools'), off=(bar?bar.offsetHeight:0)+8;
+      var y=t.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop)-off;
+      try{ window.scrollTo({top:y,behavior:reduce?'auto':'smooth'}); }catch(_){ window.scrollTo(0,y); }
+    });
   });
 })();
 </script>
