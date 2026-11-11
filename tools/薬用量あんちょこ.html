@@ -6,7 +6,7 @@
 <title>薬用量あんちょこ</title>
 <meta name="mini-title" content="薬用量あんちょこ">
 <meta name="mini-category" content="other">
-<meta name="mini-desc" content="忘れがちな薬の用量。体重を入れるとmgとmL・錠・gが出る。クループ・ステロイド換算・アタラックスP。自分で追加できる">
+<meta name="mini-desc" content="忘れがちな薬の用量。体重を入れるとmgとmL・錠・坐剤数が出る。ER（けいれん・アナフィラキシー・解熱・嘔吐・喘息）、クループ、ステロイド換算、アタラックスP">
 <style>
 :root{
   --bg:#eef2f7;--card:#fff;--border:#dde3ec;--text:#1a202c;--muted:#64748b;
@@ -178,7 +178,98 @@ const BUILTIN=[
         {n:'アタラックス-P カプセル25mg',s:'25 mg/カプセル',c:25,u:'カプセル'}],
  pts:['眠気が強く出る。けいれんの既往がある子は慎重に'],
  danger:'禁忌は注射と同じ（ポルフィリン症、妊婦、セチリジン等への過敏症）',
- src:'アタラックス-P 内服各製剤 添付文書'}
+ src:'アタラックス-P 内服各製剤 添付文書'},
+
+/* ===================== ER ===================== */
+{id:'er-adr',scene:['ER','アナフィラキシー'],c:'#b91c1c',
+ name:'アドレナリン筋注（アナフィラキシー）',sub:'ボスミン注 1 mg/mL ＝ 1 mg が 1 mL',
+ lead:'<b>大腿前外側に筋注</b>。ラインがあっても静注しない（心停止のときだけ静注）。',
+ regs:[{label:'アナフィラキシー',lo:0.01,hi:0.01,per:'回',max:0.3,note:'効果不十分なら5〜15分ごとにくり返す。小児の上限0.3 mg（成人0.5 mg）'}],
+ prods:[{n:'ボスミン注1mg（原液）',s:'1 mg/mL',c:1,u:'mL'}],
+ fixed:['エピペン：<b>30 kg 未満 → 0.15 mg</b>、<b>30 kg 以上 → 0.3 mg</b>（15 kg 未満では 0.15 mg でも 0.01 mg/kg を超える）'],
+ pts:['mg ＝ mL なので「体重 × 0.01 mL」と覚える（10 kg → 0.1 mL）','シリンジには1回量だけ吸っておく（多めに吸ってから捨てる方式は取り違えのもと）','抗ヒスタミン・ステロイドは補助。アドレナリンの代わりにならない'],
+ src:'日本アレルギー学会 アナフィラキシーガイドライン2022'},
+
+{id:'er-midaz',scene:['ER','けいれん'],c:'#1d4ed8',
+ name:'ミダゾラム静注（ミダフレッサ）',sub:'けいれん重積の第一選択（静脈路あり）',
+ regs:[{label:'初回 静注',lo:0.15,hi:0.15,per:'回',note:'1 mg/分を目安に。追加は1回0.1〜0.3 mg/kg、初回＋追加の総量0.6 mg/kgまで'},
+       {label:'持続静注（開始）',lo:0.1,hi:0.1,per:'時',note:'0.05〜0.1 mg/kg/時ずつ増量、最大0.4 mg/kg/時'}],
+ prods:[{n:'ミダフレッサ静注0.1%',s:'1 mg/mL（10 mg/10 mL）',c:1,u:'mL'},
+        {n:'ドルミカム注射液10mg（参考）',s:'5 mg/mL（10 mg/2 mL）',c:5,u:'mL'}],
+ danger:'<b>濃度の取り違え注意</b>：ミダフレッサ 1 mg/mL と ドルミカム 5 mg/mL は5倍違う。修正在胎45週未満・新生児に急速静注しない',
+ src:'ミダフレッサ静注0.1% 添付文書'},
+
+{id:'er-bucco',scene:['ER','けいれん'],c:'#1d4ed8',
+ name:'ブコラム（ミダゾラム口腔用液）',sub:'静脈路がないとき。頬の内側に入れる',
+ fixed:['3か月〜1歳未満 <b>2.5 mg（0.5 mL）</b>','1〜5歳未満 <b>5 mg（1 mL）</b>','5〜10歳未満 <b>7.5 mg（1.5 mL）</b>','10〜18歳未満 <b>10 mg（2 mL）</b>'],
+ pts:['体重ではなく<b>年齢</b>で決まる','3〜6か月は医師のもとで投与'],
+ src:'ブコラム 添付文書・医療関係者向け資料'},
+
+{id:'er-dzp-iv',scene:['ER','けいれん'],c:'#1d4ed8',off:true,
+ name:'ジアゼパム静注（セルシン・ホリゾン）',sub:'けいれん重積',
+ regs:[{label:'静注',lo:0.3,hi:0.5,per:'回',max:10,note:'ゆっくり静注'}],
+ prods:[{n:'セルシン注射液10mg／ホリゾン注射液10mg',s:'5 mg/mL（10 mg/2 mL）',c:5,u:'mL'}],
+ pts:['希釈すると白濁する → 原液のままゆっくり'],
+ src:'小児てんかん重積状態・けいれん重積状態治療ガイドライン2023の投与量（特定行為研修資料より）'},
+
+{id:'er-lzp',scene:['ER','けいれん'],c:'#1d4ed8',
+ name:'ロラゼパム静注（ロラピタ）',sub:'けいれん重積（生後3か月以上）',
+ regs:[{label:'静注',lo:0.05,hi:0.05,per:'回',max:4,note:'追加は0.05 mg/kg、総量0.1 mg/kgまで'}],
+ prods:[{n:'ロラピタ静注2mg',s:'2 mg/mL',c:2,u:'mL'}],
+ src:'小児てんかん重積状態・けいれん重積状態治療ガイドライン2023の投与量（特定行為研修資料より）'},
+
+{id:'er-diapp',scene:['ER','けいれん'],c:'#1d4ed8',
+ name:'ダイアップ坐剤',sub:'ジアゼパム坐剤　熱性けいれんの予防・発作時',
+ regs:[{label:'1回量',lo:0.4,hi:0.5,per:'回',note:'1日1〜2回。1日1 mg/kgを超えない'}],
+ prods:[{n:'ダイアップ坐剤4',s:'4 mg/個',c:4,u:'個'},{n:'ダイアップ坐剤6',s:'6 mg/個',c:6,u:'個'},{n:'ダイアップ坐剤10',s:'10 mg/個',c:10,u:'個'}],
+ pts:['熱性けいれん予防は37.5℃を目安に入れ、8時間後に2回目','解熱剤の坐剤と同時なら<b>ダイアップを先に</b>、30分以上あけて'],
+ danger:'禁忌：低出生体重児・新生児、急性閉塞隅角緑内障、重症筋無力症',
+ src:'ダイアップ坐剤 添付文書／熱性けいれん診療ガイドライン（使い方の2項目）'},
+
+{id:'er-fos',scene:['ER','けいれん'],c:'#1d4ed8',
+ name:'ホストイン（ホスフェニトイン）',sub:'第二選択。2歳以上',
+ regs:[{label:'てんかん重積 初回',lo:22.5,hi:22.5,per:'回',note:'速度は 3 mg/kg/分 か 150 mg/分 の低いほうまで（約7〜8分以上）'},
+       {label:'維持',lo:5,hi:7.5,per:'日',divs:[1,2],note:'速度は 1 mg/kg/分 か 75 mg/分 の低いほうまで'}],
+ prods:[{n:'ホストイン静注750mg',s:'75 mg/mL（750 mg/10 mL）',c:75,u:'mL'}],
+ pts:['添付文書の対象は<b>2歳以上</b>','心電図・血圧をモニターしながら'],
+ danger:'禁忌：洞性徐脈・高度の刺激伝導障害、ヒダントイン系への過敏症',
+ src:'ホストイン静注750mg 添付文書'},
+
+{id:'er-pb',scene:['ER','けいれん'],c:'#1d4ed8',
+ name:'ノーベルバール（フェノバルビタール静注）',sub:'第二選択／新生児けいれん',
+ regs:[{label:'てんかん重積',lo:15,hi:20,per:'回',note:'10分以上かけて、100 mg/分を超えない'},
+       {label:'新生児けいれん 初回',lo:20,hi:20,per:'回',note:'5〜10分かけて。維持は2.5〜5 mg/kg/日'}],
+ prods:[{n:'ノーベルバール静注用250mg（5 mLで溶解）',s:'溶解後 50 mg/mL',c:50,u:'mL'}],
+ pts:['1バイアルを注射用水か生食5 mLで溶かす → 50 mg/mL。6時間以内に使う','呼吸抑制に注意（ベンゾジアゼピンの後は特に）'],
+ src:'ノーベルバール静注用250mg 添付文書'},
+
+{id:'er-apap',scene:['ER','解熱・鎮痛'],c:'#166534',
+ name:'アセトアミノフェン 内服・坐剤',sub:'カロナール・アンヒバ・アルピニー',
+ regs:[{label:'1回量',lo:10,hi:15,per:'回',max:500,note:'4〜6時間あける。1日60 mg/kgまで（成人量を超えない）'}],
+ prods:[{n:'カロナールシロップ2%',s:'20 mg/mL',c:20,u:'mL'},{n:'カロナール細粒20%',s:'200 mg/g',c:200,u:'g'},
+        {n:'坐剤 50mg',s:'50 mg/個',c:50,u:'個'},{n:'坐剤 100mg',s:'100 mg/個',c:100,u:'個'},{n:'坐剤 200mg',s:'200 mg/個',c:200,u:'個'}],
+ pts:['坐剤は切って使える（1/2個など）','市販の風邪薬にも入っている → 重複に注意'],
+ src:'アンヒバ坐剤・カロナール 添付文書'},
+
+{id:'er-acelio',scene:['ER','解熱・鎮痛'],c:'#166534',
+ name:'アセリオ（アセトアミノフェン静注）',sub:'内服・坐剤が無理なとき。15分で投与',
+ regs:[{label:'2歳以上',lo:10,hi:15,per:'回',max:500,note:'4〜6時間あける。1日60 mg/kgまで'},
+       {label:'乳児・2歳未満',lo:7.5,hi:7.5,per:'回',max:500,note:'4〜6時間あける。1日30 mg/kgまで'}],
+ prods:[{n:'アセリオ静注液1000mgバッグ',s:'10 mg/mL（1000 mg/100 mL）',c:10,u:'mL'}],
+ danger:'<b>過量投与の報告あり</b>（日本小児科学会の注意喚起）。バッグ100 mLを全部入れない。必要量を抜いて使う',
+ src:'アセリオ 添付文書／日本小児科学会 薬事委員会 注意喚起（2021）'},
+
+{id:'er-dom',scene:['ER','吐き気'],c:'#b45309',
+ name:'ナウゼリン坐剤（ドンペリドン）',sub:'嘔吐',
+ fixed:['3歳未満：<b>10 mg</b> 1回、1日2〜3回','3歳以上：<b>30 mg</b> 1回、1日2〜3回'],
+ pts:['1歳以下は量に注意、3歳以下は7日以上続けない','錐体外路症状・意識障害・けいれんが出ることがある（脱水・発熱時は特に）'],
+ src:'ナウゼリン坐剤 添付文書'},
+
+{id:'er-saba',scene:['ER','喘息'],c:'#b45309',
+ name:'β2刺激薬吸入（喘息発作）',sub:'メプチン・ベネトリン',
+ fixed:['<b>メプチン吸入液ユニット0.3 mL 1本</b> または <b>ベネトリン吸入液0.3 mL</b>（＋インタール吸入液）','中発作以上は20分ごと、3回までくり返す'],
+ pts:['SpO2 95%以上を目標に酸素','全身ステロイドは「喘息」タブのプレドニゾロン・シロップ'],
+ src:'日本小児アレルギー学会 災害派遣医療スタッフ向けアレルギー児対応マニュアル'}
 ];
 
 /* ステロイド換算（糖質作用で同等になる量） */
@@ -209,17 +300,18 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 function nf(x){if(!isFinite(x))return '—';const a=Math.abs(x);let d=a<1?2:a<10?2:1;return (+x.toFixed(d)).toString()}
 function amt(mg,p){const v=mg/p.c;
   if(p.u==='錠'||p.u==='カプセル'){const q=Math.round(v*4)/4;return `${nf(v)} ${p.u}<br><small>≒${q}${p.u}（1/4単位）</small>`}
+  if(p.u==='個'){const q=Math.round(v*2)/2;return `${nf(v)} 個<br><small>≒${q}個（1/2単位）</small>`}
   return `${nf(v)} ${p.u}`}
 function range(a,b,f){return Math.abs(a-b)<1e-9?f(a):`${f(a)}〜${f(b)}`}
 
 /* ===== 1剤のカード ===== */
 function regHTML(r,d){
-  const per=r.per==='日'?'/kg/日':'/kg/回';
+  const per='/kg/'+r.per; const lab={回:'1回量',日:'1日量',時:'1時間あたり'}[r.per]||'1回量'; const tail=r.per==='時'?'/時':'';
   let h=`<div class="reg"><div class="rh">${esc(r.label)}<span>${nf(r.lo)}${r.hi!==r.lo?'〜'+nf(r.hi):''} mg${per}${r.max?`・上限 ${nf(r.max)} mg/${r.per}`:''}</span></div><div class="dose">`;
   if(!(W>0)){h+=`<div class="nowt">体重を入れると量が出ます${r.note?'　｜'+esc(r.note):''}</div></div></div>`;return h}
   let lo=r.lo*W, hi=r.hi*W, capped=false;
   if(r.max){if(hi>r.max){hi=r.max;capped=true}if(lo>r.max){lo=r.max;capped=true}}
-  h+=`<div>${r.per==='日'?'1日量':'1回量'}　<span class="big">${range(lo,hi,nf)} mg</span>${capped?' <span class="cap">上限で止めています</span>':''}</div>`;
+  h+=`<div>${lab}　<span class="big">${range(lo,hi,nf)} mg${tail}</span>${capped?' <span class="cap">上限で止めています</span>':''}</div>`;
   if(r.per==='日'&&r.divs&&r.divs.length){
     h+=`<div style="font-size:12.5px;margin-top:2px">`+r.divs.map(n=>`分${n}なら 1回 <b>${range(lo/n,hi/n,nf)} mg</b>`).join('　／　')+`</div>`;
   }
@@ -227,7 +319,7 @@ function regHTML(r,d){
   if(d.prods&&d.prods.length){
     h+=`<table class="prods">`+d.prods.map(p=>{
       let cell=range(lo,hi,x=>'@'+x+'@');
-      cell=Math.abs(lo-hi)<1e-9?amt(lo,p):`${nf(lo/p.c)}〜${nf(hi/p.c)} ${p.u}`;
+      cell=(Math.abs(lo-hi)<1e-9?amt(lo,p):`${nf(lo/p.c)}〜${nf(hi/p.c)} ${p.u}`)+(r.per==='時'?'/時':'');
       let per1='';
       if(r.per==='日'&&r.divs&&r.divs.length===1){const n=r.divs[0];per1=`<br><small>1回 ${Math.abs(lo-hi)<1e-9?nf(lo/n/p.c):nf(lo/n/p.c)+'〜'+nf(hi/n/p.c)} ${p.u}</small>`}
       return `<tr><td>${esc(p.n)}${p.s?`<br><small>${esc(p.s)}</small>`:''}</td><td>${cell}${per1}</td></tr>`}).join('')+`</table>`;
@@ -281,14 +373,14 @@ function formHTML(d){
   const r=d.regs[0]||{}, ps=d.prods||[];
   return _form(d,r,ps);
 }
-const prow=(p,i)=>`<div class="row"><div class="fld" style="flex:2"><label>製剤名 ${i+1}</label><input data-pn="${i}" value="${esc(p.n||'')}" placeholder="例：アタラックス-P注 25mg/mL"></div><div class="fld"><label>1単位のmg</label><input data-pc="${i}" type="number" inputmode="decimal" value="${esc(p.c||'')}"></div><div class="fld"><label>単位</label><select data-pu="${i}">${['mL','錠','g','カプセル','本','包'].map(u=>`<option${p.u===u?' selected':''}>${u}</option>`).join('')}</select></div></div>`;
+const prow=(p,i)=>`<div class="row"><div class="fld" style="flex:2"><label>製剤名 ${i+1}</label><input data-pn="${i}" value="${esc(p.n||'')}" placeholder="例：アタラックス-P注 25mg/mL"></div><div class="fld"><label>1単位のmg</label><input data-pc="${i}" type="number" inputmode="decimal" value="${esc(p.c||'')}"></div><div class="fld"><label>単位</label><select data-pu="${i}">${['mL','錠','g','個','カプセル','本','包'].map(u=>`<option${p.u===u?' selected':''}>${u}</option>`).join('')}</select></div></div>`;
 function _form(d,r,ps){
   return `<div class="panel"><h2>${d.id?'編集':'薬を追加'}</h2>
   <div class="fld"><label>薬の名前</label><input id="fName" value="${esc(d.name)}" placeholder="例：ホリゾン注"></div>
   <div class="fld"><label>ひとこと（場面・一般名など）</label><input id="fSub" value="${esc(d.sub||'')}"></div>
   <div class="fld"><label>場面（カンマ区切り。タブになります）</label><input id="fScene" value="${esc((d.scene||[]).join(','))}" placeholder="例：けいれん,病棟指示"></div>
   <div class="fld"><label>用量の名前</label><input id="fRl" value="${esc(r.label||'')}" placeholder="例：けいれん重積"></div>
-  <div class="row"><div class="fld"><label>mg/kg 下限</label><input id="fLo" type="number" inputmode="decimal" value="${esc(r.lo??'')}"></div><div class="fld"><label>mg/kg 上限</label><input id="fHi" type="number" inputmode="decimal" value="${esc(r.hi??'')}" placeholder="同じなら空"></div><div class="fld"><label>単位</label><select id="fPer"><option value="回"${r.per==='回'?' selected':''}>/回</option><option value="日"${r.per==='日'?' selected':''}>/日</option></select></div></div>
+  <div class="row"><div class="fld"><label>mg/kg 下限</label><input id="fLo" type="number" inputmode="decimal" value="${esc(r.lo??'')}"></div><div class="fld"><label>mg/kg 上限</label><input id="fHi" type="number" inputmode="decimal" value="${esc(r.hi??'')}" placeholder="同じなら空"></div><div class="fld"><label>単位</label><select id="fPer"><option value="回"${r.per==='回'?' selected':''}>/回</option><option value="日"${r.per==='日'?' selected':''}>/日</option><option value="時"${r.per==='時'?' selected':''}>/時</option></select></div></div>
   <div class="row"><div class="fld"><label>上限 mg（任意）</label><input id="fMax" type="number" inputmode="decimal" value="${esc(r.max??'')}"></div><div class="fld"><label>分割（/日のとき）</label><input id="fDiv" value="${esc((r.divs||[]).join(','))}" placeholder="例：2,3"></div></div>
   <div id="fProds">${(ps.length?ps:[{u:'mL'}]).map(prow).join('')}</div>
   <button class="btn" id="fAddP" type="button">＋製剤を足す</button>
@@ -304,7 +396,8 @@ function mineHTML(){
 
 /* ===== 描画 ===== */
 function render(){
-  const tabs=['すべて',...SCENES(),'ステロイド換算','自分で追加'];
+  const sc=SCENES();if(sc.includes('ER'))sc.splice(sc.indexOf('ER'),1),sc.unshift('ER');
+  const tabs=['すべて',...sc,'ステロイド換算','自分で追加'];
   if(!tabs.includes(tab))tab='すべて';
   document.getElementById('tabs').innerHTML=tabs.map(t=>`<button role="tab" aria-selected="${t===tab}" data-tab="${esc(t)}">${esc(t)}</button>`).join('');
   const sel=document.querySelector('#tabs [aria-selected=true]');if(sel)sel.scrollIntoView({block:'nearest',inline:'center'});
