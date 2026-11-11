@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>薬用量あんちょこ</title>
+<meta name="mini-title" content="薬用量あんちょこ">
+<meta name="mini-category" content="other">
+<meta name="mini-desc" content="忘れがちな薬の用量。体重を入れるとmgとmL・錠・gが出る。クループ・ステロイド換算・アタラックスP。自分で追加できる">
+<style>
+:root{
+  --bg:#eef2f7;--card:#fff;--border:#dde3ec;--text:#1a202c;--muted:#64748b;
+  --primary:#1e3a5f;--red:#b91c1c;--red-bg:#fef2f2;--red-bd:#fca5a5;
+  --amber:#92400e;--amber-bg:#fffbeb;--amber-bd:#fcd34d;
+  --blue:#1d4ed8;--blue-bg:#eff6ff;--blue-bd:#93c5fd;
+  --green:#166534;--green-bg:#f0fdf4;--green-bd:#86efac;
+  --purple:#5b21b6;--purple-bg:#f5f3ff;--purple-bd:#c4b5fd;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+.header{background:linear-gradient(135deg,#1e3a5f 0%,#2d5a9e 60%,#1e4e9e 100%);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 10px}
+.header h1{font-size:18px;font-weight:800}
+.header .sub{font-size:11px;opacity:.78;margin-top:1px}
+.wbar{position:sticky;top:0;z-index:20;background:#16304f;color:#fff;padding:8px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+.wbar label{font-size:12px;opacity:.85;white-space:nowrap}
+.wbar input{width:92px;font-size:20px;font-weight:800;padding:4px 8px;border-radius:8px;border:none;text-align:right}
+.wbar .kg{font-weight:700}
+.wbar .hint{font-size:11px;opacity:.7;margin-left:auto;text-align:right}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 12px 4px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:1px solid var(--border);background:#fff;color:var(--primary);border-radius:18px;padding:6px 13px;font-size:13px;font-weight:700;font-family:inherit}
+.tabs button[aria-selected=true]{background:var(--primary);color:#fff;border-color:var(--primary)}
+.search{padding:6px 12px}
+.search input{width:100%;font-size:15px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);font-family:inherit}
+main{padding:4px 12px}
+.card{background:var(--card);border:1px solid var(--border);border-left:5px solid var(--c,#3468a8);border-radius:12px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+.card>summary{list-style:none;cursor:pointer;padding:11px 13px;display:flex;align-items:flex-start;gap:8px}
+.card>summary::-webkit-details-marker{display:none}
+.card>summary .ttl{font-weight:800;font-size:15px;color:var(--primary);flex:1}
+.card>summary .ttl small{display:block;font-weight:500;font-size:11.5px;color:var(--muted);margin-top:1px}
+.card>summary .chev{color:var(--muted);transition:transform .15s;margin-top:2px}
+.card[open]>summary .chev{transform:rotate(90deg)}
+.body{padding:0 13px 12px}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:10px;margin:0 4px 4px 0;border:1px solid}
+.tag.scene{color:var(--blue);background:var(--blue-bg);border-color:var(--blue-bd)}
+.tag.off{color:var(--amber);background:var(--amber-bg);border-color:var(--amber-bd)}
+.tag.mine{color:var(--purple);background:var(--purple-bg);border-color:var(--purple-bd)}
+.lead{font-size:12.5px;color:#334155;margin:4px 0 8px}
+.reg{border:1px solid var(--border);border-radius:10px;margin:8px 0;overflow:hidden}
+.reg .rh{background:#f1f5f9;padding:6px 10px;font-size:12.5px;font-weight:700;color:var(--primary);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.reg .rh span{font-weight:500;color:var(--muted)}
+.reg .dose{padding:8px 10px;font-size:13px}
+.big{font-size:20px;font-weight:800;color:var(--red)}
+.cap{font-size:11px;color:var(--amber);font-weight:700}
+.prods{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.prods td{padding:5px 4px;border-top:1px solid #edf1f6;vertical-align:top}
+.prods td:last-child{text-align:right;font-weight:800;white-space:nowrap;color:#0f172a}
+.prods td small{color:var(--muted);font-weight:500}
+.nowt{color:var(--muted);font-size:12px}
+.fixed{background:var(--green-bg);border:1px solid var(--green-bd);color:var(--green);border-radius:8px;padding:7px 10px;font-weight:700;font-size:13px;margin:6px 0}
+ul.pts{margin:8px 0 4px 18px;font-size:12.5px}
+ul.pts li{margin:3px 0}
+.warn{background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--amber);margin:8px 0}
+.danger{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--red);margin:8px 0}
+.src{font-size:10.5px;color:var(--muted);margin-top:6px}
+.memo{margin-top:8px}
+.memo label{font-size:11px;font-weight:700;color:var(--purple)}
+.memo textarea{width:100%;min-height:44px;font-size:13px;font-family:inherit;padding:6px 8px;border:1px dashed var(--purple-bd);border-radius:8px;background:#fcfbff;resize:vertical}
+.btn{font-family:inherit;font-size:13px;font-weight:700;border-radius:9px;padding:8px 14px;border:1px solid var(--border);background:#fff;color:var(--primary)}
+.btn.pri{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn.del{color:var(--red);border-color:var(--red-bd)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;margin:10px 0}
+.panel h2{font-size:15px;color:var(--primary);margin-bottom:6px}
+.eq{width:100%;border-collapse:collapse;font-size:12.5px}
+.eq th,.eq td{border:1px solid var(--border);padding:5px 6px;text-align:center}
+.eq th{background:#f1f5f9;color:var(--primary);font-size:11.5px}
+.eq td:first-child{text-align:left;font-weight:700}
+.conv{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.conv select,.conv input{font-size:15px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);font-family:inherit}
+.conv input{width:90px;text-align:right}
+.fld{margin:7px 0}
+.fld label{display:block;font-size:11.5px;color:var(--muted);font-weight:700}
+.fld input,.fld select,.fld textarea{width:100%;font-size:15px;padding:7px 9px;border-radius:8px;border:1px solid var(--border);font-family:inherit}
+.row{display:flex;gap:8px}.row>.fld{flex:1}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+.foot{font-size:11px;color:var(--muted);padding:14px 4px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>薬用量あんちょこ</h1>
+  <div class="sub">忘れがちな小児の薬用量。体重を入れると mg と 製剤ごとの量が出ます</div>
+</div>
+<div class="wbar">
+  <label for="w">体重</label>
+  <input id="w" type="number" inputmode="decimal" min="0" step="0.1" placeholder="—">
+  <span class="kg">kg</span>
+  <span class="hint">体重は保存されません</span>
+</div>
+<div class="tabs" id="tabs" role="tablist"></div>
+<div class="search" id="searchBox"><input id="q" type="search" placeholder="薬の名前・場面で検索（例：リンデロン、かゆみ）"></div>
+<main id="main"></main>
+<div class="foot">計算は目安です。最終的な量は添付文書・院内の約束事・薬剤部で確認してください。「添付文書外」の印がある用量は、添付文書に小児用量の記載がないため一般的な目安を載せています。</div>
+
+<script>
+/* ===== 保存（使えない環境でも落ちないように） ===== */
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+          set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ===== データ =====
+ reg: lo/hi = mg/kg、per = '回' or '日'、divs = 分割回数、max = 1回(per=回)または1日(per=日)の上限mg
+ prods: c = 製剤1単位あたりのmg、u = 単位（mL・錠・g・本）
+*/
+const BUILTIN=[
+{id:'croup-dex',scene:['クループ','ステロイド'],c:'#b91c1c',
+ name:'デキサメタゾン／ベタメタゾン内服',sub:'クループの単回投与（リンデロン・デカドロン）',
+ lead:'デキサメタゾンとベタメタゾンは力価がほぼ同じなので、mgはそのまま読み替えてよい。1回だけ飲ませる。',
+ regs:[{label:'軽症〜中等症',lo:0.15,hi:0.15,per:'回',max:10,note:'単回'},
+       {label:'中等症〜重症・入院',lo:0.6,hi:0.6,per:'回',max:10,note:'単回。上限は文献により10〜16 mg'}],
+ prods:[{n:'リンデロンシロップ0.01%',s:'0.1 mg/mL',c:0.1,u:'mL'},
+        {n:'デカドロンエリキシル0.01%',s:'0.1 mg/mL',c:0.1,u:'mL'},
+        {n:'デカドロン錠0.5mg／リンデロン錠0.5mg',s:'0.5 mg/錠',c:0.5,u:'錠'},
+        {n:'デカドロン錠4mg',s:'4 mg/錠',c:4,u:'錠'},
+        {n:'リンデロン散0.1%',s:'1 mg/g',c:1,u:'g'},
+        {n:'デキサメタゾン注（内服できないとき 筋注・静注）',s:'3.3 mg/mL',c:3.3,u:'mL'}],
+ pts:['0.15 mg/kg は シロップ・エリキシルで <b>1.5 mL/kg</b>。10 kg で 15 mL と多いので、嫌がる子は錠剤の粉砕も選択肢',
+      '0.15 mg/kg でも 0.6 mg/kg と同程度に効く可能性がある（Cochrane 2023）',
+      '効き始めまで数時間かかる。安静時の吸気性喘鳴・陥没呼吸があればボスミン吸入を先に'],
+ src:'Cochrane Database Syst Rev 2023 (CD001955)／大同病院 小児科研修マニュアル'},
+
+{id:'croup-epi',scene:['クループ'],c:'#b91c1c',
+ name:'ボスミン吸入（アドレナリン）',sub:'クループ 中等症以上（安静時の吸気性喘鳴）',
+ lead:'効果は早いが1〜2時間で切れる。ステロイドと必ずセットで。',
+ fixed:['院内でよく使う形：<b>ボスミン外用液0.1% 0.1 mL ＋ 生食 2 mL</b> をネブライザー吸入'],
+ regs:[{label:'海外の体重換算（1 mg/mL 原液）',lo:0.5,hi:0.5,per:'回',max:5,note:'原液のまま吸入。上限 5 mL'}],
+ prods:[{n:'ボスミン外用液0.1%（原液）',s:'1 mg/mL',c:1,u:'mL'}],
+ pts:['吸入後は少なくとも2時間は観察（効果が切れて喘鳴が戻ることがある）','くり返し必要なら入院を考える'],
+ warn:'流涎・嚥下困難・toxic な見た目なら喉頭蓋炎や細菌性気管炎を考え、刺激しない',
+ src:'大同病院 小児科研修マニュアル／海外の小児救急ガイドライン'},
+
+{id:'asthma-psl',scene:['喘息','ステロイド'],c:'#b45309',
+ name:'プレドニゾロン内服',sub:'喘息発作の全身ステロイド（帰宅処方など）',
+ regs:[{label:'喘息発作',lo:0.5,hi:1,per:'日',divs:[2,3],note:'分2〜3'}],
+ prods:[{n:'プレドニゾロン散1%',s:'10 mg/g',c:10,u:'g'},
+        {n:'プレドニゾロン錠1mg',s:'1 mg/錠',c:1,u:'錠'},
+        {n:'プレドニン錠5mg',s:'5 mg/錠',c:5,u:'錠'}],
+ pts:['同じ場面のベタメタゾン／デキサメタゾンなら下の「シロップ0.5 mL/kg/日」'],
+ src:'日本小児アレルギー学会 災害派遣医療スタッフ向けアレルギー児対応マニュアル'},
+
+{id:'asthma-bet',scene:['喘息','ステロイド'],c:'#b45309',
+ name:'リンデロンシロップ／デカドロンエリキシル',sub:'喘息発作の全身ステロイド（シロップで出すとき）',
+ regs:[{label:'喘息発作（0.5 mL/kg/日）',lo:0.05,hi:0.05,per:'日',divs:[2],note:'分2'}],
+ prods:[{n:'リンデロンシロップ0.01%',s:'0.1 mg/mL',c:0.1,u:'mL'},
+        {n:'デカドロンエリキシル0.01%',s:'0.1 mg/mL',c:0.1,u:'mL'}],
+ pts:['覚え方：喘息は <b>0.5 mL/kg/日 分2</b>、クループは <b>1.5 mL/kg 1回</b>（どちらも0.01%製剤）'],
+ src:'日本小児アレルギー学会 災害派遣医療スタッフ向けアレルギー児対応マニュアル'},
+
+{id:'hyd-iv',scene:['鎮静・不穏','かゆみ','病棟指示'],c:'#5b21b6',off:true,
+ name:'アタラックス-P 注射液',sub:'ヒドロキシジン塩酸塩　不穏時・かゆみ時の病棟指示',
+ lead:'添付文書の用量は成人のみ（静注 1回25〜50 mg、筋注 1回50〜100 mg、4〜6時間あけて）。小児は下の一般的な目安で。',
+ regs:[{label:'不穏・不安・かゆみ（静注・点滴／筋注）',lo:0.5,hi:1,per:'回',max:50,note:'必要時、4〜6時間あける'}],
+ prods:[{n:'アタラックス-P 注射液 25mg/mL',s:'25 mg/mL',c:25,u:'mL'},
+        {n:'アタラックス-P 注射液 50mg/mL',s:'50 mg/mL',c:50,u:'mL'}],
+ pts:['静注は <b>25 mg/分 未満でできるだけゆっくり</b>。点滴静注が望ましく、原液を希釈せず側管から直接入れるのは避ける',
+      '筋注後はもまずに軽く押さえる。乳児・小児への筋注の連用は避ける（筋障害の報告）',
+      '添加物にベンジルアルコール → 新生児・低出生体重児は特に注意',
+      'QT延長のある子・QT延長を起こす薬との併用、てんかんなど痙攣性疾患は慎重に'],
+ danger:'禁忌：ポルフィリン症、妊婦、セチリジン・ピペラジン誘導体・アミノフィリン・エチレンジアミンへの過敏症',
+ src:'アタラックス-P注射液 添付文書（2026年6月改訂）'},
+
+{id:'hyd-po',scene:['かゆみ','鎮静・不穏'],c:'#5b21b6',off:true,
+ name:'アタラックス-P 内服',sub:'ヒドロキシジンパモ酸塩　かゆみ・不安',
+ lead:'添付文書の用量は成人のみ（皮膚科 1日50〜75 mg 分2〜3）。量はすべて「ヒドロキシジン塩酸塩として」の mg。',
+ regs:[{label:'かゆみ・不安',lo:1,hi:2,per:'日',divs:[2,3],max:75,note:'分2〜3。成人量を超えない'}],
+ prods:[{n:'アタラックス-P ドライシロップ2.5%',s:'25 mg/g',c:25,u:'g'},
+        {n:'アタラックス-P シロップ0.5%',s:'5 mg/mL',c:5,u:'mL'},
+        {n:'アタラックス-P 散10%',s:'100 mg/g',c:100,u:'g'},
+        {n:'アタラックス-P カプセル25mg',s:'25 mg/カプセル',c:25,u:'カプセル'}],
+ pts:['眠気が強く出る。けいれんの既往がある子は慎重に'],
+ danger:'禁忌は注射と同じ（ポルフィリン症、妊婦、セチリジン等への過敏症）',
+ src:'アタラックス-P 内服各製剤 添付文書'}
+];
+
+/* ステロイド換算（糖質作用で同等になる量） */
+const STER=[
+ {k:'HC', n:'ヒドロコルチゾン（コートリル・ソル・コーテフ）',eq:20,gc:1,mc:1,t:'短（8〜12時間）'},
+ {k:'PSL',n:'プレドニゾロン（プレドニン）',eq:5,gc:4,mc:0.8,t:'中（12〜36時間）'},
+ {k:'mPSL',n:'メチルプレドニゾロン（ソル・メドロール）',eq:4,gc:5,mc:0.5,t:'中（12〜36時間）'},
+ {k:'DEX',n:'デキサメタゾン（デカドロン）',eq:0.75,gc:'25〜30',mc:0,t:'長（36〜54時間）'},
+ {k:'BET',n:'ベタメタゾン（リンデロン）',eq:0.75,gc:'25〜30',mc:0,t:'長（36〜54時間）'}
+];
+const SPROD={
+ HC:[{n:'コートリル錠10mg',c:10,u:'錠'}],
+ PSL:[{n:'プレドニゾロン散1%',c:10,u:'g'},{n:'プレドニン錠5mg',c:5,u:'錠'}],
+ mPSL:[],
+ DEX:[{n:'デカドロンエリキシル0.01%',c:0.1,u:'mL'},{n:'デカドロン錠0.5mg',c:0.5,u:'錠'},{n:'デキサメタゾン注 3.3mg/mL',c:3.3,u:'mL'}],
+ BET:[{n:'リンデロンシロップ0.01%',c:0.1,u:'mL'},{n:'リンデロン錠0.5mg',c:0.5,u:'錠'},{n:'リンデロン注 4mg/mL（0.4%）',c:4,u:'mL'}]
+};
+
+/* ===== 状態 ===== */
+let W=NaN, tab='すべて', q='';
+let mine=LS.get('yakuyou.mine',[]);
+let memos=LS.get('yakuyou.memo',{});
+const all=()=>BUILTIN.concat(mine.map(m=>({...m,mine:true,c:'#5b21b6'})));
+const SCENES=()=>{const s=[];for(const d of all())for(const x of d.scene)if(!s.includes(x)&&x!=='自分で追加')s.push(x);return s};
+
+/* ===== 書式 ===== */
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function nf(x){if(!isFinite(x))return '—';const a=Math.abs(x);let d=a<1?2:a<10?2:1;return (+x.toFixed(d)).toString()}
+function amt(mg,p){const v=mg/p.c;
+  if(p.u==='錠'||p.u==='カプセル'){const q=Math.round(v*4)/4;return `${nf(v)} ${p.u}<br><small>≒${q}${p.u}（1/4単位）</small>`}
+  return `${nf(v)} ${p.u}`}
+function range(a,b,f){return Math.abs(a-b)<1e-9?f(a):`${f(a)}〜${f(b)}`}
+
+/* ===== 1剤のカード ===== */
+function regHTML(r,d){
+  const per=r.per==='日'?'/kg/日':'/kg/回';
+  let h=`<div class="reg"><div class="rh">${esc(r.label)}<span>${nf(r.lo)}${r.hi!==r.lo?'〜'+nf(r.hi):''} mg${per}${r.max?`・上限 ${nf(r.max)} mg/${r.per}`:''}</span></div><div class="dose">`;
+  if(!(W>0)){h+=`<div class="nowt">体重を入れると量が出ます${r.note?'　｜'+esc(r.note):''}</div></div></div>`;return h}
+  let lo=r.lo*W, hi=r.hi*W, capped=false;
+  if(r.max){if(hi>r.max){hi=r.max;capped=true}if(lo>r.max){lo=r.max;capped=true}}
+  h+=`<div>${r.per==='日'?'1日量':'1回量'}　<span class="big">${range(lo,hi,nf)} mg</span>${capped?' <span class="cap">上限で止めています</span>':''}</div>`;
+  if(r.per==='日'&&r.divs&&r.divs.length){
+    h+=`<div style="font-size:12.5px;margin-top:2px">`+r.divs.map(n=>`分${n}なら 1回 <b>${range(lo/n,hi/n,nf)} mg</b>`).join('　／　')+`</div>`;
+  }
+  if(r.note)h+=`<div class="nowt" style="margin-top:2px">${esc(r.note)}</div>`;
+  if(d.prods&&d.prods.length){
+    h+=`<table class="prods">`+d.prods.map(p=>{
+      let cell=range(lo,hi,x=>'@'+x+'@');
+      cell=Math.abs(lo-hi)<1e-9?amt(lo,p):`${nf(lo/p.c)}〜${nf(hi/p.c)} ${p.u}`;
+      let per1='';
+      if(r.per==='日'&&r.divs&&r.divs.length===1){const n=r.divs[0];per1=`<br><small>1回 ${Math.abs(lo-hi)<1e-9?nf(lo/n/p.c):nf(lo/n/p.c)+'〜'+nf(hi/n/p.c)} ${p.u}</small>`}
+      return `<tr><td>${esc(p.n)}${p.s?`<br><small>${esc(p.s)}</small>`:''}</td><td>${cell}${per1}</td></tr>`}).join('')+`</table>`;
+  }
+  return h+`</div></div>`;
+}
+function cardHTML(d){
+  const open=LS.get('yakuyou.open',{})[d.id];
+  let h=`<details class="card" data-id="${esc(d.id)}" style="--c:${d.c}"${open||q?' open':''}><summary><div class="ttl">${esc(d.name)}<small>${esc(d.sub||'')}</small></div><span class="chev">›</span></summary><div class="body">`;
+  h+=d.scene.map(s=>`<span class="tag scene">${esc(s)}</span>`).join('')+(d.off?'<span class="tag off">小児は添付文書外</span>':'')+(d.mine?'<span class="tag mine">自分で追加</span>':'');
+  if(d.lead)h+=`<div class="lead">${d.mine?esc(d.lead):d.lead}</div>`;
+  if(d.fixed)h+=d.fixed.map(f=>`<div class="fixed">${f}</div>`).join('');
+  h+=(d.regs||[]).map(r=>regHTML(r,d)).join('');
+  if(d.pts&&d.pts.length)h+=`<ul class="pts">${d.pts.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+  if(d.warn)h+=`<div class="warn">${d.warn}</div>`;
+  if(d.danger)h+=`<div class="danger">${d.danger}</div>`;
+  if(d.src)h+=`<div class="src">出典：${esc(d.src)}</div>`;
+  h+=`<div class="memo"><label>院内の約束・自分メモ（この端末に保存）</label><textarea data-memo="${esc(d.id)}" placeholder="例：うちの病棟は 0.5 mg/kg を生食20 mLで30分">${esc(memos[d.id]||'')}</textarea></div>`;
+  if(d.mine)h+=`<div style="margin-top:8px;display:flex;gap:6px"><button class="btn" data-edit="${esc(d.id)}">編集</button><button class="btn del" data-del="${esc(d.id)}">削除</button></div>`;
+  return h+`</div></details>`;
+}
+
+/* ===== ステロイド換算 ===== */
+function steroidHTML(){
+  const from=LS.get('yakuyou.sfrom','PSL');
+  let h=`<div class="panel"><h2>ステロイド換算</h2>
+  <div class="conv"><select id="sFrom">${STER.map(s=>`<option value="${s.k}"${s.k===from?' selected':''}>${esc(s.n.split('（')[0])}</option>`).join('')}</select>
+  <input id="sMg" type="number" inputmode="decimal" placeholder="mg" value="${esc(LS.get('yakuyou.smg',''))}"> mg は…</div><div id="sOut"></div></div>`;
+  h+=`<div class="panel"><h2>力価の早見</h2><table class="eq"><tr><th>薬</th><th>同等量</th><th>糖質</th><th>鉱質</th><th>作用時間</th></tr>`+
+   STER.map(s=>`<tr><td>${esc(s.n)}</td><td><b>${s.eq} mg</b></td><td>${s.gc}</td><td>${s.mc}</td><td>${esc(s.t)}</td></tr>`).join('')+
+   `</table><ul class="pts"><li>覚え方：<b>ヒドロコルチゾン20 ＝ プレドニゾロン5 ＝ メチルプレド4 ＝ デキサ・ベタ0.75</b></li>
+   <li>デキサメタゾン・ベタメタゾンは鉱質作用がほぼ0 → 副腎不全の補充（とくに塩喪失型）には向かない</li>
+   <li>ベタメタゾンの同等量を0.6 mgとする表もある</li></ul>
+   <div class="src">出典：一般的なステロイド力価表（成書の値。資料により多少異なる）</div></div>`;
+  return h;
+}
+function steroidCalc(){
+  const out=document.getElementById('sOut');if(!out)return;
+  const k=document.getElementById('sFrom').value, mg=parseFloat(document.getElementById('sMg').value);
+  LS.set('yakuyou.sfrom',k);LS.set('yakuyou.smg',document.getElementById('sMg').value);
+  if(!(mg>0)){out.innerHTML='<div class="nowt">量を入れると他の薬での同等量が出ます</div>';return}
+  const src=STER.find(s=>s.k===k), ratio=mg/src.eq;
+  out.innerHTML=`<table class="prods">`+STER.filter(s=>s.k!==k).map(s=>{const v=ratio*s.eq;
+    const ps=(SPROD[s.k]||[]).map(p=>`${esc(p.n)} ${nf(v/p.c)} ${p.u}`).join('<br>');
+    return `<tr><td><b>${esc(s.n)}</b>${ps?`<br><small>${ps}</small>`:''}</td><td><span class="big" style="font-size:17px">${nf(v)} mg</span></td></tr>`}).join('')+`</table>`;
+}
+
+/* ===== 自分で追加 ===== */
+function formHTML(d){
+  d=d||{id:'',name:'',sub:'',scene:[],regs:[{label:'',lo:'',hi:'',per:'回',max:''}],prods:[{n:'',c:'',u:'mL'}],lead:''};
+  const r=d.regs[0]||{}, ps=d.prods||[];
+  return _form(d,r,ps);
+}
+const prow=(p,i)=>`<div class="row"><div class="fld" style="flex:2"><label>製剤名 ${i+1}</label><input data-pn="${i}" value="${esc(p.n||'')}" placeholder="例：アタラックス-P注 25mg/mL"></div><div class="fld"><label>1単位のmg</label><input data-pc="${i}" type="number" inputmode="decimal" value="${esc(p.c||'')}"></div><div class="fld"><label>単位</label><select data-pu="${i}">${['mL','錠','g','カプセル','本','包'].map(u=>`<option${p.u===u?' selected':''}>${u}</option>`).join('')}</select></div></div>`;
+function _form(d,r,ps){
+  return `<div class="panel"><h2>${d.id?'編集':'薬を追加'}</h2>
+  <div class="fld"><label>薬の名前</label><input id="fName" value="${esc(d.name)}" placeholder="例：ホリゾン注"></div>
+  <div class="fld"><label>ひとこと（場面・一般名など）</label><input id="fSub" value="${esc(d.sub||'')}"></div>
+  <div class="fld"><label>場面（カンマ区切り。タブになります）</label><input id="fScene" value="${esc((d.scene||[]).join(','))}" placeholder="例：けいれん,病棟指示"></div>
+  <div class="fld"><label>用量の名前</label><input id="fRl" value="${esc(r.label||'')}" placeholder="例：けいれん重積"></div>
+  <div class="row"><div class="fld"><label>mg/kg 下限</label><input id="fLo" type="number" inputmode="decimal" value="${esc(r.lo??'')}"></div><div class="fld"><label>mg/kg 上限</label><input id="fHi" type="number" inputmode="decimal" value="${esc(r.hi??'')}" placeholder="同じなら空"></div><div class="fld"><label>単位</label><select id="fPer"><option value="回"${r.per==='回'?' selected':''}>/回</option><option value="日"${r.per==='日'?' selected':''}>/日</option></select></div></div>
+  <div class="row"><div class="fld"><label>上限 mg（任意）</label><input id="fMax" type="number" inputmode="decimal" value="${esc(r.max??'')}"></div><div class="fld"><label>分割（/日のとき）</label><input id="fDiv" value="${esc((r.divs||[]).join(','))}" placeholder="例：2,3"></div></div>
+  <div id="fProds">${(ps.length?ps:[{u:'mL'}]).map(prow).join('')}</div>
+  <button class="btn" id="fAddP" type="button">＋製剤を足す</button>
+  <div class="fld"><label>メモ・注意点</label><textarea id="fLead">${esc(d.lead||'')}</textarea></div>
+  <div style="display:flex;gap:8px;margin-top:8px"><button class="btn pri" id="fSave" data-id="${esc(d.id)}">保存</button><button class="btn" id="fCancel">やめる</button></div>
+  <div class="src">自分で追加した薬はこの端末だけに保存されます。量は自分で確かめた値を入れてください。</div></div>`;
+}
+let editing=null;
+function mineHTML(){
+  return (editing!==null?formHTML(editing||null):`<div style="margin:10px 0"><button class="btn pri" id="addBtn">＋ 薬を追加</button></div>`)+
+   (mine.length?mine.map(m=>cardHTML({...m,mine:true,c:'#5b21b6'})).join(''):'<div class="empty">まだありません。よく忘れる薬を足していけます</div>');
+}
+
+/* ===== 描画 ===== */
+function render(){
+  const tabs=['すべて',...SCENES(),'ステロイド換算','自分で追加'];
+  if(!tabs.includes(tab))tab='すべて';
+  document.getElementById('tabs').innerHTML=tabs.map(t=>`<button role="tab" aria-selected="${t===tab}" data-tab="${esc(t)}">${esc(t)}</button>`).join('');
+  const sel=document.querySelector('#tabs [aria-selected=true]');if(sel)sel.scrollIntoView({block:'nearest',inline:'center'});
+  document.getElementById('searchBox').style.display=(tab==='ステロイド換算'||tab==='自分で追加')?'none':'';
+  const main=document.getElementById('main');
+  if(tab==='ステロイド換算'){main.innerHTML=steroidHTML();steroidCalc();return}
+  if(tab==='自分で追加'){main.innerHTML=mineHTML();return}
+  const ql=q.trim().toLowerCase();
+  const list=all().filter(d=>(tab==='すべて'||d.scene.includes(tab))&&(!ql||[d.name,d.sub,d.lead,d.scene.join(' '),(d.prods||[]).map(p=>p.n).join(' '),memos[d.id]||''].join(' ').toLowerCase().includes(ql)));
+  main.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty">該当なし</div>';
+}
+
+/* ===== 操作 ===== */
+document.getElementById('w').addEventListener('input',e=>{W=parseFloat(e.target.value);if(tab==='ステロイド換算')return;render()});
+document.getElementById('q').addEventListener('input',e=>{q=e.target.value;render()});
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;editing=null;render();window.scrollTo({top:0})});
+document.getElementById('main').addEventListener('toggle',e=>{const c=e.target.closest('details.card');if(!c||q)return;const o=LS.get('yakuyou.open',{});o[c.dataset.id]=c.open;LS.set('yakuyou.open',o)},true);
+document.getElementById('main').addEventListener('input',e=>{
+  if(e.target.dataset.memo!==undefined){memos[e.target.dataset.memo]=e.target.value;LS.set('yakuyou.memo',memos)}
+  if(e.target.id==='sMg')steroidCalc();
+});
+document.getElementById('main').addEventListener('change',e=>{if(e.target.id==='sFrom')steroidCalc()});
+document.getElementById('main').addEventListener('click',e=>{
+  const t=e.target;
+  if(t.id==='addBtn'){editing=false;render();return}
+  if(t.id==='fCancel'){editing=null;render();return}
+  if(t.id==='fAddP'){const box=document.getElementById('fProds');box.insertAdjacentHTML('beforeend',prow({u:'mL'},box.children.length));return}
+  if(t.dataset.edit){editing=mine.find(m=>m.id===t.dataset.edit);render();window.scrollTo({top:0});return}
+  if(t.dataset.del){const m=mine.find(x=>x.id===t.dataset.del);if(m&&confirmDel(t)){mine=mine.filter(x=>x.id!==m.id);LS.set('yakuyou.mine',mine);render()}return}
+  if(t.id==='fSave'){
+    const v=id=>document.getElementById(id).value.trim(), n=s=>{const x=parseFloat(s);return isFinite(x)?x:null};
+    const name=v('fName');if(!name){document.getElementById('fName').focus();return}
+    const lo=n(v('fLo')), hi=n(v('fHi'))??lo;
+    const prods=[...document.querySelectorAll('[data-pn]')].map(el=>{const i=el.dataset.pn;return{n:el.value.trim(),c:n(document.querySelector(`[data-pc="${i}"]`).value),u:document.querySelector(`[data-pu="${i}"]`).value}}).filter(p=>p.n&&p.c>0);
+    const d={id:t.dataset.id||('m'+Date.now().toString(36)),name,sub:v('fSub'),
+      scene:v('fScene').split(/[,、，]/).map(s=>s.trim()).filter(Boolean),
+      lead:v('fLead'),
+      regs:lo!=null?[{label:v('fRl')||'用量',lo,hi,per:document.getElementById('fPer').value,max:n(v('fMax')),divs:v('fDiv').split(/[,、，]/).map(s=>parseInt(s)).filter(x=>x>0)}]:[],
+      prods};
+    if(!d.scene.length)d.scene=['自分で追加'];
+    const i=mine.findIndex(m=>m.id===d.id);if(i>=0)mine[i]=d;else mine.push(d);
+    LS.set('yakuyou.mine',mine);editing=null;render();
+  }
+});
+/* 削除はダイアログを出さず、2回押しで確定 */
+function confirmDel(btn){if(btn.dataset.armed){return true}btn.dataset.armed=1;btn.textContent='もう一度押すと削除';setTimeout(()=>{delete btn.dataset.armed;btn.textContent='削除'},3000);return false}
+
+render();
+</script>
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
+</body>
+</html>
