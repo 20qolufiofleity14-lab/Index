@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>迅速ACTH試験 あんちょこ</title>
+<meta name="mini-category" content="adrenal">
+<meta name="mini-desc" content="標準量250µgと低用量1µgの比較・手技・判定。身長体重で投与量、コルチゾール換算・判定、カルテテンプレ">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#1d2433;--sub:#5b6478;--line:#e2e6ee;
+--blue:#2f6fde;--blueb:#eaf1ff;--green:#1e9a64;--greenb:#e7f7ef;--orange:#d9822b;--orangeb:#fff3e4;
+--red:#d64545;--redb:#fdeceb;--purple:#7a4fd6;--purpleb:#f1ebff;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+header{background:linear-gradient(135deg,#1b2a4e,#2f4f8f 60%,#3d6fb6);color:#fff;padding:18px 16px 12px}
+header h1{margin:0;font-size:19px}
+header p{margin:4px 0 0;font-size:12.5px;opacity:.85}
+nav{position:sticky;top:0;z-index:5;background:#1b2a4e;display:flex;overflow-x:auto;gap:4px;padding:6px 8px}
+nav button{flex:0 0 auto;background:transparent;border:0;color:#c9d6f2;font-size:13.5px;padding:7px 11px;border-radius:16px;cursor:pointer;white-space:nowrap}
+nav button.on{background:#fff;color:#1b2a4e;font-weight:700}
+main{max-width:860px;margin:0 auto;padding:12px}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border-radius:12px;padding:12px 14px;margin:10px 0;border-left:5px solid var(--line);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card h2{margin:0 0 6px;font-size:16px}.card h3{margin:10px 0 4px;font-size:14.5px}
+.blue{border-color:var(--blue)}.blue h2{color:var(--blue)}
+.green{border-color:var(--green)}.green h2{color:var(--green)}
+.orange{border-color:var(--orange)}.orange h2{color:var(--orange)}
+.red{border-color:var(--red)}.red h2{color:var(--red)}
+.purple{border-color:var(--purple)}.purple h2{color:var(--purple)}
+ul{margin:4px 0;padding-left:20px}li{margin:2px 0}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:6px 7px;vertical-align:top;text-align:left}
+th{background:#f0f3f9;font-weight:700}
+.cmp th:first-child{width:22%}
+.cmp td.s{background:var(--blueb)}.cmp td.l{background:var(--purpleb)}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:10px;margin-right:4px;font-weight:700}
+.pS{background:var(--blueb);color:var(--blue)}.pL{background:var(--purpleb);color:var(--purple)}
+.note{font-size:12.5px;color:var(--sub)}
+.big{font-size:18px;font-weight:800}
+.warn{background:var(--redb);border-radius:8px;padding:8px 10px;margin:6px 0}
+.tip{background:var(--greenb);border-radius:8px;padding:8px 10px;margin:6px 0}
+.hl{background:var(--orangeb);border-radius:8px;padding:8px 10px;margin:6px 0}
+label{display:block;font-size:13px;color:var(--sub);margin-top:8px}
+input,select{width:100%;padding:8px;font-size:16px;border:1px solid #cfd6e3;border-radius:8px;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.out{background:#f7f9fc;border:1px dashed #c4cde0;border-radius:8px;padding:10px;margin-top:10px}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:14px;margin-top:8px;cursor:pointer}
+textarea{width:100%;min-height:260px;font-size:13px;font-family:ui-monospace,Menlo,monospace;border:1px solid #cfd6e3;border-radius:8px;padding:8px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.flow span{background:#eef2f8;border-radius:6px;padding:4px 8px}
+footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
+@media print{nav,.btn{display:none}.tab{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+<h1>迅速ACTH試験 あんちょこ</h1>
+<p>標準量（250 µg）／低用量（1 µg）の手技・採血・判定・落とし穴</p>
+</header>
+<nav id="nav">
+<button data-t="cmp" class="on">比較</button>
+<button data-t="std">標準量</button>
+<button data-t="low">低用量</button>
+<button data-t="judge">判定</button>
+<button data-t="pit">前処置・落とし穴</button>
+<button data-t="calc">計算</button>
+<button data-t="tpl">テンプレ</button>
+</nav>
+<main>
+
+<!-- 比較 -->
+<section class="tab on" id="cmp">
+<div class="card blue">
+<h2>ひと目で比較</h2>
+<table class="cmp">
+<tr><th></th><th><span class="pill pS">標準量</span></th><th><span class="pill pL">低用量</span></th></tr>
+<tr><th>投与量</th><td class="s">250 µg/m²（最大250 µg）静注<br><span class="note">別法：≥2歳 250 µg／&lt;2歳 125 µg／乳児 15 µg/kg</span></td><td class="l">1 µg 静注（固定量が最多）<br><span class="note">施設により 0.5〜1 µg/m²</span></td></tr>
+<tr><th>採血</th><td class="s">0・30・60分</td><td class="l">0・<b>20(15)・30</b>分（±40/60分）<br><span class="note">頂値は20〜30分。60分では下がりうる</span></td></tr>
+<tr><th>測定</th><td class="s">コルチゾール（0分でACTHも）<br>CAH疑い：17-OHPなど</td><td class="l">コルチゾールのみ（0分でACTH）</td></tr>
+<tr><th>刺激の強さ</th><td class="s">超生理的（最大刺激）</td><td class="l">ほぼ生理的上限の刺激</td></tr>
+<tr><th>得意</th><td class="s">原発性副腎不全、CAH（ステロイド中間代謝物）、標準的なスクリーニング</td><td class="l">軽症・部分的な中枢性副腎不全、ステロイド長期投与後の回復評価（感度↑を狙う）</td></tr>
+<tr><th>弱点</th><td class="s">軽症中枢性で偽正常になりうる</td><td class="l">調製・投与手技の誤差が大きい／特異度↓（偽陽性）／小児のカットオフ未確立</td></tr>
+<tr><th>カットオフ</th><td class="s" colspan="2">コルチゾール頂値 <b>18 µg/dL（500 nmol/L）</b>が古典的基準＝旧来の免疫測定法での値。<br>新しい測定法（Elecsys Cortisol II、LC-MS/MSなど）では <b>約14〜15 µg/dL</b> 付近に下がる → <b>自施設の測定法を必ず確認</b></td></tr>
+</table>
+</div>
+<div class="card orange">
+<h2>使い分けの一言</h2>
+<ul>
+<li><b>迷ったら標準量</b>。Endocrine Society 2016（原発性副腎不全GL）も標準量を推奨し、低用量は薬剤不足時の代替という位置づけ。</li>
+<li>低用量は「中枢性・ステロイド抑制で、標準量だと見逃しそうな軽い不全」を拾いに行く検査。感度の優位性はメタ解析でははっきりしない。</li>
+<li>どちらも<b>発症4〜6週以内の急性中枢性障害</b>（下垂体術後・頭部外傷など）では副腎萎縮がまだなく<b>偽正常</b>。</li>
+<li>CAH（17-OHP反応）は<b>標準量で</b>行う。</li>
+</ul>
+</div>
+<div class="card green">
+<h2>流れ</h2>
+<div class="flow"><span>前処置（ステロイド休薬など）</span>→<span>ルート確保</span>→<span>0分採血（コルチゾール＋ACTH）</span>→<span>テトラコサクチド静注</span>→<span>標準:30・60分／低用量:20・30分</span>→<span>頂値で判定</span></div>
+</div>
+</section>
+
+<!-- 標準量 -->
+<section class="tab" id="std">
+<div class="card blue">
+<h2>標準量 迅速ACTH試験（250 µg）</h2>
+<h3>薬剤</h3>
+<ul><li>テトラコサクチド：コートロシン注射用0.25 mg（＝250 µg/V）。生食1 mLで溶解 → 250 µg/mL。</li></ul>
+<h3>投与</h3>
+<ul>
+<li><b>250 µg/m²（最大250 µg）</b>を静注（ボーラス）。筋注も可。</li>
+<li>別法（Endocrine Society）：≥2歳 250 µg、&lt;2歳 125 µg、乳児 15 µg/kg。</li>
+</ul>
+<h3>採血</h3>
+<table>
+<tr><th>時間</th><th>項目</th></tr>
+<tr><td>0分</td><td>コルチゾール、ACTH（＋必要に応じレニン/アルドステロン、17-OHPなど）</td></tr>
+<tr><td>30分</td><td>コルチゾール（CAH疑い：17-OHP など）</td></tr>
+<tr><td>60分</td><td>コルチゾール、CAH疑い：17-OHP（ほか 21-デオキシコルチゾール、アンドロステンジオンなど施設プロトコル）</td></tr>
+</table>
+<h3>実施のコツ</h3>
+<ul>
+<li>刺激後の値は時刻を問わず評価できるが、0分値も読むなら<b>朝（8〜9時）</b>実施が無難。</li>
+<li>絶食は不要。</li>
+<li>ACTHのスピッツはEDTA・冷却・速やかに遠心。</li>
+</ul>
+</div>
+<div class="card purple">
+<h2>CAHで使うとき</h2>
+<ul>
+<li>21-水酸化酵素欠損症の非古典型・保因者や、他の酵素欠損の鑑別で中間代謝物の反応を見る。</li>
+<li>判定値は疾患・測定法依存のため、各疾患のガイドライン（日本小児内分泌学会 21-OHD GL など）で確認。</li>
+<li>LC-MS/MSでのステロイドプロファイルが使えるならそちらが望ましい。</li>
+</ul>
+</div>
+</section>
+
+<!-- 低用量 -->
+<section class="tab" id="low">
+<div class="card purple">
+<h2>低用量 迅速ACTH試験（1 µg）</h2>
+<h3>投与量</h3>
+<ul>
+<li><b>1 µg 静注</b>（小児でも固定量が最多）。施設によって 0.5〜1 µg/m²。</li>
+</ul>
+<h3>調製（用時調製・すぐ使う）</h3>
+<div class="tip">
+<b>例A（1段階）</b>：0.25 mg 1Vを生食 250 mL に溶解 → <b>1 µg/mL</b> → 1 mL を投与<br>
+<b>例B（2段階）</b>：0.25 mg 1Vを生食 5 mL で溶解（50 µg/mL）→ 0.2 mL（10 µg）＋生食 9.8 mL → <b>1 µg/mL</b> → 1 mL を投与
+</div>
+<div class="warn">
+<b>誤差の主因は手技</b>
+<ul>
+<li>テトラコサクチドは<b>プラスチックに吸着</b>する → 調製後すぐ投与、作り置きしない。</li>
+<li>長い延長チューブ経由で入れない。<b>ルート直近から静注 → 生食でしっかりフラッシュ</b>。</li>
+<li>少量・希釈なので計量ミスがそのまま結果に出る（ダブルチェック推奨）。</li>
+</ul>
+</div>
+<h3>採血</h3>
+<table>
+<tr><th>時間</th><th>項目</th></tr>
+<tr><td>0分</td><td>コルチゾール、ACTH</td></tr>
+<tr><td><b>20分（または15分）</b></td><td>コルチゾール</td></tr>
+<tr><td><b>30分</b></td><td>コルチゾール</td></tr>
+<tr><td>（40/60分）</td><td>任意。60分では低下していることがあるので<b>60分だけで判定しない</b></td></tr>
+</table>
+<h3>向いている場面</h3>
+<ul>
+<li>中枢性副腎不全の疑い（下垂体疾患、頭蓋咽頭腫・CCS など）でも、発症から6週以上たっている例</li>
+<li>ステロイド長期投与・漸減中の HPA 軸回復評価</li>
+</ul>
+<div class="hl">小児では投与量・採血時間・カットオフとも<b>コンセンサスがない</b>。境界域なら標準量の再検、ITT、臨床症状とあわせて判断する。</div>
+</div>
+</section>
+
+<!-- 判定 -->
+<section class="tab" id="judge">
+<div class="card red">
+<h2>コルチゾール頂値の読み方（目安）</h2>
+<table>
+<tr><th>頂値</th><th>解釈</th></tr>
+<tr><td>≥18 µg/dL（500 nmol/L）</td><td>正常（旧来の免疫測定法での古典的基準）</td></tr>
+<tr><td>15〜18 µg/dL</td><td>境界：副腎不全を<b>疑う</b></td></tr>
+<tr><td>&lt;15 µg/dL</td><td>副腎不全の<b>可能性が高い</b></td></tr>
+</table>
+<p class="note">日本内分泌学会「副腎クリーゼを含む副腎皮質機能低下症の診断と治療に関する指針」（2015）の考え方に沿った目安。標準量が前提。</p>
+<div class="warn"><b>測定法で基準が変わる</b>：Elecsys Cortisol II や LC-MS/MS は旧法より低めに出るため、正常下限は <b>約14〜15 µg/dL（≒400〜420 nmol/L）</b> とする報告が多い。旧基準18をそのまま当てると<b>偽陽性（過剰診断）</b>になる。検査部に測定法を確認。</div>
+<p class="note">低用量でも同じ頂値基準を使う施設が多いが、専用の基準（16〜22 µg/dLなど）の報告もあり統一されていない。</p>
+</div>
+<div class="card blue">
+<h2>原発性か中枢性か（0分ACTH）</h2>
+<table>
+<tr><th></th><th>ACTH</th><th>そのほか</th></tr>
+<tr><td>原発性</td><td><b>高値</b>（基準上限の2倍超が目安）</td><td>レニン高値／アルドステロン低値、色素沈着、低Na・高K</td></tr>
+<tr><td>中枢性</td><td>低値〜「不相応な正常」</td><td>鉱質コルチコイドは保たれる（高Kはまれ）、他の下垂体ホルモン欠損</td></tr>
+</table>
+</div>
+<div class="card green">
+<h2>補足：早朝コルチゾール単独</h2>
+<ul>
+<li>早朝コルチゾールがかなり低い（&lt;3〜5 µg/dL）→ 副腎不全の可能性が高く、負荷試験なしで治療開始を考える。</li>
+<li>十分高い（目安 &gt;10〜14 µg/dL、測定法依存）→ 副腎不全はほぼ否定的。</li>
+<li>その間は負荷試験で判断。</li>
+</ul>
+</div>
+</section>
+
+<!-- 前処置・落とし穴 -->
+<section class="tab" id="pit">
+<div class="card orange">
+<h2>前処置</h2>
+<table>
+<tr><th>状況</th><th>対応</th></tr>
+<tr><td>ヒドロコルチゾール内服中</td><td>測定系と交差反応 → <b>最終内服から12〜24時間あける</b>（当日朝の分を飛ばして朝に検査）</td></tr>
+<tr><td>プレドニゾロン</td><td>交差反応あり → 24時間程度あける（施設方針で）</td></tr>
+<tr><td>デキサメタゾン</td><td>測定系とは交差しないが、HPA軸は抑制する（それ自体を評価したいとき以外は留意）</td></tr>
+<tr><td>経口エストロゲン（OC など）</td><td>CBG↑で<b>総コルチゾールが偽高値</b> → 可能なら4〜6週休薬、または解釈に注意</td></tr>
+<tr><td>吸入・外用ステロイド大量</td><td>HPA軸抑制の原因になりうる（それ自体を評価する場面も多い）</td></tr>
+</table>
+</div>
+<div class="card red">
+<h2>落とし穴</h2>
+<ul>
+<li><b>急性中枢性（4〜6週以内）は偽正常</b>：下垂体術後・頭部外傷直後はACTH試験で除外できない。</li>
+<li><b>低アルブミン・ネフローゼ・重症疾患</b>：CBG↓で総コルチゾールが低く出る（偽陽性）。</li>
+<li><b>クリーゼを疑うときは検査で治療を遅らせない</b>：コルチゾール・ACTHを採ってすぐヒドロコルチゾール投与。確定検査は落ち着いてから。</li>
+<li><b>低用量の手技誤差</b>（吸着・延長チューブ・計量）→ 低値なら手技を振り返り、標準量で再検。</li>
+<li>新生児・早産児：基準値が違い、解釈が難しい。</li>
+<li>副作用はまれ。過敏症（アナフィラキシー）の報告あり、喘息・アレルギー歴は要注意。</li>
+</ul>
+</div>
+</section>
+
+<!-- 計算 -->
+<section class="tab" id="calc">
+<div class="card blue">
+<h2>投与量計算</h2>
+<div class="row">
+<div><label>身長 (cm)</label><input id="ht" type="number" inputmode="decimal" placeholder="例 120"></div>
+<div><label>体重 (kg)</label><input id="wt" type="number" inputmode="decimal" placeholder="例 22"></div>
+</div>
+<label>低用量の投与設定</label>
+<select id="lowmode">
+<option value="fix1">1 µg 固定</option>
+<option value="m2_05">0.5 µg/m²</option>
+<option value="m2_1">1 µg/m²</option>
+</select>
+<button class="btn" onclick="calcDose()">計算</button>
+<div class="out" id="doseOut">身長と体重を入力してください。</div>
+<p class="note">体表面積はMosteller式。標準量は 0.25 mg を生食1 mLで溶解（250 µg/mL）した場合の液量。低用量は 1 µg/mL に希釈した液での量。</p>
+</div>
+<div class="card purple">
+<h2>単位換算・判定</h2>
+<div class="row">
+<div><label>コルチゾール頂値</label><input id="cv" type="number" inputmode="decimal" placeholder="値"></div>
+<div><label>単位</label><select id="cu"><option value="ug">µg/dL</option><option value="nm">nmol/L</option></select></div>
+</div>
+<label>測定法</label>
+<select id="assay">
+<option value="old">旧来の免疫測定法（基準18 µg/dL）</option>
+<option value="new">新しい測定法（Elecsys II・LC-MS/MSなど、基準約14〜15 µg/dL）</option>
+</select>
+<button class="btn" onclick="judge()">判定</button>
+<div class="out" id="jOut">値を入力してください。</div>
+<p class="note">換算：1 µg/dL ＝ 27.59 nmol/L。判定は目安で、臨床像とあわせて解釈。</p>
+</div>
+</section>
+
+<!-- テンプレ -->
+<section class="tab" id="tpl">
+<div class="card green">
+<h2>カルテ記載テンプレ</h2>
+<label>種類</label>
+<select id="tsel" onchange="setTpl()">
+<option value="std">標準量</option>
+<option value="low">低用量</option>
+</select>
+<textarea id="tarea"></textarea>
+<button class="btn" onclick="copyTpl()">コピー</button> <span id="cmsg" class="note"></span>
+</div>
+</section>
+
+</main>
+<footer>目安をまとめた個人用メモ。投与量・判定は施設プロトコルと自施設の測定法を優先すること。<br>参考：日本内分泌学会 副腎皮質機能低下症の指針（2015）／Endocrine Society 原発性副腎不全GL（2016）</footer>
+
+<script>
+document.querySelectorAll('#nav button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');document.getElementById(b.dataset.t).classList.add('on');
+    window.scrollTo(0,0);
+  };
+});
+function r(x,d){const p=Math.pow(10,d);return Math.round(x*p)/p;}
+function calcDose(){
+  const h=parseFloat(ht.value),w=parseFloat(wt.value);
+  if(!(h>0&&w>0)){doseOut.innerHTML='身長と体重を入力してください。';return;}
+  const bsa=Math.sqrt(h*w/3600);
+  const std=Math.min(250*bsa,250);
+  const m=lowmode.value;
+  let low=m==='fix1'?1:(m==='m2_05'?0.5*bsa:1*bsa);
+  doseOut.innerHTML=
+   '体表面積 <b>'+r(bsa,2)+' m²</b><br><br>'+
+   '<span class="pill pS">標準量</span> <span class="big">'+r(std,0)+' µg</span>'+
+   '（250 µg/mL 液で <b>'+r(std/250,2)+' mL</b>）'+(std>=250?' ※上限250 µg':'')+'<br>'+
+   '<span class="note">別法（年齢別）：≥2歳 250 µg／&lt;2歳 125 µg／乳児 15 µg/kg＝'+r(15*w,0)+' µg</span><br><br>'+
+   '<span class="pill pL">低用量</span> <span class="big">'+r(low,2)+' µg</span>'+
+   '（1 µg/mL 液で <b>'+r(low,2)+' mL</b>）';
+}
+function judge(){
+  let v=parseFloat(cv.value);
+  if(!(v>=0)){jOut.innerHTML='値を入力してください。';return;}
+  const ug=cu.value==='ug'?v:v/27.59, nm=ug*27.59;
+  let msg,col;
+  if(assay.value==='old'){
+    if(ug>=18){msg='正常範囲（≥18）';col='var(--green)';}
+    else if(ug>=15){msg='境界：副腎不全を疑う（15〜18）';col='var(--orange)';}
+    else{msg='副腎不全の可能性が高い（&lt;15）';col='var(--red)';}
+  }else{
+    if(ug>=15){msg='正常範囲と考えられる（新法の目安 ≥約14〜15）';col='var(--green)';}
+    else if(ug>=14){msg='境界域（新法の目安付近）。施設の基準値で確認';col='var(--orange)';}
+    else{msg='副腎不全を疑う（新法の目安 &lt;約14）';col='var(--red)';}
+  }
+  jOut.innerHTML=r(ug,1)+' µg/dL ＝ '+r(nm,0)+' nmol/L<br><b style="color:'+col+'">'+msg+'</b>';
+}
+const T={
+std:`【迅速ACTH試験（標準量）】実施日：　　　　開始時刻：
+目的：副腎皮質機能低下症の評価／CAH評価（　　　）
+前処置：ヒドロコルチゾール最終内服（　月　日　時）／OC等：なし・あり
+身長　 cm　体重　 kg　BSA　 m²
+投与：テトラコサクチド　 µg（250 µg/m²、最大250 µg）静注
+採血：0分 コルチゾール　 µg/dL、ACTH　 pg/mL
+　　　30分 コルチゾール　 µg/dL
+　　　60分 コルチゾール　 µg/dL
+　　　（17-OHP 0分　 ／60分　 ）
+頂値：　 µg/dL（測定法：　　　　）
+判定：正常／境界／低反応
+評価・方針：`,
+low:`【迅速ACTH試験（低用量）】実施日：　　　　開始時刻：
+目的：中枢性副腎不全／ステロイド後のHPA軸回復評価
+前処置：ヒドロコルチゾール最終内服（　月　日　時）
+身長　 cm　体重　 kg　BSA　 m²
+調製：0.25 mg を生食で希釈し 1 µg/mL（用時調製）
+投与：テトラコサクチド　 µg（1 µg固定／　µg/m²）ルート直近から静注・生食フラッシュ
+採血：0分 コルチゾール　 µg/dL、ACTH　 pg/mL
+　　　20分 コルチゾール　 µg/dL
+　　　30分 コルチゾール　 µg/dL
+　　　（60分　 µg/dL）
+頂値：　 µg/dL（測定法：　　　　）
+判定：正常／境界／低反応（低用量のため手技誤差に留意）
+評価・方針：`};
+function setTpl(){tarea.value=T[tsel.value];}
+function copyTpl(){
+  const t=tarea.value;
+  const ok=()=>{cmsg.textContent='コピーしました';setTimeout(()=>cmsg.textContent='',1500);};
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok).catch(()=>{tarea.select();document.execCommand('copy');ok();});}
+  else{tarea.select();document.execCommand('copy');ok();}
+}
+setTpl();
+</script>
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
+</body>
+</html>
