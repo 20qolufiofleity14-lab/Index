@@ -80,10 +80,13 @@ summary{cursor:pointer;font-weight:700;color:#0e7490}
 .out{margin-top:8px}.out .line{margin:3px 0}.big{font-size:20px;font-weight:800;color:#0e7490}
 .small{font-size:11px;color:var(--muted)}.chip{display:inline-block;background:#e2e8f0;border-radius:10px;padding:0 8px;font-size:11px;margin:1px}
 h3.sec{font-size:14px;margin:14px 2px 6px;color:#1e3a5f}
-.wbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 14px;background:#fff;border-bottom:1px solid #e2e8f0}
-.wbar .wl{font-size:12px;color:#64748b;font-weight:700}.wbar b{font-size:18px;min-width:70px;text-align:center}
-.wbar>button{width:36px;height:36px;border-radius:50%;border:none;background:#0e7490;color:#fff;font-size:20px;font-weight:800}
-.wbar input{flex:1;min-width:120px}.wq{display:flex;gap:4px;width:100%}.wq button{flex:1;border:1px solid #cbd5e1;background:#f8fafc;border-radius:8px;padding:4px 0;font-size:12px;font-weight:700}
+.wbar{padding:6px 14px 8px;background:#fff;border-bottom:1px solid #e2e8f0}
+.wrow{display:flex;align-items:center;gap:8px;margin-top:4px}
+.wbar .wl{font-size:12px;color:#64748b;font-weight:800;min-width:30px}.wbar .wrow b{font-size:18px;min-width:64px;text-align:center}
+.wrow>button{width:34px;height:34px;border-radius:50%;border:none;background:#0e7490;color:#fff;font-size:20px;font-weight:800;flex-shrink:0}
+.wrow input{flex:1;min-width:80px}.wq{display:flex;gap:4px;width:100%;margin-top:4px;align-items:center}.wq button{flex:1;border:1px solid #cbd5e1;background:#f8fafc;border-radius:8px;padding:4px 0;font-size:12px;font-weight:700}
+.wq.cq button.on{background:#0e7490;color:#fff;border-color:#0e7490}
+.ptag{display:inline-block;background:#ecfeff;color:#0e7490;border:1px solid #a5f3fc;border-radius:10px;padding:1px 9px;font-size:11.5px;font-weight:800}
 </style>
 </head>
 <body>
@@ -107,7 +110,13 @@ h3.sec{font-size:14px;margin:14px 2px 6px;color:#1e3a5f}
   <div class="mood" id="mood"></div>
   <div class="cap" id="cap"></div>
  </div>
-<div class="wbar"><span class="wl">体重</span><button id="wm">−</button><b><span id="wv">28</span> kg</b><button id="wp">＋</button><input id="wr" type="range" min="2" max="80" step="0.5" value="28"><div class="wq"><button data-w="3">3</button><button data-w="10">10</button><button data-w="20">20</button><button data-w="28">28</button><button data-w="40">40</button><button data-w="60">60</button></div></div>
+<div class="wbar">
+  <div class="wrow"><span class="wl">体重</span><button id="wm">−</button><b><span id="wv">28</span> kg</b><button id="wp">＋</button><input id="wr" type="range" min="1" max="80" step="0.5"></div>
+  <div class="wq"><button data-w="3">3</button><button data-w="10">10</button><button data-w="20">20</button><button data-w="28">28</button><button data-w="40">40</button><button data-w="60">60</button></div>
+  <div class="wrow"><span class="wl">Na</span><button id="nm">−</button><b><span id="nv">152</span></b><button id="np">＋</button><input id="nr" type="range" min="110" max="185" step="1"></div>
+  <div class="wq"><button data-n="125">125</button><button data-n="135">135</button><button data-n="140">140</button><button data-n="150">150</button><button data-n="155">155</button><button data-n="160">160</button><button data-n="170">170</button></div>
+  <div class="wq cq"><span class="wl">年齢</span><button data-c="0.75">新生児</button><button data-c="0.7">乳児</button><button data-c="0.6">小児</button><button data-c="0.5">思春期女子</button></div>
+ </div>
  <div class="dots" id="dots"></div>
  <div class="slide" id="slide"></div>
  <div class="nav"><button class="pv" id="pv">‹ 戻る</button><button class="nx" id="nx">次へ ›</button></div>
@@ -418,65 +427,82 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>sw(b.dataset.t));
 
 /* ========== slides ========== */
 // st: lv(水位 0-1), na, urine:null|{salty:0..1,rate}, bag:null|{na}, cap:[...]
-let W=(()=>{try{const v=parseFloat(localStorage.getItem('hna_w'));return v>0?v:28}catch(e){return 28}})();
-const r0=x=>Math.round(x),r1=x=>Math.round(x*10)/10;
-const TBW=()=>W*0.6;
-const dNa=(na,v)=>na*v/(TBW()+v); // v in L
+const LSg=(k,d)=>{try{const v=parseFloat(localStorage.getItem(k));return isFinite(v)&&v>0?v:d}catch(e){return d}};
+const LSs=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+let W=LSg('hna_w',28),N=LSg('hna_na',152),C=LSg('hna_c',0.6);
+const r0=x=>Math.round(x),r1=x=>Math.round(x*10)/10,sg=x=>x>=0?'＋':'−';
+const TBW=()=>W*C;
+const dNa=(v)=>N*v/(TBW()+v); // 真水v(L)が残ったときの低下
+const perOne=()=>TBW()/N*1000; // mL で約1
 const bsa=()=>(4*W+7)/(W+90);
+const cname=()=>({0.75:'新生児',0.7:'乳児',0.6:'小児',0.5:'思春期女子'})[C]||'';
+const pt=()=>`<span class="ptag">${W} kg・${cname()}・Na ${N}</span>`;
+// 2本バー（真水 / 塩水）。frac<0 のときは「水が残る」
+function splitBar(total,conc,unit){const fr=1-conc/N;if(fr<=0)return `<div class="bar"><div class="sa" style="width:100%">全部 塩水以上（真水は出ていない）</div></div><p class="legend">${unit}の(Na＋K) ${conc} が血清Na ${N} 以上 → 真水はむしろ体に残る向き</p>`;
+ const fw=total*fr;return `<div class="bar"><div class="fw" style="width:${Math.max(12,fr*100)}%">真水 ${r1(fw)}</div><div class="sa" style="width:${Math.max(12,(1-fr)*100)}%">塩水 ${r1(total-fw)}</div></div>`}
 const S=[
 {t:'体は「塩水の入った人形」',
- st:()=>({lv:.6,na:140,cap:[`${W} kg`,`水 ${r1(TBW())} L`,'Na 140']}),
- h:()=>`<p>水は細胞の内も外も自由に行き来するので、体の水は<b>ひとつの塩水</b>と見なせます。</p><p>${W} kgの子なら、体重の6割＝<b>${r1(TBW())} Lの塩水</b>。その濃さが血清Naです。</p><div class="key">血清Na ＝ 塩 ÷ 水<small>黄色い粒が塩（Na＋K）。粒の数は見やすく誇張しています</small></div><p class="legend">水の割合は学童の0.6で計算（乳児は0.7、新生児は0.75〜0.8なので、実際はもう少し多い）。</p>`},
+ st:()=>({lv:Math.min(.9,C),na:N,cap:[`${W} kg`,`水 ${r1(TBW())} L`,`Na ${N}`]}),
+ h:()=>`${pt()}<p>水は細胞の内も外も自由に行き来するので、体の水は<b>ひとつの塩水</b>と見なせます。</p><p>${W} kgの${cname()}なら、体重の${r0(C*100)}%＝<b>${r1(TBW())} Lの塩水</b>。その濃さが血清Na（いま${N}）です。</p><div class="key">血清Na ＝ 塩 ÷ 水<small>黄色い粒が塩（Na＋K）。粒の数は見やすく誇張しています</small></div>`},
 {t:'尿崩症：出口から「真水」が抜ける',
- st:()=>({lv:.48,na:158,urine:{salty:0,rate:1},cap:['尿 ≒ 真水','水が減る','Na 158']}),
- h:()=>`<p>AVPが出ないと、腎臓が水を取り戻せず、<b>塩をほとんど含まない尿</b>がどんどん出ます。</p><p>塩は残ったまま水だけ減るので、<b>濃くなる＝高Na</b>。</p><div class="key">高Naの多くは「塩が増えた」ではなく<br>「水が減った」</div>`},
+ st:()=>({lv:Math.min(.9,C)*.8,na:Math.max(N,150)+6,urine:{salty:0,rate:1},cap:['尿 ≒ 真水','水が減る','Na↑']}),
+ h:()=>{const loss=TBW()*0.05;return `${pt()}<p>AVPが出ないと、腎臓が水を取り戻せず、<b>塩をほとんど含まない尿</b>がどんどん出ます。</p><p>塩は残ったまま水だけ減るので、<b>濃くなる＝高Na</b>。この子で体の水が5%（約${r0(loss*1000)} mL）抜けると、Naは約${sg(1)}${r1(N*TBW()/(TBW()-loss)-N)}。</p><div class="key">高Naの多くは「塩が増えた」ではなく<br>「水が減った」</div>`}},
 {t:'覚える数字はひとつ',
- st:()=>({lv:.5,na:157,bag:{na:0},cap:['5%ブドウ糖＝真水',`${r0(TBW()/150*1000)} mL → Na −1`]}),
- h:()=>`<p>真水を入れて、それが<b>体に残れば</b>Naは下がります。</p><div class="key">真水 4 mL/kg で Na が約1下がる<small>${W} kgなら約${r0(TBW()/150*1000)} mL（Na 150前後のとき）</small></div><p>Na 152の${W} kgの子に真水が残ると：100 mLで約${r1(dNa(152,.1))}、500 mLで約${r1(dNa(152,.5))}、1 Lで約${r1(dNa(152,1))}下がる。</p><p class="legend">5%ブドウ糖は、体の中でブドウ糖が燃えて<b>真水</b>になります。</p>`},
+ st:()=>({lv:Math.min(.9,C),na:N,bag:{na:0},cap:['5%ブドウ糖＝真水',`${r0(perOne())} mL → Na −1`]}),
+ h:()=>`${pt()}<p>真水を入れて、それが<b>体に残れば</b>Naは下がります。</p><div class="key">真水 ${r1(perOne()/W)} mL/kg で Na が約1下がる<small>この子なら約${r0(perOne())} mL（＝体の水 ÷ Na）</small></div><p>真水が体に残ると：100 mLで約−${r1(dNa(.1))}、500 mLで約−${r1(dNa(.5))}、1 Lで約−${r1(dNa(1))}。</p><p class="legend">学童・Na 150前後なら「4 mL/kgで1」と覚えておくと暗算できます。5%ブドウ糖は体内でブドウ糖が燃えて<b>真水</b>になります。</p>`},
 {t:'尿が多い ≠ 尿崩症',tog:true,
- st:()=>({lv:.55,na:150,urine:{salty:.75,rate:1},cap:['尿は多い','でも塩水']}),
- h:()=>`<p>尿の量は同じでも、中身がちがいます。下のボタンで切り替えてみてください。</p><div class="tog"><button data-u="0">💧 薄い尿</button><button data-u="1" class="on">🧂 塩の多い尿</button></div><p id="togTxt"></p>`},
-{t:'尿を「真水」と「塩水」に分ける',
- st:()=>({lv:.55,na:152,urine:{salty:.73,rate:1},cap:[`尿 ${r0(3.6*W)} mL/h`,'尿Na＋K 111']}),
- h:()=>{const u=r0(3.6*W),fw=u*(1-111/152);return `<p>尿${u} mL/h（3.6 mL/kg/h）、尿Na＋K 111、血清Na 152のとき：</p><div class="bar"><div class="fw" style="width:27%">真水 ${r0(fw)}</div><div class="sa" style="width:73%">血清と同じ塩水 ${r0(u-fw)}</div></div><p class="legend"><b class="fw">真水</b>＝Naを上げる分／<b class="sa">塩水</b>＝Naを変えない分</p><div class="key">尿の真水 ＝ 尿量 ×（1 − 尿Na＋K ÷ 血清Na）<small>電解質を除いた自由水クリアランス（EFWC）</small></div><p>尿は${u} mL/h出ていても、Naを上げているのは${r0(fw)} mL/hだけ。<b>「まだ尿崩症」とは言えない</b>。</p>`}},
-{t:'点滴も同じように分ける',
- st:()=>({lv:.55,na:152,bag:{na:55},cap:[`ソリタT3 ${r0(.7*W)} mL/h`]}),
- h:()=>{const v=Math.max(1,r0(.7*W)),fw=v*(1-55/152);return `<p>ソリタT3（Na 35＋K 20）を${v} mL/hで入れると：</p><div class="bar"><div class="fw" style="width:64%">真水 ${r1(fw)}</div><div class="sa" style="width:36%">塩水 ${r1(v-fw)}</div></div><p>入るNaは${r1(v*.035)} mEq/h、Kは${r1(v*.02)} mEq/h。</p><div class="key">点滴の真水 ＝ 流量 ×（1 − 点滴Na＋K ÷ 血清Na）</div><p>「T3 ${v} mL/h＝真水${v} mL/h」ではありません。生食（154）は血清Na 152ならほぼ真水0、5%ブドウ糖は全部真水。</p>`}},
+ st:()=>({lv:Math.min(.9,C),na:N,urine:{salty:.75,rate:1},cap:['尿は多い','でも塩水']}),
+ h:()=>`${pt()}<p>尿の量は同じでも、中身がちがいます。ボタンで切り替え：</p><div class="tog"><button data-u="0">💧 薄い尿</button><button data-u="1" class="on">🧂 塩の多い尿</button></div><p id="togTxt"></p>`},
+{t:'尿を「真水」と「塩水」に分ける',uin:true,
+ st:()=>({lv:Math.min(.9,C),na:N,urine:{salty:Math.min(1,UC/N),rate:1},cap:[`尿 ${UV} mL/h`,`尿Na＋K ${UC}`]}),
+ h:()=>{const fr=1-UC/N,fw=UV*fr;return `${pt()}<div class="row" style="margin:6px 0"><label class="fld">尿量 mL/h<input id="uv" type="number" inputmode="decimal" value="${UV}"></label><label class="fld">尿Na＋K<input id="uc" type="number" inputmode="decimal" value="${UC}"></label></div>${splitBar(UV,UC,'尿')}<p class="legend"><a href="#" onclick="exReset();return false">例の値にもどす</a>　<b class="fw">真水</b>＝Naを上げる分／<b class="sa">塩水</b>＝Naを変えない分。尿量 ${r1(UV/W)} mL/kg/h</p><div class="key">尿の真水 ＝ 尿量 ×（1 − 尿Na＋K ÷ 血清Na）<small>電解質を除いた自由水クリアランス（EFWC）</small></div><p>${fr<=0?'尿のほうが濃いので、尿が出るほど<b>水が体に残り、Naは下がる向き</b>（SIADHの形）。':fr>0.6?`尿の大半が真水（${r0(fw)} mL/h）→ <b>尿崩症が活動中</b>。`:`尿は${UV} mL/h出ていても、Naを上げているのは${r0(fw)} mL/hだけ。<b>尿量だけで「まだ尿崩症」とは言えない</b>。`}</p>`}},
+{t:'点滴も同じように分ける',fin:true,
+ st:()=>({lv:Math.min(.9,C),na:N,bag:{na:FC},cap:[`点滴 ${FV} mL/h`,`Na＋K ${FC}`]}),
+ h:()=>`${pt()}<div class="row" style="margin:6px 0"><label class="fld">点滴 mL/h<input id="fv" type="number" inputmode="decimal" value="${FV}"></label><label class="fld">点滴のNa＋K<select id="fc">${[[0,'5%ブドウ糖 0'],[55,'ソリタT3・3A 55'],[77,'1/2生食 77'],[90,'ソリタT1 90'],[134,'リンゲル系 134'],[144,'フィジオ140 144'],[154,'生食 154']].map(o=>`<option value="${o[0]}" ${o[0]==FC?'selected':''}>${o[1]}</option>`).join('')}</select></label></div>${splitBar(FV,FC,'点滴')}<p>入るNa＋Kは${r1(FV*FC/1000)} mEq/h。</p><div class="key">点滴の真水 ＝ 流量 ×（1 − 点滴Na＋K ÷ 血清Na）</div><p>${FC==0?'5%ブドウ糖なので<b>全部が真水</b>。入れたぶんがそのままNaを下げる向きに効く。':FC>=N?'血清Naより濃い点滴は、真水をむしろ<b>引き算</b>する（Naを上げる向き）。':`「点滴 ${FV} mL/h＝真水 ${FV} mL/h」ではありません。真水として効くのは${r1(FV*(1-FC/N))} mL/hだけ。`}</p>`},
 {t:'入る真水 − 出る真水 ＝ Naの向き',
- st:()=>({lv:.55,na:150,bag:{na:55},urine:{salty:.7,rate:1},cap:['入る真水','出る真水','汗・呼吸']}),
- h:()=>{const t3=r0(1.43*W),ns=r0(.36*W),u=r0(4.3*W),na=150;
-  const fin=t3*(1-55/na)+ns*(1-154/na),fu=u*(1-120/na),ins=bsa()*400/24,net=fin-fu-ins,day=net*24/1000,nn=na*TBW()/(TBW()+day),tot=fin+fu+ins;
-  return `<p>T3 ${t3} mL/h＋生食 ${ns} mL/h、尿 ${u} mL/h（尿Na＋K 120）、血清Na 150：</p><div class="bar"><div style="width:${fin/tot*100}%;background:#2563eb">入る ＋${r0(fin)}</div><div style="width:${fu/tot*100}%;background:#38bdf8">尿 −${r0(fu)}</div><div style="width:${ins/tot*100}%;background:#94a3b8">汗等 −${r0(ins)}</div></div><p>差し引き<b>${net>=0?'＋':'−'}${r0(Math.abs(net))} mL/h</b>（1日で約${net>=0?'＋':'−'}${r0(Math.abs(day)*1000)} mL）→ Naは<b>1日で約${nn>=na?'＋':'−'}${r1(Math.abs(nn-na))}</b>。</p><div class="key">マイナスならNa↑、プラスならNa↓<small>汗・呼吸（不感蒸泄）は 400 mL/m²/日が目安（${W} kgで約${r0(ins)} mL/h）</small></div><p>点滴（${t3+ns} mL/h）が尿（${u} mL/h）よりずっと少なくても、Naはゆっくりしか上がらない。<b>量で比べると見誤る</b>。</p>`}},
+ st:()=>({lv:Math.min(.9,C),na:N,bag:{na:FC},urine:{salty:Math.min(1,UC/N),rate:1},cap:['入る真水','出る真水','汗・呼吸']}),
+ h:()=>{const fin=FV*(1-FC/N),fu=UV*(1-UC/N),ins=bsa()*(C>=0.75?600:400)/24,net=fin-fu-ins,day=net*24/1000,nn=N*TBW()/(TBW()+day),A=Math.abs,tot=A(fin)+A(fu)+ins||1;
+  return `${pt()}<p>⑤の尿（${UV} mL/h・Na＋K ${UC}）と⑥の点滴（${FV} mL/h・Na＋K ${FC}）で：</p><div class="bar"><div style="width:${Math.max(14,A(fin)/tot*100)}%;background:#2563eb">点滴 ${sg(fin)}${r0(A(fin))}</div><div style="width:${Math.max(14,A(fu)/tot*100)}%;background:#38bdf8">尿 ${sg(-fu)}${r0(A(fu))}</div><div style="width:${Math.max(14,ins/tot*100)}%;background:#94a3b8">汗等 −${r0(ins)}</div></div><p>差し引き<b>${sg(net)}${r0(A(net))} mL/h</b>（1日で約${sg(net)}${r0(A(day)*1000)} mL）→ Naは<b>1日で約${sg(nn-N)}${r1(A(nn-N))}</b>（${N} → ${r1(nn)}）。</p><div class="key">マイナスならNa↑、プラスならNa↓<small>汗・呼吸（不感蒸泄）は ${C>=0.75?600:400} mL/m²/日で概算（約${r0(ins)} mL/h）</small></div><p class="legend">量（点滴 ${FV} vs 尿 ${UV}）ではなく、真水どうしで比べる。⑤⑥の数字を変えるとここも変わります。</p>`}},
 {t:'最後は実測（時刻つき）',
- st:()=>({lv:.56,na:152,cap:['式は道しるべ']}),
- h:()=>`<svg viewBox="0 0 320 120" style="width:100%"><polyline points="30,20 110,62 190,76 270,90" fill="none" stroke="#0e7490" stroke-width="3"/>${[[30,20,157,'0時'],[110,62,154,'6時'],[190,76,153,'12時'],[270,90,152,'18時']].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#0e7490"/><text x="${p[0]}" y="${p[1]-9}" text-anchor="middle" font-size="12" font-weight="800">${p[2]}</text><text x="${p[0]}" y="114" text-anchor="middle" font-size="11" fill="#64748b">${p[3]}</text>`).join('')}</svg><p>最初の6時間は0.5/h、そのあと約0.17/h。<b>十分に減速している</b>。</p><div class="key">数式より実測。時刻のない推移では速さは分からない<small>補正中は2〜4時間ごとにNa</small></div><p>予測とずれたら、尿で何かが変わったサイン（DIの再燃・回復、薬の効き始め・切れ）。</p>`},
+ st:()=>({lv:Math.min(.9,C),na:N,cap:['式は道しるべ']}),
+ h:()=>`<svg viewBox="0 0 320 120" style="width:100%"><polyline points="30,20 110,62 190,76 270,90" fill="none" stroke="#0e7490" stroke-width="3"/>${[[30,20,157,'0時'],[110,62,154,'6時'],[190,76,153,'12時'],[270,90,152,'18時']].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#0e7490"/><text x="${p[0]}" y="${p[1]-9}" text-anchor="middle" font-size="12" font-weight="800">${p[2]}</text><text x="${p[0]}" y="114" text-anchor="middle" font-size="11" fill="#64748b">${p[3]}</text>`).join('')}</svg><p>（例）最初の6時間は0.5/h、そのあと約0.17/h。<b>十分に減速している</b>。</p><div class="key">数式より実測。時刻のない推移では速さは分からない<small>補正中は2〜4時間ごとにNa</small></div><p>予測とずれたら、尿で何かが変わったサイン（DIの再燃・回復、薬の効き始め・切れ）。</p>`},
 {t:'時間がたつと、別の顔になる',tog2:true,
- st:()=>({lv:.66,na:136,urine:{salty:1,rate:.35},cap:['尿は少なく濃い','水がたまる','Na 136']}),
+ st:()=>({lv:.66,na:136,urine:{salty:1,rate:.35},cap:['尿は少なく濃い','水がたまる']}),
  h:()=>`<p>尿崩症のあと、Naが<b>下がり始める</b>ことがあります。ボタンで切り替え：</p><div class="tog"><button data-p="0" class="on">🫗 SIADH様</button><button data-p="1">🧂 塩類喪失（CSW）</button><button data-p="2">💧 DI再燃</button></div><p id="phTxt"></p>`},
 {t:'まとめ：3つだけ',
- st:()=>({lv:.6,na:142,cap:['おつかれさま']}),
- h:()=>`<div class="key">① 尿量ではなく、尿の「真水」を見る</div><div class="key">② 点滴も尿も、真水と塩水に分けて足し引き</div><div class="key">③ 急性でも、脳の子は急いで下げない。最後は時刻つきの実測</div><p class="legend">計算は「🧮 計算」、脳外科術後の院内プロトコルは「🏥」、根拠は「🔍」タブへ（体重はここで変えると連動します）。</p>`},
+ st:()=>({lv:Math.min(.9,C),na:N,cap:['おつかれさま']}),
+ h:()=>`<div class="key">① 尿量ではなく、尿の「真水」を見る</div><div class="key">② 点滴も尿も、真水と塩水に分けて足し引き</div><div class="key">③ 急性でも、脳の子は急いで下げない。最後は時刻つきの実測</div><p class="legend">体重・Na・年齢は上のバーで変えると、全部の画面と「計算」「術後」タブに反映されます。</p>`},
 ];
-const TOG={0:{st:()=>({lv:.48,na:156,urine:{salty:0,rate:1},cap:['尿 ≒ 真水','Na↑']}),t:()=>'<b>薄い尿</b>（尿Na＋K 15、血清Na 160）：尿のほぼ全部が真水。水だけ抜けてNaが上がる → <b>尿崩症が活動中</b>。'},
- 1:{st:()=>({lv:.55,na:150,urine:{salty:.75,rate:1},cap:['尿は多い','でも塩水']}),t:()=>'<b>塩の多い尿</b>（尿Na＋K 111、血清Na 152）：塩も一緒に出るので、Naはあまり動かない。大量輸液のあとの利尿や、尿崩症がかなり抑えられた状態。<br>ほかに尿が増えるのは：マンニトール・高血糖・尿素による<b>浸透圧利尿</b>。'}};
+let UV=LSg('hna_uv',0),UC=LSg('hna_uc',111),FV=LSg('hna_fv',0),FC=(()=>{try{const v=localStorage.getItem('hna_fc');return v==null?55:parseFloat(v)}catch(e){return 55}})();
+if(!UV)UV=r0(3.6*W);if(!FV)FV=r0(0.7*W)||1;
+const exReset=()=>{try{['hna_uv','hna_uc','hna_fv','hna_fc'].forEach(k=>localStorage.removeItem(k))}catch(e){}UV=r0(3.6*W);UC=111;FV=r0(0.7*W)||1;FC=55;render()};
+const TOG={0:{st:()=>({lv:Math.min(.9,C)*.8,na:Math.max(N,150)+6,urine:{salty:0,rate:1},cap:['尿 ≒ 真水','Na↑']}),t:()=>`<b>薄い尿</b>（例：尿Na＋K 15）：血清Na ${N}なら尿の${r0((1-15/N)*100)}%が真水。水だけ抜けてNaが上がる → <b>尿崩症が活動中</b>。`},
+ 1:{st:()=>({lv:Math.min(.9,C),na:N,urine:{salty:.75,rate:1},cap:['尿は多い','でも塩水']}),t:()=>`<b>塩の多い尿</b>（例：尿Na＋K 111）：血清Na ${N}なら真水は尿の${r0(Math.max(0,1-111/N)*100)}%だけ。Naはあまり動かない。大量輸液のあとの利尿や、尿崩症がかなり抑えられた状態。<br>ほかに尿が増えるのは：マンニトール・高血糖・尿素による<b>浸透圧利尿</b>。`}};
 const PH={0:{st:()=>({lv:.66,na:136,urine:{salty:1,rate:.35},cap:['尿は少なく濃い','水がたまる']}),t:()=>'<b>SIADH様</b>（術後の三相性の第2相、バソプレシン・DDAVPの効きすぎ）：出口が閉まりすぎて水がたまる。体重↑。→ <b>薬を減らす・低張液を減らす</b>。'},
  1:{st:()=>({lv:.45,na:134,urine:{salty:1,rate:1},cap:['尿が多く塩も出る','水も減る']}),t:()=>'<b>CSW</b>（中枢性塩類喪失）：塩も水も大量に出る。体重↓・脱水。→ <b>Naと水を補う（水制限は禁）</b>。急性脳損傷後のDIのあとに続いた例が多い（54例中16例）。'},
- 2:{st:()=>({lv:.5,na:150,urine:{salty:0,rate:1},cap:[`尿 ＞${r0(4*W)} mL/h`,'比重↓','Na↑']}),t:()=>`<b>DI再燃</b>（ピトレシン・DDAVPを止めた、切れた）：尿量＞4 mL/kg/h（${W} kgで<b>${r0(4*W)} mL/h</b>）＋比重低下＋Na再上昇がそろったら再開。ピトレシンは止めて約3時間で多尿が戻った報告あり。`}};
+ 2:{st:()=>({lv:.5,na:152,urine:{salty:0,rate:1},cap:[`尿 ＞${r0(4*W)} mL/h`,'比重↓','Na↑']}),t:()=>`<b>DI再燃</b>（ピトレシン・DDAVPを止めた、切れた）：尿量＞4 mL/kg/h（${W} kgで<b>${r0(4*W)} mL/h</b>）＋比重低下＋Na再上昇がそろったら再開。ピトレシンは止めて約3時間で多尿が戻った報告あり。`}};
 let cur=0;
-function render(keepTog){
+function render(){
  const s=S[cur];$('slide').innerHTML=`<div class="no">${cur+1} / ${S.length}</div><h2>${s.t}</h2>${s.h()}`;
  $('dots').innerHTML=S.map((_,i)=>`<i class="${i===cur?'on':''}"></i>`).join('');
  $('pv').style.visibility=cur?'visible':'hidden';$('nx').textContent=cur===S.length-1?'最初から ↺':'次へ ›';
  apply(s.st());
  if(s.tog){const bs=$('slide').querySelectorAll('[data-u]');const set=k=>{bs.forEach(b=>b.classList.toggle('on',b.dataset.u==k));$('togTxt').innerHTML=TOG[k].t();apply(TOG[k].st())};bs.forEach(b=>b.onclick=()=>set(b.dataset.u));set(1)}
  if(s.tog2){const bs=$('slide').querySelectorAll('[data-p]');const set=k=>{bs.forEach(b=>b.classList.toggle('on',b.dataset.p==k));$('phTxt').innerHTML=PH[k].t();apply(PH[k].st())};bs.forEach(b=>b.onclick=()=>set(b.dataset.p));set(0)}
+ if(s.uin){['uv','uc'].forEach(id=>$(id).onchange=()=>{const v=parseFloat($(id).value);if(!isFinite(v)||v<0)return;if(id==='uv'){UV=v;LSs('hna_uv',v)}else{UC=v;LSs('hna_uc',v)}render()})}
+ if(s.fin){$('fv').onchange=()=>{const v=parseFloat($('fv').value);if(isFinite(v)&&v>=0){FV=v;LSs('hna_fv',v);render()}};$('fc').onchange=()=>{FC=parseFloat($('fc').value);LSs('hna_fc',FC);render()}}
 }
-function setW(v){v=Math.max(2,Math.min(100,Math.round(v*10)/10));W=v;try{localStorage.setItem('hna_w',v)}catch(e){}
- $('wv').textContent=v;$('wr').value=v;
- ['w','pw'].forEach(id=>{const el=$(id);if(el){el.value=v;el.dispatchEvent(new Event('input'))}});render()}
-$('wm').onclick=()=>setW(W-(W>20?1:0.5));$('wp').onclick=()=>setW(W+(W>=20?1:0.5));
-$('wr').oninput=e=>setW(parseFloat(e.target.value));
+function sync(){const set=(id,v)=>{const el=$(id);if(el){el.value=v;el.dispatchEvent(new Event('input'))}};set('w',W);set('pw',W);set('na',N);set('ina',N);const c=$('c');if(c){c.value=String(C);c.dispatchEvent(new Event('input'))}}
+function upd(){$('wv').textContent=W;$('wr').value=W;$('nv').textContent=N;$('nr').value=N;document.querySelectorAll('[data-c]').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.c)===C));sync();render()}
+const has=k=>{try{return localStorage.getItem(k)!=null}catch(e){return false}};
+function setW(v){W=Math.max(1,Math.min(100,Math.round(v*10)/10));LSs('hna_w',W);if(!has('hna_uv'))UV=r0(3.6*W);if(!has('hna_fv'))FV=r0(0.7*W)||1;upd()}
+function setN(v){N=Math.max(100,Math.min(190,Math.round(v)));LSs('hna_na',N);upd()}
+function setC(v){C=v;LSs('hna_c',v);upd()}
+$('wm').onclick=()=>setW(W-(W>20?1:0.5));$('wp').onclick=()=>setW(W+(W>=20?1:0.5));$('wr').oninput=e=>setW(parseFloat(e.target.value));
+$('nm').onclick=()=>setN(N-1);$('np').onclick=()=>setN(N+1);$('nr').oninput=e=>setN(parseFloat(e.target.value));
 document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>setW(parseFloat(b.dataset.w)));
+document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>setN(parseFloat(b.dataset.n)));
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>setC(parseFloat(b.dataset.c)));
 $('nx').onclick=()=>{cur=cur===S.length-1?0:cur+1;render();window.scrollTo({top:0,behavior:'smooth'})};
 $('pv').onclick=()=>{if(cur){cur--;render();window.scrollTo({top:0,behavior:'smooth'})}};
 let tx=null;$('slide').addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
@@ -581,7 +607,7 @@ function io(){const h=parseFloat($('ih').value),i=g('iin')||0,o=g('iout')||0,uc=
  $('iout2').innerHTML=t+`<div class="small">補った分は次の${h}時間のin-outに含めない（院内ルール）</div>`}
 document.querySelectorAll('#t7 input,#t7 select').forEach(e=>e.addEventListener('input',()=>{pit();io()}));pit();io();
 
-setW(W);
+upd();
 </script>
 <script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
 </body>
