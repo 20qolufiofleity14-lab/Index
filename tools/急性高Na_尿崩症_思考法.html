@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>急性高Na血症＋尿崩症の考え方</title>
+<meta name="mini-category" content="water">
+<meta name="mini-title" content="急性高Na＋尿崩症の考え方（PICU）">
+<meta name="mini-desc" content="尿量ではなく自由水で考える。初学者向け解説・当直実践版・フローチャート・計算問題・自由水収支の計算。CPA後の一過性尿崩症の学びを文献で検証して再構成">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--border:#dde3ec;--text:#1a202c;--muted:#64748b;--primary:#1e3a5f;--primary-mid:#254d80;
+--red:#b91c1c;--red-soft:#dc2626;--red-bg:#fef2f2;--red-border:#fca5a5;--amber:#92400e;--amber-soft:#b45309;--amber-bg:#fffbeb;--amber-border:#fcd34d;
+--blue:#1d4ed8;--blue-soft:#2563eb;--blue-bg:#eff6ff;--blue-border:#93c5fd;--green:#166534;--green-soft:#16a34a;--green-bg:#f0fdf4;--green-border:#86efac;
+--purple:#5b21b6;--purple-bg:#f5f3ff;--purple-border:#c4b5fd;--shadow:0 1px 4px rgba(0,0,0,.07)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP','Meiryo',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.65;-webkit-text-size-adjust:100%}
+.header{background:linear-gradient(135deg,#3b0d0d 0%,#9a3412 50%,#0e7490 100%);color:#fff;padding:14px 16px 12px}
+.header h1{font-size:17px;font-weight:800}.header .sub{font-size:11px;opacity:.85;margin-top:2px}
+.motto{margin-top:6px;font-size:12.5px;font-weight:800;background:rgba(255,255,255,.15);display:inline-block;padding:2px 10px;border-radius:12px}
+.tab-nav{background:var(--primary-mid);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:20}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{padding:10px 13px;color:rgba(255,255,255,.65);background:none;border:none;cursor:pointer;white-space:nowrap;font-size:12px;font-family:inherit;border-bottom:3px solid transparent;flex-shrink:0}
+.tab-btn.active{color:#fff;border-bottom-color:#fdba74;background:rgba(255,255,255,.12);font-weight:700}
+.tab-content{display:none;padding:12px 12px 90px;max-width:900px;margin:0 auto}.tab-content.active{display:block}
+.card{background:var(--card);border-radius:8px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:10px}
+.card-hd{padding:7px 11px;font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:6px}
+.card-hd.red{background:var(--red-bg);color:var(--red);border-bottom:1px solid var(--red-border)}
+.card-hd.amber{background:var(--amber-bg);color:var(--amber);border-bottom:1px solid var(--amber-border)}
+.card-hd.blue{background:var(--blue-bg);color:var(--blue);border-bottom:1px solid var(--blue-border)}
+.card-hd.green{background:var(--green-bg);color:var(--green);border-bottom:1px solid var(--green-border)}
+.card-hd.purple{background:var(--purple-bg);color:var(--purple);border-bottom:1px solid var(--purple-border)}
+.card-hd.dark{background:var(--primary);color:#fff}
+.card-body{padding:9px 11px}.card-body p{margin:4px 0}.card-body ul,.card-body ol{padding-left:18px;margin:4px 0}.card-body li{margin:3px 0}
+.hl{padding:6px 9px;border-radius:4px;margin:6px 0;border-left:3px solid}
+.hl-red{background:var(--red-bg);border-color:var(--red-soft);color:#7f1d1d}.hl-amber{background:var(--amber-bg);border-color:var(--amber-soft);color:#78350f}
+.hl-blue{background:var(--blue-bg);border-color:var(--blue-soft);color:#1e3a8a}.hl-green{background:var(--green-bg);border-color:var(--green-soft);color:#14532d}
+.hl-purple{background:var(--purple-bg);border-color:var(--purple);color:#3b0764}
+.formula{font-family:ui-monospace,Menlo,monospace;background:#0f172a;color:#e2e8f0;border-radius:6px;padding:8px 10px;margin:6px 0;font-size:12px;overflow-x:auto;white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid var(--border);padding:5px 6px;vertical-align:top}th{background:#f1f5f9;text-align:left}
+.ok{color:#166534;font-weight:800}.tri{color:#b45309;font-weight:800}.ng{color:#b91c1c;font-weight:800}
+details{background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:6px 9px;margin:6px 0}
+summary{cursor:pointer;font-weight:700;color:#0e7490}
+.qq{font-weight:700;margin-top:6px}
+/* flow */
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.node{border:2px solid #334155;border-radius:10px;padding:8px 10px;background:#fff;font-size:12.5px}
+.node b.t{display:block;font-size:13px;margin-bottom:2px}
+.node.s{border-color:#0e7490;background:#ecfeff}.node.q{border-color:#b45309;background:#fffbeb}.node.r{border-color:#b91c1c;background:#fef2f2}.node.g{border-color:#16a34a;background:#f0fdf4}.node.p{border-color:#5b21b6;background:#f5f3ff}
+.arrow{text-align:center;color:#64748b;font-size:18px;line-height:1.2;margin:2px 0}
+.branch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:520px){.branch{grid-template-columns:1fr}}
+.lbl{display:inline-block;font-size:10.5px;font-weight:800;border-radius:8px;padding:0 7px;margin-bottom:3px}
+.lbl.y{background:#fee2e2;color:#991b1b}.lbl.n{background:#dcfce7;color:#166534}
+/* calc */
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.fld{display:flex;flex-direction:column;gap:2px;font-size:11px;color:var(--muted);flex:1;min-width:92px}
+.fld input,.fld select{font-size:15px;padding:6px 7px;border:1px solid #cbd5e1;border-radius:6px;font-family:inherit;width:100%;background:#fff}
+.out{margin-top:8px}.out .line{margin:3px 0}
+.big{font-size:20px;font-weight:800;color:#0e7490}
+.small{font-size:11px;color:var(--muted)}
+.chip{display:inline-block;background:#e2e8f0;border-radius:10px;padding:0 8px;font-size:11px;margin:1px}
+</style>
+</head>
+<body>
+<div class="header">
+ <h1>🧂 急性高Na血症＋尿崩症の考え方</h1>
+ <div class="sub">CPA後の一過性尿崩症の管理から得た学びを、文献で確かめて組み直した教材</div>
+ <div class="motto">“How much urine?” ではなく “How much free water?”</div>
+</div>
+<div class="tab-nav">
+ <button class="tab-btn active" onclick="sw(0)">① 初学者向け</button>
+ <button class="tab-btn" onclick="sw(1)">② 当直実践</button>
+ <button class="tab-btn" onclick="sw(2)">③ フローチャート</button>
+ <button class="tab-btn" onclick="sw(3)">④ 計算問題</button>
+ <button class="tab-btn" onclick="sw(4)">⑤ 自由水の計算</button>
+ <button class="tab-btn" onclick="sw(5)">⑥ 検証メモ</button>
+ <button class="tab-btn" onclick="sw(6)">⑦ フォロー・出典</button>
+</div>
+
+<!-- ① 初学者向け -->
+<div class="tab-content active" id="t0">
+ <div class="card"><div class="card-hd dark">1. 血清Naは「水の量」で決まる</div><div class="card-body">
+  <p>血清Naは、体の中の塩（入れ替わるNa＋K）を体の水（TBW）で割った「濃さ」です。Edelman（1958）が実測で示した関係です。</p>
+  <div class="formula">血清Na ≒（交換可能Na ＋ 交換可能K）÷ TBW</div>
+  <p class="small">原著の回帰式には係数と切片があり（Na ≒ 1.11×(Na<sub>e</sub>＋K<sub>e</sub>)/TBW − 25.6）、「≒」は近似の意味です。</p>
+  <p>高Na血症の大半は「塩が増えた」より<b>「水が減った」</b>。だから考える単位は<b>自由水（電解質を含まない水）</b>です。</p>
+ </div></div>
+ <div class="card"><div class="card-hd blue">2. 体の水はどのくらい？</div><div class="card-body">
+  <p>学童ではTBW ≒ 体重 × 0.6。28 kgなら <b>16.8 L</b>。乳児は0.7、新生児は0.75〜0.8。</p>
+ </div></div>
+ <div class="card"><div class="card-hd green">3. 自由水が体に残ると、Naはどれだけ下がる？</div><div class="card-body">
+  <div class="formula">ΔNa ≒ Na × 残った自由水 ÷（TBW ＋ 残った自由水）</div>
+  <p>28 kg（TBW 16.8 L）、Na 152の子では：</p>
+  <table><tr><th>体に残った自由水</th><th>Naの低下</th></tr><tr><td>100 mL</td><td>約0.9</td></tr><tr><td>500 mL</td><td>約4.4</td></tr><tr><td>1,000 mL</td><td>約8.5</td></tr></table>
+  <div class="hl hl-green"><b>どの体格でも使える目安</b>：TBWが体重の60%、Naが150前後なら、<b>自由水 約4 mL/kgでNaが約1下がる</b>（28 kgなら約110 mL）。</div>
+  <div class="hl hl-amber">「残った」がポイント。入れた量ではなく、<b>入れた自由水 − 尿や不感蒸泄で失った自由水</b>で考えます。</div>
+ </div></div>
+ <div class="card"><div class="card-hd red">4. 尿が多い＝尿崩症、ではない</div><div class="card-body">
+  <p>尿が多くても、その尿が<b>塩を十分含んでいれば</b>、出ていく自由水は少ない。大量輸液のあとの利尿、浸透圧利尿（マンニトール・高血糖・尿素）でも尿は増えます。</p>
+  <p>見るべきは「その尿でどれだけ<b>自由水</b>が失われているか」。尿のNa＋Kを血清Naと比べます。</p>
+  <div class="formula">電解質を除いた自由水クリアランス（EFWC）＝ 尿量 ×（1 −（尿Na＋尿K）÷ 血清Na）</div>
+  <ul>
+   <li>尿Na＋K ≪ 血清Na → 尿はほぼ真水 → <b>自由水を大量に失っている（DIが活動的）</b></li>
+   <li>尿Na＋K が血清Naに近い → 尿は多くても自由水の喪失は少ない</li>
+   <li>尿Na＋K ＞ 血清Na → 尿で塩が出て、体に自由水が残る（Naは下がる向き）</li>
+  </ul>
+ </div></div>
+ <div class="card"><div class="card-hd purple">5. 輸液も「水」と「塩」に分ける</div><div class="card-body">
+  <p>ソリタT3（Na 35・K 20）20 mL/hで入るのは、水20 mL/h、Na 0.7 mEq/h、K 0.4 mEq/h。</p>
+  <p>そのうち<b>自由水として効くのは約13 mL/h</b>（血清Na 152なら 20×(1−55/152)）。「T3 20 mL/h＝自由水20 mL/h」ではありません。</p>
+  <div class="formula">輸液の自由水 ＝ 流量 ×（1 −（輸液Na＋K）÷ 血清Na）</div>
+  <p>生食（154）は血清Na 152のとき自由水はほぼ0（わずかにマイナス）。5%ブドウ糖は全部が自由水。</p>
+ </div></div>
+ <div class="card"><div class="card-hd amber">6. 最後は実測値</div><div class="card-body">
+  <p>式は道しるべ。TBWの係数、不感蒸泄、尿の変化はすべて推定を含みます。<b>2〜4時間ごとのNaの実測と時刻</b>で、補正の速さを判断します。</p>
+  <p>「予測とずれた」ら、尿で何かが変わったサイン（DIの再燃・回復、薬の効き始め・切れ、輸液の変更）。</p>
+ </div></div>
+</div>
+
+<!-- ② 当直実践 -->
+<div class="tab-content" id="t1">
+ <div class="card"><div class="card-hd dark">⏱ 来たら最初の15分</div><div class="card-body"><ol>
+  <li><b>いつから高いか</b>：48時間以内に上がった（急性）か、それ以上・不明（慢性）か。前回値と時刻を並べる。</li>
+  <li><b>脳の状態</b>：CPA後・頭部外傷・脳浮腫・頭蓋内圧亢進があるか。高浸透圧療法中か（マンニトール・高張食塩水）。</li>
+  <li><b>Naの入りすぎ</b>：生食・重炭酸Na・高張食塩水・抗菌薬の溶解液を拾う。</li>
+  <li><b>尿</b>：時間尿量（mL/kg/h）、尿比重、尿浸透圧、尿Na・尿K、尿糖。血清浸透圧・血糖。</li>
+  <li><b>体液量</b>：循環が不安定なら、Naより先に等張液で循環を戻す。</li>
+ </ol></div></div>
+ <div class="card"><div class="card-hd red">🔎 中枢性尿崩症を疑う組み合わせ</div><div class="card-body">
+  <ul>
+   <li>血清Na ＞145（多くは上昇中）</li>
+   <li>尿量が多い：目安 <b>＞3〜4 mL/kg/h</b>（28 kgで約85〜110 mL/h）。施設によって定義が違う</li>
+   <li>尿が薄い：尿浸透圧＜血漿浸透圧（多くは＜300）、尿比重 ＜1.005</li>
+   <li>尿Na＋Kが血清Naよりずっと低い（EFWCが尿量の大部分）</li>
+  </ul>
+  <div class="hl hl-amber"><b>先に除外</b>：浸透圧利尿（マンニトール・高血糖・尿素、造影剤）。尿比重は糖・マンニトール・造影剤で見かけ上上がるので、可能なら<b>尿浸透圧</b>で確かめる。鎮静のケタミン持続投与で中枢性尿崩症が出た小児例の報告もある。</div>
+ </div></div>
+ <div class="card"><div class="card-hd blue">🚿 補正の速さ：急性と慢性</div><div class="card-body">
+  <ul>
+   <li><b>慢性（48時間以上・不明）</b>：従来の目安は <b>0.5 mEq/L/h以下、10〜12 mEq/L/日以下</b>。</li>
+   <li><b>急性（48時間以内：DI・浸透圧利尿・医原性Na負荷）</b>：脳が適応しきっていないので、慢性ほど厳しく制限しなくてよい、とされる（Adrogué &amp; Madias 2000）。</li>
+  </ul>
+  <div class="hl hl-blue"><b>根拠の強さ</b>：0.5 mEq/L/hという数字自体、質の高い研究に基づくものではない。小児402エピソードの後ろ向き研究（Didsbury 2023）でも、成人ICU（Chauhan 2019）でも、0.5を超える速い補正で脳浮腫・けいれん・死亡は増えていなかった。</div>
+  <div class="hl hl-red"><b>CPA後・脳損傷の子は別に考える</b>：問題は脱髄ではなく<b>頭蓋内圧</b>。脳浮腫がある子でNaを急に下げると水が脳に入る向きに働くので、急性でも「正常値まで急いで戻す」ことは目標にしない。脳外科・集中治療チームと<b>目標Naの範囲</b>を先に決め、その中で急な低下を避ける。</div>
+ </div></div>
+ <div class="card"><div class="card-hd green">💉 治療の組み立て</div><div class="card-body">
+  <p><b>① 出口を閉める</b>（中枢性DI）</p>
+  <ul>
+   <li>体液が大きく動く急性期は、半減期が短く調節しやすい<b>バソプレシン（ピトレシン）持続静注</b>。小児PICUのアルゴリズム報告（Lugo 1997）では開始 <b>0.25〜1.0 mU/kg/h</b>、目標は尿量2〜3 mL/kg/h・尿比重1.010〜1.020・血清Na 140〜145。</li>
+   <li>同じ報告では、ピトレシンの量に最もよく連動したのは<b>尿比重</b>、次が尿量。血清Naとは直線的な相関がなかった → 量の調節は尿比重と尿量で、Naは結果として追う。</li>
+   <li>安定したらDDAVPへ。</li>
+  </ul>
+  <p><b>② 失った自由水を足す</b></p>
+  <ul>
+   <li>必要な自由水 ＝ 欠乏分（TBW×(Na÷目標−1)）＋ 続いている喪失（EFWC＋不感蒸泄）− 輸液・栄養の自由水</li>
+   <li>Lugoの報告では 3 mL/kg/hを超える尿量を低Na液（0〜1/2生食）で補っていた。</li>
+  </ul>
+  <p><b>③ 塩を入れすぎない</b>：生食を続けると高Cl・高Naの借金が増える。</p>
+  <div class="hl hl-amber">5%ブドウ糖を大量に使うと高血糖 → 浸透圧利尿で尿がさらに増え、評価を狂わせる。血糖も追う。</div>
+ </div></div>
+ <div class="card"><div class="card-hd purple">🧪 高Cl血症の読み方</div><div class="card-body">
+  <ul>
+   <li>CPA後は生食の大量投与・Na負荷で高Cl血症になりやすい。</li>
+   <li><b>Clの入りが続いているか</b>を先に見る。生食を続けていれば高Clは続く。</li>
+   <li>Cl負荷をやめたあとにCl 128 → 120と下がっていれば、<b>過去の負債が返済されている途中</b>と読める。</li>
+   <li>Naと一緒に動いているか（Na−Cl差）、HCO₃⁻・アニオンギャップも並べ、Cl由来の代謝性アシドーシスがあれば等張の調整液（リンゲル系）への切り替えを考える。</li>
+  </ul>
+ </div></div>
+ <div class="card"><div class="card-hd amber">🔁 経過で病態が入れ替わる</div><div class="card-body">
+  <ul>
+   <li><b>三相性反応</b>（DI → SIADH様 → 永続DIか回復）は、もともと下垂体茎の損傷（脳外科術後・外傷）で知られる経過。</li>
+   <li>CPA後など急性脳損傷では、DIのあとに<b>中枢性塩類喪失（CSW）</b>が続いた例が多い（後述のYang 2011では54例中16例）。</li>
+   <li>だから、高Naの再燃だけでなく<b>急な低Na化</b>も監視する。低Naになったら：
+    <ul><li>尿量少・尿が濃い・体重増 → SIADH様（バソプレシン/DDAVPの過量も含む）→ 減量・低張液を減らす</li>
+    <li>尿量多・尿Na高・体重減・脱水 → CSW → Naと水を補う（水制限は禁）</li></ul></li>
+  </ul>
+  <div class="hl hl-red"><b>予後のサイン</b>：急性脳損傷後の中枢性DI（低酸素性虚血が約3割）では死亡率が高く、受傷2日以内の発症と最高Na＞160が予後不良と関連（Yang 2011）。DIの出現は、重い脳障害や脳死への移行を示すことがある。</div>
+ </div></div>
+ <div class="card"><div class="card-hd dark">🧯 DI解除（ピトレシン・DDAVP離脱）を試すとき</div><div class="card-body">
+  <ul>
+   <li>離脱の前後で並べる：時間尿量、尿比重（できれば尿浸透圧）、Na、水分出納。</li>
+   <li>次の組み合わせが出たら<b>DI再燃</b>：尿量 ＞4 mL/kg/h、尿比重の低下（＜1.005）、Naの再上昇。</li>
+   <li>バソプレシン静注は数分で切れるので判定が早い。DDAVPは効果が長いので、切れるまでの時間を見込んで観察する。</li>
+   <li>離脱後24〜48時間は2〜4時間ごとのNa。SIADH期の低Naにも備える。</li>
+  </ul>
+ </div></div>
+</div>
+
+<!-- ③ フローチャート -->
+<div class="tab-content" id="t2">
+ <div class="flow">
+  <div class="node s"><b class="t">① 高Na（＞145）を見た</b>前回値と時刻 → 急性（48時間以内）か慢性か。脳浮腫・頭蓋内圧のリスクは？</div>
+  <div class="arrow">▼</div>
+  <div class="node r"><b class="t">② 循環は保たれている？</b>不安定なら等張液で循環が先。Naは二の次。</div>
+  <div class="arrow">▼</div>
+  <div class="node q"><b class="t">③ Naを入れすぎていない？</b>生食・重炭酸Na・高張食塩水・薬剤の溶解液を集計 → 入りすぎなら減らす。</div>
+  <div class="arrow">▼</div>
+  <div class="node q"><b class="t">④ 尿量は？</b>時間尿量（mL/kg/h）</div>
+  <div class="branch">
+   <div class="node"><span class="lbl y">多い（＞3〜4 mL/kg/h）</span><br>→ ⑤へ</div>
+   <div class="node"><span class="lbl n">多くない</span><br>不感蒸泄・飲めない・Na負荷が主。自由水欠乏を計算して補う。</div>
+  </div>
+  <div class="arrow">▼</div>
+  <div class="node q"><b class="t">⑤ その尿は薄い？</b>尿浸透圧 vs 血漿浸透圧、尿比重、尿糖・マンニトール</div>
+  <div class="branch">
+   <div class="node r"><span class="lbl y">薄い</span><br>尿浸透圧＜血漿（多くは＜300）・比重＜1.005<br><b>→ 中枢性DIを疑う</b></div>
+   <div class="node"><span class="lbl n">薄くない／尿糖・マンニトール</span><br>浸透圧利尿・大量輸液後の利尿。原因を止める。</div>
+  </div>
+  <div class="arrow">▼</div>
+  <div class="node p"><b class="t">⑥ 自由水で数える</b>EFWC＝尿量×(1−(尿Na＋K)/血清Na)<br>＋不感蒸泄 − 輸液の自由水 ＝ <b>正味の自由水喪失</b></div>
+  <div class="arrow">▼</div>
+  <div class="node g"><b class="t">⑦ 治療</b>出口を閉める（バソプレシン 0.25〜1 mU/kg/h → DDAVP）＋ 欠乏分と続く喪失を自由水で補う。目標Naの範囲を脳の状態に合わせて決める。</div>
+  <div class="arrow">▼</div>
+  <div class="node s"><b class="t">⑧ 2〜4時間ごとに答え合わせ</b>Na（時刻つき）・時間尿量・尿比重・出納。<b>実測を式より優先</b>。</div>
+  <div class="arrow">▼</div>
+  <div class="node q"><b class="t">⑨ 病態が変わっていないか</b></div>
+  <div class="branch">
+   <div class="node r"><span class="lbl y">Naが再上昇＋尿量増＋比重低下</span><br>DI再燃（離脱・薬切れ）→ 再開</div>
+   <div class="node p"><span class="lbl y">Naが急に低下</span><br>尿少・濃い → SIADH様／過量<br>尿多・尿Na高・体重減 → CSW</div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 計算問題 -->
+<div class="tab-content" id="t3">
+ <div class="hl hl-blue">症例：28 kgの学童。CPA後に中枢性DIが出た想定（実在の症例ではありません）。答えはタップで開きます。</div>
+ <div class="card"><div class="card-body">
+  <p class="qq">Q1. この子のTBWは？</p>
+  <details><summary>答え</summary>28 × 0.6 ＝ <b>16.8 L</b></details>
+  <p class="qq">Q2. Na 156。自由水500 mLが体に残ったら、Naはいくつ？</p>
+  <details><summary>答え</summary>ΔNa ≒ 156×0.5÷(16.8＋0.5) ＝ 4.5 → <b>約151.5</b>。目安「4 mL/kgで1」なら 500÷112 ≒ 4.5 と同じ。</details>
+  <p class="qq">Q3. Na 156を150にするには、自由水がいくら体に残ればよい？</p>
+  <details><summary>答え</summary>自由水欠乏 ＝ TBW ×（Na÷目標 − 1）＝ 16.8×(156/150−1) ＝ <b>約670 mL</b>。これは「体に残る量」。尿で失い続けている分は別に足す。</details>
+  <p class="qq">Q4. 尿量150 mL/h、尿Na 12、尿K 8、血清Na 158。自由水はどれだけ失われている？</p>
+  <details><summary>答え</summary>EFWC ＝ 150×(1−20/158) ＝ <b>約131 mL/h</b>。尿のほぼ全部が自由水 → <b>DIが活動的</b>。5.4 mL/kg/hの尿で、比重はおそらく＜1.005。</details>
+  <p class="qq">Q5. 尿量120 mL/h、尿Na 70、尿K 50、血清Na 150。まだ尿崩症？</p>
+  <details><summary>答え</summary>EFWC ＝ 120×(1−120/150) ＝ <b>約24 mL/h</b>。尿は4.3 mL/kg/hと多いが、自由水の喪失は尿量の2割。<b>尿量だけで「まだDI」と判断しない</b>。ただし尿Na＋K（120）は血清Na（150）より低いので、「十分に濃縮」とまでは言えない（尿浸透圧で確認）。</details>
+  <p class="qq">Q6. Q5と同じとき、輸液はソリタT3 40 mL/h＋生食10 mL/h。不感蒸泄は400 mL/m²/日（体表面積 約1.0 m²）。24時間後のNaは？</p>
+  <details><summary>答え</summary>
+   <ul>
+    <li>入る自由水：T3 40×(1−55/150) ＝ 25.3、生食 10×(1−154/150) ＝ −0.3 → <b>＋25 mL/h</b></li>
+    <li>出る自由水：EFWC 24 ＋ 不感蒸泄 約17 → <b>−41 mL/h</b></li>
+    <li>正味 <b>−16 mL/h</b> → 24時間で約380 mLの自由水を失う</li>
+    <li>Na ≒ 150×16.8÷(16.8−0.38) ≒ <b>153.5（＋3.4）</b></li>
+   </ul>
+   入れている量（50 mL/h）は尿（120 mL/h）より少ないのに、Naの上がり方はゆっくり。「量」ではなく「自由水」で数えると見える。</details>
+  <p class="qq">Q7. Naの推移：0時157 → 6時154 → 12時153 → 18時152。補正の速さは？</p>
+  <details><summary>答え</summary>最初の6時間 0.5/h、その後 約0.17/h、18時間で−5。<b>十分に減速している</b>。時刻がない推移では速さは判断できない（同じ157→152でも、6時間なら0.8/h）。</details>
+  <p class="qq">Q8. 第5病日、ピトレシン継続中。尿量1 mL/kg/h、尿浸透圧600、Naが12時間で146 → 138。何を考える？</p>
+  <details><summary>答え</summary>尿が少なく濃い中での低下 → <b>SIADH様（三相性の第2相、またはバソプレシンの過量）</b>。ピトレシン減量・低張液を減らし、2時間ごとにNa。逆に尿が多く尿Naが高く体重が減っていれば<b>CSW</b>で、治療は正反対（Naと水を補う）。</details>
+  <p class="qq">Q9. ピトレシンを止めた2時間後、尿量140 mL/h（5 mL/kg/h）、比重1.003、Na 147 → 150。</p>
+  <details><summary>答え</summary>尿量＞4 mL/kg/h・比重低下・Na再上昇がそろった → <b>DI再燃</b>。ピトレシン再開。次の離脱は日をあけて。</details>
+ </div></div>
+</div>
+
+<!-- ⑤ 自由水の計算 -->
+<div class="tab-content" id="t4">
+ <div class="card"><div class="card-hd dark">🧮 自由水の収支（1時間あたり → 24時間の予想）</div><div class="card-body">
+  <div class="row">
+   <label class="fld">体重 kg<input id="w" type="number" inputmode="decimal" value="28"></label>
+   <label class="fld">係数<select id="c"><option value="0.75">新生児 0.75</option><option value="0.7">乳児 0.7</option><option value="0.6" selected>小児 0.6</option><option value="0.5">思春期女 0.5</option></select></label>
+   <label class="fld">血清Na<input id="na" type="number" inputmode="decimal" value="150"></label>
+  </div>
+  <p style="margin-top:8px;font-weight:700">出る（1時間）</p>
+  <div class="row">
+   <label class="fld">尿量 mL/h<input id="u" type="number" inputmode="decimal" value="120"></label>
+   <label class="fld">尿Na<input id="una" type="number" inputmode="decimal" value="70"></label>
+   <label class="fld">尿K<input id="uk" type="number" inputmode="decimal" value="50"></label>
+   <label class="fld">不感蒸泄 mL/h<input id="ins" type="number" inputmode="decimal" value=""></label>
+  </div>
+  <p style="margin-top:8px;font-weight:700">入る（1時間）</p>
+  <div class="row">
+   <label class="fld">輸液1 mL/h<input id="v1" type="number" inputmode="decimal" value="40"></label>
+   <label class="fld">その(Na＋K)<input id="c1" type="number" inputmode="decimal" value="55"></label>
+   <label class="fld">輸液2 mL/h<input id="v2" type="number" inputmode="decimal" value="10"></label>
+   <label class="fld">その(Na＋K)<input id="c2" type="number" inputmode="decimal" value="154"></label>
+  </div>
+  <div class="small">(Na＋K)の例：5%ブドウ糖 0／ソリタT3・ソルデム3A 55／ソリタT1 90／生食 154／ミルク 約20〜25。不感蒸泄が空欄なら400 mL/m²/日で概算。</div>
+  <div class="out" id="out"></div>
+ </div></div>
+ <div class="hl hl-amber">推定の道具です。実際は2〜4時間ごとのNa実測で答え合わせしてください。</div>
+</div>
+
+<!-- ⑥ 検証メモ -->
+<div class="tab-content" id="t5">
+ <div class="hl hl-blue">元の学習メモ（AIで下書き）を、PubMed等の文献で一項目ずつ確かめた結果。<span class="ok">○</span>そのまま正しい ／ <span class="tri">△</span>条件つきで正しい・補足が要る ／ <span class="ng">×</span>修正が要る。</div>
+ <div class="card"><div class="card-body" style="overflow-x:auto;padding:4px">
+ <table>
+  <tr><th>元の記載</th><th>判定</th><th>修正・補足</th></tr>
+  <tr><td>1. 急性か慢性かで補正速度の解釈が違う。慢性は0.5/h・10〜12/日以下</td><td class="tri">△</td><td>考え方は正しい（Adrogué &amp; Madias 2000）。ただし0.5/hの根拠は弱く、小児（Didsbury 2023）・成人ICU（Chauhan 2019）で速い補正の害は示されていない。<b>CPA後・脳損傷では頭蓋内圧の観点から急な低下を避ける</b>、を追加。</td></tr>
+  <tr><td>2. 学童TBW ≒ 体重×0.6</td><td class="ok">○</td><td>乳児0.7、新生児0.75〜0.8を併記。</td></tr>
+  <tr><td>3. Na ≒ (Nae＋Ke)/TBW。自由水100 mLで約1下がる</td><td class="tri">△</td><td>Edelman 1958は回帰式（係数・切片あり）なので「≒」。100 mLで約1は<b>28 kg・Na 152のときだけ</b>の数字。一般化は「約4 mL/kgで1」。表の500 mLは4.4、1,000 mLは8.5（元は5・9）。<b>「入れた量」ではなく「体に残った量」</b>と明記。</td></tr>
+  <tr><td>4. 尿量だけでDIと判断しない</td><td class="ok">○</td><td>浸透圧利尿（マンニトール・高血糖・尿素・造影剤）の除外を追加。</td></tr>
+  <tr><td>5. DI再燃の目安 尿量4 mL/kg/h、DIで比重＜1.005、改善で1.010程度</td><td class="tri">△</td><td>4 mL/kg/hは広く使われる目安だが定義は施設で違う（Lugo 1997は3 mL/kg/h超を補充、目標2〜3 mL/kg/h・比重1.010〜1.020）。比重は糖・マンニトール・造影剤で上がるので尿浸透圧を併用。比重はピトレシン量に最もよく連動する指標（Lugo 1997）。</td></tr>
+  <tr><td>6. 尿Na＋K 15 vs 血清Na 160 → 極めて薄い尿、DI持続</td><td class="ok">○</td><td>EFWCは尿量の約91%。</td></tr>
+  <tr><td>6'. 尿Na＋K 111 vs 血清Na 152 → 「十分濃縮されている」</td><td class="ng">×</td><td>尿Na＋K＜血清Naなので、<b>電解質でみるとまだ血漿より薄い</b>（EFWCは正、27 mL/h）。正しくは「自由水の喪失は少なく、DIはかなり抑えられている」。「十分濃縮」と言うには尿浸透圧が血漿を超えていることを確認。バソプレシン投与中なら薬の効果であって回復ではない点も区別。</td></tr>
+  <tr><td>7. EFWC＝V×(1−(UNa＋UK)/PNa)、100 mL/h→27 mL/h</td><td class="ok">○</td><td>計算も正しい。EFWCは不感蒸泄と入る水を含まないので、<b>収支</b>（入る自由水−EFWC−不感蒸泄）で見る、を追加。ICUの高Naでは尿電解質がほとんど測られていなかった報告がある（Chaba 2024：7%のみ）。</td></tr>
+  <tr><td>8. ソリタT3 20 mL/h＝水20 mL/h、Na 0.7 mEq/h</td><td class="tri">△</td><td>数字は正しい（K 0.4 mEq/hも入る）。さらに一歩進めて、<b>自由水として効くのは約13 mL/h</b>（20×(1−55/152)）と数えると、尿と同じ物差しで比べられる。</td></tr>
+  <tr><td>9. 実測値を優先。157→154→153→152なら減速している</td><td class="tri">△</td><td>考え方は○。<b>時刻がないと速さは判断できない</b>ので、測定時刻を必ずつける。</td></tr>
+  <tr><td>10. 高Cl血症：負荷終了後の低下は過去の負債の改善</td><td class="ok">○</td><td>Na−Cl差・HCO₃⁻・AGも並べ、Cl由来のアシドーシスがあれば調整液（リンゲル系）へ、を追加。</td></tr>
+  <tr><td>11. DI解除試験で見る項目</td><td class="ok">○</td><td>バソプレシンとDDAVPの作用時間の差、離脱後24〜48時間の頻回測定を追加。</td></tr>
+  <tr><td>12. CPA後も三相性反応を意識する</td><td class="tri">△</td><td>三相性は主に下垂体茎損傷（術後・外傷）の経過。急性脳損傷後のDIでは<b>CSWへの移行</b>が多く報告されている（Yang 2011：54例中16例）。低Na化の見分け（SIADH様 vs CSW）を追加。DIの出現は重い脳障害の徴候でもある（同報告で死亡率77.8%）。</td></tr>
+  <tr><td>13. 尿量ではなく自由水で評価</td><td class="ok">○</td><td>そのまま中心メッセージに採用。</td></tr>
+ </table>
+ </div></div>
+ <div class="card"><div class="card-hd green">➕ 元のメモになかったが足したもの</div><div class="card-body"><ul>
+  <li>小児PICUでのバソプレシン持続静注の開始量と目標（Lugo 1997）</li>
+  <li>輸液の「自由水量」の式と、自由水の収支計算</li>
+  <li>5%ブドウ糖大量投与による高血糖→浸透圧利尿</li>
+  <li>ケタミン持続鎮静による中枢性DIの小児報告（Hatab 2014）</li>
+  <li>長引く多尿で腎髄質の濃度勾配が洗い流され、バソプレシンが効きにくくなる（gradient washout）乳児例（Chang 2020）：BUNが測れないほど低いときに疑い、蛋白補充と輸液の見直しで改善</li>
+ </ul></div></div>
+</div>
+
+<!-- ⑦ フォロー・出典 -->
+<div class="tab-content" id="t6">
+ <div class="card"><div class="card-hd dark">📋 PICUで見るもの</div><div class="card-body"><ul>
+  <li>Na：補正中は2〜4時間ごと（測定時刻を記録）。離脱試験・DDAVP開始直後は1〜2時間。</li>
+  <li>時間尿量、尿比重（毎回）、尿浸透圧・尿Na/K（1日1〜2回と病態が変わったとき）。</li>
+  <li>体重（毎日）、出納（自由水で集計）。血糖、Cl・HCO₃⁻。</li>
+ </ul></div></div>
+ <div class="card"><div class="card-hd green">✅ フォロー終了（経過観察オフ）の目安</div><div class="card-body"><ul>
+  <li><b>一過性DI（CPA後・急性脳損傷後）</b>：バソプレシン・DDAVPなしで、尿量・尿比重・Naが正常範囲のまま安定し、三相性の第2相やCSWの時期（目安として1〜2週）を過ぎた → 水電解質のフォローは終了。ただし退院後に一度、外来で多飲多尿の有無とNaを確認。</li>
+  <li><b>DDAVPが続く（永続DI）</b>：終了しない。内分泌外来で継続し、ほかの下垂体前葉機能（ACTH・TSH・GH・ゴナドトロピン）を評価。コルチゾール補充を始めると隠れていた多尿が出ることがある。</li>
+  <li><b>急性脳損傷後</b>：前葉機能低下は数か月〜数年後に出ることがあるため、成長・思春期・副腎を時期を決めて追う（小児TBI後の内分泌障害の総説：Cammisa 2025）。</li>
+ </ul>
+ <div class="hl hl-red"><b>家族へのセーフティネット</b>：のどの渇きが強い・尿が急に増えた・夜間に何度も起きて排尿する（DIの再燃）、または頭痛・嘔吐・ぼんやり・けいれん（低Na）があれば、朝まで待たずに受診。DDAVP使用中は1日1回効果が切れる時間をつくる。</div>
+ </div></div>
+ <div class="card"><div class="card-hd purple">📖 出典（PubMedで確認）</div><div class="card-body small"><ol>
+  <li>Edelman IS, et al. J Clin Invest 1958;37:1236-56. <a href="https://doi.org/10.1172/JCI103712">doi:10.1172/JCI103712</a></li>
+  <li>Adrogué HJ, Madias NE. Hypernatremia. N Engl J Med 2000;342:1493-9. <a href="https://doi.org/10.1056/NEJM200005183422006">doi:10.1056/NEJM200005183422006</a></li>
+  <li>Didsbury M, et al. Correcting Hypernatremia in Children. Clin J Am Soc Nephrol 2023;18:306-14. <a href="https://doi.org/10.2215/CJN.0000000000000077">doi:10.2215/CJN.0000000000000077</a></li>
+  <li>Chauhan K, et al. Rate of Correction of Hypernatremia and Health Outcomes in Critically Ill Patients. Clin J Am Soc Nephrol 2019;14:656-63. <a href="https://doi.org/10.2215/CJN.10640918">doi:10.2215/CJN.10640918</a></li>
+  <li>Pokhriyal SC, et al. Hypernatremia and Its Rate of Correction: The Evidence So Far. Cureus 2024;16:e54699. <a href="https://doi.org/10.7759/cureus.54699">doi:10.7759/cureus.54699</a></li>
+  <li>Chaba A, et al. Severe ICU-acquired hypernatraemia. Crit Care Resusc 2024;26:311-8. <a href="https://doi.org/10.1016/j.ccrj.2024.09.004">doi:10.1016/j.ccrj.2024.09.004</a></li>
+  <li>Lugo N, et al. Diagnosis and management algorithm of acute onset of central diabetes insipidus in critically ill children. J Pediatr Endocrinol Metab 1997;10:633-9. <a href="https://doi.org/10.1515/jpem.1997.10.6.633">doi:10.1515/jpem.1997.10.6.633</a></li>
+  <li>Yang YH, et al. Central diabetes insipidus in children with acute brain insult. Pediatr Neurol 2011;45:377-80. <a href="https://doi.org/10.1016/j.pediatrneurol.2011.09.002">doi:10.1016/j.pediatrneurol.2011.09.002</a></li>
+  <li>Hatab SZ, et al. Transient central diabetes insipidus induced by ketamine infusion. Ann Pharmacother 2014;48:1642-5. <a href="https://doi.org/10.1177/1060028014549991">doi:10.1177/1060028014549991</a></li>
+  <li>Chang N, et al. Gradient washout and secondary nephrogenic diabetes insipidus after brain injury in an infant. J Med Case Rep 2020;14:183. <a href="https://doi.org/10.1186/s13256-020-02536-0">doi:10.1186/s13256-020-02536-0</a></li>
+  <li>Kochanek PM, et al. Guidelines for the Management of Pediatric Severe TBI, 3rd ed. Pediatr Crit Care Med 2019;20:280-9. <a href="https://doi.org/10.1097/PCC.0000000000001736">doi:10.1097/PCC.0000000000001736</a></li>
+  <li>Cammisa I, et al. Endocrine Dysfunctions After Pediatric TBI. Children (Basel) 2025;12:1484. <a href="https://doi.org/10.3390/children12111484">doi:10.3390/children12111484</a></li>
+ </ol>
+ <p>計算・目安は教育用です。実際の管理は施設のプロトコルと担当チームの判断に従ってください。</p>
+ </div></div>
+</div>
+
+<script>
+function sw(n){document.querySelectorAll('.tab-content').forEach((e,i)=>e.classList.toggle('active',i===n));document.querySelectorAll('.tab-btn').forEach((e,i)=>e.classList.toggle('active',i===n));window.scrollTo({top:0})}
+const $=id=>document.getElementById(id),g=id=>{const x=parseFloat($(id).value);return isNaN(x)?null:x};
+const f=(x,d=1)=>x==null||!isFinite(x)?'—':(Math.round(x*10**d)/10**d).toLocaleString('ja-JP');
+function calc(){
+ const w=g('w')||0,c=parseFloat($('c').value),na=g('na')||140,T=w*c;
+ const u=g('u')||0,uc=(g('una')||0)+(g('uk')||0);
+ const bsa=w>0?(4*w+7)/(w+90):0;const insAuto=bsa*(c>=0.75?600:400)/24;const ins=g('ins')==null?insAuto:g('ins');
+ const v1=g('v1')||0,c1=g('c1')||0,v2=g('v2')||0,c2=g('c2')||0;
+ const efwc=u*(1-uc/na),fwIn=v1*(1-c1/na)+v2*(1-c2/na),net=fwIn-efwc-ins,day=net*24/1000;
+ const na24=T+day>0?na*T/(T+day):null,d=na24-na;
+ const mlkg=u/w;
+ let judge=efwc>0.6*u?'尿の大半が自由水 → <b>DIが活動的</b>':(efwc>0.3*u?'自由水の喪失は中等度':'尿は多くても自由水の喪失は少ない');
+ if(uc>na)judge='尿の(Na＋K)が血清Naより高い → 尿で塩が出て、自由水は体に残る（Naは下がる向き）';
+ $('out').innerHTML=`<div class="line">TBW ${f(T,1)} L ／ 尿量 ${f(mlkg,1)} mL/kg/h ${mlkg>4?'<span class="chip" style="background:#fee2e2">＞4</span>':''}</div>
+ <div class="line">EFWC ＝ ${f(u,0)}×(1−${f(uc,0)}/${f(na,0)}) ＝ <b>${f(efwc,1)} mL/h</b>（尿量の${f(u>0?efwc/u*100:0,0)}%）　${judge}</div>
+ <div class="line">不感蒸泄 ${f(ins,1)} mL/h${g('ins')==null?'（概算）':''}</div>
+ <div class="line">輸液の自由水 ＋${f(fwIn,1)} mL/h</div>
+ <div class="line">正味の自由水 <b>${net>=0?'＋':'−'}${f(Math.abs(net),1)} mL/h</b>（24時間で ${net>=0?'＋':'−'}${f(Math.abs(day)*1000,0)} mL）</div>
+ <div class="line">24時間後の予想Na：<span class="big">${f(na24,1)}</span>（${d>=0?'＋':'−'}${f(Math.abs(d),1)}）</div>
+ <div class="line small">目安：自由水 ${f(T/na*1000,0)} mL（${f(T/na*1000/w,1)} mL/kg）でNa約1の変化</div>`;
+}
+document.querySelectorAll('#t4 input,#t4 select').forEach(e=>e.addEventListener('input',calc));calc();
+</script>
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
+</body>
+</html>
