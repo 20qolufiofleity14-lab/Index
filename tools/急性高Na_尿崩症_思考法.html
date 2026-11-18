@@ -75,6 +75,7 @@ summary{cursor:pointer;font-weight:700;color:#0e7490}
  <button class="tab-btn" onclick="sw(4)">⑤ 自由水の計算</button>
  <button class="tab-btn" onclick="sw(5)">⑥ 検証メモ</button>
  <button class="tab-btn" onclick="sw(6)">⑦ フォロー・出典</button>
+ <button class="tab-btn" onclick="sw(7)">⑧ 術後・化学療法</button>
 </div>
 
 <!-- ① 初学者向け -->
@@ -180,7 +181,7 @@ summary{cursor:pointer;font-weight:700;color:#0e7490}
   <ul>
    <li>離脱の前後で並べる：時間尿量、尿比重（できれば尿浸透圧）、Na、水分出納。</li>
    <li>次の組み合わせが出たら<b>DI再燃</b>：尿量 ＞4 mL/kg/h、尿比重の低下（＜1.005）、Naの再上昇。</li>
-   <li>バソプレシン静注は数分で切れるので判定が早い。DDAVPは効果が長いので、切れるまでの時間を見込んで観察する。</li>
+   <li>バソプレシン持続静注は、止めてから多尿が戻るまで<b>約3時間</b>かかった報告がある（Chanson 1987：開始後3時間で効き始め6時間で最大）。DDAVPはさらに長いので、切れるまでの時間を見込んで観察する。</li>
    <li>離脱後24〜48時間は2〜4時間ごとのNa。SIADH期の低Naにも備える。</li>
   </ul>
  </div></div>
@@ -344,6 +345,82 @@ summary{cursor:pointer;font-weight:700;color:#0e7490}
  </div></div>
 </div>
 
+<!-- ⑧ 術後・化学療法 -->
+<div class="tab-content" id="t7">
+ <div class="hl hl-blue">院内スライド「中枢性尿崩症患者の周術期＋化学療法中の管理」（2022年5月、小児科）の要点を、文献と①〜⑤の自由水の考え方で確かめたもの。<b>CPA後とちがい、脳外科術後はDIが予測でき、副腎不全（ステロイドカバー）を伴う</b>のが大きな違い。</div>
+
+ <div class="card"><div class="card-hd dark">🧭 院内プロトコルの骨格（時期ごと）</div><div class="card-body" style="overflow-x:auto">
+ <table>
+  <tr><th></th><th>術後〜経口摂取</th><th>第1〜3病日</th><th>第4病日〜</th></tr>
+  <tr><td>出口の閉め方</td><td>ピトレシン持続（1.0 mIU/kg/h、ON-OFF）。飲水を確認したら中止しDDAVPへ</td><td colspan="2">DDAVP点鼻を20時に固定。1日1回、2時間ほどの利尿期をつくる</td></tr>
+  <tr><td>輸液</td><td>生食相当（生食・フィジオ140）を500 mL/m²/日。脱水補正の5%糖液とは分けて考える</td><td>経口開始後はルートキープかロック</td><td>ロックか抜去</td></tr>
+  <tr><td>尿測・in-out</td><td>1時間ごと尿測、<b>2時間</b>ごとin-out</td><td colspan="2">4時間ごと尿測・in-out（食事は数えない）</td></tr>
+  <tr><td>補正</td><td colspan="3">in（輸液＋飲水）− out（尿量）のマイナス分を<b>1時間かけて5%糖液</b>で補う。補った分は次の計算に入れない</td></tr>
+  <tr><td>採血</td><td>4〜6時間ごと（8時間以上あけない）</td><td>8〜12時間ごと</td><td>24時間ごと</td></tr>
+  <tr><td>利尿期の判断</td><td colspan="3">尿量 ≥5 mL/kg/h（原版は4）、血清Na ＞145</td></tr>
+  <tr><td>点鼻が効かない</td><td colspan="3">点鼻1時間後も尿量 ≥3 mL/kg/h（原版は2）、または自立排尿で1時間に2回以上 → 同量を再点鼻</td></tr>
+ </table>
+ <p class="small">DDAVP初回：ピトレシン中止前のNa ＞140なら中止と同時に点鼻、≦139なら利尿期を1時間以上確かめてから点鼻。<br>第1病日以降：朝6時までに利尿期 → 同量追加／8〜18時に利尿期 → 20時分の半量／6〜8時・18〜20時 → 経過観察。</p>
+ </div></div>
+
+ <div class="card"><div class="card-hd green">🧮 ピトレシンの希釈（1 mL/h ＝ 1.0 mIU/kg/h）</div><div class="card-body">
+  <div class="row"><label class="fld">体重 kg<input id="pw" type="number" inputmode="decimal" value="16"></label></div>
+  <div id="pout" class="out"></div>
+  <p class="small">ピトレシン注 1 A ＝ 20 U/1 mL → 1段階目：1 mL＋生食19 mL ＝ 20 mL（1 U/mL ＝ 1,000 mIU/mL）＝ A液。2段階目：A液（体重÷20）mL＋生食で全量50 mL。</p>
+ </div></div>
+
+ <div class="card"><div class="card-hd purple">🧮 in-out補正（5%糖液）</div><div class="card-body">
+  <div class="row">
+   <label class="fld">間隔<select id="ih"><option value="2">2時間</option><option value="4">4時間</option></select></label>
+   <label class="fld">in（輸液＋飲水）mL<input id="iin" type="number" inputmode="decimal" value="120"></label>
+   <label class="fld">out（尿量）mL<input id="iout" type="number" inputmode="decimal" value="300"></label>
+   <label class="fld">尿Na＋K（あれば）<input id="iuc" type="number" inputmode="decimal" placeholder="例 20"></label>
+   <label class="fld">血清Na<input id="ina" type="number" inputmode="decimal" value="145"></label>
+  </div>
+  <div id="iout2" class="out"></div>
+ </div></div>
+
+ <div class="card"><div class="card-hd amber">🔍 文献・自由水の考え方での確認</div><div class="card-body" style="overflow-x:auto;padding:4px">
+ <table>
+  <tr><th>スライドの記載</th><th>判定</th><th>確認・補足</th></tr>
+  <tr><td>AVPは浸透圧の上昇・血圧/容量の変化・悪心/ストレスで出る。尿浸透圧は50〜1,200</td><td class="ok">○</td><td>アカデミー巻の二（第1話）とも一致。悪心だけでAVPが上がり、低張液で低Naになる。</td></tr>
+  <tr><td>285で AVP、292を超えると口渇</td><td class="ok">○</td><td>数字は個人差があり、教科書により283など。「AVPが先、口渇はあと」の順番が大事。</td></tr>
+  <tr><td>AVP 5 pg/mLを超えると尿浸透圧はプラトー</td><td class="ok">○</td><td>古典的な用量反応関係。だから<b>増やしても効きは強くならず、長くなるだけ</b>（DDAVPも同じ）。</td></tr>
+  <tr><td>ピトレシン希釈（体重÷20 mLを50 mLに）</td><td class="ok">○</td><td>計算を検算：1 mL/hで1.0 mIU/kg/hになる（上の計算機）。</td></tr>
+  <tr><td>1.0 mIU/kg/hを「最大効果量」としてON-OFFで使う</td><td class="tri">△</td><td>考え方は妥当。小児PICUの報告は開始0.25〜1.0 mU/kg/h（Lugo 1997）、成人小児の術後DIでは平均1.6 mIU/kg/hで、<b>効き始め3時間・最大6時間、中止後約3時間で多尿が戻った</b>（Chanson 1987）。ON-OFFは「すぐ切れる」わけではないことを見込む。</td></tr>
+  <tr><td>輸液は生食相当を500 mL/m²/日。脱水補正の5%糖液とは分ける</td><td class="ok">○</td><td>「水とNaを分けて考える」原則そのもの（アカデミー新生児の回、①⑤）。抗利尿が効いている間は自由水を入れすぎると低Naになるので、維持は等張・少量にし、失った水だけを自由水で返す設計。スライドの「1日溶質負荷量」は<b>維持輸液量</b>の意味と読む。</td></tr>
+  <tr><td>in-outのマイナス分を5%糖液で補う</td><td class="tri">△</td><td><b>尿がほぼ真水（DIの尿）なら正しい</b>。尿Na＋Kが高いとき（CSW、生食負荷のあとの利尿）に5%糖液で全量を返すと、塩を失ったまま水だけ戻すのでNaが下がる。<b>尿Na＋Kを測り、返す液の濃さを尿に合わせる</b>（上の計算機で確認）。</td></tr>
+  <tr><td>利尿期の判断：尿量≥5 mL/kg/h・Na＞145（原版4 mL/kg/h）</td><td class="ok">○</td><td>院内の取り決め。文献の閾値は3〜5 mL/kg/hとばらつく（Lugo 1997は3超で補充）。</td></tr>
+  <tr><td>DDAVPを20時に固定し、1日1回利尿期をつくる</td><td class="ok">○</td><td>アカデミー（DDAVPの回）の「1日1回は必ず切れる時間」と一致。経口DDAVPは点鼻より低Na/高Naの頻度が低い傾向（Ooi 2013、有意差なし）。</td></tr>
+  <tr><td>尿量に見合わないNa低下 → SIADH・CSWSを疑う。体重も見る</td><td class="ok">○</td><td>術後はDI・SIADH・CSWが前後・重なって起こる（Edate 2015）。見分けは体液量・尿量・尿Na（⑤病態別、③フロー⑨）。</td></tr>
+  <tr><td>低Na：維持輸液中止、利尿期までDDAVP中止、Na＜130＋神経症状で3%NaCl、ステロイドカバー</td><td class="ok">○</td><td>3%NaClは<b>神経症状があればNa値にかかわらず</b>2 mL/kg（最大100 mL）を10分以上（アカデミー）。CSWなら水制限は禁。</td></tr>
+  <tr><td>ステロイド減量で尿量が減ることがある</td><td class="ok">○</td><td>コルチゾールは自由水の排泄に必要。逆に補充開始で隠れていたDIが出る（仮面尿崩症）。</td></tr>
+  <tr><td>ステロイドカバー：術前25〜50 mg/m²、術中〜翌朝75 mg/m²持続（計100 mg/m²/日）→50→30→20→10 mg/m²/日</td><td class="ok">○</td><td>小児の大手術時のストレス量（50〜100 mg/m²静注のあと50〜100 mg/m²/日）の範囲（Endocrine Society CAHガイドライン 2018の手術時量を参照）。</td></tr>
+  <tr><td>下垂体残存例：早朝内服前ACTH ≥10 pg/mLで中止可能</td><td class="tri">△</td><td>一般的には<b>早朝コルチゾール</b>や迅速ACTH試験で副腎機能を判断する。ACTH単独で中止を決める根拠は文献で確認できず。<b>院内での運用を担当医に確認</b>。</td></tr>
+  <tr><td>参考文献：Boston Children's Hospitalの周術期DIガイドライン</td><td class="tri">△</td><td>施設内文書でPubMedには載っていない。公表されている総説として Edate &amp; Albanese 2015 を併記。</td></tr>
+ </table>
+ </div></div>
+
+ <div class="card"><div class="card-hd red">💊 化学療法中の尿崩症（スライドは見出しとCCSガイドラインのみ）</div><div class="card-body">
+  <ul>
+   <li>頭蓋内胚細胞腫瘍など、DIを持つ子がシスプラチン・イホスファミドの<b>大量補液（hyperhydration）</b>を受けると、Naが日ごとに大きく揺れる。トロントの報告では、DIの21例全員でDDAVPの量と時刻を毎日変える必要があり、入院延長が多く、6例に重い合併症（Afzal 2009）。</li>
+   <li>考え方は同じ：<b>入る自由水と出る自由水</b>。DDAVPが効いている間に大量補液 → 水が出られず低Na。DDAVPが切れている間 → 真水が大量に出て高Na。</li>
+   <li>実務：補液中は時間尿量と4〜6時間ごとのNa、DDAVPは固定量ではなくその日の出納で決める（院内の運用は小児がん内分泌のチームと相談）。</li>
+   <li>シクロホスファミド・ビンクリスチンはSIADHの原因薬でもある（⑤病態別）。</li>
+   <li>国内では『小児がん治療後の長期フォローアップガイドライン』（2021年11月）が治療中の管理にも触れている。</li>
+  </ul>
+ </div></div>
+
+ <div class="card"><div class="card-hd purple">📖 この章で足した出典（PubMedで確認）</div><div class="card-body small"><ol>
+  <li>Chanson P, et al. Ultralow doses of vasopressin in the management of diabetes insipidus. Crit Care Med 1987;15:44-6. <a href="https://doi.org/10.1097/00003246-198701000-00010">doi:10.1097/00003246-198701000-00010</a></li>
+  <li>Edate S, Albanese A. Management of electrolyte and fluid disorders after brain surgery for pituitary/suprasellar tumours. Horm Res Paediatr 2015;83:293-301. <a href="https://doi.org/10.1159/000370065">doi:10.1159/000370065</a></li>
+  <li>Ooi HL, et al. Desmopressin administration in children with central diabetes insipidus. J Pediatr Endocrinol Metab 2013;26:1047-52. <a href="https://doi.org/10.1515/jpem-2013-0078">doi:10.1515/jpem-2013-0078</a></li>
+  <li>Afzal S, et al. Challenges in management of patients with intracranial germ cell tumor and diabetes insipidus treated with cisplatin and/or ifosfamide based chemotherapy. J Neurooncol 2009;97:393-9. <a href="https://doi.org/10.1007/s11060-009-0033-z">doi:10.1007/s11060-009-0033-z</a></li>
+  <li>Speiser PW, et al. Congenital Adrenal Hyperplasia Due to Steroid 21-Hydroxylase Deficiency: An Endocrine Society Clinical Practice Guideline. J Clin Endocrinol Metab 2018;103:4043-88. <a href="https://doi.org/10.1210/jc.2018-01865">doi:10.1210/jc.2018-01865</a></li>
+  <li>Lugo N, et al. 1997（⑦の出典7）</li>
+ </ol></div></div>
+</div>
+
 <script>
 function sw(n){document.querySelectorAll('.tab-content').forEach((e,i)=>e.classList.toggle('active',i===n));document.querySelectorAll('.tab-btn').forEach((e,i)=>e.classList.toggle('active',i===n));window.scrollTo({top:0})}
 const $=id=>document.getElementById(id),g=id=>{const x=parseFloat($(id).value);return isNaN(x)?null:x};
@@ -367,6 +444,15 @@ function calc(){
  <div class="line small">目安：自由水 ${f(T/na*1000,0)} mL（${f(T/na*1000/w,1)} mL/kg）でNa約1の変化</div>`;
 }
 document.querySelectorAll('#t4 input,#t4 select').forEach(e=>e.addEventListener('input',calc));calc();
+
+function pit(){const w=g('pw')||0;const a=w/20;$('pout').innerHTML=`<div class="line">A液 <b>${f(a,2)} mL</b> ＋ 生食 <b>${f(50-a,2)} mL</b> ＝ 50 mL</div><div class="line">濃度 ${f(w,1)} mIU/mL → <b>1 mL/h ＝ 1.0 mIU/kg/h</b>（0.5 mL/hで0.5 mIU/kg/h）</div>`}
+function io(){const h=parseFloat($('ih').value),i=g('iin')||0,o=g('iout')||0,uc=g('iuc'),na=g('ina')||140;const def=o-i;
+ let t=def<=0?'<div class="line">マイナスなし → 補正不要</div>':`<div class="line">不足 <b>${f(def,0)} mL</b> → 5%糖液 <b>${f(def,0)} mL/h で1時間</b></div>`;
+ if(def>0&&uc!=null){const fw=o*(1-uc/na),salt=o*uc/1000;const ratio=uc/na;
+  t+=`<div class="line">尿の自由水 ${f(fw,0)} mL／尿のNa＋K ${f(salt,1)} mEq（尿Na＋K ÷ 血清Na ＝ ${f(ratio,2)}）</div>`;
+  t+= ratio<0.3?'<div class="hl hl-green">尿はほぼ真水 → 5%糖液での補正でよい</div>':`<div class="hl hl-amber">尿に塩が多い → 全量を5%糖液で返すとNaが下がる向き。返す液を尿の濃さに近づける（例：尿Na＋K ${f(uc,0)} ならおよそ ${uc>=120?'生食〜':uc>=60?'1/2生食前後':'1/4〜1/3生食'}）、またはNaの推移で判断</div>`}
+ $('iout2').innerHTML=t+`<div class="small">補った分は次の${h}時間のin-outに含めない（院内ルール）</div>`}
+document.querySelectorAll('#t7 input,#t7 select').forEach(e=>e.addEventListener('input',()=>{pit();io()}));pit();io();
 </script>
 <script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
 </body>
