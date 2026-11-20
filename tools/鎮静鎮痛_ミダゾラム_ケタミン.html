@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>鎮静・鎮痛 あんちょこ（ミダゾラム・ケタミン）</title>
+<title>鎮静・鎮痛 あんちょこ（ミダゾラム・ケタミン・チオペンタール）</title>
 <meta name="mini-category" content="other">
-<meta name="mini-desc" content="小児の処置時鎮静。ミダゾラム・ケタミンの経路別mg/kg、体重を入れるとmgとmL、拮抗薬、禁忌、帰室基準、鎮静記録テンプレ">
+<meta name="mini-desc" content="小児の処置時鎮静。ミダゾラム・ケタミン・チオペンタール（ラボナール）の経路別mg/kg、体重を入れるとmgとmL、拮抗薬、禁忌、帰室基準、鎮静記録テンプレ">
 <style>
 :root{--bg:#f4f6fa;--card:#fff;--ink:#1d2433;--sub:#5b6478;--line:#e2e6ee;
 --blue:#2f6fde;--blueb:#eaf1ff;--green:#1e9a64;--greenb:#e7f7ef;--orange:#d9822b;--orangeb:#fff3e4;
@@ -31,7 +31,7 @@ ul{margin:4px 0;padding-left:20px}li{margin:2px 0}
 table{width:100%;border-collapse:collapse;font-size:13.5px}
 th,td{border:1px solid var(--line);padding:6px 7px;vertical-align:top;text-align:left}
 th{background:#f0f3f9;font-weight:700}
-td.mz{background:var(--blueb)}td.kt{background:var(--purpleb)}
+td.mz{background:var(--blueb)}td.kt{background:var(--purpleb)}td.tp{background:var(--orangeb)}
 .note{font-size:12.5px;color:var(--sub)}
 .big{font-size:18px;font-weight:800}
 .warn{background:var(--redb);border-radius:8px;padding:8px 10px;margin:6px 0}
@@ -53,7 +53,7 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 <body>
 <header>
 <h1>鎮静・鎮痛 あんちょこ</h1>
-<p>小児の処置時鎮静：ミダゾラム／ケタミン（＋拮抗薬）</p>
+<p>小児の処置時鎮静：ミダゾラム／ケタミン／チオペンタール（＋拮抗薬）</p>
 </header>
 <nav id="nav">
 <button data-t="dose" class="on">用量早見</button>
@@ -92,6 +92,19 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 </table>
 <p class="note">製剤：静注用 50 mg/5 mL・200 mg/20 mL（<b>10 mg/mL</b>）、筋注用 500 mg/10 mL（<b>50 mg/mL</b>）。<b>麻薬</b>扱い（施用票・残液処理）。</p>
 <div class="hl">解離には閾値がある（静注 約1〜1.5 mg/kg）。「少しずつ足して効かせる」薬ではなく、<b>初回で解離量を入れ、足りなければ追加</b>。気道反射・自発呼吸・血圧は保たれやすい。</div>
+</div>
+
+<div class="card orange">
+<h2>チオペンタール（ラボナール）</h2>
+<table>
+<tr><th>経路</th><th>初回</th><th>追加</th><th>発現／持続</th></tr>
+<tr><td>静注</td><td class="tp"><b>2〜3 mg/kg</b>（文献により1〜3／4〜6）<br><span class="note">ゆっくり入れて様子を見る</span></td><td class="tp">入眠まで 0.5〜2 mg/kg ずつ<br>総量 5 mg/kg 前後を目安</td><td>30秒以内／10〜15分<br><span class="note">追加を重ねると覚醒が遅れる</span></td></tr>
+<tr><td>注腸</td><td class="tp"><b>20〜40 mg/kg</b><br><span class="note">10%溶液（0.2〜0.4 mL/kg）、導尿カテーテルで</span></td><td class="tp">—</td><td>約15分／約1時間</td></tr>
+<tr><td>筋注</td><td class="tp">20 mg/kg（2%溶液 1 mL/kg）を2〜3回に分けて5分ごと</td><td class="tp">7歳以下は2%溶液</td><td>5〜15分／40〜50分<br><span class="note">局所壊死の危険。ルートが取れないときだけ</span></td></tr>
+</table>
+<p class="note">製剤：注射用 0.3 g（添付溶解液12 mL）／0.5 g（20 mL）→ そのまま溶かすと <b>2.5%＝25 mg/mL</b>。注腸用の10%は 0.3 g を3 mL で溶かす（100 mg/mL）。強アルカリ（pH 10〜11）。</p>
+<div class="warn"><b>禁忌</b>：ショック・大出血・重症心不全／急性間歇性ポルフィリン症／<b>アジソン病</b>（作用の遷延、血圧低下、高K悪化）／<b>重症気管支喘息</b>（気管支けいれん）／バルビツール酸系の過敏症<br><b>動脈内に入れない</b>（動脈閉塞・末梢壊死）。漏れたら局所麻酔薬で浸潤・温湿布。</div>
+<div class="hl">鎮痛作用はない（むしろ痛みに過敏になる）。痛くない検査（CT・MRI・脳波など）向き。拮抗薬なし。</div>
 </div>
 
 <div class="card green">
@@ -134,7 +147,7 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 <h2>処置で選ぶ</h2>
 <table>
 <tr><th>処置</th><th>目標</th><th>選択肢</th></tr>
-<tr><td>痛くない・動かなければいい<br><span class="note">CT、エコー、心電図</span></td><td>不安の軽減〜浅い鎮静</td><td>ミダゾラム 点鼻／内服。MRIは施設の鎮静プロトコル（モニタ体制が別）</td></tr>
+<tr><td>痛くない・動かなければいい<br><span class="note">CT、エコー、心電図</span></td><td>不安の軽減〜浅い鎮静</td><td>ミダゾラム 点鼻／内服。<b>チオペンタール 静注・注腸</b>（すぐ効き、すぐ覚める）。MRIは施設の鎮静プロトコル（モニタ体制が別）</td></tr>
 <tr><td>ちょっと痛い<br><span class="note">ルート確保、縫合、腰椎穿刺</span></td><td>不安の軽減＋鎮痛</td><td>ミダゾラム点鼻＋局所麻酔／フェンタニル点鼻（1.5 µg/kg）</td></tr>
 <tr><td>痛くて動かれると困る<br><span class="note">整復、膿瘍切開、熱傷処置、骨髄穿刺</span></td><td>解離性鎮静</td><td><b>ケタミン 静注 1〜1.5 mg/kg</b>（ルートなし：筋注 4〜5 mg/kg）</td></tr>
 </table>
@@ -153,6 +166,16 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 <li>緑内障、眼球損傷</li>
 <li>ポルフィリン症</li>
 <li><b>甲状腺疾患・甲状腺薬内服中</b>（交感神経刺激が強まる）← 内分泌外来の子で引っかかる</li>
+</ul>
+</div>
+<div class="card orange">
+<h2>チオペンタールの禁忌（添付文書）</h2>
+<ul>
+<li>ショック・大出血による循環不全、重症心不全</li>
+<li>急性間歇性ポルフィリン症</li>
+<li><b>アジソン病</b>（副腎不全）← 未治療の副腎不全・CAHの子では避ける</li>
+<li><b>重症気管支喘息</b>（ヒスタミン遊離で気管支けいれん）</li>
+<li>バルビツール酸系薬物の過敏症</li>
 </ul>
 </div>
 <div class="card purple">
@@ -202,7 +225,7 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 <div class="card red">
 <h2>呼吸が弱い・SpO₂が下がる</h2>
 <div class="flow"><span>刺激・声かけ</span>→<span>下顎挙上・頭位</span>→<span>吸引</span>→<span>酸素</span>→<span>バッグマスク</span>→<span>（BZDなら）フルマゼニル</span>→<span>人を呼ぶ</span></div>
-<p class="note">ミダゾラムの無呼吸は急速静注・オピオイド併用で起こりやすい。ケタミンは急速静注（1分未満）で一過性無呼吸。</p>
+<p class="note">ミダゾラムの無呼吸は急速静注・オピオイド併用で起こりやすい。ケタミンは急速静注（1分未満）で一過性無呼吸。チオペンタールは呼吸抑制・血圧低下が用量依存で、拮抗薬がない。</p>
 </div>
 <div class="card red">
 <h2>喉頭けいれん（ケタミン 約0.3%）</h2>
@@ -220,6 +243,8 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 <tr><td>覚醒時反応（興奮・悪夢）</td><td>静かな部屋で刺激を減らす。強ければミダゾラム 0.05〜0.1 mg/kg</td></tr>
 <tr><td>流涎</td><td>吸引。困ればアトロピン</td></tr>
 <tr><td>眼振・筋緊張・意味のない動き</td><td>ケタミンでは普通。追加投与の理由にはならない</td></tr>
+<tr><td>チオペンタールの血圧低下・喉頭けいれん・気管支けいれん</td><td>ゆっくり投与で予防。血圧低下は輸液。喘鳴は酸素・β刺激薬、重ければアドレナリン</td></tr>
+<tr><td>チオペンタールの血管外漏出</td><td>すぐ中止。局所麻酔薬で浸潤、温湿布</td></tr>
 <tr><td>ミダゾラムの逆説的興奮</td><td>追加で深くしない。ケタミンへ切り替え検討。フルマゼニルで戻すこともある</td></tr>
 </table>
 </div>
@@ -260,7 +285,7 @@ footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
 </div>
 </section>
 
-<footer>出典：ACEP ケタミン解離性鎮静ガイドライン 2011（Green ら）／RCH Clinical Practice Guideline（Ketamine, Procedural sedation）／TREKK Bottom Line Recommendations（Procedural sedation 2018）／Green ら Acad Emerg Med 1999（筋注至適量）／添付文書（ドルミカム・ケタラール・アネキセート）。最終判断は施設プロトコルで。</footer>
+<footer>出典：ACEP ケタミン解離性鎮静ガイドライン 2011（Green ら）／RCH Clinical Practice Guideline（Ketamine, Procedural sedation）／TREKK Bottom Line Recommendations（Procedural sedation 2018）／Green ら Acad Emerg Med 1999（筋注至適量）／添付文書（ドルミカム・ケタラール・ラボナール・アネキセート）。最終判断は施設プロトコルで。</footer>
 </main>
 
 <script>
@@ -289,15 +314,18 @@ function calc(){
   ['ケタミン 静注（追加）',...rng(w,0.5,1,null,ktc),'kt'],
   ['ケタミン 筋注（初回）',...rng(w,4,5,null,50),'kt'],
   ['ケタミン 筋注（追加）',...rng(w,2,4,null,50),'kt'],
+  ['チオペンタール 静注（初回）',...rng(w,2,3,null,25),'tp'],
+  ['チオペンタール 静注（追加）',...rng(w,0.5,2,null,25),'tp'],
+  ['チオペンタール 注腸',...rng(w,20,40,null,100),'tp'],
   ['フルマゼニル',...rng(w,0.01,0.01,0.2,0.1),''],
   ['オンダンセトロン',...rng(w,0.15,0.15,4,null),'']];
  let h='';
  if(age==='u3m')h+='<div class="warn"><b>3か月未満</b>：ケタミンは避ける（ACEP）。ミダゾラムも新生児・乳児早期は代謝が遅く、慎重に。</div>';
  if(age==='i')h+='<div class="hl">6か月未満：ミダゾラムの総量上限は確立していない。少量から。</div>';
  h+='<table><tr><th>薬・経路</th><th>量</th><th>液量</th></tr>'+rows.map(x=>`<tr><td class="${x[3]}">${x[0]}</td><td>${x[1]}</td><td>${x[2]||'—'}</td></tr>`).join('')+'</table>';
- h+=`<p class="note">液量の濃度：ミダゾラム静注 ${mzc} mg/mL、点鼻・筋注は原液 5 mg/mL／ケタミン静注 ${ktc} mg/mL、筋注は筋注用 50 mg/mL／フルマゼニル 0.1 mg/mL。</p>`;
+ h+=`<p class="note">液量の濃度：ミダゾラム静注 ${mzc} mg/mL、点鼻・筋注は原液 5 mg/mL／ケタミン静注 ${ktc} mg/mL、筋注は筋注用 50 mg/mL／チオペンタール静注 2.5%（25 mg/mL）、注腸 10%（100 mg/mL）／フルマゼニル 0.1 mg/mL。</p>`;
  if(mzTot!=null)h+=`<p class="note">ミダゾラム静注の総量上限：<b>${r(mzTot)} mg</b>（${age==='y'?'0.6 mg/kg・最大6 mg':age==='s'?'0.4 mg/kg・最大10 mg':'最大10 mg'}）</p>`;
- h+=`<p class="note">ケタミン静注 累計2.5 mg/kg（${r(w*2.5)} mg）を超えそうなら方針を見直す。点鼻ミダゾラムは片鼻1 mLまで（両側で2 mL＝10 mg）。</p>`;
+ h+=`<p class="note">ケタミン静注 累計2.5 mg/kg（${r(w*2.5)} mg）を超えそうなら方針を見直す。点鼻ミダゾラムは片鼻1 mLまで（両側で2 mL＝10 mg）。チオペンタール静注は総量 5 mg/kg（${r(w*5)} mg）前後を目安。</p>`;
  $('res').innerHTML=h;last={w,rows};
 }
 ['wt','age','mzc','ktc'].forEach(i=>$(i).addEventListener('input',calc));
@@ -311,7 +339,7 @@ function tpl(){
 体重：${w} kg　年齢：
 ASA：I / II / III　　気道評価：問題なし / （　　）
 絶飲食：最終飲水　時　分／最終食事　時　分
-既往・注意：甲状腺疾患（有/無）、上気道閉塞（有/無）、けいれん（有/無）
+既往・注意：甲状腺疾患（有/無）、副腎不全（有/無）、喘息（有/無）、上気道閉塞（有/無）、けいれん（有/無）
 同意：家族へ説明済み（嘔吐、覚醒時反応、呼吸抑制）
 
 モニタ：SpO₂ / 心電図 / 血圧 / EtCO₂
@@ -319,9 +347,10 @@ ASA：I / II / III　　気道評価：問題なし / （　　）
 
 投与：
 　ミダゾラム　　経路（静注/点鼻/内服/筋注）　　mg（目安 静注 ${g('ミダゾラム 静注（初回）')}）　時　分
+　チオペンタール　経路（静注/注腸）　　mg（目安 静注 ${g('チオペンタール 静注（初回）')}／注腸 ${g('チオペンタール 注腸')}）　時　分
 　ケタミン　　　経路（静注/筋注）　　mg（目安 静注 ${g('ケタミン 静注（初回）')}／筋注 ${g('ケタミン 筋注（初回）')}）　時　分
 　追加：
-　総量：ミダゾラム　　mg（　mg/kg）、ケタミン　　mg（　mg/kg）
+　総量：ミダゾラム　　mg（　mg/kg）、ケタミン　　mg（　mg/kg）、チオペンタール　　mg（　mg/kg）
 
 経過：処置開始　時　分／終了　時　分
 有害事象：なし / SpO₂低下（最低　%）、無呼吸、喉頭けいれん、嘔吐、覚醒時反応、その他
