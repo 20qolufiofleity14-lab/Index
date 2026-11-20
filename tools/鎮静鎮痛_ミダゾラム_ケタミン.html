@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>鎮静・鎮痛 あんちょこ（ミダゾラム・ケタミン）</title>
+<meta name="mini-category" content="other">
+<meta name="mini-desc" content="小児の処置時鎮静。ミダゾラム・ケタミンの経路別mg/kg、体重を入れるとmgとmL、拮抗薬、禁忌、帰室基準、鎮静記録テンプレ">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#1d2433;--sub:#5b6478;--line:#e2e6ee;
+--blue:#2f6fde;--blueb:#eaf1ff;--green:#1e9a64;--greenb:#e7f7ef;--orange:#d9822b;--orangeb:#fff3e4;
+--red:#d64545;--redb:#fdeceb;--purple:#7a4fd6;--purpleb:#f1ebff;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+header{background:linear-gradient(135deg,#1b2a4e,#2f4f8f 60%,#3d6fb6);color:#fff;padding:18px 16px 12px}
+header h1{margin:0;font-size:19px}
+header p{margin:4px 0 0;font-size:12.5px;opacity:.85}
+nav{position:sticky;top:0;z-index:5;background:#1b2a4e;display:flex;overflow-x:auto;gap:4px;padding:6px 8px}
+nav button{flex:0 0 auto;background:transparent;border:0;color:#c9d6f2;font-size:13.5px;padding:7px 11px;border-radius:16px;cursor:pointer;white-space:nowrap}
+nav button.on{background:#fff;color:#1b2a4e;font-weight:700}
+main{max-width:860px;margin:0 auto;padding:12px}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border-radius:12px;padding:12px 14px;margin:10px 0;border-left:5px solid var(--line);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card h2{margin:0 0 6px;font-size:16px}.card h3{margin:10px 0 4px;font-size:14.5px}
+.blue{border-color:var(--blue)}.blue h2{color:var(--blue)}
+.green{border-color:var(--green)}.green h2{color:var(--green)}
+.orange{border-color:var(--orange)}.orange h2{color:var(--orange)}
+.red{border-color:var(--red)}.red h2{color:var(--red)}
+.purple{border-color:var(--purple)}.purple h2{color:var(--purple)}
+ul{margin:4px 0;padding-left:20px}li{margin:2px 0}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:6px 7px;vertical-align:top;text-align:left}
+th{background:#f0f3f9;font-weight:700}
+td.mz{background:var(--blueb)}td.kt{background:var(--purpleb)}
+.note{font-size:12.5px;color:var(--sub)}
+.big{font-size:18px;font-weight:800}
+.warn{background:var(--redb);border-radius:8px;padding:8px 10px;margin:6px 0}
+.tip{background:var(--greenb);border-radius:8px;padding:8px 10px;margin:6px 0}
+.hl{background:var(--orangeb);border-radius:8px;padding:8px 10px;margin:6px 0}
+label{display:block;font-size:13px;color:var(--sub);margin-top:8px}
+input,select{width:100%;padding:8px;font-size:16px;border:1px solid #cfd6e3;border-radius:8px;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.out{background:#f7f9fc;border:1px dashed #c4cde0;border-radius:8px;padding:10px;margin-top:10px}
+.out table td:nth-child(2),.out table td:nth-child(3){white-space:nowrap}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:14px;margin-top:8px;cursor:pointer}
+textarea{width:100%;min-height:300px;font-size:13px;font-family:ui-monospace,Menlo,monospace;border:1px solid #cfd6e3;border-radius:8px;padding:8px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.flow span{background:#eef2f8;border-radius:6px;padding:4px 8px}
+footer{font-size:11.5px;color:var(--sub);text-align:center;padding:16px}
+@media print{nav,.btn{display:none}.tab{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+<h1>鎮静・鎮痛 あんちょこ</h1>
+<p>小児の処置時鎮静：ミダゾラム／ケタミン（＋拮抗薬）</p>
+</header>
+<nav id="nav">
+<button data-t="dose" class="on">用量早見</button>
+<button data-t="calc">計算</button>
+<button data-t="pick">使い分け</button>
+<button data-t="prep">準備・モニタ</button>
+<button data-t="trouble">トラブル・拮抗</button>
+<button data-t="end">帰室・終了</button>
+<button data-t="tpl">テンプレ</button>
+</nav>
+<main>
+
+<!-- 用量早見 -->
+<section class="tab on" id="dose">
+<div class="card blue">
+<h2>ミダゾラム（ドルミカム）</h2>
+<table>
+<tr><th>経路</th><th>初回</th><th>追加・上限</th><th>発現／持続</th></tr>
+<tr><td>静注</td><td class="mz"><b>0.05〜0.1 mg/kg</b><br><span class="note">2〜3分かけて</span></td><td class="mz">2〜3分あけて少量ずつ追加<br>1回 最大2 mg目安<br>総量：6か月〜5歳 0.6 mg/kg（最大6 mg）／6〜12歳 0.4 mg/kg（最大10 mg）</td><td>1〜3分／30〜60分</td></tr>
+<tr><td>点鼻</td><td class="mz"><b>0.2〜0.3 mg/kg</b><br><span class="note">（〜0.5まで記載あり）</span></td><td class="mz">最大10 mg<br>片鼻 1 mLまで・アトマイザー</td><td>5〜15分／30〜60分</td></tr>
+<tr><td>内服</td><td class="mz"><b>0.25〜0.5 mg/kg</b></td><td class="mz">最大20 mg</td><td>10〜30分／60分</td></tr>
+<tr><td>筋注</td><td class="mz"><b>0.1〜0.15 mg/kg</b></td><td class="mz">最大10 mg</td><td>5〜15分</td></tr>
+</table>
+<p class="note">製剤：注10 mg/2 mL（5 mg/mL）。静注は 10 mg/2 mL＋生食8 mL＝<b>1 mg/mL</b> に薄めると扱いやすい。点鼻は原液（5 mg/mL）でないと量が多くなる。ミダフレッサは 0.1%（1 mg/mL）。</p>
+<div class="hl">鎮痛作用はない。痛い処置ならケタミンか、オピオイド・局所麻酔を足す（ただし併用で呼吸抑制↑）。乳幼児は逆説的興奮あり。</div>
+</div>
+
+<div class="card purple">
+<h2>ケタミン（ケタラール）</h2>
+<table>
+<tr><th>経路</th><th>初回</th><th>追加</th><th>発現／持続</th></tr>
+<tr><td>静注</td><td class="kt"><b>1〜1.5 mg/kg</b><br><span class="note">1〜2分かけて（速いと無呼吸）</span></td><td class="kt">0.5〜1 mg/kg を5〜10分ごと<br><span class="note">RCH：0.25〜0.5 mg/kg q10分。累計2.5 mg/kg超なら中止・方針変更を考える</span></td><td>約1分／10〜20分</td></tr>
+<tr><td>筋注</td><td class="kt"><b>4〜5 mg/kg</b></td><td class="kt">10分後に不十分なら 2〜4 mg/kg</td><td>3〜5分／20〜30分</td></tr>
+<tr><td>点鼻</td><td class="kt">3〜6 mg/kg</td><td class="kt">施設プロトコルで</td><td>10〜15分</td></tr>
+<tr><td>鎮痛量</td><td class="kt">0.1〜0.3 mg/kg 静注</td><td class="kt">解離は起こさない量</td><td>—</td></tr>
+</table>
+<p class="note">製剤：静注用 50 mg/5 mL・200 mg/20 mL（<b>10 mg/mL</b>）、筋注用 500 mg/10 mL（<b>50 mg/mL</b>）。<b>麻薬</b>扱い（施用票・残液処理）。</p>
+<div class="hl">解離には閾値がある（静注 約1〜1.5 mg/kg）。「少しずつ足して効かせる」薬ではなく、<b>初回で解離量を入れ、足りなければ追加</b>。気道反射・自発呼吸・血圧は保たれやすい。</div>
+</div>
+
+<div class="card green">
+<h2>拮抗薬・併用薬</h2>
+<table>
+<tr><th>薬</th><th>用量</th><th>メモ</th></tr>
+<tr><td>フルマゼニル（アネキセート 0.5 mg/5 mL＝0.1 mg/mL）</td><td><b>0.01 mg/kg</b>（1回最大0.2 mg）静注、1分ごと追加可<br>総量 0.05 mg/kg または 1 mg まで</td><td>ミダゾラムより短時間 → <b>再鎮静</b>に注意。けいれん既往・BZD長期使用では誘発しうる。ケタミンには効かない</td></tr>
+<tr><td>オンダンセトロン</td><td>0.15 mg/kg（最大4 mg）静注</td><td>ケタミンの嘔吐を減らす</td></tr>
+<tr><td>アトロピン</td><td>0.01〜0.02 mg/kg</td><td>ケタミンでもルーチンには不要。流涎で困るとき</td></tr>
+</table>
+</div>
+<p class="note">成人添付文書と小児用量は別物（多くが適応外の慣用量）。施設の鎮静プロトコル・薬剤部の取り決めを優先。</p>
+</section>
+
+<!-- 計算 -->
+<section class="tab" id="calc">
+<div class="card orange">
+<h2>体重から計算</h2>
+<div class="row">
+<div><label>体重（kg）</label><input id="wt" type="number" step="0.1" inputmode="decimal" placeholder="例 12"></div>
+<div><label>年齢</label><select id="age">
+<option value="u3m">3か月未満</option>
+<option value="i">3か月〜6か月未満</option>
+<option value="y" selected>6か月〜5歳</option>
+<option value="s">6〜12歳</option>
+<option value="t">13歳以上</option>
+</select></div>
+</div>
+<div class="row">
+<div><label>ミダゾラム静注の濃度</label><select id="mzc"><option value="1" selected>1 mg/mL（10 mg＋生食8 mL）</option><option value="5">5 mg/mL（原液）</option></select></div>
+<div><label>ケタミン静注の濃度</label><select id="ktc"><option value="10" selected>10 mg/mL（静注用 原液）</option><option value="1">1 mg/mL（希釈）</option><option value="5">5 mg/mL（希釈）</option></select></div>
+</div>
+<div id="res" class="out note">体重を入れてください</div>
+</div>
+</section>
+
+<!-- 使い分け -->
+<section class="tab" id="pick">
+<div class="card blue">
+<h2>処置で選ぶ</h2>
+<table>
+<tr><th>処置</th><th>目標</th><th>選択肢</th></tr>
+<tr><td>痛くない・動かなければいい<br><span class="note">CT、エコー、心電図</span></td><td>不安の軽減〜浅い鎮静</td><td>ミダゾラム 点鼻／内服。MRIは施設の鎮静プロトコル（モニタ体制が別）</td></tr>
+<tr><td>ちょっと痛い<br><span class="note">ルート確保、縫合、腰椎穿刺</span></td><td>不安の軽減＋鎮痛</td><td>ミダゾラム点鼻＋局所麻酔／フェンタニル点鼻（1.5 µg/kg）</td></tr>
+<tr><td>痛くて動かれると困る<br><span class="note">整復、膿瘍切開、熱傷処置、骨髄穿刺</span></td><td>解離性鎮静</td><td><b>ケタミン 静注 1〜1.5 mg/kg</b>（ルートなし：筋注 4〜5 mg/kg）</td></tr>
+</table>
+<div class="tip">ケタミン前のミダゾラムは、小児では<b>ルーチン不要</b>（覚醒時反応は年長児・成人で問題になる）。出たら治療としてミダゾラム 0.05〜0.1 mg/kg。</div>
+</div>
+<div class="card red">
+<h2>ケタミンの禁忌・慎重（ACEP 2011）</h2>
+<h3>避ける</h3>
+<ul><li><b>3か月未満</b>（気道合併症が多い）</li><li>統合失調症の既往・疑い</li></ul>
+<h3>慎重（相対的）</h3>
+<ul>
+<li>咽頭後壁を刺激する処置（内視鏡など）、気道不安定、気管の異常</li>
+<li>活動性の気道感染（かぜ）・肺疾患</li>
+<li>心血管疾患（高血圧、心不全など）</li>
+<li>頭蓋内腫瘤・水頭症などの頭蓋内圧亢進</li>
+<li>緑内障、眼球損傷</li>
+<li>ポルフィリン症</li>
+<li><b>甲状腺疾患・甲状腺薬内服中</b>（交感神経刺激が強まる）← 内分泌外来の子で引っかかる</li>
+</ul>
+</div>
+<div class="card purple">
+<h2>ミダゾラムで気をつける人</h2>
+<ul>
+<li>オピオイドとの併用（呼吸抑制が相乗）</li>
+<li>神経筋疾患、上気道閉塞（OSA、扁桃肥大）、重症心肺疾患</li>
+<li>肝障害・腎障害（作用延長）、CYP3A4阻害薬（マクロライド、アゾール系）</li>
+</ul>
+</div>
+</section>
+
+<!-- 準備・モニタ -->
+<section class="tab" id="prep">
+<div class="card blue">
+<h2>始める前に</h2>
+<ul>
+<li><b>ASA分類</b>：I〜IIなら病棟／救急で。III以上・気道に問題のある子は麻酔科に相談</li>
+<li><b>気道評価</b>：いびき・無呼吸、扁桃、小顎、ダウン症などの気道の特徴</li>
+<li><b>絶飲食の目安</b>：清澄水 1〜2時間、母乳 4時間、人工乳・軽食 6時間（緊急なら利益と危険を比べて判断）</li>
+<li>同意・説明（嘔吐、覚醒時の興奮、まれに喉頭けいれん・無呼吸）</li>
+</ul>
+</div>
+<div class="card green">
+<h2>道具：SOAP-ME</h2>
+<table>
+<tr><th>S</th><td>吸引（太いヤンカー）</td></tr>
+<tr><th>O</th><td>酸素・流量計</td></tr>
+<tr><th>A</th><td>気道：年齢に合ったマスク＋バッグ、エアウェイ、喉頭鏡・挿管チューブの用意</td></tr>
+<tr><th>P</th><td>薬剤：鎮静薬、拮抗薬、救急薬（アトロピン・アドレナリン・サクシニルコリン等は施設のカートで）</td></tr>
+<tr><th>M</th><td>モニタ：SpO₂、心拍、血圧。深い鎮静・ケタミンでは<b>呼気CO₂（カプノ）</b>が望ましい</td></tr>
+<tr><th>E</th><td>特別な器材（除細動器など）</td></tr>
+</table>
+</div>
+<div class="card orange">
+<h2>人の配置</h2>
+<ul>
+<li>処置をする人とは別に、<b>鎮静を見る専任</b>を1人</li>
+<li>記録：投与前、投与後は5分ごと（深い鎮静）にバイタルと鎮静度</li>
+</ul>
+<div class="flow"><span>評価・同意</span>→<span>器材・ルート</span>→<span>タイムアウト</span>→<span>投与</span>→<span>処置</span>→<span>回復室で観察</span>→<span>帰室判定</span></div>
+</div>
+</section>
+
+<!-- トラブル -->
+<section class="tab" id="trouble">
+<div class="card red">
+<h2>呼吸が弱い・SpO₂が下がる</h2>
+<div class="flow"><span>刺激・声かけ</span>→<span>下顎挙上・頭位</span>→<span>吸引</span>→<span>酸素</span>→<span>バッグマスク</span>→<span>（BZDなら）フルマゼニル</span>→<span>人を呼ぶ</span></div>
+<p class="note">ミダゾラムの無呼吸は急速静注・オピオイド併用で起こりやすい。ケタミンは急速静注（1分未満）で一過性無呼吸。</p>
+</div>
+<div class="card red">
+<h2>喉頭けいれん（ケタミン 約0.3%）</h2>
+<ul>
+<li>吸気性喘鳴→無音、胸郭は動くのに換気できない</li>
+<li>吸引 → <b>100%酸素で持続陽圧（CPAP）をバッグマスクで</b>、下顎挙上・Larson点の圧迫</li>
+<li>改善しなければ：筋弛緩（サクシニルコリンなど）＋挿管。麻酔科を呼ぶ</li>
+</ul>
+</div>
+<div class="card orange">
+<h2>そのほか</h2>
+<table>
+<tr><th>症状</th><th>対応</th></tr>
+<tr><td>嘔吐（ケタミン 約8%、筋注・年長児に多い）</td><td>横向き・吸引。予防にオンダンセトロン 0.15 mg/kg</td></tr>
+<tr><td>覚醒時反応（興奮・悪夢）</td><td>静かな部屋で刺激を減らす。強ければミダゾラム 0.05〜0.1 mg/kg</td></tr>
+<tr><td>流涎</td><td>吸引。困ればアトロピン</td></tr>
+<tr><td>眼振・筋緊張・意味のない動き</td><td>ケタミンでは普通。追加投与の理由にはならない</td></tr>
+<tr><td>ミダゾラムの逆説的興奮</td><td>追加で深くしない。ケタミンへ切り替え検討。フルマゼニルで戻すこともある</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 帰室・終了 -->
+<section class="tab" id="end">
+<div class="card green">
+<h2>観察終了（帰室・帰宅）の目安</h2>
+<ul>
+<li>意識が<b>処置前の状態に戻った</b>（年齢相応に声かけに反応・会話）</li>
+<li>気道反射が保たれ、室内気で SpO₂ が普段どおり</li>
+<li>バイタルが処置前の範囲</li>
+<li>年齢相応に座れる／歩ける（年長児）</li>
+<li>嘔吐が落ち着き、痛みがコントロールできている</li>
+<li><b>フルマゼニルを使ったら</b>：最終投与から少なくとも2時間は観察（再鎮静）</li>
+<li>目安として刺激のない状態で20分程度起きていられる（いわゆる覚醒維持テスト）</li>
+</ul>
+</div>
+<div class="card blue">
+<h2>家族への説明（帰宅時）</h2>
+<ul>
+<li>今日一日は大人がそばで見ている。ふらつくので自転車・遊具・入浴は控える</li>
+<li>水分から再開し、吐かなければ食事へ</li>
+<li>ケタミン後は、夢を見たり機嫌が悪くなったりすることがある（多くは数時間で落ち着く）</li>
+<li><b>すぐ受診</b>：起こしても起きない、呼吸が苦しそう・いびきが止まる、唇が紫、吐き続ける、けいれん</li>
+</ul>
+</div>
+</section>
+
+<!-- テンプレ -->
+<section class="tab" id="tpl">
+<div class="card purple">
+<h2>鎮静記録テンプレ</h2>
+<button class="btn" id="fill">計算タブの値で埋める</button>
+<button class="btn" id="copy" style="background:var(--green)">コピー</button>
+<textarea id="tx"></textarea>
+</div>
+</section>
+
+<footer>出典：ACEP ケタミン解離性鎮静ガイドライン 2011（Green ら）／RCH Clinical Practice Guideline（Ketamine, Procedural sedation）／TREKK Bottom Line Recommendations（Procedural sedation 2018）／Green ら Acad Emerg Med 1999（筋注至適量）／添付文書（ドルミカム・ケタラール・アネキセート）。最終判断は施設プロトコルで。</footer>
+</main>
+
+<script>
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');document.getElementById(b.dataset.t).classList.add('on');scrollTo(0,0)});
+const $=id=>document.getElementById(id);
+const r=(x,d=2)=>{const p=10**d;return Math.round(x*p)/p};
+const rng=(w,a,b,max,c)=>{let lo=w*a,hi=w*b,cap='';
+ if(max!=null){if(hi>max){hi=max;cap='＊上限'};if(lo>max)lo=max}
+ const mg=lo===hi?`${r(lo)} mg`:`${r(lo)}〜${r(hi)} mg`;
+ const ml=c?(lo===hi?`${r(lo/c)} mL`:`${r(lo/c)}〜${r(hi/c)} mL`):'';
+ return [mg+(cap?` <span class="note">${cap}</span>`:''),ml]};
+let last=null;
+function calc(){
+ const w=parseFloat($('wt').value),age=$('age').value,mzc=+$('mzc').value,ktc=+$('ktc').value;
+ if(!(w>0)){$('res').innerHTML='体重を入れてください';last=null;return}
+ const mzTot=age==='y'?Math.min(w*0.6,6):age==='s'?Math.min(w*0.4,10):age==='t'?10:null;
+ const rows=[
+  ['ミダゾラム 静注（初回）',...rng(w,0.05,0.1,2,mzc),'mz'],
+  ['ミダゾラム 点鼻',...rng(w,0.2,0.3,10,5),'mz'],
+  ['ミダゾラム 内服',...rng(w,0.25,0.5,20,null),'mz'],
+  ['ミダゾラム 筋注',...rng(w,0.1,0.15,10,5),'mz'],
+  ['ケタミン 静注（初回）',...rng(w,1,1.5,null,ktc),'kt'],
+  ['ケタミン 静注（追加）',...rng(w,0.5,1,null,ktc),'kt'],
+  ['ケタミン 筋注（初回）',...rng(w,4,5,null,50),'kt'],
+  ['ケタミン 筋注（追加）',...rng(w,2,4,null,50),'kt'],
+  ['フルマゼニル',...rng(w,0.01,0.01,0.2,0.1),''],
+  ['オンダンセトロン',...rng(w,0.15,0.15,4,null),'']];
+ let h='';
+ if(age==='u3m')h+='<div class="warn"><b>3か月未満</b>：ケタミンは避ける（ACEP）。ミダゾラムも新生児・乳児早期は代謝が遅く、慎重に。</div>';
+ if(age==='i')h+='<div class="hl">6か月未満：ミダゾラムの総量上限は確立していない。少量から。</div>';
+ h+='<table><tr><th>薬・経路</th><th>量</th><th>液量</th></tr>'+rows.map(x=>`<tr><td class="${x[3]}">${x[0]}</td><td>${x[1]}</td><td>${x[2]||'—'}</td></tr>`).join('')+'</table>';
+ h+=`<p class="note">液量の濃度：ミダゾラム静注 ${mzc} mg/mL、点鼻・筋注は原液 5 mg/mL／ケタミン静注 ${ktc} mg/mL、筋注は筋注用 50 mg/mL／フルマゼニル 0.1 mg/mL。</p>`;
+ if(mzTot!=null)h+=`<p class="note">ミダゾラム静注の総量上限：<b>${r(mzTot)} mg</b>（${age==='y'?'0.6 mg/kg・最大6 mg':age==='s'?'0.4 mg/kg・最大10 mg':'最大10 mg'}）</p>`;
+ h+=`<p class="note">ケタミン静注 累計2.5 mg/kg（${r(w*2.5)} mg）を超えそうなら方針を見直す。点鼻ミダゾラムは片鼻1 mLまで（両側で2 mL＝10 mg）。</p>`;
+ $('res').innerHTML=h;last={w,rows};
+}
+['wt','age','mzc','ktc'].forEach(i=>$(i).addEventListener('input',calc));
+const strip=s=>s.replace(/<[^>]+>/g,'');
+function tpl(){
+ const w=last?last.w:'';
+ const g=k=>last?strip(last.rows.find(x=>x[0]===k)[1]):'';
+ return `【処置時鎮静記録】
+日時：　　年　月　日　　時　分
+処置：
+体重：${w} kg　年齢：
+ASA：I / II / III　　気道評価：問題なし / （　　）
+絶飲食：最終飲水　時　分／最終食事　時　分
+既往・注意：甲状腺疾患（有/無）、上気道閉塞（有/無）、けいれん（有/無）
+同意：家族へ説明済み（嘔吐、覚醒時反応、呼吸抑制）
+
+モニタ：SpO₂ / 心電図 / 血圧 / EtCO₂
+専任観察者：
+
+投与：
+　ミダゾラム　　経路（静注/点鼻/内服/筋注）　　mg（目安 静注 ${g('ミダゾラム 静注（初回）')}）　時　分
+　ケタミン　　　経路（静注/筋注）　　mg（目安 静注 ${g('ケタミン 静注（初回）')}／筋注 ${g('ケタミン 筋注（初回）')}）　時　分
+　追加：
+　総量：ミダゾラム　　mg（　mg/kg）、ケタミン　　mg（　mg/kg）
+
+経過：処置開始　時　分／終了　時　分
+有害事象：なし / SpO₂低下（最低　%）、無呼吸、喉頭けいれん、嘔吐、覚醒時反応、その他
+介入：なし / 下顎挙上、酸素、バッグマスク、フルマゼニル（　mg）
+
+回復：意識が処置前に戻った　時　分
+帰室・帰宅判定：　時　分（判定者：　　）
+家族への注意事項説明：済`}
+$('tx').value=tpl();
+$('fill').onclick=()=>{$('tx').value=tpl()};
+$('copy').onclick=()=>{navigator.clipboard.writeText($('tx').value).then(()=>{$('copy').textContent='コピーしました';setTimeout(()=>$('copy').textContent='コピー',1500)})};
+</script>
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
+</body>
+</html>
