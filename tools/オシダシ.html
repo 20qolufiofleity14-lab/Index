@@ -184,6 +184,15 @@ button:disabled{opacity:.4}
 .rank{font-family:var(--title);font-size:72px;text-align:center;color:var(--gold);text-shadow:0 4px 0 #6b3b12;line-height:1}
 .conf{position:absolute;top:-10px;width:8px;height:12px;z-index:40;animation:conf linear forwards;pointer-events:none}
 @keyframes conf{to{translate:0 110dvh;rotate:720deg}}
+.toast{position:absolute;left:50%;top:calc(env(safe-area-inset-top) + 8px);transform:translateX(-50%);z-index:70;background:#2b220f;border:2px solid var(--gold);color:var(--fg);
+  border-radius:12px;padding:8px 14px;font-size:13px;font-weight:700;width:max-content;max-width:92%;text-align:center;box-shadow:0 6px 20px #000;animation:toast 3.2s ease forwards;pointer-events:none}
+.toast b{color:var(--gold)}
+@keyframes toast{0%{opacity:0;translate:0 -20px}8%{opacity:1;translate:0}85%{opacity:1}100%{opacity:0}}
+.asc{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800}
+.asc button{padding:6px 12px}
+.ach{display:flex;gap:10px;align-items:center;background:#0006;border-radius:10px;padding:8px 10px;font-size:13px}
+.ach.no{opacity:.45}
+.ach .i{font-size:22px;width:28px;text-align:center}
 .dbg{position:absolute;right:4px;top:46px;display:flex;flex-direction:column;gap:4px;z-index:60}
 .dbg button{padding:4px 6px;font-size:11px}
 </style>
@@ -314,12 +323,44 @@ const CARDS={
   otoshiana:{n:'落とし穴',c:2,k:'skl',r:'r',t:'tile',ex:1,v:{rg:2},u:{c:1,rg:3},tx:v=>`${v.rg}マス以内の空きマスを穴にする。使うと消える`,
     fx:async(x,v)=>{B.g[x.y][x.x]=PIT;sfx('coll');shake('m');buildTiles();render();await sleep(150)}},
 };
+CARDS.mayoi={n:'迷い',c:99,k:'skl',r:'x',t:'none',v:{},u:{},tx:()=>'使えない。手札を1枚ふさぐ（店や道場で捨てられる）',fx:async()=>{}};
 const STARTER=['tsuki','tsuki','tsuki','tsuki','kamae','kamae','kamae','kamae','fumikomi','taiatari'];
 const cv=c=>{const d=CARDS[c.id];return c.up?Object.assign({},d.v,d.u):d.v};
 const ccost=c=>{const v=cv(c);return v.c!=null?v.c:CARDS[c.id].c};
 const cname=c=>CARDS[c.id].n+(c.up?'+':'');
 const ctext=c=>CARDS[c.id].tx(cv(c));
 const crange=c=>cv(c).rg||CARDS[c.id].rg||4;
+
+/* ---------------- 周回要素：本気度・実績・解放（ご褒美を目の前に吊るす 桜井 #023） ---------------- */
+let META=Object.assign({runs:0,wins:0,kills:0,falls:0,ff:0,ascOpen:0,asc:0,ach:{}},ls.get('oshidashi.meta',{}));
+const saveMeta=()=>ls.set('oshidashi.meta',META);
+const ASC=['','強敵のHP+20%','普通の敵のHP+10%','敵の攻撃+1','休憩の回復が25%に','最初のゴールド0・もらえるゴールド−20%','最大HP−6でスタート',
+  '大鬼のHP+20%・攻撃+2','敵が1体増えることがある','最初のデッキに「迷い」','敵の攻撃さらに+1'];
+const A=n=>!!run&&(run.asc||0)>=n;
+const ACH=[
+  {id:'fall1',ic:'🕳️',n:'はじめての穴',d:'敵を穴に落とす'},
+  {id:'falls5',ic:'⛳',n:'穴の名人',d:'1回の挑戦で5体を穴に落とす',un:'otoshiana'},
+  {id:'ff3',ic:'🤝',n:'仲間割れ',d:'1回の挑戦で同士討ちを3回',un:'irekae'},
+  {id:'coll12',ic:'💥',n:'大激突',d:'1回の衝突で合計12ダメージ以上',un:'kairiki'},
+  {id:'elite',ic:'💀',n:'親分退治',d:'強敵に勝つ',un:'renda'},
+  {id:'floor5',ic:'🏯',n:'中腹',d:'5階にたどり着く'},
+  {id:'nohit',ic:'🍃',n:'無傷',d:'1度もダメージを受けずに戦闘に勝つ'},
+  {id:'boss_pit',ic:'👿',n:'鬼落とし',d:'大鬼を穴に落とす',un:'konshin'},
+  {id:'win1',ic:'🏆',n:'初優勝',d:'大鬼を倒す（本気度が解放）',un:'tsunami'},
+  {id:'thin',ic:'🪶',n:'身軽',d:'デッキ8枚以下で優勝'},
+  {id:'asc5',ic:'🔥',n:'本気の本気',d:'本気度5以上で優勝'},
+  {id:'asc10',ic:'👑',n:'横綱',d:'本気度10で優勝'},
+  {id:'runs10',ic:'🔁',n:'稽古熱心',d:'10回挑戦する'},
+  {id:'kills100',ic:'⚔️',n:'百人斬り',d:'累計100体を倒す'},
+];
+const LOCK={};ACH.forEach(a=>{if(a.un)LOCK[a.un]=a.id});
+const cardOK=id=>!LOCK[id]||!!META.ach[LOCK[id]];
+function ach(id){
+  if(META.ach[id])return;META.ach[id]=Date.now();saveMeta();
+  const a=ACH.find(x=>x.id===id);if(run){(run.newAch=run.newAch||[]).push(id)}
+  toast(`${a.ic} 実績「<b>${a.n}</b>」${a.un?`<br>新しい技「${CARDS[a.un].n}」が出るように！`:''}`);sfx('win');
+}
+function toast(h){const el=document.createElement('div');el.className='toast';el.innerHTML=h;app.appendChild(el);setTimeout(()=>el.remove(),3300)}
 
 /* ---------------- お守り ---------------- */
 const RELICS={
@@ -351,8 +392,13 @@ const EN={
    ラン（1回の挑戦）
    ===================================================================== */
 function newRun(){
-  run={hp:P['初期HP'],maxHp:P['初期HP'],gold:50,deck:STARTER.map(id=>({id,up:false})),relics:['mawashi'],
+  const asc=Math.min(META.asc||0,META.ascOpen||0);
+  run={hp:P['初期HP'],maxHp:P['初期HP'],gold:50,deck:STARTER.map(id=>({id,up:false})),relics:['mawashi'],asc,newAch:[],
     map:genMap(),pos:null,stats:{kills:0,falls:0,ff:0,maxColl:0,turns:0},retries:0,floorsDone:0,ver:1};
+  if(A(5))run.gold=0;
+  if(A(6)){run.maxHp-=6;run.hp-=6}
+  if(A(9))run.deck.push({id:'mayoi',up:false});
+  META.runs++;saveMeta();if(META.runs>=10)ach('runs10');
 }
 function saveRun(){if(run)ls.set('oshidashi.run',run)}
 function clearRun(){ls.del('oshidashi.run')}
@@ -380,7 +426,7 @@ function genMap(){
   return fl;
 }
 function showMap(){
-  B=null;saveRun();
+  B=null;saveRun();if(run.pos&&run.pos.f>=4)ach('floor5');
   const fl=run.map,F=fl.length,W=Math.min(app.clientWidth,480),H=F*78+40;
   const X=l=>W*(.2+.3*l),Y=f=>H-30-f*78;
   const avail=run.pos?fl[run.pos.f][run.pos.i].to.map(i=>({f:run.pos.f+1,i})):[{f:0,i:0}];
@@ -437,6 +483,10 @@ function encounter(kind){
   return pick([['knight','archer','goblin'],['mage','knight','goblin'],['archer','archer','goblin','bomber'],['knight','mage','bomber'],['goblin','goblin','archer','mage']]);
 }
 function makeSpec(kind){
+  if(kind!=='tut'&&A(8)&&kind==='battle'&&Math.random()<.35){const sp=_makeSpec(kind);if(sp.ens.length<4){const free=[];for(let y=0;y<3;y++)for(let x=0;x<N;x++)if(sp.g[y][x]===FLOOR&&!sp.ens.some(e=>e.x===x&&e.y===y))free.push({x,y});if(free.length){const f=pick(free);sp.ens.push({k:'goblin',x:f.x,y:f.y,face:2})}}return sp}
+  return _makeSpec(kind);
+}
+function _makeSpec(kind){
   if(kind==='tut'){
     const g=Array.from({length:N},()=>Array(N).fill(FLOOR));
     g[1][2]=PIT;g[0][5]=PIT;g[1][0]=ROCK;g[2][4]=ROCK;g[4][0]=PIT;
@@ -469,7 +519,8 @@ function startBattle(kind,spec){
 }
 function spawn(k,x,y,summoned,face=2){
   const d=EN[k],f=curFloor();
-  const hp=Math.round(d.hp*(1+P['敵HPの階ごとの増加率']*f)*(summoned?.7:1));
+  const am=1+(A(1)&&d.elite?.2:0)+(A(2)&&!d.elite&&!d.boss?.1:0)+(A(7)&&d.boss?.2:0);
+  const hp=Math.round(d.hp*(1+P['敵HPの階ごとの増加率']*f)*(summoned?.7:1)*am);
   const u={uid:++uidc,k,def:d,x,y,hp,maxHp:hp,alive:true,face,intent:null,cyc:0};
   B.units.push(u);
   if(B.dom)mkUnitEl(u);
@@ -477,7 +528,7 @@ function spawn(k,x,y,summoned,face=2){
 }
 const enemies=()=>B.units.filter(u=>u.alive&&!u.pl);
 const unitAt=(x,y)=>B.units.find(u=>u.alive&&u.x===x&&u.y===y);
-const edmg=d=>d.dmg+Math.floor(curFloor()/P['敵攻撃力が上がる階の間隔']);
+const edmg=d=>d.dmg+Math.floor(curFloor()/P['敵攻撃力が上がる階の間隔'])+(A(3)?1:0)+(A(10)?1:0)+(A(7)&&d.boss?2:0);
 function adjEnemies(){const p=B.pl,r=[];for(let d=0;d<4;d++){const u=unitAt(p.x+DX[d],p.y+DY[d]);if(u&&!u.pl)r.push([u,d])}return r}
 
 /* ---------- 攻撃予告マス ---------- */
@@ -638,7 +689,8 @@ async function hit(u,d,src,o={}){
   const big=dealt>=10||o.big;
   hitmark(u,big);float(u,'-'+dealt,big?'big':'');
   if(u.pl)sfx('hurt');else sfx(big?'big':'hit');
-  if(src&&!src.pl&&!u.pl&&src!==u){run.stats.ff++;praise('同士討ち!')}
+  if(src&&!src.pl&&!u.pl&&src!==u){run.stats.ff++;praise('同士討ち!');if(run.stats.ff>=3)ach('ff3')}
+  if(u.pl)B.hurt=true;
   // ヒットストップ：受けた側を大きく、与えた側を小さく震わせる（桜井 #047）
   const hs=big?P['ヒットストップ大ms']:dealt>=5?P['ヒットストップ中ms']:P['ヒットストップ小ms'];
   jit(u,'jit',hs);if(src&&src.alive)jit(src,'jit1',hs);
@@ -656,7 +708,7 @@ async function collide(u,o,nx,ny){
   const cd=collDmg();
   const fx=(u.x+(nx))/2,fy=(u.y+(ny))/2;
   don(fx,fy,'ドン!');sfx('coll');shake('m');
-  run.stats.maxColl=Math.max(run.stats.maxColl,cd*(o?2:1));
+  run.stats.maxColl=Math.max(run.stats.maxColl,cd*(o?2:1));if(cd*(o?2:1)>=12)ach('coll12');
   await hit(u,cd,null);
   if(o&&o.alive){await hit(o,cd,null);if(!u.pl&&!o.pl)praise('まとめて!')}
 }
@@ -677,10 +729,10 @@ async function fall(u){
     const dmg=u.pl?P['自分が穴に落ちた時のダメージ']:P['ボスが穴に落ちた時のダメージ'];
     sfx('fall');jit(u,'jit',200);await sleep(200);
     u.x=u.px;u.y=u.py;place(u);
-    if(!u.pl)praise('落ちた!');
+    if(!u.pl){praise('落ちた!');ach('boss_pit')}
     await hit(u,dmg,null,{big:1});return;
   }
-  u.alive=false;run.stats.falls++;sfx('fall');removeEl(u,'fall');praise('落とした!');
+  u.alive=false;run.stats.falls++;sfx('fall');removeEl(u,'fall');praise('落とした!');ach('fall1');if(run.stats.falls>=5)ach('falls5');
   if(has('jizo')){heal(3)}
   await sleep(330);render();
 }
@@ -713,7 +765,7 @@ function cardTargets(c){
     if(B.g[y][x]===FLOOR&&!u)t.push({x,y});else if(d.t==='any'&&u&&!u.pl)t.push({x,y,u})}}
   return t;
 }
-function playable(c){if(ccost(c)>B.energy)return'エネルギーが足りない';const d=CARDS[c.id];if(d.t==='self')return d.adj&&!adjEnemies().length?'隣に敵がいない':'';
+function playable(c){if(CARDS[c.id].t==='none')return'使えないカード';if(ccost(c)>B.energy)return'エネルギーが足りない';const d=CARDS[c.id];if(d.t==='self')return d.adj&&!adjEnemies().length?'隣に敵がいない':'';
   return cardTargets(c).length?'':'届く敵がいない'}
 async function playCard(i,tg){
   const c=B.hand[i];if(!c)return;
@@ -873,7 +925,7 @@ function render(){
   const hd=$('#hand');
   hd.innerHTML=B.hand.map((c,i)=>{const no=!!playable(c);const d=CARDS[c.id];
     return`<div class="card ${d.k} ${c.up?'up':''} ${i===B.sel?'sel':''} ${no?'no':''} ${c.fresh?'enter':''}" data-i="${i}" style="${c.fresh?`animation-delay:${i*40}ms`:''}">
-      <div class="cc">${ccost(c)}</div><div class="ct">${{atk:'攻',def:'守',skl:'技'}[d.k]}</div><div class="cn">${cname(c)}</div>${ctext(c)}</div>`}).join('');
+      <div class="cc">${ccost(c)>=99?'×':ccost(c)}</div><div class="ct">${{atk:'攻',def:'守',skl:'技'}[d.k]}</div><div class="cn">${cname(c)}</div>${ctext(c)}</div>`}).join('');
   B.hand.forEach(c=>delete c.fresh);
 }
 
@@ -905,7 +957,7 @@ function hudUpdate(){
 function modal(html){const m=$('#modal');m.innerHTML=`<div class="box">${html}</div>`;m.classList.add('on');m.onclick=e=>{if(e.target===m)closeModal()}}
 function closeModal(){const m=$('#modal');if(m){m.classList.remove('on');m.innerHTML=''}}
 window.closeModal=closeModal;
-function cardHtml(c,extra=''){const d=CARDS[c.id];return`<div class="card ${d.k} ${c.up?'up':''}" ${extra}><div class="cc">${ccost(c)}</div><div class="ct">${{atk:'攻',def:'守',skl:'技'}[d.k]}</div><div class="cn">${cname(c)}</div>${ctext(c)}</div>`}
+function cardHtml(c,extra=''){const d=CARDS[c.id];return`<div class="card ${d.k} ${c.up?'up':''}" ${extra}><div class="cc">${ccost(c)>=99?'×':ccost(c)}</div><div class="ct">${{atk:'攻',def:'守',skl:'技'}[d.k]}</div><div class="cn">${cname(c)}</div>${ctext(c)}</div>`}
 function showDeck(){modal(`<h3>デッキ（${run.deck.length}枚）</h3><div class="list">${run.deck.map(c=>cardHtml(c)).join('')}</div><button onclick="closeModal()">閉じる</button>`)}
 function showPiles(){modal(`<h3>山札 ${B.drawP.length}枚（順番は秘密）</h3><div class="list">${B.drawP.slice().sort((a,b)=>a.id<b.id?-1:1).map(c=>cardHtml(c)).join('')||'<p>なし</p>'}</div>
   <h3>捨て札 ${B.disc.length}枚</h3><div class="list">${B.disc.map(c=>cardHtml(c)).join('')||'<p>なし</p>'}</div><button onclick="closeModal()">閉じる</button>`)}
@@ -925,14 +977,15 @@ window.giveUp=()=>{if(B&&!B.busy){B.pl.hp=0;B.dead=true;gameOver()}};
    ===================================================================== */
 function rollCards(n,elite){
   const w=elite?{c:40,u:45,r:15}:{c:60,u:32,r:8};
-  const pool=Object.keys(CARDS).filter(k=>CARDS[k].r!=='s');const out=[];
+  const pool=Object.keys(CARDS).filter(k=>CARDS[k].r!=='s'&&CARDS[k].r!=='x'&&cardOK(k));const out=[];
   while(out.length<n){let s=Math.random()*100;const r=s<w.c?'c':s<w.c+w.u?'u':'r';const cs=pool.filter(k=>CARDS[k].r===r&&!out.includes(k));if(cs.length)out.push(pick(cs))}
   return out.map(id=>({id,up:Math.random()<.08}));
 }
 function rollRelic(){const own=run.relics;const c=Object.keys(RELICS).filter(k=>k!=='mawashi'&&!own.includes(k));return c.length?pick(c):null}
-function gainGold(n){n=Math.round(n*(has('maneki')?1.5:1));run.gold+=n;sfx('coin');return n}
+function gainGold(n){n=Math.round(n*(has('maneki')?1.5:1)*(A(5)?.8:1));run.gold+=n;sfx('coin');return n}
 function winBattle(){
   const kind=B.kind;
+  if(!B.hurt)ach('nohit');if(kind==='elite')ach('elite');
   if(has('yakusou'))run.hp=Math.min(run.maxHp,run.hp+5);
   run.floorsDone=curFloor()+1;
   B=null;
@@ -956,12 +1009,12 @@ function pickCard(title,filter,cb){
   document.querySelectorAll('#modal .list .card').forEach(el=>el.onclick=()=>{closeModal();cb(+el.dataset.i)});
 }
 function showRest(){B=null;
-  const h=Math.round(run.maxHp*P['休憩の回復割合']);
+  const h=Math.round(run.maxHp*(A(4)?.25:P['休憩の回復割合']));
   app.innerHTML=`<div class="scr">${hudHtml()}<div class="panel"><h2>🔥 休憩</h2><p style="text-align:center">焚き火がある。どちらか1つ。</p>
     <button id="r1">休む（HP+${h}）</button><button id="r2">鍛える（カード1枚を強化）</button></div></div><div id="modal"></div>`;
   hudBind();
   $('#r1').onclick=()=>{run.hp=Math.min(run.maxHp,run.hp+h);sfx('win');showMap()};
-  $('#r2').onclick=()=>pickCard('強化するカード',c=>!c.up,i=>{run.deck[i].up=true;sfx('win');showMap()});
+  $('#r2').onclick=()=>pickCard('強化するカード',c=>!c.up&&CARDS[c.id].r!=='x',i=>{run.deck[i].up=true;sfx('win');showMap()});
 }
 function showShop(){B=null;
   const cards=rollCards(3).map(c=>({...c,price:{c:45,u:70,r:110}[CARDS[c.id].r]+rnd(10)}));
@@ -982,8 +1035,8 @@ function showShop(){B=null;
 }
 const EVENTS=[
   {t:'道端のお地蔵さま',d:'苔むしたお地蔵さまが立っている。',ops:[{l:'手を合わせる（最大HP+6）',f:()=>{run.maxHp+=6;run.hp+=6}},{l:'通り過ぎる',f:()=>{}}]},
-  {t:'怪しい行商人',d:'「とっておきの技を30ゴールドでどうだい」',ops:[{l:'買う（−30ゴールド・珍しい技）',ok:()=>run.gold>=30,f:()=>{run.gold-=30;const id=pick(Object.keys(CARDS).filter(k=>CARDS[k].r==='r'));run.deck.push({id,up:false});return`「${CARDS[id].n}」を覚えた`}},{l:'断る',f:()=>{}}]},
-  {t:'荒れた稽古場',d:'誰もいない稽古場。体を張れば技が磨ける。',ops:[{l:'稽古する（HP−7・ランダムに1枚強化）',ok:()=>run.hp>7,f:()=>{run.hp-=7;const c=shuffle(run.deck.filter(c=>!c.up))[0];if(c){c.up=true;return`「${cname(c)}」になった`}}},{l:'通り過ぎる',f:()=>{}}]},
+  {t:'怪しい行商人',d:'「とっておきの技を30ゴールドでどうだい」',ops:[{l:'買う（−30ゴールド・珍しい技）',ok:()=>run.gold>=30,f:()=>{run.gold-=30;const rs=Object.keys(CARDS).filter(k=>CARDS[k].r==='r'&&cardOK(k));const id=pick(rs.length?rs:Object.keys(CARDS).filter(k=>CARDS[k].r==='u'&&cardOK(k)));run.deck.push({id,up:false});return`「${CARDS[id].n}」を覚えた`}},{l:'断る',f:()=>{}}]},
+  {t:'荒れた稽古場',d:'誰もいない稽古場。体を張れば技が磨ける。',ops:[{l:'稽古する（HP−7・ランダムに1枚強化）',ok:()=>run.hp>7,f:()=>{run.hp-=7;const c=shuffle(run.deck.filter(c=>!c.up&&CARDS[c.id].r!=='x'))[0];if(c){c.up=true;return`「${cname(c)}」になった`}}},{l:'通り過ぎる',f:()=>{}}]},
   {t:'古い道場',d:'師範が言う。「技を一つ忘れなさい。身軽になる」',ops:[{l:'忘れる（カードを1枚選んで捨てる）',pick:1},{l:'断る',f:()=>{}}]},
   {t:'落ちていた財布',d:'道に財布が落ちている。',ops:[{l:'拾う（+40ゴールド）',f:()=>{run.gold+=40}},{l:'交番に届ける（最大HP+3、HP全快）',f:()=>{run.maxHp+=3;run.hp=run.maxHp}}]},
   {t:'力自慢の像',d:'岩を持ち上げる力士の像。台座に「押せ」と彫られている。',ops:[{l:'押してみる（HP−5・お守りをもらう）',ok:()=>run.hp>5,f:()=>{run.hp-=5;const r=rollRelic();if(r){run.relics.push(r);return`${RELICS[r].ic}「${RELICS[r].n}」を手に入れた`}}},{l:'やめておく',f:()=>{}}]},
@@ -1001,7 +1054,7 @@ function showEvent(){B=null;
 /* =====================================================================
    終わり・タイトル
    ===================================================================== */
-function scoreOf(win){const s=run.stats;return run.floorsDone*100+s.falls*15+s.ff*25+s.kills*5+(win?1000:0)-run.retries*80}
+function scoreOf(win){const s=run.stats;return Math.round((run.floorsDone*100+s.falls*15+s.ff*25+s.kills*5+(win?1000:0)-run.retries*80)*(1+.1*(run.asc||0)))}
 function rankOf(sc){return sc>=1700?'S':sc>=1200?'A':sc>=700?'B':'C'}
 function gameOver(){
   B.busy=true;const snap=B.snap,spec=B.spec;
@@ -1009,19 +1062,32 @@ function gameOver(){
 }
 function showEnd(win,snap,spec){
   clearRun();
+  if(!run.metaDone){run.metaDone=1;META.kills+=run.stats.kills;META.falls+=run.stats.falls;META.ff+=run.stats.ff;
+    if(win){META.wins++;ach('win1');if(run.asc>=5)ach('asc5');if(run.asc>=10)ach('asc10');if(run.deck.length<=8)ach('thin');
+      if((run.asc||0)>=(META.ascOpen||0)&&META.ascOpen<10){META.ascOpen=(run.asc||0)+1;META.asc=META.ascOpen;run.ascUp=META.ascOpen}}
+    if(META.kills>=100)ach('kills100');saveMeta()}
+  const na=(run.newAch||[]).map(id=>ACH.find(a=>a.id===id));
   const sc=scoreOf(win),rk=rankOf(sc),s=run.stats;
   const best=ls.get('oshidashi.best',{score:0});const nb=sc>best.score;if(nb)ls.set('oshidashi.best',{score:sc,floor:run.floorsDone,win,rank:rk});
   const reach=win?'大鬼を倒した！':`${run.pos?run.pos.f+1:1}階で力尽きた`;
   app.innerHTML=`<div class="scr"><div class="panel"><h2>${win?'優勝！':'負けた…'}</h2>
     <p style="text-align:center;font-weight:800">${reach}</p>
     <div class="rank">${rk}</div><p style="text-align:center">スコア ${sc}${nb?' <b style="color:var(--gold)">自己ベスト！</b>':''}</p>
-    <div class="stats">倒した敵 ${s.kills}　<br>穴に落とした ${s.falls}（×15）<br>同士討ち ${s.ff}（×25）<br>いちばん痛い衝突 ${s.maxColl}<br>やり直し ${run.retries}回</div>
+    ${run.ascUp?`<div class="rew" style="background:#4a1d10">🔥 本気度${run.ascUp}が解放された！（${ASC[run.ascUp]}）</div>`:''}
+    ${na.length?`<div class="stats"><b>今回の実績</b><br>${na.map(a=>`${a.ic} ${a.n}${a.un?`（技「${CARDS[a.un].n}」解放）`:''}`).join('<br>')}</div>`:''}
+    <div class="stats">${run.asc?`本気度 ${run.asc}（スコア×${(1+.1*run.asc).toFixed(1)}）<br>`:''}倒した敵 ${s.kills}　<br>穴に落とした ${s.falls}（×15）<br>同士討ち ${s.ff}（×25）<br>いちばん痛い衝突 ${s.maxColl}<br>やり直し ${run.retries}回</div>
     ${!win&&snap?`<button id="retry">この戦闘をやり直す</button>`:''}
     <button class="${!win&&snap?'sub':''}" id="again">最初から</button><button class="sub" id="tt">タイトルへ</button></div></div>`;
   if(win){sfx('win');confetti()}
-  if($('#retry'))$('#retry').onclick=()=>{run=snap;run.retries++;startBattle(spec.kind,spec)};
+  if($('#retry'))$('#retry').onclick=()=>{const na2=run.newAch;run=snap;run.newAch=na2;run.retries++;startBattle(spec.kind,spec)};
   $('#again').onclick=()=>{newRun();run.pos={f:0,i:0};startBattle('tut')};
   $('#tt').onclick=()=>showTitle();
+}
+function showAch(){
+  modal(`<h3>実績 ${ACH.filter(a=>META.ach[a.id]).length}/${ACH.length}</h3>
+   ${ACH.map(a=>`<div class="ach ${META.ach[a.id]?'':'no'}"><span class="i">${META.ach[a.id]?a.ic:'🔒'}</span><div><b>${a.n}</b><br>${a.d}${a.un?`<br><small>→ 技「${CARDS[a.un].n}」が出るように</small>`:''}</div></div>`).join('')}
+   <div class="stats">挑戦 ${META.runs}回　優勝 ${META.wins}回<br>累計：倒した敵 ${META.kills}・穴落とし ${META.falls}・同士討ち ${META.ff}<br>解放した本気度 ${META.ascOpen}/10</div>
+   <button onclick="closeModal()">閉じる</button>`);
 }
 function confetti(){for(let i=0;i<60;i++){const el=document.createElement('div');el.className='conf';el.style.left=Math.random()*100+'%';
   el.style.background=pick(['#f2c14e','#e94d4a','#4fa3ff','#5fcf8f','#fff']);el.style.animationDuration=(1.6+Math.random()*1.6)+'s';el.style.animationDelay=Math.random()*.6+'s';app.appendChild(el);setTimeout(()=>el.remove(),4000)}}
@@ -1031,13 +1097,18 @@ function showTitle(){
   app.innerHTML=`<div class="scr title">
     <h1>オシダシ</h1><div class="tag">押して、ぶつけて、落とせ。</div>
     <div class="demo"><span class="p">🥋</span><span class="e">👹</span><span>🕳️</span></div>
-    <div class="btns"><button id="go">はじめる</button>${saved&&saved.ver===1?'<button class="sub" id="cont">つづきから</button>':''}<button class="sub" id="how">遊び方</button></div>
+    ${META.ascOpen?`<div class="asc"><button class="sub" id="am">−</button><span>本気度 <span id="av">${META.asc}</span>　<small id="ad" style="color:var(--muted);font-weight:600"></small></span><button class="sub" id="ap">＋</button></div>`:'<div class="best">優勝すると「本気度」が解放される</div>'}
+    <div class="btns"><button id="go">はじめる</button>${saved&&saved.ver===1?'<button class="sub" id="cont">つづきから</button>':''}
+      <button class="sub" id="achb">実績 ${ACH.filter(a=>META.ach[a.id]).length}/${ACH.length}</button><button class="sub" id="how">遊び方</button></div>
     <div class="best">${best?`自己ベスト ${best.score}（${best.rank}）${best.win?' 優勝':` ${best.floor}階まで`}`:'デッキ構築 × マス目タクティクス'}</div>
   </div><div id="modal"></div>`;
   // 最初の3分で面白さを（桜井 #017）：説明画面を挟まず、いきなり1戦目（チュートリアル込み）
   $('#go').onclick=()=>{ac();sfx('win');newRun();run.pos={f:0,i:0};startBattle('tut')};
   if($('#cont'))$('#cont').onclick=()=>{ac();run=saved;showMap()};
-  $('#how').onclick=()=>{run=run||{relics:[],gold:0,hp:0,maxHp:1};showHelp()};
+  $('#how').onclick=()=>showHelp();
+  $('#achb').onclick=()=>showAch();
+  if($('#am')){const upd=()=>{$('#av').textContent=META.asc;$('#ad').textContent=META.asc?'（'+ASC[META.asc]+' ほか）':'（ふつう）';saveMeta()};upd();
+    $('#am').onclick=()=>{META.asc=Math.max(0,META.asc-1);upd()};$('#ap').onclick=()=>{META.asc=Math.min(META.ascOpen,META.asc+1);upd()}}
 }
 
 /* ---------- 自動プレイ（確認用：?debug で window.autoplay()） ---------- */
