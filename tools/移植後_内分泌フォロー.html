@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mini-category" content="blood">
+<meta name="mini-desc" content="移植後・小児がん治療後の内分泌フォローを「軸×時期」で整理。前処置を選ぶとリスク・やること・日付つきタイムライン・申し送り文が出る">
+<title>移植後 内分泌フォロー</title>
+<style>
+:root{
+  --bg:#f4f6fb;--card:#fff;--ink:#1d2333;--sub:#5d6680;--line:#e3e7f0;
+  --hi:#e5484d;--mid:#f5a524;--lo:#30a46c;--info:#3e63dd;--ok:#30a46c;
+  --adr:#d6409f;--thy:#3e63dd;--gh:#12a594;--gon:#8e4ec6;--pub:#e5484d;--met:#f76b15;--bone:#6e56cf;--tum:#978365;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6;padding-bottom:env(safe-area-inset-bottom)}
+header{background:linear-gradient(135deg,#7a1f2b 0%,#3b1d4a 55%,#1b2340 100%);color:#fff;padding:18px 16px 12px}
+header h1{margin:0;font-size:20px;letter-spacing:.04em}
+header p{margin:4px 0 0;font-size:12px;opacity:.85}
+nav{display:flex;gap:4px;overflow-x:auto;background:#1b2340;padding:6px 8px;position:sticky;top:0;z-index:5;-webkit-overflow-scrolling:touch}
+nav button{flex:0 0 auto;border:0;background:transparent;color:#c9cfe6;padding:8px 12px;border-radius:8px;font-size:14px;font-weight:600}
+nav button.on{background:#fff;color:#1b2340}
+main{max-width:860px;margin:0 auto;padding:12px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border-radius:12px;padding:14px;margin:10px 0;border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card h2{margin:0 0 8px;font-size:16px}
+.card h3{margin:10px 0 4px;font-size:14px}
+label{display:block;font-size:13px;color:var(--sub);margin:8px 0 3px}
+input[type=text],input[type=date],input[type=number],select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;background:#fff;color:var(--ink)}
+textarea{min-height:56px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+.chk{display:flex;flex-wrap:wrap;gap:6px}
+.chk label{display:flex;align-items:center;gap:6px;margin:0;padding:6px 10px;border:1px solid var(--line);border-radius:20px;color:var(--ink);font-size:14px;background:#fff}
+.chk input{margin:0}
+.btn{border:0;border-radius:8px;padding:9px 14px;font-size:14px;font-weight:700;background:#1b2340;color:#fff}
+.btn.sub{background:#e8ebf4;color:#1b2340}
+.btn.red{background:#fde8e8;color:#b42318}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.warn{background:#fff6e5;border:1px solid #f5d38a;border-radius:10px;padding:10px 12px;font-size:13px}
+.note{font-size:12px;color:var(--sub)}
+.axis{border-left:6px solid var(--c);}
+.axis .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.axis .top h2{margin:0}
+.tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px;color:#fff;white-space:nowrap}
+.tag.hi{background:var(--hi)}.tag.mid{background:var(--mid)}.tag.lo{background:var(--lo)}.tag.info{background:var(--info)}
+.kv{display:grid;grid-template-columns:5.5em 1fr;gap:4px 10px;margin-top:8px;font-size:14px}
+.kv b{color:var(--sub);font-weight:600;font-size:13px}
+.why{background:#f6f7fb;border-radius:8px;padding:6px 10px;font-size:13px}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:flex;gap:10px;align-items:flex-start;padding:10px 4px;border-bottom:1px solid var(--line)}
+.tl li:last-child{border-bottom:0}
+.tl .d{flex:0 0 6.4em;font-weight:700;font-size:13px}
+.tl .t{flex:1;font-size:14px}
+.tl .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.tl li.done .t{color:#9aa1b5;text-decoration:line-through}
+.tl li.over .d{color:var(--hi)}
+.tl li.soon .d{color:#c27100}
+.tl input{width:20px;height:20px;margin-top:2px}
+.pill{font-size:11px;padding:1px 7px;border-radius:10px;background:#eef0f7;color:var(--sub);margin-left:4px}
+pre{white-space:pre-wrap;background:#0f1424;color:#e8ebf4;border-radius:10px;padding:12px;font-size:13px;line-height:1.55;font-family:ui-monospace,Menlo,monospace}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--sub)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1b2340;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <h1>🩸 移植後 内分泌フォロー</h1>
+  <p>HSCT・小児がん治療後の晩期内分泌合併症を「軸 × 時期」で整理する</p>
+</header>
+<nav id="nav">
+  <button data-t="case" class="on">症例</button>
+  <button data-t="map">軸マップ</button>
+  <button data-t="tl">タイムライン</button>
+  <button data-t="why">なぜ？</button>
+  <button data-t="end">フォロー終了</button>
+  <button data-t="tpl">申し送り</button>
+</nav>
+<main>
+
+<!-- ===== 症例 ===== -->
+<section id="case" class="on">
+  <div class="warn">⚠️ 氏名・ID・生年月日など、個人が特定できる情報は入れないでください。「症例A」などの仮名で管理します（データはこの端末のブラウザにだけ保存）。</div>
+
+  <div class="card">
+    <h2>症例の切り替え</h2>
+    <div class="row">
+      <div><label>保存済みの症例</label><select id="caseSel"></select></div>
+      <div><label>仮名</label><input type="text" id="alias" placeholder="例：症例A（ALL再発・移植後）"></div>
+    </div>
+    <div class="btns">
+      <button class="btn" id="saveBtn">保存</button>
+      <button class="btn sub" id="newBtn">新しい症例</button>
+      <button class="btn red" id="delBtn">この症例を削除</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>基本</h2>
+    <div class="row">
+      <div><label>原疾患</label><input type="text" id="dx" placeholder="例：再発ALL"></div>
+      <div><label>性別</label><select id="sex"><option value="">—</option><option value="M">男児</option><option value="F">女児</option></select></div>
+      <div><label>現在の年齢（歳）</label><input type="number" id="age" min="0" max="30" step="0.5"></div>
+      <div><label>思春期の状態</label><select id="pub"><option value="">—</option><option value="pre">思春期前</option><option value="on">思春期進行中</option><option value="post">思春期完了</option></select></div>
+      <div><label>移植日（または治療終了日）</label><input type="date" id="hsct"></div>
+      <div><label>今日</label><input type="date" id="today"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>治療曝露</h2>
+    <div class="row">
+      <div><label>TBI 線量（Gy、なしは0）</label><input type="number" id="tbi" min="0" step="0.5" value="0"></div>
+      <div><label>頭蓋照射 CRT（Gy、なしは0）</label><input type="number" id="crt" min="0" step="0.5" value="0"></div>
+    </div>
+    <label>その他の照射</label>
+    <div class="chk">
+      <label><input type="checkbox" id="neck">頸部・縦隔</label>
+      <label><input type="checkbox" id="gonadRT">精巣・骨盤・腹部</label>
+    </div>
+    <label>アルキル化剤など（性腺毒性）</label>
+    <div class="chk">
+      <label><input type="checkbox" id="bu">ブスルファン</label>
+      <label><input type="checkbox" id="cy">シクロホスファミド</label>
+      <label><input type="checkbox" id="mel">メルファラン</label>
+      <label><input type="checkbox" id="thio">チオテパ</label>
+      <label><input type="checkbox" id="ifo">イホスファミド</label>
+    </div>
+    <label>ステロイド</label>
+    <div class="row">
+      <div><select id="ster">
+        <option value="none">長期投与なし</option>
+        <option value="on">内服中（漸減・中止予定）</option>
+        <option value="off">中止済み</option>
+      </select></div>
+      <div><input type="date" id="sterEnd" title="中止日（予定）"></div>
+    </div>
+    <p class="note">右の日付は中止日（予定でも可）。副腎評価の時期の計算に使います。</p>
+  </div>
+
+  <div class="card">
+    <h2>今の状態メモ（軸ごと）</h2>
+    <p class="note">軸マップと申し送りにそのまま入ります。</p>
+    <label>副腎</label><input type="text" id="s_adr" placeholder="例：PSL 2.5mg内服中、ACTH問題なし">
+    <label>甲状腺</label><input type="text" id="s_thy" placeholder="例：基礎値やや低め">
+    <label>GH・成長</label><input type="text" id="s_gh" placeholder="例：IGF-1は今のところOK、骨年齢 11/26撮影予定">
+    <label>性腺</label><input type="text" id="s_gon" placeholder="例：LH・FSH高値">
+    <label>その他</label><input type="text" id="s_oth" placeholder="例：成長曲線未作成">
+  </div>
+</section>
+
+<!-- ===== 軸マップ ===== -->
+<section id="map">
+  <div class="card"><div class="legend">
+    <span><span class="tag hi">高</span> 起こりやすい／評価必須</span>
+    <span><span class="tag mid">中</span> 起こりうる／定期チェック</span>
+    <span><span class="tag lo">低</span> 基本の診察で拾う</span>
+  </div></div>
+  <div id="axes"></div>
+  <p class="note">リスク区分と時期は覚えるための目安です。実際の判断は施設の方針・JPLSG 長期フォローアップガイドライン・日本小児内分泌学会『小児がん内分泌診療の手引き』で確認してください。</p>
+</section>
+
+<!-- ===== タイムライン ===== -->
+<section id="tl">
+  <div class="card">
+    <h2>日付つき ToDo</h2>
+    <p class="note">移植日・ステロイド中止日から自動で並べます。チェックは症例ごとに保存されます。<span style="color:var(--hi)">赤＝期限切れ</span>／<span style="color:#c27100">橙＝3か月以内</span></p>
+    <div class="legend" id="tlLegend"></div>
+  </div>
+  <div class="card"><h3>毎回の外来</h3><ul class="tl" id="every"></ul></div>
+  <div class="card"><h3>日付つき</h3><ul class="tl" id="dated"></ul></div>
+  <div class="card"><h3>自分で追加した ToDo</h3>
+    <div class="row"><div><input type="date" id="cDate"></div><div><input type="text" id="cText" placeholder="例：手根骨評価"></div></div>
+    <div class="btns"><button class="btn sub" id="cAdd">追加</button></div>
+    <ul class="tl" id="custom"></ul>
+  </div>
+</section>
+
+<!-- ===== なぜ ===== -->
+<section id="why">
+  <div class="card">
+    <h2>まず全体像：何がどこを壊すか</h2>
+    <table>
+      <tr><th>曝露</th><th>壊れやすいもの</th></tr>
+      <tr><td>頭蓋照射（視床下部・下垂体）</td><td>GH（18Gy〜）→ 思春期早発（18Gy〜、とくに低年齢・女児）→ ゴナドトロピン・TSH・ACTH（30Gy〜）の順</td></tr>
+      <tr><td>TBI（10〜12Gy）</td><td>性腺（ほぼ必発）、甲状腺（原発性）、GH、背骨の伸び（座高↓）、インスリン抵抗性・脂質異常、骨密度、甲状腺結節</td></tr>
+      <tr><td>頸部・縦隔照射</td><td>原発性甲状腺機能低下、甲状腺結節・がん</td></tr>
+      <tr><td>アルキル化剤（Bu・Cy・Mel など）</td><td>性腺（卵巣不全・精子形成障害）。Leydig 細胞は比較的保たれやすい</td></tr>
+      <tr><td>ステロイド長期</td><td>副腎抑制（外因性）、成長抑制、骨密度↓、肥満・耐糖能</td></tr>
+    </table>
+  </div>
+
+  <div class="card axis" style="--c:var(--gh)">
+    <h2>GH・成長</h2>
+    <ul>
+      <li>下垂体前葉で<b>放射線に一番弱いのが GH</b>。最初に落ちて、落ちたら戻らない。</li>
+      <li><b>IGF-1 が正常でも GH 分泌不全は否定できない</b>（照射後は特に）。決め手は<b>成長率</b>。成長曲線がないと何も判断できない。</li>
+      <li>TBI は背骨そのものの伸びを悪くする → <b>座高</b>も測る。GH を入れても座高は伸びにくい。</li>
+      <li>GH 治療の開始時期は再発リスクも絡むので血液腫瘍科と相談。</li>
+    </ul>
+  </div>
+  <div class="card axis" style="--c:var(--thy)">
+    <h2>甲状腺</h2>
+    <ul>
+      <li>TBI・頸部照射 → 甲状腺そのものの障害（<b>原発性</b>：TSH↑）。</li>
+      <li>頭蓋照射が多い → <b>中枢性</b>（TSH 正常〜低値なのに FT4 が低い）。<b>TSH だけ見ていると見逃す</b>ので必ず FT4 とセットで。</li>
+      <li>照射野にかかっていれば<b>結節・がん</b>も。毎年触診。</li>
+    </ul>
+  </div>
+  <div class="card axis" style="--c:var(--adr)">
+    <h2>副腎</h2>
+    <ul>
+      <li>移植後はまずステロイドによる<b>外因性の抑制</b>。PSL 中止後に迅速 ACTH 試験で回復を確認する。</li>
+      <li><b>中止〜評価までの間</b>は、発熱・嘔吐・手術時に副腎不全を起こしうる。シックデイ時のステロイド追加をどうするか、家族と決めておく。</li>
+      <li>頭蓋照射 30Gy 以上なら中枢性 ACTH 欠損も（TBI 単独ではまれ）。</li>
+    </ul>
+  </div>
+  <div class="card axis" style="--c:var(--gon)">
+    <h2>性腺</h2>
+    <ul>
+      <li>TBI・アルキル化剤で<b>性腺そのもの</b>が障害 → LH・FSH↑（原発性）。</li>
+      <li>思春期前は LH・FSH が上がらず判定しにくい。<b>思春期年齢になってから</b>の評価が本番。</li>
+      <li>女児：卵巣不全が多い。AMH も参考に。補充（エストロゲン）の開始時期は年齢・骨年齢・成長の残りを見て決める。</li>
+      <li>男児：精子形成障害はほぼ必発だが、テストステロンは保たれることが多い（精巣照射が多いと Leydig も障害）。</li>
+      <li>妊孕性の話（いつ・誰が説明するか）も申し送りに残す。</li>
+    </ul>
+  </div>
+  <div class="card axis" style="--c:var(--pub)">
+    <h2>思春期早発</h2>
+    <ul><li>頭蓋照射 18Gy 前後以上で、低年齢・女児ほど起こりやすい。早く思春期が来ると最終身長がさらに削られる（GHD と重なると要注意）。</li></ul>
+  </div>
+  <div class="card axis" style="--c:var(--met)">
+    <h2>代謝</h2>
+    <ul><li>TBI 後は体格が普通でも<b>インスリン抵抗性・糖尿病・脂質異常</b>が出やすい。BMI だけで安心しない。</li></ul>
+  </div>
+  <div class="card axis" style="--c:var(--bone)">
+    <h2>骨</h2>
+    <ul><li>ステロイド・TBI・性腺不全・GHD の全部が骨密度を下げる。性腺補充の遅れも骨に響く。ビタミン D も確認。</li></ul>
+  </div>
+</section>
+
+<!-- ===== フォロー終了 ===== -->
+<section id="end">
+  <div class="card">
+    <h2>フォロー終了（経過観察オフ）の目安</h2>
+    <p>移植後・照射後の内分泌障害は<b>何年も経ってから出る</b>ものが多く、「全部正常だから終わり」にはしにくい。内分泌外来としては次を満たしたら間隔を広げる・成人診療科や長期フォローアップ外来へ移す、という考え方。</p>
+    <ul>
+      <li><b>最終身長に到達</b>（成長率がほぼ 0、骨端線閉鎖）し、GH の問題が決着している</li>
+      <li><b>思春期が完了</b>し、性腺補充が必要なら安定した維持量になっている（補充中は終了ではなく移行）</li>
+      <li>甲状腺・副腎が安定（補充中なら量が安定）</li>
+      <li>代謝・骨密度のベースラインが取れている</li>
+      <li>成人期の担当（長期 FU 外来・成人内分泌・婦人科／泌尿器科）が決まり、<b>治療のまとめ（曝露量）</b>が引き継がれている</li>
+    </ul>
+    <p class="note">甲状腺の結節・機能低下、代謝異常、性腺不全は成人後も新たに出うるため、どこかで生涯の年1回チェックが続く形にしておく。</p>
+  </div>
+  <div class="card">
+    <h2>家族へのセーフティネット</h2>
+    <ul>
+      <li>「<b>背の伸びが止まってきた</b>」「<b>思春期が来ない・途中で止まった</b>」「月経が来ない・止まった」→ 次回を待たずに連絡</li>
+      <li>ステロイド中止前後：<b>ぐったり・嘔吐・低血糖・意識がおかしい</b> → すぐ受診（副腎不全の可能性）。発熱時の対応は事前に決めた通りに</li>
+      <li>疲れやすい・寒がり・便秘・成績低下 → 甲状腺のサイン</li>
+      <li>首のしこりに気づいたら受診</li>
+      <li>のどが渇く・尿が多い・体重が急に減る → 糖尿病のサイン</li>
+      <li>大人になってからも年 1 回はどこかで検査を受ける（受診先と「治療のまとめ」を本人が持っておく）</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 申し送り ===== -->
+<section id="tpl">
+  <div class="card">
+    <h2>申し送り文</h2>
+    <p class="note">症例タブの内容から作ります。カルテに貼る前に仮名を書き換えてください。</p>
+    <div class="btns"><button class="btn" id="copyBtn">コピー</button></div>
+    <pre id="tplOut"></pre>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+var KEY='hsctEndoFollow.v1';
+var $=function(id){return document.getElementById(id)};
+var FIELDS=['alias','dx','sex','age','pub','hsct','today','tbi','crt','ster','sterEnd','s_adr','s_thy','s_gh','s_gon','s_oth'];
+var CHECKS=['neck','gonadRT','bu','cy','mel','thio','ifo'];
+var COL={adr:'var(--adr)',thy:'var(--thy)',gh:'var(--gh)',gon:'var(--gon)',pub:'var(--pub)',met:'var(--met)',bone:'var(--bone)',tum:'var(--tum)'};
+var NAME={adr:'副腎',thy:'甲状腺',gh:'GH・成長',gon:'性腺',pub:'思春期早発',met:'代謝',bone:'骨',tum:'甲状腺結節'};
+
+/* ---------- storage ---------- */
+var store={cases:{},cur:null};
+function load(){try{var s=localStorage.getItem(KEY);if(s)store=JSON.parse(s)}catch(e){} if(!store.cases)store.cases={};}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){toast('この環境では保存できません（表示のみ）')}}
+function uid(){return 'c'+Date.now().toString(36)}
+function todayStr(){var d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+
+function readForm(){
+  var c={};FIELDS.forEach(function(f){c[f]=$(f).value});
+  CHECKS.forEach(function(f){c[f]=$(f).checked});
+  var old=store.cases[store.cur]||{};
+  c.done=old.done||{};c.custom=old.custom||[];
+  return c;
+}
+function writeForm(c){
+  FIELDS.forEach(function(f){$(f).value=(c&&c[f]!=null)?c[f]:''});
+  CHECKS.forEach(function(f){$(f).checked=!!(c&&c[f])});
+  if(!$('tbi').value)$('tbi').value=0;
+  if(!$('crt').value)$('crt').value=0;
+  if(!$('ster').value)$('ster').value='none';
+  $('today').value=todayStr();
+}
+function refreshSel(){
+  var sel=$('caseSel');sel.innerHTML='';
+  var ids=Object.keys(store.cases);
+  if(!ids.length){var o=document.createElement('option');o.textContent='（まだありません）';o.value='';sel.appendChild(o);return}
+  ids.forEach(function(id){var o=document.createElement('option');o.value=id;o.textContent=store.cases[id].alias||'（無題）';if(id===store.cur)o.selected=true;sel.appendChild(o)});
+}
+function cur(){return store.cases[store.cur]||readForm()}
+function autosave(){
+  if(!store.cur)return;
+  store.cases[store.cur]=readForm();persist();
+}
+
+/* ---------- logic ---------- */
+function num(v){var n=parseFloat(v);return isNaN(n)?0:n}
+function addMonths(ds,m){if(!ds)return null;var d=new Date(ds+'T00:00:00');var day=d.getDate();d.setMonth(d.getMonth()+m);if(d.getDate()<day)d.setDate(0);return d}
+function fmt(d){return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()}
+function iso(d){var x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
+
+function assess(c){
+  var tbi=num(c.tbi),crt=num(c.crt),alk=c.bu||c.cy||c.mel||c.thio||c.ifo;
+  var A=[];
+  // 副腎
+  var adr={k:'adr',lv:'lo',why:'',todo:'',when:''};
+  if(c.ster==='on'||c.ster==='off'){adr.lv='hi';adr.why='ステロイド長期投与による外因性の副腎抑制';adr.todo='中止後に迅速ACTH試験で回復を確認。評価までのシックデイ対応を家族と決めておく';adr.when='中止後1〜3か月を目安（施設方針で）';}
+  if(crt>=30){adr.lv=adr.lv==='hi'?'hi':'mid';adr.why+=(adr.why?'／':'')+'頭蓋照射30Gy以上 → 中枢性ACTH欠損';adr.todo+=(adr.todo?'。':'')+'年1回 朝のコルチゾール、疑えば負荷試験';adr.when=adr.when||'年1回';}
+  if(adr.lv==='lo'){adr.why='TBI単独では中枢性ACTH欠損はまれ';adr.todo='症状があれば朝のコルチゾール';adr.when='症状時';}
+  A.push(adr);
+  // 甲状腺
+  var thy={k:'thy',lv:'lo',why:'',todo:'TSH・FT4（必ずセットで）',when:'年1回'};
+  var w=[];
+  if(tbi>0||c.neck){thy.lv=c.neck?'hi':'mid';w.push((tbi>0?'TBI '+tbi+'Gy':'')+(tbi>0&&c.neck?'＋':'')+(c.neck?'頸部照射':'')+' → 原発性（TSH↑）');thy.when='半年〜1年ごと';}
+  if(crt>=30){thy.lv=thy.lv==='hi'?'hi':'mid';w.push('頭蓋照射30Gy以上 → 中枢性（TSH正常なのにFT4低値）');}
+  thy.why=w.join('／')||'照射なし';
+  A.push(thy);
+  // GH
+  var gh={k:'gh',lv:'lo',why:'',todo:'身長・体重を成長曲線へ、成長率',when:'3〜6か月ごと'};
+  if(crt>=18){gh.lv='hi';gh.why='頭蓋照射'+crt+'Gy：GHは放射線に一番弱い';}
+  else if(tbi>0){gh.lv='mid';gh.why='TBI '+tbi+'Gy：GH分泌不全と背骨の伸びの障害（座高↓）';}
+  else gh.why='照射なし。ステロイドの影響と栄養で成長が落ちることはある';
+  if(gh.lv!=='lo'){gh.todo='成長曲線・成長率・座高。IGF-1正常でも否定できない。成長率が落ちたらGH負荷試験、骨年齢';gh.when='3〜6か月ごとに計測、1年前後で下垂体前葉の評価を検討';}
+  if(c.ster!=='none')gh.why+='／ステロイドでも成長は抑えられる';
+  A.push(gh);
+  // 性腺
+  var gon={k:'gon',lv:'lo',why:'',todo:'Tanner、思春期年齢でLH・FSH・性ステロイド',when:'年1回'};
+  var gw=[];
+  if(tbi>0)gw.push('TBI → 性腺そのものの障害（ほぼ必発）');
+  if(c.gonadRT)gw.push('精巣・骨盤照射');
+  if(alk)gw.push('アルキル化剤（'+['bu','cy','mel','thio','ifo'].filter(function(k){return c[k]}).map(function(k){return {bu:'Bu',cy:'Cy',mel:'Mel',thio:'TT',ifo:'IFO'}[k]}).join('・')+'）');
+  if(crt>=30)gw.push('頭蓋照射30Gy以上 → 中枢性');
+  if(tbi>0||c.gonadRT)gon.lv='hi';else if(alk||crt>=30)gon.lv='mid';
+  gon.why=gw.join('／')||'性腺毒性の高い治療なし';
+  if(gon.lv!=='lo'){
+    gon.todo=(c.sex==='F'?'LH・FSH・E2・AMH。':c.sex==='M'?'LH・FSH・テストステロン（精巣容量も）。':'LH・FSH・性ステロイド。')+'補充の開始時期は年齢・骨年齢・成長の残りで決める。妊孕性の説明担当も決めておく';
+    gon.when=(c.pub==='pre')?'思春期年齢になったら年1回（思春期前は判定しにくい）':'半年〜1年ごと';
+  }
+  A.push(gon);
+  // 思春期早発
+  if(crt>=18){A.push({k:'pub',lv:'mid',why:'頭蓋照射'+crt+'Gy：低年齢・女児ほど早発しやすい',todo:'Tanner・成長率の急な増加に注意',when:'外来ごと'});}
+  // 代謝
+  var met={k:'met',lv:tbi>0?'mid':(c.ster!=='none'?'mid':'lo'),why:tbi>0?'TBI後はやせていてもインスリン抵抗性・脂質異常':'ステロイド・活動量低下による肥満・耐糖能',todo:'BMI、空腹時血糖・HbA1c・脂質',when:tbi>0?'1〜2年ごと':'年1回BMI、必要時採血'};
+  A.push(met);
+  // 骨
+  var bone={k:'bone',lv:(tbi>0||c.ster!=='none')?'mid':'lo',why:'ステロイド・TBI・性腺不全・GHDが重なると骨密度↓',todo:'DXA（ベースライン）、25OHビタミンD',when:'移植1年前後に初回、以後は結果次第'};
+  A.push(bone);
+  // 甲状腺結節
+  if(tbi>0||c.neck)A.push({k:'tum',lv:'mid',why:'照射野に甲状腺 → 結節・がん（何年も経ってから）',todo:'頸部触診、所見があれば超音波',when:'年1回、生涯'});
+  return A;
+}
+
+function stateOf(c,k){return {adr:c.s_adr,thy:c.s_thy,gh:c.s_gh,gon:c.s_gon}[k]||''}
+var LV={hi:'高',mid:'中',lo:'低'};
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
+
+function renderMap(){
+  var c=readForm(),A=assess(c),h='';
+  if(c.dx||num(c.tbi)||num(c.crt)){
+    h+='<div class="card"><b>'+esc(c.alias||'（仮名未入力）')+'</b>　'+esc(c.dx||'')+bgLine(c)+'</div>';
+  }
+  A.forEach(function(a){
+    h+='<div class="card axis" style="--c:'+COL[a.k]+'"><div class="top"><h2>'+NAME[a.k]+'</h2><span class="tag '+a.lv+'">'+LV[a.lv]+'</span></div>'+
+      '<div class="kv"><b>今の状態</b><span>'+(esc(stateOf(c,a.k))||'<span class="note">—（症例タブで入力）</span>')+'</span>'+
+      '<b>なぜ</b><span class="why">'+esc(a.why)+'</span>'+
+      '<b>次にやる</b><span>'+esc(a.todo)+'</span>'+
+      '<b>時期</b><span>'+esc(a.when)+'</span></div></div>';
+  });
+  if(c.s_oth)h+='<div class="card"><b>その他：</b>'+esc(c.s_oth)+'</div>';
+  $('axes').innerHTML=h;
+}
+function bgLine(c){
+  var p=[];if(num(c.tbi))p.push('TBI '+num(c.tbi)+'Gy');if(num(c.crt))p.push('CRT '+num(c.crt)+'Gy');
+  if(c.neck)p.push('頸部照射');if(c.gonadRT)p.push('精巣/骨盤照射');
+  var al=['bu','cy','mel','thio','ifo'].filter(function(k){return c[k]}).map(function(k){return {bu:'Bu',cy:'Cy',mel:'Mel',thio:'TT',ifo:'IFO'}[k]});
+  if(al.length)p.push(al.join('/'));
+  if(c.ster==='on')p.push('ステロイド内服中');else if(c.ster==='off')p.push('ステロイド中止済み');
+  return p.length?'<div class="note">'+esc(p.join('・'))+'</div>':'';
+}
+
+/* ---------- timeline ---------- */
+function buildItems(c){
+  var tbi=num(c.tbi),crt=num(c.crt),items=[],base=c.hsct;
+  var rad=tbi>0||crt>0||c.neck;
+  function add(k,m,t,from){var d=addMonths(from||base,m);if(d)items.push({id:k+'@'+iso(d),k:k,d:d,t:t})}
+  if(c.ster!=='none'&&c.sterEnd){add('adr',2,'迅速ACTH試験（ステロイド中止後の回復確認）',c.sterEnd);}
+  if(base){
+    for(var m=6;m<=60;m+=6){
+      var y=m%12===0;
+      if(rad||y)add('thy',m,'甲状腺基礎値（TSH・FT4）');
+      if(tbi>0||crt>=18)add('gh',m,'成長率の判定'+(y?'・IGF-1':''));
+      if(y){
+        if(tbi>0||crt>0||c.gonadRT||c.bu||c.cy||c.mel||c.thio||c.ifo)add('gon',m,'性腺評価（Tanner、思春期年齢ならLH・FSH・性ステロイド）');
+        if(tbi>0||c.neck)add('tum',m,'頸部触診（甲状腺結節）');
+        if(tbi>0||m%24===0)add('met',m,'空腹時血糖・HbA1c・脂質');
+      }
+    }
+    add('gh',12,'骨年齢');
+    if(tbi>0||crt>=18)add('gh',12,'下垂体前葉評価を検討（成長率が落ちていれば負荷試験）');
+    if(tbi>0||c.ster!=='none')add('bone',12,'DXA（ベースライン）・25OHビタミンD');
+    if(crt>=30)add('adr',12,'朝のコルチゾール（中枢性ACTH欠損のスクリーニング）');
+  }
+  items.sort(function(a,b){return a.d-b.d});
+  return items;
+}
+function liHTML(id,dateStr,cls,k,t,checked,del){
+  return '<li class="'+cls+(checked?' done':'')+'"><input type="checkbox" data-id="'+esc(id)+'"'+(checked?' checked':'')+'>'+
+    '<span class="d">'+dateStr+'</span><span class="t"><span class="dot" style="background:'+(COL[k]||'#888')+'"></span>'+esc(t)+
+    (k&&NAME[k]?'<span class="pill">'+NAME[k]+'</span>':'')+(del?' <a href="#" data-del="'+esc(id)+'" style="font-size:12px;color:#b42318">削除</a>':'')+'</span></li>';
+}
+function cls(d,t){var diff=(d-t)/864e5;return diff<0?'over':(diff<=92?'soon':'')}
+function renderTL(){
+  var c=readForm(),s=cur(),done=s.done||{},t=new Date(($('today').value||todayStr())+'T00:00:00');
+  var ev=[['gh','身長・体重・座高を成長曲線へ（成長率）'],['gon','Tanner 段階'],['met','BMI・血圧']];
+  if(c.ster==='on')ev.push(['adr','ステロイド量の確認、シックデイ対応の再確認']);
+  $('every').innerHTML=ev.map(function(e){return '<li><span class="d">毎回</span><span class="t"><span class="dot" style="background:'+COL[e[0]]+'"></span>'+e[1]+'</span></li>'}).join('');
+  var it=buildItems(c);
+  if(!it.length){$('dated').innerHTML='<li><span class="t note">症例タブで移植日（とステロイド中止日）を入れると並びます。</span></li>'}
+  else $('dated').innerHTML=it.map(function(i){var ck=!!done[i.id];return liHTML(i.id,fmt(i.d),ck?'':cls(i.d,t),i.k,i.t,ck)}).join('');
+  var cu=(s.custom||[]).slice().sort(function(a,b){return a.date<b.date?-1:1});
+  $('custom').innerHTML=cu.length?cu.map(function(x){var d=new Date(x.date+'T00:00:00');var ck=!!done[x.id];return liHTML(x.id,x.date?fmt(d):'日付なし',ck||!x.date?'':cls(d,t),'',x.text,ck,true)}).join(''):'<li><span class="t note">まだありません</span></li>';
+  $('tlLegend').innerHTML=Object.keys(NAME).map(function(k){return '<span><span class="dot" style="background:'+COL[k]+'"></span>'+NAME[k]+'</span>'}).join('');
+}
+document.addEventListener('change',function(e){
+  var id=e.target.getAttribute&&e.target.getAttribute('data-id');
+  if(id){ensureCase();var s=store.cases[store.cur];s.done=s.done||{};if(e.target.checked)s.done[id]=1;else delete s.done[id];persist();renderTL();}
+});
+document.addEventListener('click',function(e){
+  var id=e.target.getAttribute&&e.target.getAttribute('data-del');
+  if(id){e.preventDefault();var s=store.cases[store.cur];if(!s)return;s.custom=(s.custom||[]).filter(function(x){return x.id!==id});persist();renderTL();}
+});
+$('cAdd').onclick=function(){
+  var tx=$('cText').value.trim();if(!tx)return;ensureCase();
+  var s=store.cases[store.cur];s.custom=s.custom||[];s.custom.push({id:'u'+Date.now().toString(36),date:$('cDate').value,text:tx});
+  persist();$('cText').value='';renderTL();
+};
+function ensureCase(){
+  if(!store.cur){store.cur=uid();store.cases[store.cur]=readForm();if(!store.cases[store.cur].alias)store.cases[store.cur].alias='症例'+(Object.keys(store.cases).length);$('alias').value=store.cases[store.cur].alias;persist();refreshSel();}
+}
+
+/* ---------- template ---------- */
+function renderTpl(){
+  var c=readForm(),A=assess(c),L=[];
+  var bg=[];if(c.dx)bg.push(c.dx);if(num(c.tbi))bg.push('TBI '+num(c.tbi)+'Gy');if(num(c.crt))bg.push('CRT '+num(c.crt)+'Gy');
+  var al=['bu','cy','mel','thio','ifo'].filter(function(k){return c[k]}).map(function(k){return {bu:'Bu',cy:'Cy',mel:'Mel',thio:'TT',ifo:'IFO'}[k]});if(al.length)bg.push(al.join('/'));
+  if(c.neck)bg.push('頸部照射');if(c.gonadRT)bg.push('精巣/骨盤照射');
+  if(c.ster==='on')bg.push('ステロイド内服中'+(c.sterEnd?'（'+c.sterEnd.replace(/-/g,'/')+' 中止予定）':''));
+  if(c.ster==='off')bg.push('ステロイド中止済み'+(c.sterEnd?'（'+c.sterEnd.replace(/-/g,'/')+'）':''));
+  L.push('【移植後 内分泌フォロー】'+(c.alias?' '+c.alias:''));
+  L.push('背景：'+(bg.join('、')||'—')+(c.hsct?'　移植日 '+c.hsct.replace(/-/g,'/'):''));
+  L.push('');
+  A.forEach(function(a){
+    L.push('■ '+NAME[a.k]+'［リスク'+LV[a.lv]+'］');
+    var st=stateOf(c,a.k);if(st)L.push('  今：'+st);
+    L.push('  なぜ：'+a.why);
+    L.push('  次：'+a.todo);
+    L.push('  時期：'+a.when);
+  });
+  if(c.s_oth){L.push('');L.push('■ その他：'+c.s_oth);}
+  var t=new Date(($('today').value||todayStr())+'T00:00:00'),s=cur(),done=s.done||{};
+  var up=buildItems(c).filter(function(i){return !done[i.id]&&(i.d-t)/864e5<=183});
+  var cu=(s.custom||[]).filter(function(x){return !done[x.id]});
+  if(up.length||cu.length){
+    L.push('');L.push('▼ 直近の ToDo（期限切れ・半年以内）');
+    up.forEach(function(i){L.push('  '+fmt(i.d)+(i.d<t?'（期限切れ）':'')+'　'+i.t)});
+    cu.forEach(function(x){L.push('  '+(x.date?x.date.replace(/-/g,'/'):'日付なし')+'　'+x.text)});
+  }
+  $('tplOut').textContent=L.join('\n');
+}
+$('copyBtn').onclick=function(){
+  var tx=$('tplOut').textContent;
+  function fb(){var ta=document.createElement('textarea');ta.value=tx;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('コピーしました')}catch(e){toast('コピーできませんでした')}document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(tx).then(function(){toast('コピーしました')},fb);else fb();
+};
+
+/* ---------- ui ---------- */
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},1600)}
+function renderAll(){renderMap();renderTL();renderTpl()}
+$('nav').onclick=function(e){
+  var b=e.target.closest('button');if(!b)return;
+  [].forEach.call(document.querySelectorAll('nav button'),function(x){x.classList.toggle('on',x===b)});
+  [].forEach.call(document.querySelectorAll('section'),function(s){s.classList.toggle('on',s.id===b.dataset.t)});
+  renderAll();window.scrollTo(0,0);
+};
+document.getElementById('case').addEventListener('input',function(){autosave();});
+document.getElementById('case').addEventListener('change',function(){autosave();});
+$('saveBtn').onclick=function(){
+  if(!$('alias').value.trim()){toast('仮名を入れてください');return}
+  if(!store.cur)store.cur=uid();
+  store.cases[store.cur]=readForm();persist();refreshSel();toast('保存しました');
+};
+$('newBtn').onclick=function(){store.cur=null;writeForm(null);refreshSel();$('caseSel').value='';toast('新しい症例')};
+$('delBtn').onclick=function(){
+  if(!store.cur)return;if(!confirm('この症例を削除しますか？'))return;
+  delete store.cases[store.cur];store.cur=Object.keys(store.cases)[0]||null;writeForm(store.cases[store.cur]);persist();refreshSel();toast('削除しました');
+};
+$('caseSel').onchange=function(){var id=this.value;if(!id)return;store.cur=id;writeForm(store.cases[id]);persist();};
+
+load();
+if(store.cur&&store.cases[store.cur])writeForm(store.cases[store.cur]);else{store.cur=null;writeForm(null);}
+refreshSel();
+})();
+</script>
+<script data-mini-sw>(function(){if(!/\/tools\/[^/]*$/.test(location.pathname))return;var root=location.pathname.replace(/tools\/[^/]*$/,"");if("serviceWorker"in navigator)navigator.serviceWorker.register(root+"sw.js").catch(function(){});if(navigator.standalone===true&&window.top===window){addEventListener("DOMContentLoaded",function(){var a=document.createElement("a");a.href=root;a.textContent="\u2039 ミニ置き場";a.style.cssText="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;background:rgba(20,24,32,.88);color:#fff;font:600 14px/1 system-ui,sans-serif;padding:10px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.3)";document.body.appendChild(a)})}})()</script>
+</body>
+</html>
