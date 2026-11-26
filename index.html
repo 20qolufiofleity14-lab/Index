@@ -89,12 +89,23 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
 .dragging{opacity:.35}
 .ghost{position:fixed;z-index:70;pointer-events:none;transform:translate(-20px,-50%) rotate(-2deg);box-shadow:0 12px 28px rgb(0 0 0/.3);width:min(320px,80vw)}
 .ph{border:2px dashed var(--muted);border-radius:8px;min-height:44px;background:transparent}
-.tabrow{display:flex;align-items:stretch;margin-top:6px}.tabrow .tabs{flex:1;min-width:0;margin-top:0}
+.tabrow{display:flex;align-items:stretch;margin-top:6px}.tabwrap{position:relative;flex:1;min-width:0;display:flex}.tabrow .tabs{flex:1;min-width:0;margin-top:0;scroll-behavior:smooth}
+.tabs.grab{cursor:grabbing;scroll-behavior:auto}
+.tabarr{position:absolute;top:0;bottom:3px;z-index:2;width:34px;appearance:none;border:0;font-size:1.4rem;font-weight:900;color:var(--fg);cursor:pointer;padding:0!important}
+.tabarr.l{left:0;background:linear-gradient(90deg,var(--surface) 55%,transparent);text-align:left;padding-left:4px!important}
+.tabarr.r{right:0;background:linear-gradient(270deg,var(--surface) 55%,transparent);text-align:right;padding-right:4px!important}
+.tabarr[hidden]{display:none}
 .addtab{appearance:none;border:0;border-left:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:1.1rem;padding-inline:14px!important}
 .catrow{display:flex;gap:6px;align-items:center;margin:6px 0}.catrow i{width:12px;height:12px;border-radius:50%;flex:none;background:var(--c)}.catrow input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface2);color:var(--fg)}.catrow button{appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 8px;font-size:.8rem}
 .seg{flex-wrap:wrap}.seg button{flex:1 1 30%}
 .tabs button.over{background:color-mix(in srgb,var(--c,var(--accent)) 18%,transparent);border-radius:8px 8px 0 0}
 .sec.over{color:var(--fg)}
+.secrow{display:flex;align-items:center;justify-content:space-between;gap:8px;letter-spacing:.04em}
+.sortbar{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface);flex:none}
+.sortbar button{appearance:none;border:0;background:none;color:var(--muted);font:inherit;font-weight:700;letter-spacing:0;padding:4px 10px;cursor:pointer}
+.sortbar button+button{border-left:1px solid var(--line)}
+.sortbar button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+.when{font-style:normal;font-weight:700;color:var(--c,var(--accent));margin-right:6px;white-space:nowrap}
 #dropzone{position:fixed;inset:0;z-index:80;background:color-mix(in srgb,var(--learn) 20%,var(--bg));border:4px dashed var(--learn);display:none;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:var(--learn)}
 #dropzone.on{display:flex}
 .hint{font-size:.74rem;color:var(--muted);margin:4px 0 0}
@@ -108,8 +119,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--learn);outline-
   <input type="file" id="restoreFile" accept=".json,application/json" hidden>
   <input type="file" id="replFile" accept=".html,.htm,text/html" hidden>
   <div class="search">🔍<input id="q" placeholder="検索（IGF、低血糖、ドリル…）" autocomplete="off"></div>
-  <div class="tabrow"><div class="tabs" role="tablist">
-  </div><button class="addtab" id="catEdit" aria-label="分類を追加・編集">＋</button></div>
+  <div class="tabrow"><div class="tabwrap"><button class="tabarr l" id="tabL" aria-label="左のタブへ" hidden>‹</button><div class="tabs" role="tablist">
+  </div><button class="tabarr r" id="tabR" aria-label="右のタブへ" hidden>›</button></div><button class="addtab" id="catEdit" aria-label="分類を追加・編集">＋</button></div>
 </div></header>
 <main class="gut" id="main"></main>
 
@@ -155,7 +166,7 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&g
 const kb=n=>n>1048576?(n/1048576).toFixed(1)+'MB':Math.round(n/1024)+'KB';
 
 /* ---------- state & render ---------- */
-let tools=[],cat=ls.get('mini.tab','all'),q='';if(cat!=='all'&&!cats.find(c=>c.id===cat))cat='all';
+let tools=[],cat=ls.get('mini.tab','all'),q='',sortBy=ls.get('mini.sort','manual');if(cat!=='all'&&!cats.find(c=>c.id===cat))cat='all';
 const main=document.getElementById('main');
 async function load(){tools=await getAll();
   for(const t of tools){if(!cats.find(c=>c.id===t.cat)){t.cat=guessCat(t.title);await put(t)}}
@@ -168,12 +179,12 @@ async function syncShelfInner(){
   const hidden=ls.get('mini.hidden',[]);let changed=0;tools=await getAll();
   for(const e of list){if(hidden.includes(e.file))continue;
     const t=tools.find(x=>x.shelf===e.file);
-    if(t&&t.v===e.v)continue;
+    if(t&&t.v===e.v){if(e.upd&&t.upd!==e.upd){t.upd=e.upd;await put(t);changed||(tools._updOnly=1)}continue}
     let html;try{const r=await fetch('tools/'+encodeURIComponent(e.file),{cache:'no-store'});if(!r.ok)continue;html=await r.text()}catch(_){continue}
-    if(t){await put({...t,html,size:html.length,v:e.v,cat:t.catByUser?t.cat:(cats.find(c=>c.id===e.cat)?e.cat:guessCat(t.title))})}
-    else{await put({id:uid(),shelf:e.file,v:e.v,title:e.title,cat:cats.find(c=>c.id===e.cat)?e.cat:guessCat(e.title),desc:e.desc||'',html,size:html.length,added:Date.now(),opened:0,pinned:false,ord:-Date.now()})}
+    if(t){await put({...t,html,size:html.length,v:e.v,upd:e.upd||Date.now(),cat:t.catByUser?t.cat:(cats.find(c=>c.id===e.cat)?e.cat:guessCat(t.title))})}
+    else{await put({id:uid(),shelf:e.file,v:e.v,title:e.title,cat:cats.find(c=>c.id===e.cat)?e.cat:guessCat(e.title),desc:e.desc||'',html,size:html.length,added:Date.now(),upd:e.upd||Date.now(),opened:0,pinned:false,ord:-Date.now()})}
     changed++}
-  if(changed){await load();toast(changed+'個 棚から届きました')}
+  if(changed){await load();toast(changed+'個 棚から届きました')}else if(tools._updOnly)await load()
 }
 function render(){
   renderTabs();
@@ -181,14 +192,21 @@ function render(){
   let list=tools.filter(t=>(cat==='all'||t.cat===cat)&&(!ql||(t.title+' '+(t.desc||'')).toLowerCase().includes(ql)));
   const byOrd=(a,b)=>(a.ord??1e15)-(b.ord??1e15)||(b.opened||b.added||0)-(a.opened||a.added||0);
   const pins=list.filter(t=>t.pinned).sort(byOrd);
-  const rest=list.filter(t=>!t.pinned).sort(byOrd);
+  const updOf=t=>t.upd||t.added||0;
+  const SORTS={manual:byOrd,upd:(a,b)=>updOf(b)-updOf(a),opened:(a,b)=>(b.opened||0)-(a.opened||0)||updOf(b)-updOf(a)};
+  if(!SORTS[sortBy])sortBy='manual';
+  const rest=list.filter(t=>!t.pinned).sort(SORTS[sortBy]);
+  const md=ms=>{const d=new Date(ms);return (d.getMonth()+1)+'/'+d.getDate()};
+  const stamp=t=>sortBy==='upd'?`<em class="when">更新 ${md(updOf(t))}</em>`:sortBy==='opened'?`<em class="when">${t.opened?'開いた '+md(t.opened):'未読'}</em>`:'';
+  const sortBar=`<span class="sortbar" role="group" aria-label="並び順">${[['manual','自分の順'],['upd','更新順'],['opened','開いた順']].map(([k,n])=>`<button data-sort="${k}" aria-pressed="${sortBy===k}">${n}</button>`).join('')}</span>`;
   if(!tools.length){main.innerHTML=`<div class="empty"><b>まだ何もありません</b><br>Claudeとのトークでツールを渡して「棚に入れて」と頼むと、ここに並びます。</div>${footnote()}`;return}
   main.innerHTML=`<div class="sec${pins.length?'':' dim'}" data-zone="pin">ピン留め${pins.length?'':'（ここにカードを置くとピン留め）'}</div><div class="pins" data-zone="pin">${pins.map(t=>`<button class="pin item" data-id="${t.id}" data-open="${t.id}" style="--c:${CATS[t.cat].c}">${esc(t.title)}<span class="grip" data-grip="${t.id}">≡</span></button>`).join('')}</div>`+
-   `<div class="sec" data-zone="list">${pins.length?'そのほか':'一覧'}（${rest.length}）</div>`+
-   (rest.length?`<div class="list" data-zone="list">${rest.map(t=>`<div class="card item" data-id="${t.id}" style="--c:${CATS[t.cat].c}"><span class="grip" data-grip="${t.id}">≡</span><button class="t" data-open="${t.id}"><b>${esc(t.title)}</b><small><span class="badge">${CATS[t.cat].n}</span>${esc(t.desc||'')||(t.opened?'最後に開いた日 '+new Date(t.opened).toLocaleDateString('ja-JP'):'まだ開いていない')}</small></button><button class="m" data-menu="${t.id}" aria-label="メニュー">⋯</button></div>`).join('')}</div>`:`<div class="list empty" data-zone="list">該当なし</div>`)+
-   `<p class="hint">≡ をつかんで並び替え。上の分類タブに落とすと移動。タブ右端の＋で分類を追加。</p>`+footnote();
+   `<div class="sec secrow" data-zone="list"><span>${pins.length?'そのほか':'一覧'}（${rest.length}）</span>${sortBar}</div>`+
+   (rest.length?`<div class="list" data-zone="list">${rest.map(t=>`<div class="card item" data-id="${t.id}" style="--c:${CATS[t.cat].c}"><span class="grip" data-grip="${t.id}">≡</span><button class="t" data-open="${t.id}"><b>${esc(t.title)}</b><small><span class="badge">${CATS[t.cat].n}</span>${stamp(t)}${esc(t.desc||'')||(t.opened?'最後に開いた日 '+new Date(t.opened).toLocaleDateString('ja-JP'):'まだ開いていない')}</small></button><button class="m" data-menu="${t.id}" aria-label="メニュー">⋯</button></div>`).join('')}</div>`:`<div class="list empty" data-zone="list">該当なし</div>`)+
+   `<p class="hint">${sortBy==='manual'?'≡ をつかんで並び替え。':'いまは'+(sortBy==='upd'?'更新':'開いた')+'順で表示中（自分の並び順はそのまま保存されています）。'}上の分類タブに落とすと移動。タブ右端の＋で分類を追加。</p>`+footnote();
   main.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>open(b.dataset.open));
   main.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>menu(b.dataset.menu));
+  main.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{sortBy=b.dataset.sort;ls.set('mini.sort',sortBy);render()});
   main.querySelectorAll('[data-grip]').forEach(g=>dragItem(g));
 }
 
@@ -217,7 +235,8 @@ function dragItem(grip){
     if(overTab){const c=overTab.dataset.cat;overTab.classList.remove('over');ph.remove();if(t.cat!==c){t.cat=c;await put(t);t.catByUser=true;await put(t);toast(`「${t.title}」を${CATS[c].n}へ移動`)}load();return}
     if(ph.parentNode){ph.parentNode.insertBefore(item,ph);ph.remove();
       const nowPinned=overZone==='pin';if(t.pinned!==nowPinned){t.pinned=nowPinned}
-      const ids=[...main.querySelectorAll('.item')].map(x=>x.dataset.id);let i=0;
+      const ids=[...main.querySelectorAll(sortBy==='manual'?'.item':'.pins .item')].map(x=>x.dataset.id);let i=0;
+      if(sortBy!=='manual'&&!nowPinned){const mn=Math.min(0,...tools.map(o=>o.ord??0));t.ord=mn-1}
       for(const x of ids){const o=tools.find(y=>y.id===x);if(o){o.ord=i++;await put(o)}}
       await put(t);}
     load()};
@@ -239,7 +258,7 @@ const addFile=document.getElementById('addFile'),replFile=document.getElementByI
 async function importFiles(files){let n=0;for(const f of files){if(!/\.html?$/i.test(f.name)&&f.type!=='text/html'){toast(f.name+' はHTMLではありません');continue}
   const html=await f.text();if(!/<(html|body|title|div|script)/i.test(html)){toast(f.name+' はHTMLではないようです');continue}
   const p=parseHTML(html,f.name);const dup=tools.find(t=>t.title===p.title);
-  await put({id:dup?dup.id:uid(),...p,html,size:html.length,added:dup?dup.added:Date.now(),opened:dup?dup.opened:0,pinned:dup?dup.pinned:false,ord:dup?dup.ord:-Date.now(),desc:p.desc||(dup?dup.desc:'')});n++}
+  await put({id:dup?dup.id:uid(),...p,html,size:html.length,upd:Date.now(),added:dup?dup.added:Date.now(),opened:dup?dup.opened:0,pinned:dup?dup.pinned:false,ord:dup?dup.ord:-Date.now(),desc:p.desc||(dup?dup.desc:'')});n++}
   await load();if(n)toast(n+'個 追加しました')}
 addFile.onchange=async()=>{await importFiles(addFile.files);addFile.value=''};
 let replTarget=null;
@@ -304,6 +323,21 @@ restoreFile.onchange=async()=>{const f=restoreFile.files[0];restoreFile.value=''
   closeSheet();await load();toast(j.tools.length+'個 復元しました')};
 
 /* ---------- tabs / search / toast ---------- */
+/* タブが横にはみ出したとき：左右の‹›ボタン・マウスホイール・ドラッグで横スクロール */
+function tabArrows(){const box=document.querySelector('.tabs'),max=box.scrollWidth-box.clientWidth;
+  document.getElementById('tabL').hidden=box.scrollLeft<=2;document.getElementById('tabR').hidden=box.scrollLeft>=max-2}
+function tabScrollSetup(box){if(box.dataset.sc)return;box.dataset.sc=1;
+  const step=()=>Math.max(120,box.clientWidth*.6);
+  document.getElementById('tabL').onclick=()=>box.scrollBy({left:-step()});
+  document.getElementById('tabR').onclick=()=>box.scrollBy({left:step()});
+  box.addEventListener('scroll',tabArrows,{passive:true});addEventListener('resize',tabArrows);
+  box.addEventListener('wheel',e=>{if(box.scrollWidth<=box.clientWidth)return;const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;if(!d)return;e.preventDefault();box.style.scrollBehavior='auto';box.scrollLeft+=d;box.style.scrollBehavior=''},{passive:false});
+  let sx=0,sl=0,down=false,moved=false;
+  box.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;down=true;moved=false;sx=e.clientX;sl=box.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx;if(!moved&&Math.abs(dx)>5){moved=true;box.classList.add('grab')}if(moved)box.scrollLeft=sl-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;box.classList.remove('grab');if(moved){block=true;setTimeout(()=>block=false,0)}});
+  let block=false;box.addEventListener('click',e=>{if(block){e.stopPropagation();e.preventDefault()}},true);
+}
 function renderTabs(){const box=document.querySelector('.tabs');
   const n=id=>tools.filter(t=>id==='all'||t.cat===id).length;
   box.innerHTML=`<button role="tab" data-cat="all" aria-selected="${cat==='all'}">すべて <small>${n('all')}</small></button>`+
@@ -311,6 +345,9 @@ function renderTabs(){const box=document.querySelector('.tabs');
    '';
   box.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;ls.set('mini.tab',cat);render()});
   document.getElementById('catEdit').onclick=catSheet;
+  tabScrollSetup(box);
+  const curTab=box.querySelector('[aria-selected="true"]');if(curTab){const b=box.getBoundingClientRect(),r=curTab.getBoundingClientRect();if(r.left<b.left+34||r.right>b.right-34)box.scrollLeft+=r.left-b.left-(b.width-r.width)/2}
+  tabArrows();
   const sel=box.querySelector('[aria-selected="true"]');sel&&sel.scrollIntoView({inline:'nearest',block:'nearest'});
 }
 function saveCats(){ls.set('mini.cats',cats)}
